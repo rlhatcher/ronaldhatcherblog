@@ -1,5 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { Yanone_Kaffeesatz } from 'next/font/google'
+import { Unbounded } from 'next/font/google'
 import { EXAMPLE_PATH, CMS_NAME } from '@/lib/constants'
 
 export const metadata = {
@@ -12,6 +14,19 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
+
+const unbounded = Unbounded({
+  variable: '--font-unbounded',
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const yanone = Yanone_Kaffeesatz({
+  variable: '--font-yanone',
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 
 function Footer() {
   return (
@@ -47,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={unbounded.variable}>
       <body>
         <section className="min-h-screen">
           <main>{children}</main>
