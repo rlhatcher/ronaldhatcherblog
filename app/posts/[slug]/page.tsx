@@ -1,29 +1,29 @@
-import Link from 'next/link'
-import { draftMode } from 'next/headers'
+import Link from "next/link";
+import { draftMode } from "next/headers";
 
-import MoreStories from '../../more-stories'
-import Avatar from '../../avatar'
-import Date from '../../date'
-import CoverImage from '../../cover-image'
+import MoreStories from "../../more-stories";
+import Avatar from "../../avatar";
+import Date from "../../date";
+import CoverImage from "../../cover-image";
 
-import { Markdown } from '@/lib/markdown'
-import { getAllPosts, getPostAndMorePosts } from '@/lib/api'
+import { Markdown } from "@/lib/markdown";
+import { getAllPosts, getPostAndMorePosts } from "@/lib/api";
 
 export async function generateStaticParams() {
-  const allPosts = await getAllPosts(false)
+  const allPosts = await getAllPosts(false);
 
   return allPosts.map((post) => ({
     slug: post.slug,
-  }))
+  }));
 }
 
 export default async function PostPage({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }) {
-  const { isEnabled } = draftMode()
-  const { post, morePosts } = await getPostAndMorePosts(params.slug, isEnabled)
+  const { isEnabled } = draftMode();
+  const { post, morePosts } = await getPostAndMorePosts(params.slug, isEnabled);
 
   return (
     <div className="container mx-auto px-5">
@@ -43,7 +43,7 @@ export default async function PostPage({
           )}
         </div>
         <div className="mb-8 md:mb-16 sm:mx-0">
-          <CoverImage title={post.title} url={post.coverImage.url} />
+          <CoverImage title={post.title} image={post.images[0]} />
         </div>
         <div className="max-w-2xl mx-auto">
           <div className="block md:hidden mb-6">
@@ -65,5 +65,5 @@ export default async function PostPage({
       <hr className="border-accent-2 mt-28 mb-24" />
       <MoreStories morePosts={morePosts} />
     </div>
-  )
+  );
 }

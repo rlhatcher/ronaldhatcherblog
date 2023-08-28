@@ -5,14 +5,14 @@ import CoverImage from './cover-image'
 
 function PostPreview({
   title,
-  coverImage,
+  images,
   date,
   excerpt,
   author,
   slug,
 }: {
   title: string
-  coverImage: any
+  images: any
   date: string
   excerpt: string
   author: any
@@ -21,7 +21,7 @@ function PostPreview({
   return (
     <div>
       <div className="mb-5">
-        <CoverImage title={title} slug={slug} url={coverImage.url} />
+        <CoverImage title={title} slug={slug} image={images[0]} />
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
         <Link href={`/posts/${slug}`} className="hover:underline">
