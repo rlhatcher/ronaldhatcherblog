@@ -2,11 +2,10 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Yanone_Kaffeesatz } from 'next/font/google'
 import { Unbounded } from 'next/font/google'
-import { EXAMPLE_PATH, CMS_NAME } from '@/lib/constants'
 
 export const metadata = {
-  title: `Next.js and ${CMS_NAME} Example`,
-  description: `This is a blog built with Next.js and ${CMS_NAME}.`,
+  title: `Ronald Hatcher`,
+  description: `This is a blog.`,
 }
 
 const inter = Inter({
@@ -44,7 +43,7 @@ function Footer() {
               Read Documentation
             </a>
             <a
-              href={`https://github.com/vercel/next.js/tree/canary/examples/${EXAMPLE_PATH}`}
+              href={`https://github.com/vercel/next.js/tree/canary/examples/`}
               className="mx-3 font-bold hover:underline"
             >
               View on GitHub
