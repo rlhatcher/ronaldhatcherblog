@@ -15,7 +15,7 @@ export default function CoverImage({
   title: string;
   image: any;
   slug?: string;
-  className: string | undefined;
+  className?: string | undefined;
 }) {
   const theClassName = className
     ? className

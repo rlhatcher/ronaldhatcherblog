@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CoverImage from "./cover-image";
 import Avatar from "./avatar";
 import DateComponent from "./date";
@@ -17,7 +18,7 @@ export default function PostsSection({ posts }: { posts: any[] }) {
         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (
             <article
-              key={post.id}
+              key={post.slug}
               className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
             >
               <CoverImage
@@ -30,10 +31,7 @@ export default function PostsSection({ posts }: { posts: any[] }) {
               <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
               <div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-                {/* <DateComponent dateString={post.date} /> */}
-                <time dateTime={post.date} className="mr-8">
-                  {post.date}
-                </time>
+                <DateComponent dateString={post.date} />
                 <div className="-ml-4 flex items-center gap-x-4">
                   <svg
                     viewBox="0 0 2 2"
@@ -53,9 +51,11 @@ export default function PostsSection({ posts }: { posts: any[] }) {
                 </div>
               </div>
               <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
-                <a href={post.href}>
-                  <span className="absolute inset-0" />
+              <Link href={`/posts/${post.slug}`} className="hover:underline">
+              <span className="absolute inset-0" />
                   {post.title}
+              </Link>
+                <a href={post.href}>
                 </a>
               </h3>
             </article>
