@@ -38,14 +38,14 @@ function Intro() {
 
 function HeroPost({
   title,
-  coverImage,
+  image,
   date,
   excerpt,
   author,
   slug,
 }: {
   title: string
-  coverImage: any
+  image: any
   date: string
   excerpt: string
   author: any
@@ -54,7 +54,7 @@ function HeroPost({
   return (
     <section>
       <div className="mb-8 md:mb-16">
-        <CoverImage title={title} slug={slug} url={coverImage.url} />
+        <CoverImage title={title} slug={slug} image={image} />
       </div>
       <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
         <div>
@@ -88,7 +88,7 @@ export default async function Page() {
       {heroPost && (
         <HeroPost
           title={heroPost.title}
-          coverImage={heroPost.coverImage}
+          image={heroPost.images[0]}
           date={heroPost.date}
           author={heroPost.author}
           slug={heroPost.slug}

@@ -1,31 +1,29 @@
 const POST_GRAPHQL_FIELDS = `
-  slug
-  title
-  coverImage {
+slug
+title
+images
+date
+author {
+  name
+  picture {
     url
   }
-  date
-  author {
-    name
-    picture {
-      url
-    }
-  }
-  excerpt
-  content {
-    json
-    links {
-      assets {
-        block {
-          sys {
-            id
-          }
-          url
-          description
+}
+excerpt
+content {
+  json
+  links {
+    assets {
+      block {
+        sys {
+          id
         }
+        url
+        description
       }
     }
   }
+}
 `
 
 async function fetchGraphQL(query: string, preview = false): Promise<any> {
