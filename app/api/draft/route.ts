@@ -11,7 +11,11 @@ export async function GET(request: Request) {
     return new Response('Invalid token', { status: 401 })
   }
 
-  const post = await getPreviewPostBySlug(slug)
+  if (!slug) {
+    return new Response('Invalid slug', { status: 401 })
+  }
+
+  const post = await getPreviewPostBySlug(slug as string)
 
   if (!post) {
     return new Response('Invalid slug', { status: 401 })
