@@ -8,6 +8,7 @@ import MoreStories from './more-stories'
 
 import { getAllPosts } from '@/lib/api'
 import HeroSection from './hero-section'
+import PostsSection from './posts-section'
 
 function Intro() {
   return (
@@ -74,6 +75,7 @@ export default async function Page() {
       {heroPost && (
         <HeroSection />
       )}
+      <PostsSection posts={allPosts}/>
       <MoreStories morePosts={morePosts} />
     </div>
   )

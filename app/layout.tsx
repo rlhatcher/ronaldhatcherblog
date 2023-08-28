@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={unbounded.variable}>
+    <html lang="en" className={inter.variable}>
       <body>
         <section className="min-h-screen">
           <main>{children}</main>
