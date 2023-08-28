@@ -7,6 +7,7 @@ import Avatar from './avatar'
 import MoreStories from './more-stories'
 
 import { getAllPosts } from '@/lib/api'
+import HeroSection from './hero-section'
 
 function Intro() {
   return (
@@ -71,14 +72,7 @@ export default async function Page() {
     <div className="container mx-auto px-5">
       <Intro />
       {heroPost && (
-        <HeroPost
-          title={heroPost.title}
-          image={heroPost.images[0]}
-          date={heroPost.date}
-          author={heroPost.author}
-          slug={heroPost.slug}
-          excerpt={heroPost.excerpt}
-        />
+        <HeroSection />
       )}
       <MoreStories morePosts={morePosts} />
     </div>
