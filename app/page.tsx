@@ -2,6 +2,7 @@ import { draftMode } from "next/headers";
 import { getAllPosts } from "@/lib/api";
 import HeroSection from "./hero-section";
 import PostsSection from "./posts-section";
+import FeatureSection from "./feature-section";
 
 function Intro() {
   return (
@@ -9,7 +10,7 @@ function Intro() {
       <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8">
         Ronald Hatcher.
       </h1>
-      <h2 className="text-center md:text-left text-lg mt-5 md:pl-8">
+      <h2 className="text-center md:text-left text-xl font-mono mt-5 md:pl-8">
         A statically generated blog.
       </h2>
     </section>
@@ -23,7 +24,7 @@ export default async function Page() {
   return (
     <div className="container mx-auto px-5">
       <Intro />
-      <HeroSection />
+      <FeatureSection />
       <PostsSection posts={allPosts} />
     </div>
   );
