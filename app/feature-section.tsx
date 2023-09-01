@@ -1,55 +1,64 @@
-import { InboxIcon, TrashIcon, UsersIcon } from '@heroicons/react/24/outline'
+import { CogIcon, BeakerIcon, BookOpenIcon } from "@heroicons/react/24/outline";
 
 const features = [
   {
-    name: 'Projects',
+    name: "Projects",
     description:
-      'Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.',
-    href: '#',
-    icon: InboxIcon,
+      "This section highlights my explorations in both rocketry and robotics. From the initial concept to the final implementation, these contents address the inspiration, design thinking, research, coding, and engineering principles.",
+    href: "#",
+    icon: BeakerIcon,
   },
   {
-    name: 'Manage team members',
+    name: "Builds and Techniques",
     description:
-      'Vero eum voluptatem aliquid nostrum voluptatem. Vitae esse natus. Earum nihil deserunt eos quasi cupiditate. A inventore et molestiae natus.',
-    href: '#',
-    icon: UsersIcon,
+      "For those interested in the tangible aspects of rocketry and robotics, this section provides a detailed look into the assembly and testing processes. All of my hands-on work, along with the challenges faced and lessons learned.",
+    href: "#",
+    icon: CogIcon,
   },
   {
-    name: 'Spam report',
-    description:
-      'Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.',
-    href: '#',
-    icon: TrashIcon,
+    name: "Thoughts and Documents",
+    description: "A curated repository of supplementary resources. Whether you're a beginner or looking to deepen your knowledge, these documents offer guides, schematics, and academic insights into the fields of rocketry and robotics.",
+    href: "#",
+    icon: BookOpenIcon,
   },
-]
+];
 
 export default function FeatureSection() {
   return (
-    <div className="bg-gray-100 rounded-xl py-24 sm:py-8">
+    <div className="bg-gray-100 rounded-xl pt-4 sm:pt-4">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
+        <div className="mx-auto max-w-3xl lg:mx-0 ">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Resources for rockets, robots and architecture
+            Resources for rockets, robots and ... something else that starts
+            with an R
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            This site is the blah blah blah. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-            accusamus quisquam.
+            Welcome to my (semi) structured repository of projects and
+            explorations I've undertaken and am undertaking. I have grouped
+            things around projects and builds to give those perspectives with
+            general thoughts and documents grouped separately but linked to the
+            projects and builds they relate to.
           </p>
         </div>
-        <div className="mx-auto mt-4 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+        <div className="mx-auto max-w-2xl sm:mt-4 lg:mt-6 lg:max-w-none">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none bg-gray-100 lg:grid-cols-3">
             {features.map((feature) => (
               <div key={feature.name} className="flex flex-col">
                 <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <feature.icon className="h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                  <feature.icon
+                    className="h-5 w-5 flex-none text-indigo-600"
+                    aria-hidden="true"
+                  />
                   {feature.name}
                 </dt>
                 <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
                   <p className="flex-auto">{feature.description}</p>
                   <p className="mt-6">
-                    <a href={feature.href} className="text-sm font-semibold leading-6 text-blue-600">
-                      Learn more <span aria-hidden="true">→</span>
+                    <a
+                      href={feature.href}
+                      className="text-sm font-semibold leading-6 text-blue-600"
+                    >
+                      Go There<span aria-hidden="true">→</span>
                     </a>
                   </p>
                 </dd>
@@ -59,5 +68,5 @@ export default function FeatureSection() {
         </div>
       </div>
     </div>
-  )
+  );
 }
