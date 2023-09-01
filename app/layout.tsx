@@ -2,6 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Yanone_Kaffeesatz } from 'next/font/google'
 import { Unbounded } from 'next/font/google'
+import { Bricolage_Grotesque } from 'next/font/google'
 
 export const metadata = {
   title: `Ronald Hatcher`,
@@ -16,6 +17,11 @@ const inter = Inter({
 
 const unbounded = Unbounded({
   variable: '--font-unbounded',
+  subsets: ['latin'],
+  display: 'swap',
+})
+const brick = Bricolage_Grotesque({
+  variable: '--font-brick',
   subsets: ['latin'],
   display: 'swap',
 })
@@ -61,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={brick.variable}>
       <body>
         <section className="min-h-screen">
           <main>{children}</main>
