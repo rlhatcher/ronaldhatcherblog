@@ -1,37 +1,30 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { Yanone_Kaffeesatz } from 'next/font/google'
-import { Unbounded } from 'next/font/google'
 import { Bricolage_Grotesque } from 'next/font/google'
+import { Source_Code_Pro } from 'next/font/google'
 
 export const metadata = {
   title: `Ronald Hatcher`,
   description: `This is a blog.`,
 }
 
-const inter = Inter({
-  variable: '--font-inter',
+// const inter = Inter({
+//   variable: '--font-inter',
+//   subsets: ['latin'],
+//   display: 'swap',
+// })
+
+const code = Source_Code_Pro({
+  variable: '--font-code',
   subsets: ['latin'],
   display: 'swap',
 })
 
-const unbounded = Unbounded({
-  variable: '--font-unbounded',
-  subsets: ['latin'],
-  display: 'swap',
-})
 const brick = Bricolage_Grotesque({
   variable: '--font-brick',
   subsets: ['latin'],
   display: 'swap',
 })
-
-const yanone = Yanone_Kaffeesatz({
-  variable: '--font-yanone',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
 
 function Footer() {
   return (
