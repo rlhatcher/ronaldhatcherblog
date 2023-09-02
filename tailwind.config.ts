@@ -10,7 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-unbounded)'],
+        sans: ['var(--font-brick)'],
+        mono: ['var(--font-code)'],
       },
     },
   },

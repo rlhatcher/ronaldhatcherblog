@@ -1,5 +1,5 @@
-'use client';
-import { CldImage } from 'next-cloudinary';
+"use client";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
 function cn(...classes: any[]) {
@@ -10,21 +10,25 @@ export default function CoverImage({
   title,
   image,
   slug,
+  className,
 }: {
   title: string;
   image: any;
   slug?: string;
+  className?: string | undefined;
 }) {
+  const theClassName = className
+    ? className
+    : "shadow-small hover:shadow-medium transition-shadow duration-200";
+
   const theImage = (
     <CldImage
-      width="960"
-      height="600"
+      width="3000"
+      height="2000"
       src={image.public_id}
       sizes="100vw"
       alt="Description of my image"
-      className={cn("shadow-small", {
-        "hover:shadow-medium transition-shadow duration-200": slug,
-      })}
+      className={theClassName}
     />
   );
 
