@@ -33,7 +33,7 @@ const features: Feature[] = [
 
 export default function FeatureSection() {
   return (
-    <div className="bg-gray-100 rounded-xl pt-4 sm:pt-4">
+    <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-3xl lg:mx-0 ">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

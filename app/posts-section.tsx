@@ -2,7 +2,7 @@ import PostCard from "./post-card";
 
 export default function PostsSection({ posts }: { posts: any[] }) {
   return (
-    <div className="bg-gray-100 pt-12 sm:pt-6">
+    <div className="rounded-2xl bg-gray-100 pt-12 sm:pt-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
