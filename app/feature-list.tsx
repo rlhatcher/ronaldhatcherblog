@@ -27,7 +27,7 @@ function FeatureList({ features }: FeatureListProps) {
             <dd className="relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
               <p className="flex-auto">{feature.description}</p>
               <p className="mt-2">
-                <Link href={feature.href} className="hover:underline">
+                <Link href={`/features${feature.href}`} className="hover:underline">
                   <span className="absolute inset-0" />
                   Go There
                 </Link>
