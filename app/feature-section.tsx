@@ -1,11 +1,5 @@
 import FeatureList from "./feature-list";
-
-interface Feature {
-  name: string;
-  description: string;
-  icon: React.ElementType;
-  href: string;
-}
+import {Feature} from "../types";
 
 export default function FeatureSection({features}: {features: Feature[]}) {
   return (

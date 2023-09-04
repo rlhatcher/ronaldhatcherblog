@@ -70,6 +70,10 @@ function extractProjectEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.projectCollection?.items;
 }
 
+function extractBuildEntries(fetchResponse: any): any[] {
+  return fetchResponse?.data?.buildCollection?.items;
+}
+
 export async function getPreviewPostBySlug(slug: string): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
@@ -139,6 +143,30 @@ export async function getAllProjects(isDraftMode: boolean): Promise<any[]> {
     false
   );
   return extractProjectEntries(entries);
+}
+
+export async function getAllBuilds(isDraftMode: boolean): Promise<any[]> {
+  const entries = await fetchGraphQL(
+    `query {
+      buildCollection(where: { title_exists: true }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
+        items {
+          title
+          project {
+            slug
+            title
+            images
+          }
+          slug
+          description
+          images
+        }
+      }
+    }`,
+    false
+  );
+  return extractBuildEntries(entries);
 }
 
 export async function getPostAndMorePosts(
