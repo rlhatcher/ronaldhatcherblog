@@ -11,7 +11,9 @@ interface Post {
   images: string[];
   author?: {
     name: string;
-    picture: string;
+    picture: {
+      url: string
+    };
   };
 }
 

@@ -1,18 +1,11 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { Bricolage_Grotesque } from 'next/font/google'
-import { Source_Code_Pro } from 'next/font/google'
+import { Bricolage_Grotesque, Source_Code_Pro } from 'next/font/google'
 
 export const metadata = {
   title: `Ronald Hatcher`,
   description: `This is a blog.`,
 }
-
-// const inter = Inter({
-//   variable: '--font-inter',
-//   subsets: ['latin'],
-//   display: 'swap',
-// })
 
 const code = Source_Code_Pro({
   variable: '--font-code',
@@ -60,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={brick.variable}>
+    <html lang="en" className={ `${brick.variable} ${code.variable}`}>
       <body>
         <section className="min-h-screen">
           <main>{children}</main>

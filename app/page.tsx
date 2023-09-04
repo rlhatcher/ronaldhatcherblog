@@ -1,5 +1,6 @@
 import { draftMode } from "next/headers";
 import { getAllPosts } from "@/lib/api";
+import { getAllFeatures } from "@/lib/api";
 import HeroSection from "./hero-section";
 import PostsSection from "./posts-section";
 import FeatureSection from "./feature-section";
@@ -20,11 +21,12 @@ function Intro() {
 export default async function Page() {
   const { isEnabled } = draftMode();
   const allPosts = await getAllPosts(isEnabled);
+  const allFeatures = await getAllFeatures(isEnabled);
 
   return (
     <div className="container mx-auto px-5">
       <Intro />
-      <FeatureSection />
+      <FeatureSection features={allFeatures} />
       <div className="relative">
       <div className="absolute inset-0 flex items-center" aria-hidden="true">
         <div className="w-full border-t border-gray-300" />
