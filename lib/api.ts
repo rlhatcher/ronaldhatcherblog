@@ -125,6 +125,14 @@ export async function getAllProjects(isDraftMode: boolean): Promise<any[]> {
         items {
           title
           overview
+          images
+          slug
+          author {
+            name
+            picture {
+              url
+            }
+          }
         }
       }
     }`,

@@ -4,12 +4,11 @@ import { draftMode } from "next/headers";
 // import MoreStories from "../../more-stories";
 import Avatar from "../avatar";
 import Date from "../date";
-import CoverImage from "../cover-image";
 
 import { getAllProjects } from "@/lib/api";
+import ProjectCard from "../project-card";
 
 export default async function ProjectPage() {
-  const isEnabled = draftMode();
   const projects = await getAllProjects(false);
   return (
     <div className="container mx-auto px-5">
@@ -21,7 +20,7 @@ export default async function ProjectPage() {
       </h2>
       <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {projects.map((project) => (
-            <h3>{project.title}</h3>
+            <ProjectCard project={project} />
           ))}
       </div>
       
