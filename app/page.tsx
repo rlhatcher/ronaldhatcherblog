@@ -21,7 +21,7 @@ function Intro() {
 export default async function Page() {
   const { isEnabled } = draftMode();
   const allPosts = await getAllPosts(isEnabled);
-  const allFeatures = await getAllFeatures();
+  const allFeatures = await getAllFeatures(isEnabled);
 
   return (
     <div className="container mx-auto px-5">

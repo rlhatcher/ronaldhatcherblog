@@ -66,6 +66,10 @@ function extractFeatureEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.featureCollection?.items;
 }
 
+function extractProjectEntries(fetchResponse: any): any[] {
+  return fetchResponse?.data?.projectCollection?.items;
+}
+
 export async function getPreviewPostBySlug(slug: string): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
@@ -96,10 +100,12 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
   return extractPostEntries(entries);
 }
 
-export async function getAllFeatures(): Promise<any[]> {
+export async function getAllFeatures(isDraftMode: boolean): Promise<any[]> {
   const entries = await fetchGraphQL(
     `query {
-      featureCollection(where: { href_exists: true }, preview: false) {
+      featureCollection(where: { href_exists: true }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
         items {
           ${FEATURE_GRAPHQL_FIELDS}
         }
@@ -108,6 +114,23 @@ export async function getAllFeatures(): Promise<any[]> {
     false
   );
   return extractFeatureEntries(entries);
+}
+
+export async function getAllProjects(isDraftMode: boolean): Promise<any[]> {
+  const entries = await fetchGraphQL(
+    `query {
+      projectCollection(where: { title_exists: true }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
+        items {
+          title
+          overview
+        }
+      }
+    }`,
+    false
+  );
+  return extractProjectEntries(entries);
 }
 
 export async function getPostAndMorePosts(
