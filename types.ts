@@ -23,3 +23,26 @@ export interface Project {
 export interface ProjectCardProps {
   project: Project;
 }
+
+export interface Build {
+  title: string;
+  project: {
+    overview: string;
+    slug: string;
+    title: string;
+    images: string[];
+  };
+  stepCollection: {
+    items: Step[];
+  };
+  slug: string;
+  description: string;
+  images: string[];
+}
+
+export interface Step {
+  step: number;
+  title: string;
+  description: string;
+  images: string[];
+}

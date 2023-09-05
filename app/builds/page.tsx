@@ -1,15 +1,11 @@
 import Link from "next/link";
-import { draftMode } from "next/headers";
 
 // import MoreStories from "../../more-stories";
-import Avatar from "../avatar";
-import Date from "../date";
 
 import { getAllBuilds } from "@/lib/api";
-import ProjectCard from "../project-card";
 import BuildCard from "../build-card";
 
-export default async function ProjectPage() {
+export default async function BuildsPage() {
   const builds = await getAllBuilds(false);
   return (
     <div className="container mx-auto px-5">

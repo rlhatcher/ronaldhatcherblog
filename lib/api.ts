@@ -1,3 +1,5 @@
+import { Build } from "../types";
+
 const FEATURE_GRAPHQL_FIELDS = `
 name
 description
@@ -72,6 +74,10 @@ function extractProjectEntries(fetchResponse: any): any[] {
 
 function extractBuildEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.buildCollection?.items;
+}
+
+function extractBuildEntry(fetchResponse: any): Build {
+  return fetchResponse?.data?.buildCollection?.items[0];
 }
 
 export async function getPreviewPostBySlug(slug: string): Promise<any> {
@@ -167,6 +173,38 @@ export async function getAllBuilds(isDraftMode: boolean): Promise<any[]> {
     false
   );
   return extractBuildEntries(entries);
+}
+
+export async function getBuildAndSteps(slug: string, isDraftMode: boolean): Promise<Build> {
+  const build = await fetchGraphQL(
+    `query {
+      buildCollection(where: { slug: "phoenix-1-2-scale-build" }, preview: ${ isDraftMode ? "true" : "false" }) {
+            items {
+              title
+              project {
+                overview
+                slug
+                title
+                images
+              }
+              stepCollection {
+                items {
+                  step
+                  title
+                  description
+                  images
+                }
+              }
+              slug
+              description
+              images
+            }
+      }
+    }`,
+    false
+  );
+  console.log(build[0]);
+  return extractBuildEntry(build);
 }
 
 export async function getPostAndMorePosts(
