@@ -1,20 +1,19 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { Bricolage_Grotesque, Source_Code_Pro } from 'next/font/google'
+import { Inter, Red_Hat_Mono } from 'next/font/google'
 
 export const metadata = {
   title: `Ronald Hatcher`,
   description: `This is a blog.`,
 }
 
-const code = Source_Code_Pro({
-  variable: '--font-code',
+const mono = Red_Hat_Mono({
+  variable: '--font-mono',
   subsets: ['latin'],
   display: 'swap',
 })
 
-const brick = Bricolage_Grotesque({
-  variable: '--font-brick',
+const sans = Inter({
+  variable: '--font-sans',
   subsets: ['latin'],
   display: 'swap',
 })
@@ -53,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={ `${brick.variable} ${code.variable}`}>
+    <html lang="en" className={ `${mono.variable} ${sans.variable}`}>
       <body>
         <section className="min-h-screen">
           <main>{children}</main>
