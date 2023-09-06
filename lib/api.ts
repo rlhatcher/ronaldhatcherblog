@@ -175,10 +175,51 @@ export async function getAllBuilds(isDraftMode: boolean): Promise<any[]> {
   return extractBuildEntries(entries);
 }
 
-export async function getBuildAndSteps(slug: string, isDraftMode: boolean): Promise<Build> {
+export async function getStep(
+  slug: string,
+  step: number,
+  isDraftMode: boolean
+): Promise<Build> {
+  
   const build = await fetchGraphQL(
     `query {
-      buildCollection(where: { slug: "phoenix-1-2-scale-build" }, preview: ${ isDraftMode ? "true" : "false" }) {
+      buildCollection(where: { slug: "${slug}"}) {
+        items {
+          title
+          project {
+            overview
+            slug
+            title
+            images
+          }
+          stepCollection(where: { step: ${ step }}) {
+            items {
+              step
+              title
+              description
+              images
+            }
+          }
+          slug
+          description
+          images
+        }
+      }
+    }`,
+    false
+  );
+  return extractBuildEntry(build);
+}
+
+export async function getBuildAndSteps(
+  slug: string,
+  isDraftMode: boolean
+): Promise<Build> {
+  const build = await fetchGraphQL(
+    `query {
+      buildCollection(where: { slug: "phoenix-1-2-scale-build" }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
             items {
               title
               project {
@@ -203,7 +244,6 @@ export async function getBuildAndSteps(slug: string, isDraftMode: boolean): Prom
     }`,
     false
   );
-  console.log(build[0]);
   return extractBuildEntry(build);
 }
 

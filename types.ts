@@ -43,6 +43,6 @@ export interface Build {
 export interface Step {
   step: number;
   title: string;
-  description: string;
-  images: string[];
+  description: any;
+  images: any[];
 }
