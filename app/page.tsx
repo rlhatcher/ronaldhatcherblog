@@ -1,9 +1,10 @@
 import { draftMode } from "next/headers";
 import { getAllPosts } from "@/lib/api";
 import { getAllFeatures } from "@/lib/api";
-import HeroSection from "./hero-section";
-import PostsSection from "./posts-section";
-import FeatureSection from "./feature-section";
+
+import HeroSection from "./_components/hero-section";
+import PostsSection from "./_components/posts-section";
+import FeatureSection from "./_components/feature-section";
 
 function Intro() {
   return (

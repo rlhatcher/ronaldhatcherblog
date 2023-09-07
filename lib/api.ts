@@ -1,4 +1,4 @@
-import { Build } from "../types";
+import { Build } from "../app/_types/types";
 
 const FEATURE_GRAPHQL_FIELDS = `
 name

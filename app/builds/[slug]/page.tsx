@@ -1,10 +1,16 @@
 import { getBuildAndSteps } from "@/lib/api";
-import { Build, Step } from "../../../types";
+import { Build, Step } from "../../_types/types";
 import Link from "next/link";
-import StepCard from "../../step-card";
+import StepCard from "../../_components/step-card";
 
-export default async function BuildPage(slug: string) {
-  const build = await getBuildAndSteps(slug, false);
+export default async function BuildPage({
+  params,
+}: {
+  params: {
+    slug: string;
+  };
+}) { 
+  const build = await getBuildAndSteps(params.slug, false);
 
   return (
     <div className="container mx-auto px-5">

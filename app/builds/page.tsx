@@ -3,7 +3,7 @@ import Link from "next/link";
 // import MoreStories from "../../more-stories";
 
 import { getAllBuilds } from "@/lib/api";
-import BuildCard from "../build-card";
+import BuildCard from "../_components/build-card";
 
 export default async function BuildsPage() {
   const builds = await getAllBuilds(false);

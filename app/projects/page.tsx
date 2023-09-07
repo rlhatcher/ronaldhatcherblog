@@ -2,11 +2,11 @@ import Link from "next/link";
 import { draftMode } from "next/headers";
 
 // import MoreStories from "../../more-stories";
-import Avatar from "../avatar";
-import Date from "../date";
+import Avatar from "../_components/avatar";
+import Date from "../_components/date";
 
 import { getAllProjects } from "@/lib/api";
-import ProjectCard from "../project-card";
+import ProjectCard from "../_components/project-card";
 
 export default async function ProjectPage() {
   const projects = await getAllProjects(false);

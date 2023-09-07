@@ -1,5 +1,5 @@
 import FeatureList from "./feature-list";
-import {Feature} from "../types";
+import {Feature} from "../_types/types";
 
 export default function FeatureSection({features}: {features: Feature[]}) {
   return (

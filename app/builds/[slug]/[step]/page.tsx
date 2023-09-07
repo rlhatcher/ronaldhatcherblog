@@ -1,8 +1,9 @@
-import CoverImage from "@/app/cover-image";
-import { Build, Step } from "../../../../types";
+import CoverImage from "@/app/_components/cover-image";
+import { Build, Step } from "../../../_types/types";
 import Link from "next/link";
 import { Markdown } from "@/lib/markdown";
 import { getStep } from "@/lib/api";
+
 export default async function BuildStepPage({
   params,
 }: {

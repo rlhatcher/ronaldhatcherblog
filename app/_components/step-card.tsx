@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Step } from "../types";
+import { Step } from "../_types/types";
 import CoverImage from "./cover-image";
 
 interface StepProps {
