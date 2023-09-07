@@ -17,9 +17,6 @@ export default function CoverImage({
   slug?: string;
   className?: string | undefined;
 }) {
-  const theClassName = className
-    ? className
-    : "shadow-small hover:shadow-medium transition-shadow duration-200";
 
   const theImage = (
     <CldImage
@@ -28,7 +25,7 @@ export default function CoverImage({
       src={image.public_id}
       sizes="100vw"
       alt="Description of my image"
-      className={theClassName}
+      className={className}
     />
   );
 

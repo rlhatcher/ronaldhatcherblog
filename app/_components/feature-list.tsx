@@ -1,16 +1,7 @@
 import React from 'react';
 import Avatar from './avatar';
 import Link from 'next/link';
-
-interface Feature {
-  name: string;
-  description: string;
-  href: string;
-  icon: {
-    url: string;
-  };
-}
-
+import { Feature } from '../_types/types'
 interface FeatureListProps {
   features: Feature[];
 }

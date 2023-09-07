@@ -1,3 +1,5 @@
+import { Build } from "../app/_types/types";
+
 const FEATURE_GRAPHQL_FIELDS = `
 name
 description
@@ -70,6 +72,14 @@ function extractProjectEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.projectCollection?.items;
 }
 
+function extractBuildEntries(fetchResponse: any): any[] {
+  return fetchResponse?.data?.buildCollection?.items;
+}
+
+function extractBuildEntry(fetchResponse: any): Build {
+  return fetchResponse?.data?.buildCollection?.items[0];
+}
+
 export async function getPreviewPostBySlug(slug: string): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
@@ -139,6 +149,102 @@ export async function getAllProjects(isDraftMode: boolean): Promise<any[]> {
     false
   );
   return extractProjectEntries(entries);
+}
+
+export async function getAllBuilds(isDraftMode: boolean): Promise<any[]> {
+  const entries = await fetchGraphQL(
+    `query {
+      buildCollection(where: { title_exists: true }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
+        items {
+          title
+          project {
+            slug
+            title
+            images
+          }
+          slug
+          description
+          images
+        }
+      }
+    }`,
+    false
+  );
+  return extractBuildEntries(entries);
+}
+
+export async function getStep(
+  slug: string,
+  step: number,
+  isDraftMode: boolean
+): Promise<Build> {
+  
+  const build = await fetchGraphQL(
+    `query {
+      buildCollection(where: { slug: "${slug}"}) {
+        items {
+          title
+          project {
+            overview
+            slug
+            title
+            images
+          }
+          stepCollection(where: { step: ${ step }}) {
+            items {
+              step
+              title
+              description
+              images
+            }
+          }
+          slug
+          description
+          images
+        }
+      }
+    }`,
+    false
+  );
+  return extractBuildEntry(build);
+}
+
+export async function getBuildAndSteps(
+  slug: string,
+  isDraftMode: boolean
+): Promise<Build> {
+  const build = await fetchGraphQL(
+    `query {
+      buildCollection(where: { slug: "phoenix-1-2-scale-build" }, preview: ${
+        isDraftMode ? "true" : "false"
+      }) {
+            items {
+              title
+              project {
+                overview
+                slug
+                title
+                images
+              }
+              stepCollection {
+                items {
+                  step
+                  title
+                  description
+                  images
+                }
+              }
+              slug
+              description
+              images
+            }
+      }
+    }`,
+    false
+  );
+  return extractBuildEntry(build);
 }
 
 export async function getPostAndMorePosts(

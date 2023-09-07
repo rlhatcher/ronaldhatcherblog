@@ -45,11 +45,11 @@ function PostCard({ post }: PostCardProps) {
           >
             <circle cx={1} cy={1} r={1} />
           </svg>
-          <div className="flex gap-x-2.5">
+          {/* <div className="flex gap-x-2.5">
             {post.author && (
               <Avatar name={post.author.name} picture={post.author.picture} />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
       <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
