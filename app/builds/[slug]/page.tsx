@@ -19,6 +19,10 @@ export default async function BuildPage({
           Blog
         </Link>
         .
+        <Link href="/builds" className="hover:underline">
+          Builds
+        </Link>
+        .
       </h2>
       <article>
         <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight md:leading-none text-center md:text-left">

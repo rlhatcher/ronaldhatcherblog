@@ -68,6 +68,9 @@ function extractFeatureEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.featureCollection?.items;
 }
 
+function extractProject(fetchResponse: any): any {
+  return fetchResponse?.data?.projectCollection?.items?.[0];
+}
 function extractProjectEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.projectCollection?.items;
 }
@@ -180,7 +183,6 @@ export async function getStep(
   step: number,
   isDraftMode: boolean
 ): Promise<Build> {
-  
   const build = await fetchGraphQL(
     `query {
       buildCollection(where: { slug: "${slug}"}) {
@@ -192,7 +194,7 @@ export async function getStep(
             title
             images
           }
-          stepCollection(where: { step: ${ step }}) {
+          stepCollection(where: { step: ${step}}) {
             items {
               step
               title
@@ -217,7 +219,7 @@ export async function getBuildAndSteps(
 ): Promise<Build> {
   const build = await fetchGraphQL(
     `query {
-      buildCollection(where: { slug: "phoenix-1-2-scale-build" }, preview: ${
+      buildCollection(where: { slug: "${slug}" }, preview: ${
         isDraftMode ? "true" : "false"
       }) {
             items {
@@ -278,5 +280,30 @@ export async function getPostAndMorePosts(
   return {
     post: extractPost(entry),
     morePosts: extractPostEntries(entries),
+  };
+}
+
+export async function getProject(slug: string, preview: boolean): Promise<any> {
+  const entry = await fetchGraphQL(
+    `query {
+  projectCollection(where: { slug: "${slug}" }, limit: 1) {
+    	items {
+      title
+      overview
+      images
+      slug
+      author {
+        name
+        picture {
+          url
+        }
+      }
+    }
+  }
+}`,
+    preview
+  );
+  return {
+    project: extractProject(entry),
   };
 }
