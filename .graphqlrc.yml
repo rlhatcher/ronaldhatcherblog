@@ -1,0 +1,5 @@
+schema:
+  - 'https://graphql.contentful.com/content/v1/spaces/7bmb0k4iuhtq':
+      headers:
+        Authorization: "Bearer AgcuFZ8dZKQ2d4pt0dK83bGMeMLT6aOytaTp1ZJJy-I"
+documents: ./**/*.{graphql,gql,js,ts,jsx,tsx}
