@@ -200,6 +200,9 @@ export async function getStep(
               title
               description
               images
+              content {
+                json
+              }
             }
           }
           slug
@@ -236,6 +239,9 @@ export async function getBuildAndSteps(
                   title
                   description
                   images
+                  content {
+                    json
+                  }
                 }
               }
               slug
