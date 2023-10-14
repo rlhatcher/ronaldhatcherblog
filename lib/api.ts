@@ -185,31 +185,27 @@ export async function getStep(
 ): Promise<Build> {
   const build = await fetchGraphQL(
     `query {
-      buildCollection(where: { slug: "${slug}"}) {
-        items {
-          title
-          project {
-            overview
-            slug
-            title
-            images
-          }
-          stepCollection(where: { step: ${step}}) {
-            items {
-              step
-              title
-              description
-              images
-              content {
-                json
+      buildCollection(where: { slug: "${slug}" }, preview: ${isDraftMode ? "true" : "false"}) {
+        buildStepCollection(where: { step: 1}, limit: 1) {
+         items {
+            linkedFrom {
+              buildCollection(where: items.slug: "${slug}") {
+                total
+                items {
+                  slug
+                }
               }
             }
+            step
+            title
+            description
+            images
+            content {
+              json
+            }
           }
-          slug
-          description
-          images
         }
-      }
+            }
     }`,
     false
   );
@@ -225,29 +221,32 @@ export async function getBuildAndSteps(
       buildCollection(where: { slug: "${slug}" }, preview: ${
         isDraftMode ? "true" : "false"
       }) {
+        items {
+          title
+          project {
+            overview
+            slug
+            title
+            images
+          }
+          stepCollection {
             items {
-              title
-              project {
-                overview
-                slug
+              ...on BuildStep {
+                step
                 title
+                description
                 images
-              }
-              stepCollection {
-                items {
-                  step
-                  title
-                  description
-                  images
-                  content {
-                    json
-                  }
+                content {
+                  json
                 }
               }
-              slug
-              description
-              images
             }
+          }
+          slug
+          description
+          images
+        }
+    
       }
     }`,
     false
