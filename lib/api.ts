@@ -185,27 +185,47 @@ export async function getStep(
 ): Promise<Build> {
   const build = await fetchGraphQL(
     `query {
-      buildCollection(where: { slug: "${slug}" }, preview: ${isDraftMode ? "true" : "false"}) {
-        buildStepCollection(where: { step: 1}, limit: 1) {
-         items {
-            linkedFrom {
-              buildCollection(where: items.slug: "${slug}") {
-                total
-                items {
-                  slug
+      buildCollection(where: { slug: "${slug}" }, preview: ${
+        isDraftMode ? "true" : "false"
+      }, limit: 1) {
+        items {
+          title
+          project {
+            overview
+            slug
+            title
+            images
+          }
+          stepCollection(where: { step: ${step} }) {
+            items {
+              ...on BuildStep {
+                step
+                title
+                description
+                images
+                content {
+                  json
+                  links {
+                    assets {
+                      block {
+                        sys {
+                          id
+                        }
+                        url
+                        description
+                      }
+                    }
+                  }
                 }
               }
             }
-            step
-            title
-            description
-            images
-            content {
-              json
-            }
           }
+          slug
+          description
+          images
         }
-            }
+    
+      }
     }`,
     false
   );
@@ -220,7 +240,7 @@ export async function getBuildAndSteps(
     `query {
       buildCollection(where: { slug: "${slug}" }, preview: ${
         isDraftMode ? "true" : "false"
-      }) {
+      }, limit: 1) {
         items {
           title
           project {
@@ -238,6 +258,17 @@ export async function getBuildAndSteps(
                 images
                 content {
                   json
+                  links {
+                    assets {
+                      block {
+                        sys {
+                          id
+                        }
+                        url
+                        description
+                      }
+                    }
+                  }
                 }
               }
             }

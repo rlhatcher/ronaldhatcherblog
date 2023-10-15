@@ -7,7 +7,7 @@ import Date from "../../_components/date";
 import CoverImage from "../../_components/cover-image";
 
 import { Markdown } from "@/lib/markdown";
-import { getAllProjects, getProject} from "@/lib/api";
+import { getAllProjects, getProject } from "@/lib/api";
 
 export async function generateStaticParams() {
   const allProjects = await getAllProjects(false);
@@ -26,7 +26,8 @@ export default async function ProjectPage({
 
   return (
     <div className="container mx-auto px-5">
-      <h2 className="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8">
+      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-16 md:mb-12">
+        <h1 className="text-xl md:text-6xl font-bold tracking-tighter leading-tight md:pr-8">
         <Link href="/" className="hover:underline">
           Blog
         </Link>
@@ -35,33 +36,40 @@ export default async function ProjectPage({
           Projects
         </Link>
         .
-      </h2>
+      </h1>
+      </section>
       <article>
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight md:leading-none mb-12 text-center md:text-left">
-          {project.title}
-        </h1>
-        <div className="hidden md:block md:mb-12">
-          {project.author && (
-            <Avatar name={project.author.name} picture={project.author.picture} />
-          )}
-        </div>
-        <div className="mb-8 md:mb-16 sm:mx-0">
-          <CoverImage title={project.title} image={project.images[0]} />
-        </div>
-        <div className="max-w-2xl mx-auto">
-          <div className="block md:hidden mb-6">
-            {project.author && (
-              <Avatar name={project.author.name} picture={project.author.picture} />
-            )}
-          </div>
-          <div className="mb-6 text-lg">
-            {/* <Date dateString={project.date} /> */}
-          </div>
-        </div>
+        <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl lg:mx-0 ">
+              <h1 className="text-6xl md:text-6xl lg:text-6xl font-bold tracking-tighter leading-tight md:leading-none mb-12 text-center md:text-left">
+                {project.title}
+              </h1>
+              <div className="hidden md:block md:mb-12">
+                {project.author && (
+                  <Avatar name={project.author.name} picture={project.author.picture} />
+                )}
+              </div>
+              <div className="mb-8 md:mb-16 sm:mx-0">
+                <CoverImage title={project.title} image={project.images[0]} />
+              </div>
+              <div className="max-w-2xl mx-auto">
+                <div className="block md:hidden mb-6">
+                  {project.author && (
+                    <Avatar name={project.author.name} picture={project.author.picture} />
+                  )}
+                </div>
+                <div className="mb-6 text-lg">
+                  {/* <Date dateString={project.date} /> */}
+                </div>
+              </div>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="prose">
-            <Markdown content={project.overview} />
+              <div className="max-w-2xl mx-auto">
+                <div className="prose">
+                  <Markdown content={project.overview} />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </article>

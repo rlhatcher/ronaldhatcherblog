@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Step } from "../_types/types";
 import CoverImage from "./cover-image";
+import { Markdown } from "@/lib/markdown";
 
 interface StepProps {
   steps: Step[];
@@ -27,8 +28,8 @@ const StepCard: React.FC<StepProps> = ({ steps, buildSlug }) => {
                   className="h-full w-full object-cover object-center group-hover:opacity-75"
                 />
               </div>
-              <h3 className="mt-4 text-sm text-gray-700">{step.title}</h3>
-              <p className="mt-1 text-lg font-medium text-gray-900">
+              <h3 className="mt-4 text-base text-gray-700">{step.title}</h3>
+              <p className="mt-1 text-sm font-medium text-gray-900">
                 {step.description}
               </p>
             </Link>
