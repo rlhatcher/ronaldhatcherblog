@@ -45,4 +45,5 @@ export interface Step {
   title: string;
   description: any;
   images: any[];
+  content: any;
 }
