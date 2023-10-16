@@ -13,7 +13,7 @@ function Intro() {
         Ronald Hatcher.
       </h1>
       <h2 className="text-center md:text-left text-xl mt-5 md:pl-8">
-        A statically generated blog
+        Personal notes and projects.
       </h2>
     </section>
   );

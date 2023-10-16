@@ -7,11 +7,10 @@ export default function FeatureSection({features}: {features: Feature[]}) {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-3xl lg:mx-0 ">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Resources for rockets, robots and ... something else that starts
-            with an R
+            Welcome ... 
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Welcome to my (semi) structured repository of projects and
+            to my (semi) structured repository of projects and
             explorations I've undertaken and am undertaking. I have grouped
             things around projects and builds to give those perspectives with
             general thoughts and documents grouped separately but linked to the

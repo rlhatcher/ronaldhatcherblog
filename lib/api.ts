@@ -116,9 +116,11 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
 export async function getAllFeatures(isDraftMode: boolean): Promise<any[]> {
   const entries = await fetchGraphQL(
     `query {
-      featureCollection(where: { href_exists: true }, preview: ${
-        isDraftMode ? "true" : "false"
-      }) {
+      featureCollection(
+        where: { href_exists: true },
+        order: weight_ASC
+        preview: ${ isDraftMode ? "true" : "false"}
+      ) {
         items {
           ${FEATURE_GRAPHQL_FIELDS}
         }
