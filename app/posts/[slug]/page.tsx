@@ -28,9 +28,7 @@ export default async function PostPage({
     <div className="container mx-auto px-5">
       <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-16 md:mb-12">
         <h1 className="text-xl md:text-6xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">
-            Blog
-          </Link>
+          <Link href="/" className="hover:underline"> Ω </Link>
           .
           <Link href="/posts" className="hover:underline">
             Posts
