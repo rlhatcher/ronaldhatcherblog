@@ -24,6 +24,10 @@ export default async function BuildStepPage({
             Builds
           </Link>
           .
+          <Link href={`/builds/${build.slug}`} className="hover:underline">
+            {build.title.length > 6 ? build.title.substring(0, 6) + ".." : build.title}
+          </Link>
+          .
         </h1>
         <h2 className="text-center md:text-left text-xl mt-5 md:pl-8">
           {theStep.title}
