@@ -16,23 +16,21 @@ export default async function BuildPage({
     <div className="container mx-auto px-5">
       <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-16 md:mb-12">
         <h1 className="text-xl md:text-6xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">
-          Ω
-          </Link>
+          <Link href="/" className="hover:underline">Ω</Link>
           .
           <Link href="/builds" className="hover:underline">
             Builds
           </Link>
           .
         </h1>
+        <h2 className="text-center md:text-left text-xl mt-5 md:pl-8">
+          {build.title}
+        </h2>
       </section>
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-3xl lg:mx-0 ">
-              <h1 className="text-6xl md:text-6xl lg:text-6xl font-bold tracking-tighter leading-tight md:leading-none mb-12 text-center md:text-left">
-                {build.title}
-              </h1>
               <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-24 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
                   <div className="max-w-3xl">
