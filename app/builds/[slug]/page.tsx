@@ -39,11 +39,11 @@ export default async function BuildPage({
                         href={`/projects/${build.project.slug}`}
                         className="hover:underline"
                       >
-                        {build.project?.title} Project
+                        Project: {build.project?.title}
                       </Link>
                     </h2>
-                    <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                      {build.description}
+                    <p className="mt-2 text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                      {build.title}
                     </p>
                     <p className="mt-4 text-gray-500">{build.description}</p>
                   </div>
