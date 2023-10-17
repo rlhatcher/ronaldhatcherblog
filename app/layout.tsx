@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter, Red_Hat_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: `Ronald Hatcher`,
@@ -58,6 +59,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </section>
+        <Analytics />
       </body>
     </html>
   )
