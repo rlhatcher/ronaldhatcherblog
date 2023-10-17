@@ -31,14 +31,7 @@ const BuildCard: React.FC<BuildCardProps> = ({ build }) => {
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
       <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
-      <div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-        {build.project?.title}
-        <div className="ml-1 flex items-center gap-x-4">
-          <div className="flex gap-x-2.5">
-            project
-          </div>
-        </div>
-      </div>
+
       <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
         <Link href={`/builds/${build.slug}`} className="hover:underline">
           <span className="absolute inset-0" />

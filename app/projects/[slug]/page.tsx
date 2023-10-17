@@ -26,8 +26,8 @@ export default async function ProjectPage({
 
   return (
     <div className="container mx-auto px-5">
-      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-4 md:mb-4">
-        <h1 className="text-xl md:text-6xl font-bold tracking-tighter leading-tight md:pr-8">
+      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-2 md:mb-2">
+        <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
           <Link href="/" className="hover:underline">Ω</Link>
           .
           <Link href="/projects" className="hover:underline">
@@ -35,7 +35,7 @@ export default async function ProjectPage({
           </Link>
           .
         </h1>
-        <h2 className="text-center md:text-left text-xl mt-5 md:pl-8">
+        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
           {project.title}
         </h2>
       </section>
