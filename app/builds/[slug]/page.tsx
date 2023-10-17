@@ -14,7 +14,7 @@ export default async function BuildPage({
 
   return (
     <div className="container mx-auto px-5">
-      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-4 mb-4 md:mb-4">
+      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2">
         <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
           <Link href="/" className="hover:underline">Ω</Link>
           .
@@ -23,7 +23,7 @@ export default async function BuildPage({
           </Link>
           .
         </h1>
-        <h2 className="text-center md:text-left text-xl mt-4 mb-4 md:pl-8">
+        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
           {build.title}
         </h2>
       </section>
