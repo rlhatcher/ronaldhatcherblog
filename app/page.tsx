@@ -8,7 +8,7 @@ import FeatureSection from "./_components/feature-section";
 
 function Intro() {
   return (
-    <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-16 md:mb-12">
+    <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-16 mb-4 md:mb-4">
       <h1 className="text-xl md:text-6xl font-bold tracking-tighter leading-tight md:pr-8">
         Ronald Hatcher.
       </h1>
