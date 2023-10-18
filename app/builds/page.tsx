@@ -3,21 +3,16 @@ import Link from "next/link";
 // import MoreStories from "../../more-stories";
 
 import { getAllBuilds } from "@/lib/api";
-import BuildCard from "../_components/build-card";
+import BuildCard from "@/app/_components/build-card";
+import TopNav from "../_components/top-nav";
 
 export default async function BuildsPage() {
   const builds = await getAllBuilds(false);
   return (
     <div className="container mx-auto px-5">
-      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2">
-        <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">Ω</Link>
-          .
-        </h1>
-        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
-          Builds & Techniques
-        </h2>
-      </section>
+      <TopNav links={[
+                { href: "/", label: "Ω" }]}
+              page={{ title: "Builds" }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-1 pt-4 px-4">
           Builds for most of my projects are here. Some projects have more than one stand-alone build and everything is linked up for convenience.

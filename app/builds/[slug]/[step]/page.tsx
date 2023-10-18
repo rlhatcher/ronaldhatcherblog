@@ -1,8 +1,9 @@
 import CoverImage from "@/app/_components/cover-image";
-import { Build, Step } from "../../../_types/types";
+import { Build, Step } from "@/app/_types/types";
 import Link from "next/link";
 import { Markdown } from "@/lib/markdown";
 import { getStep } from "@/lib/api";
+import TopNav from "@/app/_components/top-nav";
 
 export default async function BuildStepPage({
   params,
@@ -16,23 +17,11 @@ export default async function BuildStepPage({
   const theStep = build.stepCollection.items[0];
   return (
     <div className="container mx-auto px-5">
-       <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2">
-        <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">Ω</Link>
-          .
-          <Link href="/builds" className="hover:underline">
-            Builds
-          </Link>
-          .
-          <Link href={`/builds/${build.slug}`} className="hover:underline">
-            {build.title.length > 6 ? build.title.substring(0, 6) + ".." : build.title}
-          </Link>
-          .
-        </h1>
-        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
-          {theStep.title}
-        </h2>
-      </section>
+      <TopNav links={[
+                { href: "/", label: "Ω" },
+                { href: "/builds", label: "Builds" },
+                { href: `/builds/${build.slug}`, label: build.title }]}
+              page={{ title: theStep.title }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">

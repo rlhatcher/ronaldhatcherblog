@@ -1,7 +1,8 @@
 import { getBuildAndSteps } from "@/lib/api";
-import { Build, Step } from "../../_types/types";
+import { Build, Step } from "@/app/_types/types";
 import Link from "next/link";
-import StepCard from "../../_components/step-card";
+import TopNav from "@/app/_components/top-nav";
+import StepCard from "@/app/_components/step-card";
 
 export default async function BuildPage({
   params,
@@ -14,19 +15,10 @@ export default async function BuildPage({
 
   return (
     <div className="container mx-auto px-5">
-      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2">
-        <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">Ω</Link>
-          .
-          <Link href="/builds" className="hover:underline">
-            Builds
-          </Link>
-          .
-        </h1>
-        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
-          {build.title}
-        </h2>
-      </section>
+      <TopNav links={[
+                { href: "/", label: "Ω" },
+                { href: "/builds", label: "Builds" }]}
+              page={{ title: build.title }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">

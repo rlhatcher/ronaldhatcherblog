@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { draftMode } from "next/headers";
 
-import MoreStories from "../../_components/more-stories";
-import Avatar from "../../_components/avatar";
-import Date from "../../_components/date";
-import CoverImage from "../../_components/cover-image";
+import MoreStories from "@/app/_components/more-stories";
+import Avatar from "@/app/_components/avatar";
+import Date from "@/app/_components/date";
+import CoverImage from "@/app/_components/cover-image";
+import TopNav from "@/app/_components/top-nav";
 
 import { Markdown } from "@/lib/markdown";
 import { getAllPosts, getPostAndMorePosts } from "@/lib/api";
@@ -26,19 +27,10 @@ export default async function PostPage({
 
   return (
     <div className="container mx-auto px-5">
-      <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-4 mb-4 md:mb-4">
-        <h1 className="text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
-          <Link href="/" className="hover:underline">Ω</Link>
-          .
-          <Link href="/posts" className="hover:underline">
-            Posts
-          </Link>
-          .
-        </h1>
-        <h2 className="text-center md:text-left text-xl mt-2 md:pl-8">
-        {post.title}
-        </h2>
-      </section>
+      <TopNav links={[
+                { href: "/", label: "Ω" },
+                { href: "/posts", label: "Posts" }]}
+              page={{ title: post.title }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
