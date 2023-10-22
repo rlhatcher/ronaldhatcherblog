@@ -36,11 +36,11 @@ options: {
 }
  });
 
-  const id = fileName.replace(/\.mdx$/, "");
+  const slug = fileName.replace(/\.mdx$/, "");
 
   const BlogPostObj: BlogPost = {
     meta: {
-      id,
+      slug: slug,
       title: frontmatter.title,
       date: frontmatter.date,
       tags: frontmatter.tags,
