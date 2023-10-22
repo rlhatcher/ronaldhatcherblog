@@ -36,7 +36,6 @@ export default async function Page() {
           <span className="bg-white px-3 text-base font-semibold leading-6 text-gray-900">•</span>
         </div>
       </div>
-      {/* @ts-expect-error Server Component */}
       <PostsSection posts={allPosts} />
     </div>
   );
