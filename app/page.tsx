@@ -1,7 +1,7 @@
 import { draftMode } from "next/headers";
 import { getAllPosts } from "@/lib/api";
 import { getAllFeatures } from "@/lib/api";
-
+import Posts from "@/app/_components/Posts";
 import HeroSection from "./_components/hero-section";
 import PostsSection from "./_components/posts-section";
 import FeatureSection from "./_components/feature-section";
@@ -36,7 +36,9 @@ export default async function Page() {
           <span className="bg-white px-3 text-base font-semibold leading-6 text-gray-900">•</span>
         </div>
       </div>
+      {/* @ts-expect-error Server Component */}
       <PostsSection posts={allPosts} />
+      <Posts /> 
     </div>
   );
 }

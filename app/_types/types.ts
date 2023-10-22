@@ -1,8 +1,16 @@
+type Meta = {
+  id: string,
+  title: string,
+  date: string,
+  tags: string[],
+}
+
 export interface Feature {
   name: string;
   description: string;
   href: string;
   icon: {
+
     url: string;
   };
 }
