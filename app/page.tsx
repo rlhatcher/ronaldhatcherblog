@@ -38,7 +38,6 @@ export default async function Page() {
       </div>
       {/* @ts-expect-error Server Component */}
       <PostsSection posts={allPosts} />
-      <Posts /> 
     </div>
   );
 }
