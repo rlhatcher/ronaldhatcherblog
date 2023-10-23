@@ -1,4 +1,8 @@
 import { compileMDX } from "next-mdx-remote/rsc";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeHighlight from "rehype-highlight";
+import rehypeSlug from "rehype-slug";
+import Video from "@/app/_components/Video";
 
 type Filetree = {
   tree: [
@@ -7,6 +11,7 @@ type Filetree = {
     }
   ];
 };
+
 export async function getPostByName(
   fileName: string
 ): Promise<BlogPost | undefined> {
@@ -30,11 +35,28 @@ export async function getPostByName(
     title: string;
     date: string;
     tags: string[];
-  }>({ source: rawMDX,
-options: {
-    parseFrontmatter: true,
-}
- });
+  }>({
+    source: rawMDX,
+    components: {
+      Video
+    },
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        rehypePlugins: [
+          //@ts-ignore
+          rehypeHighlight,
+          rehypeSlug,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: "wrap",
+            },
+          ],
+        ],
+      },
+    },
+  });
 
   const slug = fileName.replace(/\.mdx$/, "");
 

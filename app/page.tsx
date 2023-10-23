@@ -6,6 +6,8 @@ import HeroSection from "./_components/hero-section";
 import PostsSection from "./_components/posts-section";
 import FeatureSection from "./_components/feature-section";
 
+export const revalidate = 10;
+
 function Intro() {
   return (
     <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-4 md:mb-4">
