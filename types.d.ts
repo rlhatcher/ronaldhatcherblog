@@ -2,6 +2,7 @@ type Meta = {
     slug: string,
     title: string,
     date: string,
+    image: string,
     tags: string[],
 }
 

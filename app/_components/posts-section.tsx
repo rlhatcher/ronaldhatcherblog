@@ -1,6 +1,13 @@
 import PostCard from "./post-card";
+import { getPostsMeta } from "@/lib/posts";
 
-export default function PostsSection({ posts }: { posts: any[] }) {
+
+
+export default async function PostsSection({ limit }: { limit: number }) {
+
+  const posts = await getPostsMeta();
+  if (!posts) return []
+
   return (
     <div className="rounded-2xl bg-gray-100 pt-12 sm:pt-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -14,7 +21,7 @@ export default function PostsSection({ posts }: { posts: any[] }) {
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
+            <PostCard slug={post.slug}  />
           ))}
         </div>
       </div>

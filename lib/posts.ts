@@ -5,8 +5,9 @@ import rehypeSlug from "rehype-slug";
 import Video from "@/app/_components/Video";
 
 type Filetree = {
-  tree: [
+  files: [
     {
+      name: string;
       path: string;
     }
   ];
@@ -16,7 +17,7 @@ export async function getPostByName(
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/posts/${fileName}`,
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -34,11 +35,12 @@ export async function getPostByName(
   const { frontmatter, content } = await compileMDX<{
     title: string;
     date: string;
+    image: string;
     tags: string[];
   }>({
     source: rawMDX,
     components: {
-      Video
+      Video,
     },
     options: {
       parseFrontmatter: true,
@@ -50,7 +52,7 @@ export async function getPostByName(
           [
             rehypeAutolinkHeadings,
             {
-              behavior: "wrap",
+              behavior: "prepend",
             },
           ],
         ],
@@ -65,6 +67,7 @@ export async function getPostByName(
       slug: slug,
       title: frontmatter.title,
       date: frontmatter.date,
+      image: frontmatter.image,
       tags: frontmatter.tags,
     },
     content,
@@ -75,7 +78,7 @@ export async function getPostByName(
 
 export async function getPostsMeta(): Promise<Meta[] | undefined> {
   const res = await fetch(
-    `https://api.github.com/repos/rlhatcher/rlhblog-content/git/trees/main?recursive=1`,
+    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts`,
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -89,9 +92,7 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
 
   const repoFiletree: Filetree = await res.json();
 
-  const filesArray = repoFiletree.tree
-    .map((obj) => obj.path)
-    .filter((path) => path.endsWith(".mdx"));
+ const filesArray =  repoFiletree.files?.map((obj) => obj.name).filter((name) => name.endsWith(".mdx"));
 
   const posts: Meta[] = [];
 
