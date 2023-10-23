@@ -13,16 +13,16 @@ export default function CoverImage({
   className,
 }: {
   title: string;
-  image: any;
+  image: string;
   slug?: string;
   className?: string | undefined;
 }) {
 
   const theImage = (
     <CldImage
-      width="3000"
-      height="2000"
-      src={image.public_id}
+      width="900"
+      height="1600"
+      src={image}
       sizes="100vw"
       alt="Description of my image"
       className={className}

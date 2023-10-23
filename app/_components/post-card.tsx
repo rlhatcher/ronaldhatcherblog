@@ -3,10 +3,8 @@ import CoverImage from './cover-image';
 import DateComponent from './date';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getPostByName } from '@/lib/posts';
 
-export default async function PostCard({ slug }: { slug: string }) {
-  const post = await getPostByName(`${slug}.mdx`);
+export default async function PostCard({ post }: { post: BlogPost }) {
 
   if (!post) notFound();
 
@@ -19,7 +17,6 @@ export default async function PostCard({ slug }: { slug: string }) {
 
   return (
     <article
-      key={post.meta.slug}
       className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
     >
       <CoverImage

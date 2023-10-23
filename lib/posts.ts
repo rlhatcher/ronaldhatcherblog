@@ -4,13 +4,9 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
 import Video from "@/app/_components/Video";
 
-type Filetree = {
-  files: [
-    {
-      name: string;
-      path: string;
-    }
-  ];
+type gitFile = {
+  name: string;
+  path: string;
 };
 
 export async function getPostByName(
@@ -76,7 +72,7 @@ export async function getPostByName(
   return BlogPostObj;
 }
 
-export async function getPostsMeta(): Promise<Meta[] | undefined> {
+export async function getPostsMeta(): Promise<BlogPost[] | undefined> {
   const res = await fetch(
     `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts`,
     {
@@ -90,19 +86,20 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
 
   if (!res.ok) return undefined;
 
-  const repoFiletree: Filetree = await res.json();
+  const repoFiletree: gitFile[] = await res.json();
 
- const filesArray =  repoFiletree.files?.map((obj) => obj.name).filter((name) => name.endsWith(".mdx"));
+  const filesArray = repoFiletree
+    .map((obj) => obj.name)
+    .filter((name) => name.endsWith(".mdx"));
 
-  const posts: Meta[] = [];
+  const posts: BlogPost[] = [];
 
   for (const file of filesArray) {
     const post = await getPostByName(file);
     if (post) {
-      const { meta } = post;
-      posts.push(meta);
+      posts.push(post);
     }
   }
 
-  return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
 }
