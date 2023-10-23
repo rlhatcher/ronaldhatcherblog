@@ -1,8 +1,9 @@
 import './globals.css'
 import { Inter, Red_Hat_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: `Ronald Hatcher`,
   description: `This is a blog.`,
 }

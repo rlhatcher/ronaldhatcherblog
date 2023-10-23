@@ -3,9 +3,9 @@ import typography from "@tailwindcss/typography";
 
 export default {
   content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./lib/**/*.{ts,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -18,5 +18,8 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [typography, require("@tailwindcss/aspect-ratio")],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 } satisfies Config;

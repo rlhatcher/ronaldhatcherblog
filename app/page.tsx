@@ -1,10 +1,12 @@
 import { draftMode } from "next/headers";
 import { getAllPosts } from "@/lib/api";
 import { getAllFeatures } from "@/lib/api";
-
+import Posts from "@/app/_components/Posts";
 import HeroSection from "./_components/hero-section";
 import PostsSection from "./_components/posts-section";
 import FeatureSection from "./_components/feature-section";
+
+export const revalidate = 10;
 
 function Intro() {
   return (
