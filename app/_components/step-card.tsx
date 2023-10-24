@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Step } from "../_types/types";
 import CoverImage from "./cover-image";
-import { Markdown } from "@/lib/markdown";
 
 interface StepProps {
   steps: Step[];

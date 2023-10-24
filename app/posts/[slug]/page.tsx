@@ -1,10 +1,6 @@
 import Link from "next/link";
-import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import 'highlight.js/styles/github-dark.css';
-import Avatar from "@/app/_components/avatar";
-// import Date from "@/app/_components/date";
-import CoverImage from "@/app/_components/cover-image";
 import TopNav from "@/app/_components/top-nav";
 
 import { getPostByName, getPostsMeta } from "@/lib/posts";

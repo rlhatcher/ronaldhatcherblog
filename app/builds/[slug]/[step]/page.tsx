@@ -1,7 +1,6 @@
 import CoverImage from "@/app/_components/cover-image";
 import { Build, Step } from "@/app/_types/types";
 import Link from "next/link";
-import { Markdown } from "@/lib/markdown";
 import { getStep } from "@/lib/api";
 import TopNav from "@/app/_components/top-nav";
 
@@ -29,7 +28,7 @@ export default async function BuildStepPage({
 
               <div className="max-w-2xl mx-auto">
                 <div className="prose">
-                  <Markdown content={theStep.content} />
+                  {/* <Markdown content={theStep.content} /> */}
                 </div>
               </div>
 
@@ -39,7 +38,7 @@ export default async function BuildStepPage({
 
               <div className="max-w-2xl mx-auto">
                 <div className="prose">
-                  <Markdown content={theStep.content} />
+                  {/* {content} */}
                 </div>
               </div>
             </div>

@@ -16,7 +16,6 @@ export default async function ProjectPage() {
             <ProjectCards limit={30} />
           </div>
         </div>
-
       </article>
     </div>
   );

@@ -1,17 +1,53 @@
-import { getBuildAndSteps } from "@/lib/api";
-import { Build, Step } from "@/app/_types/types";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import 'highlight.js/styles/github-dark.css';
 import TopNav from "@/app/_components/top-nav";
-import StepCard from "@/app/_components/step-card";
 
-export default async function BuildPage({
-  params,
-}: {
+import { getBuildByName, getBuildsMeta } from "@/lib/builds";
+
+export const revalidate = 10;
+
+type Props = {
   params: {
     slug: string;
   };
-}) {
-  const build = await getBuildAndSteps(params.slug, false);
+};
+
+export async function generateStaticParams() {
+  const allBuilds = await getBuildsMeta();
+
+  if (!allBuilds) return []
+
+  return allBuilds.map((build) => ({
+    slug: build.meta.slug,
+  }));
+}
+
+export async function generateMetadata({ params: { slug } }: Props) {
+  const build = await getBuildByName(`${slug}.mdx`);
+
+  if (!build) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  return {
+    title: build.meta.title,
+  };
+}
+
+export default async function BuildPage({ params: { slug } }: Props) {
+  const build = await getBuildByName(`${slug}.mdx`);
+
+  if (!build) notFound();
+
+  const { meta, content } = build;
+  const tags = meta.tags.map((tag, i) => (
+    <Link key={i} href={`/tags/${tag}`}>
+      {tag}
+    </Link>
+  ));
 
   return (
     <div className="container mx-auto px-5">
@@ -20,31 +56,24 @@ export default async function BuildPage({
           { href: "/", label: "Ω" },
           { href: "/builds", label: "Builds" },
         ]}
-        page={{ title: build.title }}
+        page={{ title: meta.title }}
       />
       <article>
-        <div className="bg-gray-100 rounded-2xl py-2 sm:pt-4">
-          <div className="mx-auto max-w-3xl lg:mx-0 ">
-            <div className="mx-auto max-w-2xl px-4 py-2 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
-              <div className="max-w-3xl">
-                <h2 id="features-heading" className="font-mono text-gray-500">
-                  <Link
-                    href={`/projects/${build.project.slug}`}
-                    className="hover:underline"
-                  >
-                    Project: {build.project?.title}
-                  </Link>
-                </h2>
-                <p className="mt-4 mb-4 text-gray-500 font-mono">{build.description}</p>
+        <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl lg:mx-0 ">
+              <div className="max-w-2xl mx-auto">
               </div>
-              <StepCard
-                steps={build.stepCollection.items}
-                buildSlug={build.slug}
-              />
+              <div className="max-w-2xl mx-auto">
+                <div className="px-2 md:px-4 prose prose-xl prose-slate mx-auto">
+                  {content}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </article>
+      <hr className="border-accent-2 mt-28 mb-24" />
     </div>
   );
 }
