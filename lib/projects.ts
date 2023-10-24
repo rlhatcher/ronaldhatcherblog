@@ -9,11 +9,11 @@ type gitFile = {
   path: string;
 };
 
-export async function getPostByName(
+export async function getProjectByName(
   fileName: string
-): Promise<BlogPost | undefined> {
+): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/posts/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/projects/${fileName}`,
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -58,7 +58,7 @@ export async function getPostByName(
 
   const slug = fileName.replace(/\.mdx$/, "");
 
-  const BlogPostObj: BlogPost = {
+  const ProjectObj: Project = {
     meta: {
       slug: slug,
       title: frontmatter.title,
@@ -69,12 +69,12 @@ export async function getPostByName(
     content,
   };
 
-  return BlogPostObj;
+  return ProjectObj;
 }
 
-export async function getPostsMeta(): Promise<BlogPost[] | undefined> {
+export async function getProjectsMeta(): Promise<Project[] | undefined> {
   const res = await fetch(
-    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts`,
+    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/projects`,
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -92,14 +92,14 @@ export async function getPostsMeta(): Promise<BlogPost[] | undefined> {
     .map((obj) => obj.name)
     .filter((name) => name.endsWith(".mdx"));
 
-  const posts: BlogPost[] = [];
+  const projects: Project[] = [];
 
   for (const file of filesArray) {
-    const post = await getPostByName(file);
-    if (post) {
-      posts.push(post);
+    const project = await getProjectByName(file);
+    if (project) {
+      projects.push(project);
     }
   }
 
-  return posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
+  return projects.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
 }
