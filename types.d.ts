@@ -15,3 +15,8 @@ type Project = {
     meta: Meta,
     content: ReactElement<any, string | JSXElementConstructor<any>>,
 }
+
+type Build = {
+    meta: Meta,
+    content: ReactElement<any, string | JSXElementConstructor<any>>,
+}
