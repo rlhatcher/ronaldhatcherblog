@@ -1,20 +1,13 @@
-"use client";
+'use client'
 
-import CoverImage from './cover-image';
-import DateComponent from './date';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import React from 'react'
+import CoverImage from './cover-image'
+import DateComponent from './date'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-export default async function PostCard({ post }: { post: BlogPost }) {
-
-  if (!post) notFound();
-
-  const { meta, content } = post;
-  const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`}>
-      {tag}
-    </Link>
-  ));
+export default async function PostCard ({ post }: { post: BlogPost }): Promise<React.JSX.Element> {
+  if (post == null) notFound()
 
   return (
     <article
@@ -47,5 +40,5 @@ export default async function PostCard({ post }: { post: BlogPost }) {
         </Link>
       </h3>
     </article>
-  );
+  )
 }

@@ -1,43 +1,41 @@
-"use client";
-import { CldImage } from "next-cloudinary";
-import Link from "next/link";
+'use client'
+import React from 'react'
+import { CldImage } from 'next-cloudinary'
+import Link from 'next/link'
 
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function CoverImage({
+export default function CoverImage ({
   title,
   image,
   slug,
-  className,
+  className
 }: {
-  title: string;
-  image: string;
-  slug?: string;
-  className?: string | undefined;
-}) {
-
+  title: string
+  image: string
+  slug?: string
+  className?: string | undefined
+}): React.JSX.Element {
   const theImage = (
     <CldImage
-      width="900"
-      height="1600"
+      width='900'
+      height='1600'
       src={image}
-      sizes="100vw"
-      alt="Description of my image"
+      sizes='100vw'
+      alt='Description of my image'
       className={className}
     />
-  );
+  )
 
   return (
-    <div className="sm:mx-0">
-      {slug ? (
+    <div className='sm:mx-0'>
+      {slug != null
+        ? (
         <Link href={`/posts/${slug}`} aria-label={title}>
           {theImage}
         </Link>
-      ) : (
-        theImage
-      )}
+          )
+        : (
+            theImage
+          )}
     </div>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import React from 'react';
-import Avatar from './avatar';
-import Link from 'next/link';
-import { Feature } from '../_types/types'
+import React from 'react'
+import Avatar from './avatar'
+import Link from 'next/link'
+import { type Feature } from '../_types/types'
 interface FeatureListProps {
-  features: Feature[];
+  features: Feature[]
 }
 
-function FeatureList({ features }: FeatureListProps) {
+export default function FeatureList ({ features }: FeatureListProps): React.JSX.Element {
   return (
     <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
       {features.map((feature) => {
@@ -21,10 +21,8 @@ function FeatureList({ features }: FeatureListProps) {
               </dd>
             </div>
           </Link>
-        );
+        )
       })}
     </dl>
-  );
+  )
 }
-
-export default FeatureList;

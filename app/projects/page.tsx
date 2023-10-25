@@ -1,15 +1,13 @@
-import Link from "next/link";
+import React from 'react'
+import ProjectCards from '@/app/_components/ProjectCards'
+import TopNav from '@/app/_components/top-nav'
 
-import ProjectCards from "@/app/_components/ProjectCards";
-import TopNav from "@/app/_components/top-nav";
-
-export default async function ProjectPage() {
-
+export default async function ProjectPage (): Promise<React.JSX.Element> {
   return (
     <div className="container mx-auto px-5">
       <TopNav links={[
-        { href: "/", label: "Ω" }]}
-        page={{ title: "Projects" }} />
+        { href: '/', label: 'Ω' }]}
+        page={{ title: 'Projects' }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -18,5 +16,5 @@ export default async function ProjectPage() {
         </div>
       </article>
     </div>
-  );
+  )
 }

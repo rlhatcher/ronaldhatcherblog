@@ -27,9 +27,9 @@ export default function RootLayout ({
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <html lang="en" className={ `${mono.variable} ${sans.variable}`}>
+    <html lang='en' className={`${mono.variable} ${sans.variable}`}>
       <body>
-        <section className="min-h-screen">
+        <section className='min-h-screen'>
           <main>{children}</main>
         </section>
         <Analytics />
