@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
-
+import StepCards
+  from '@/app/_components/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/lib/builds'
 
 export const revalidate = 10
@@ -76,6 +77,7 @@ export default async function BuildPage ({ params: { slug } }: Props): Promise<R
         </div>
       </article>
       <hr className='border-accent-2 mt-28 mb-24' />
+      <StepCards build={slug} />
     </div>
   )
 }
