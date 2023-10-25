@@ -1,25 +1,24 @@
-import CoverImage from "@/app/_components/cover-image";
-import { Build, Step } from "@/app/_types/types";
-import Link from "next/link";
-import { getStep } from "@/lib/api";
-import TopNav from "@/app/_components/top-nav";
+import React from 'react'
+import CoverImage from '@/app/_components/cover-image'
+import { getStep } from '@/lib/api'
+import TopNav from '@/app/_components/top-nav'
 
-export default async function BuildStepPage({
-  params,
+export default async function BuildStepPage ({
+  params
 }: {
   params: {
-    slug: string;
-    step: number;
-  };
-}) {
-  const build = await getStep(params.slug, params.step, false);
-  const theStep = build.stepCollection.items[0];
+    slug: string
+    step: number
+  }
+}): Promise<React.JSX.Element> {
+  const build = await getStep(params.slug, params.step, false)
+  const theStep = build.stepCollection.items[0]
   return (
     <div className="container mx-auto px-5">
       <TopNav links={[
-                { href: "/", label: "Ω" },
-                { href: "/builds", label: "Builds" },
-                { href: `/builds/${build.slug}`, label: build.title }]}
+        { href: '/', label: 'Ω' },
+        { href: '/builds', label: 'Builds' },
+        { href: `/builds/${build.slug}`, label: build.title }]}
               page={{ title: theStep.title }} />
       <article>
         <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
@@ -44,8 +43,8 @@ export default async function BuildStepPage({
             </div>
           </div>
         </div>
-      </article>{" "}
+      </article>{' '}
       <hr className="border-accent-2 mt-28 mb-24" />
     </div>
-  );
+  )
 }

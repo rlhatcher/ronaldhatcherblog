@@ -1,105 +1,105 @@
-import { compileMDX } from "next-mdx-remote/rsc";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeHighlight from "rehype-highlight";
-import rehypeSlug from "rehype-slug";
-import Video from "@/app/_components/Video";
+import { compileMDX } from 'next-mdx-remote/rsc'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeSlug from 'rehype-slug'
+import Video from '@/app/_components/Video'
 
-type gitFile = {
-  name: string;
-  path: string;
-};
+interface gitFile {
+  name: string
+  path: string
+}
 
-export async function getPostByName(
+export async function getPostByName (
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
     `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/posts/${fileName}`,
     {
       headers: {
-        Accept: "application/vnd.github+json",
+        Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
     }
-  );
-  if (!res.ok) return undefined;
+  )
+  if (!res.ok) return undefined
 
-  const rawMDX = await res.text();
+  const rawMDX = await res.text()
 
-  if (rawMDX === "404: Not Found") return undefined;
+  if (rawMDX === '404: Not Found') return undefined
 
   const { frontmatter, content } = await compileMDX<{
-    title: string;
-    date: string;
-    image: string;
-    tags: string[];
+    title: string
+    date: string
+    image: string
+    tags: string[]
   }>({
     source: rawMDX,
     components: {
-      Video,
+      Video
     },
     options: {
       parseFrontmatter: true,
       mdxOptions: {
         rehypePlugins: [
-          //@ts-ignore
+          // @ts-expect-error not sure
           rehypeHighlight,
           rehypeSlug,
           [
             rehypeAutolinkHeadings,
             {
-              behavior: "prepend",
-            },
-          ],
-        ],
-      },
-    },
-  });
+              behavior: 'prepend'
+            }
+          ]
+        ]
+      }
+    }
+  })
 
-  const slug = fileName.replace(/\.mdx$/, "");
+  const slug = fileName.replace(/\.mdx$/, '')
 
   const BlogPostObj: BlogPost = {
     meta: {
-      slug: slug,
+      slug,
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
-      tags: frontmatter.tags,
+      tags: frontmatter.tags
     },
-    content,
-  };
+    content
+  }
 
-  return BlogPostObj;
+  return BlogPostObj
 }
 
-export async function getPostsMeta(): Promise<BlogPost[] | undefined> {
+export async function getPostsMeta (): Promise<BlogPost[] | undefined> {
   const res = await fetch(
-    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts`,
+    'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts',
     {
       headers: {
-        Accept: "application/vnd.github+json",
+        Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
     }
-  );
+  )
 
-  if (!res.ok) return undefined;
+  if (!res.ok) return undefined
 
-  const repoFiletree: gitFile[] = await res.json();
+  const repoFiletree: gitFile[] = await res.json()
 
   const filesArray = repoFiletree
     .map((obj) => obj.name)
-    .filter((name) => name.endsWith(".mdx"));
+    .filter((name) => name.endsWith('.mdx'))
 
-  const posts: BlogPost[] = [];
+  const posts: BlogPost[] = []
 
   for (const file of filesArray) {
-    const post = await getPostByName(file);
-    if (post) {
-      posts.push(post);
+    const post = await getPostByName(file)
+    if (post != null) {
+      posts.push(post)
     }
   }
 
-  return posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
+  return posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1))
 }

@@ -2,7 +2,7 @@ import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPreviewPostBySlug } from '../../../lib/api'
 
-export async function GET(request: Request) {
+export async function GET (request: Request): Promise<Response> {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug')
@@ -11,13 +11,13 @@ export async function GET(request: Request) {
     return new Response('Invalid token', { status: 401 })
   }
 
-  if (!slug) {
+  if (slug == null) {
     return new Response('Invalid slug', { status: 401 })
   }
 
-  const post = await getPreviewPostBySlug(slug as string)
+  const post = await getPreviewPostBySlug(slug)
 
-  if (!post) {
+  if (post == null) {
     return new Response('Invalid slug', { status: 401 })
   }
 

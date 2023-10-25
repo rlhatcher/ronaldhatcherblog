@@ -1,60 +1,61 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import 'highlight.js/styles/github-dark.css';
-import TopNav from "@/app/_components/top-nav";
+import React from 'react'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import 'highlight.js/styles/github-dark.css'
+import TopNav from '@/app/_components/top-nav'
 
-import { getProjectByName, getProjectsMeta } from "@/lib/projects";
+import { getProjectByName, getProjectsMeta } from '@/lib/projects'
 
-export const revalidate = 10;
+export const revalidate = 10
 
-type Props = {
+interface Props {
   params: {
-    slug: string;
-  };
-};
-
-export async function generateStaticParams() {
-  const allProjects = await getProjectsMeta();
-
-  if (!allProjects) return []
-
-  return allProjects.map((project) => ({
-    slug: project.meta.slug,
-  }));
+    slug: string
+  }
 }
 
-export async function generateMetadata({ params: { slug } }: Props) {
-  const project = await getProjectByName(`${slug}.mdx`);
+export async function generateStaticParams (): Promise<Array<{ slug: string }>> {
+  const allProjects = await getProjectsMeta()
 
-  if (!project) {
+  if (allProjects == null) return []
+
+  return allProjects.map((project) => ({
+    slug: project.meta.slug
+  }))
+}
+
+export async function generateMetadata ({ params: { slug } }: Props): Promise<{ title: string }> {
+  const project = await getProjectByName(`${slug}.mdx`)
+
+  if (project == null) {
     return {
-      title: "Project Not Found",
-    };
+      title: 'Project Not Found'
+    }
   }
 
   return {
-    title: project.meta.title,
-  };
+    title: project.meta.title
+  }
 }
 
-export default async function ProjectPage({ params: { slug } }: Props) {
-  const project = await getProjectByName(`${slug}.mdx`);
+export default async function ProjectPage ({ params: { slug } }: Props): Promise<React.JSX.Element> {
+  const project = await getProjectByName(`${slug}.mdx`)
 
-  if (!project) notFound();
+  if (project == null) notFound()
 
-  const { meta, content } = project;
+  const { meta, content } = project
   const tags = meta.tags.map((tag, i) => (
     <Link key={i} href={`/tags/${tag}`}>
       {tag}
     </Link>
-  ));
+  ))
 
   return (
     <div className="container mx-auto px-5">
       <TopNav
         links={[
-          { href: "/", label: "Ω" },
-          { href: "/projects", label: "Projects" },
+          { href: '/', label: 'Ω' },
+          { href: '/projects', label: 'Projects' }
         ]}
         page={{ title: meta.title }}
       />
@@ -63,6 +64,7 @@ export default async function ProjectPage({ params: { slug } }: Props) {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-3xl lg:mx-0 ">
               <div className="max-w-2xl mx-auto">
+                {tags}
               </div>
               <div className="max-w-2xl mx-auto">
                 <div className="px-2 md:px-4 prose prose-xl prose-slate mx-auto">
@@ -75,5 +77,5 @@ export default async function ProjectPage({ params: { slug } }: Props) {
       </article>
       <hr className="border-accent-2 mt-28 mb-24" />
     </div>
-  );
+  )
 }

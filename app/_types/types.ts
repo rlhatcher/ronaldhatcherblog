@@ -1,57 +1,50 @@
-type Meta = {
-  id: string,
-  title: string,
-  date: string,
-  tags: string[],
-}
-
 export interface Feature {
-  name: string;
-  description: string;
-  href: string;
+  name: string
+  description: string
+  href: string
   icon: {
 
-    url: string;
-  };
+    url: string
+  }
 }
 
 export interface Project {
-  title: string;
-  overview: string;
-  images: string[];
-  slug: string;
+  title: string
+  overview: string
+  images: string[]
+  slug: string
   author?: {
-    name: string;
+    name: string
     picture: {
-      url: string;
-    };
-  };
+      url: string
+    }
+  }
 }
 
 export interface ProjectCardProps {
-  project: Project;
+  project: Project
 }
 
 export interface Build {
-  title: string;
+  title: string
   project: {
-    overview: string;
-    slug: string;
-    title: string;
-    images: string[];
-  };
+    overview: string
+    slug: string
+    title: string
+    images: string[]
+  }
   stepCollection: {
-    items: Step[];
-  };
-  slug: string;
-  description: string;
-  images: string[];
+    items: Step[]
+  }
+  slug: string
+  description: string
+  images: string[]
 }
 
 export interface Step {
-  step: number;
-  title: string;
-  description: any;
-  images: any[];
-  content: any;
+  step: number
+  title: string
+  description: any
+  images: any[]
+  content: any
 }
