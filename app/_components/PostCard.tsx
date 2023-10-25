@@ -1,3 +1,5 @@
+"use client";
+
 import CoverImage from './cover-image';
 import DateComponent from './date';
 import Link from 'next/link';
