@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import CoverImage from '@/app/_components/cover-image'
 
-export default async function BuildCard ({ build }: { build: Build }): Promise<React.JSX.Element> {
+export default function BuildCard ({ build }: { build: Build }): React.JSX.Element {
   if (build == null) notFound()
 
   return (

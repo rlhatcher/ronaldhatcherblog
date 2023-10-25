@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import CoverImage from '@/app/_components/cover-image'
 
-export default async function ProjectCard ({
+export default function ProjectCard ({
   project
 }: {
   project: Project
-}): Promise<React.JSX.Element> {
+}): React.JSX.Element {
   if (project == null) notFound()
 
   return (

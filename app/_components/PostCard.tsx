@@ -6,7 +6,7 @@ import DateComponent from './date'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export default async function PostCard ({ post }: { post: BlogPost }): Promise<React.JSX.Element> {
+export default function PostCard ({ post }: { post: BlogPost }): React.JSX.Element {
   if (post == null) notFound()
 
   return (

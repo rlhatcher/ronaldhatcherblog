@@ -1,7 +1,5 @@
 import React from 'react'
 import CoverImage from '@/app/_components/cover-image'
-import { Build, Step } from '@/app/_types/types'
-import Link from 'next/link'
 import { getStep } from '@/lib/api'
 import TopNav from '@/app/_components/top-nav'
 
@@ -12,7 +10,7 @@ export default async function BuildStepPage ({
     slug: string
     step: number
   }
-}) {
+}): Promise<React.JSX.Element> {
   const build = await getStep(params.slug, params.step, false)
   const theStep = build.stepCollection.items[0]
   return (

@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ["standard-with-typescript", "plugin:react/recommended"],
+  extends: ["standard-with-typescript", "plugin:react/recommended", "next/core-web-vitals"],
   overrides: [
     {
       env: {

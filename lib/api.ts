@@ -188,8 +188,8 @@ export async function getStep (
   const build = await fetchGraphQL(
     `query {
       buildCollection(where: { slug: "${slug}" }, preview: ${
-        isDraftMode ? 'true' : 'false'
-      }, limit: 1) {
+      isDraftMode ? 'true' : 'false'
+    }, limit: 1) {
         items {
           title
           project {
@@ -241,8 +241,8 @@ export async function getBuildAndSteps (
   const build = await fetchGraphQL(
     `query {
       buildCollection(where: { slug: "${slug}" }, preview: ${
-        isDraftMode ? 'true' : 'false'
-      }, limit: 1) {
+      isDraftMode ? 'true' : 'false'
+    }, limit: 1) {
         items {
           title
           project {
@@ -325,7 +325,7 @@ export async function getProject (slug: string, preview: boolean): Promise<any> 
   const entry = await fetchGraphQL(
     `query {
   projectCollection(where: { slug: "${slug}" }, limit: 1) {
-    	items {
+      items {
       title
       overview
       images
