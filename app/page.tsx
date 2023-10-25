@@ -1,12 +1,13 @@
-import { draftMode } from "next/headers";
-import { getAllFeatures } from "@/lib/api";
-import HeroSection from "./_components/hero-section";
-import PostsSection from "./_components/posts-section";
-import FeatureSection from "./_components/feature-section";
+import { draftMode } from 'next/headers'
+import { getAllFeatures } from '@/lib/api'
+import PostsSection from './_components/posts-section'
+import FeatureSection from './_components/feature-section'
 
-export const revalidate = 10;
+import React from 'react'
 
-function Intro() {
+export const revalidate = 10
+
+function Intro (): JSX.Element {
   return (
     <section className="flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-4 md:mb-4">
       <h1 className="text-3xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8">
@@ -16,12 +17,12 @@ function Intro() {
         Personal notes and projects.
       </h2>
     </section>
-  );
+  )
 }
 
-export default async function Page() {
-  const { isEnabled } = draftMode();
-  const allFeatures = await getAllFeatures(isEnabled);
+export default async function Page (): Promise<JSX.Element> {
+  const { isEnabled } = draftMode()
+  const allFeatures = await getAllFeatures(isEnabled)
 
   return (
     <div className="container mx-auto px-5">
@@ -37,5 +38,5 @@ export default async function Page() {
       </div>
       <PostsSection limit={3} />
     </div>
-  );
+  )
 }
