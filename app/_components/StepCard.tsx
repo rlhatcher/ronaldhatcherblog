@@ -28,7 +28,7 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
           className='h-12 w-12 flex-none rounded-full bg-gray-50'
         />
         <div className='min-w-0 flex-auto'>
-          <p className='text-sm font-semibold leading-6 text-gray-900'>
+          <p className='text-lg font-semibold leading-6 text-gray-900'>
             <a href={`/build/${build}/${step.meta.slug}`}>
               <span className='absolute inset-x-0 -top-px bottom-0' />
               {step.meta.title}
