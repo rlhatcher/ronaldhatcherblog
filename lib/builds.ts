@@ -11,7 +11,7 @@ interface gitFile {
 
 export async function getBuildByName (
   fileName: string
-): Promise<Project | undefined> {
+): Promise<Build | undefined> {
   const res = await fetch(
     `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/builds/${fileName}`,
     {
@@ -30,9 +30,12 @@ export async function getBuildByName (
 
   const { frontmatter, content } = await compileMDX<{
     title: string
+    slug: string
+    description: string
     date: string
     image: string
     tags: string[]
+    project: string
   }>({
     source: rawMDX,
     components: {
@@ -65,8 +68,8 @@ export async function getBuildByName (
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: '',
-      weight: 0
+      description: frontmatter.description,
+      project: frontmatter.project
     },
     content
   }

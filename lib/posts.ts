@@ -65,8 +65,7 @@ export async function getPostByName (
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: '',
-      weight: 0
+      description: ''
     },
     content
   }

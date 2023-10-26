@@ -1,10 +1,17 @@
 interface Meta {
-  slug: string
   title: string
+  slug: string
+  description: string
   date: string
   image: string
   tags: string[]
-  description: string
+}
+
+interface BuildMeta extends Meta {
+  project: string
+}
+
+interface StepMeta extends Meta {
   weight: number
 }
 
@@ -19,11 +26,11 @@ interface Project {
 }
 
 interface Build {
-  meta: Meta
+  meta: BuildMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
 interface Step {
-  meta: Meta
+  meta: StepMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }

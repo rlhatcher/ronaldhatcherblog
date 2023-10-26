@@ -65,8 +65,7 @@ export async function getProjectByName (
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: '',
-      weight: 0
+      description: ''
     },
     content
   }
