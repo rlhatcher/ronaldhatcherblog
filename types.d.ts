@@ -1,22 +1,29 @@
-type Meta = {
-    slug: string,
-    title: string,
-    date: string,
-    image: string,
-    tags: string[],
+interface Meta {
+  slug: string
+  title: string
+  date: string
+  image: string
+  tags: string[]
+  description: string
+  weight: number
 }
 
-type BlogPost = {
-    meta: Meta,
-    content: ReactElement<any, string | JSXElementConstructor<any>>,
+interface BlogPost {
+  meta: Meta
+  content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
-type Project = {
-    meta: Meta,
-    content: ReactElement<any, string | JSXElementConstructor<any>>,
+interface Project {
+  meta: Meta
+  content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
-type Build = {
-    meta: Meta,
-    content: ReactElement<any, string | JSXElementConstructor<any>>,
+interface Build {
+  meta: Meta
+  content: ReactElement<any, string | JSXElementConstructor<any>>
+}
+
+interface Step {
+  meta: Meta
+  content: ReactElement<any, string | JSXElementConstructor<any>>
 }

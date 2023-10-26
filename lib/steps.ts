@@ -9,11 +9,12 @@ interface gitFile {
   path: string
 }
 
-export async function getProjectByName (
+export async function getStepByName (
+  build: string,
   fileName: string
-): Promise<Project | undefined> {
+): Promise<Step | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/projects/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/builds/${build}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -33,6 +34,8 @@ export async function getProjectByName (
     date: string
     image: string
     tags: string[]
+    description: string
+    weight: number
   }>({
     source: rawMDX,
     components: {
@@ -58,25 +61,27 @@ export async function getProjectByName (
 
   const slug = fileName.replace(/\.mdx$/, '')
 
-  const ProjectObj: Project = {
+  const StepObj: Step = {
     meta: {
       slug,
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: '',
-      weight: 0
+      description: frontmatter.description,
+      weight: frontmatter.weight
     },
     content
   }
 
-  return ProjectObj
+  return StepObj
 }
 
-export async function getProjectsMeta (): Promise<Project[] | undefined> {
+export async function getStepsMeta (
+  build: string
+): Promise<Step[] | undefined> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/projects',
+    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/builds/${build}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -94,14 +99,14 @@ export async function getProjectsMeta (): Promise<Project[] | undefined> {
     .map((obj) => obj.name)
     .filter((name) => name.endsWith('.mdx'))
 
-  const projects: Project[] = []
+  const steps: Step[] = []
 
   for (const file of filesArray) {
-    const project = await getProjectByName(file)
-    if (project != null) {
-      projects.push(project)
+    const step = await getStepByName(build, file)
+    if (step != null) {
+      steps.push(step)
     }
   }
 
-  return projects.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1))
+  return steps.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1))
 }
