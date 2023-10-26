@@ -64,7 +64,9 @@ export async function getBuildByName (
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
-      tags: frontmatter.tags
+      tags: frontmatter.tags,
+      description: '',
+      weight: 0
     },
     content
   }
