@@ -1,5 +1,5 @@
 import React from 'react'
-import StepCard from './StepCard'
+import StepCard from '@/app/_components/StepCard'
 import { getStepsMeta } from '@/lib/steps'
 
 export default async function StepCards ({
@@ -7,14 +7,17 @@ export default async function StepCards ({
 }: {
   build: string
 }): Promise<React.JSX.Element | never[]> {
-  const steps = await getStepsMeta(build)
+  const steps: Step[] | undefined = await getStepsMeta(build)
   if (steps == null) return []
 
   return (
-    <div className='mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3'>
-      {steps.map((step) => (
-        <StepCard step={step} key={step.meta.slug} />
-      ))}
-    </div>
+      <ul
+        role='list'
+        className='divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl'
+      >
+        {steps.map((step, index) => (
+          <StepCard key={index} step={step} build={build} />
+        ))}
+      </ul>
   )
 }

@@ -4,6 +4,8 @@ interface Meta {
   date: string
   image: string
   tags: string[]
+  description: string
+  weight: number
 }
 
 interface BlogPost {

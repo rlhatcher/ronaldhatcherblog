@@ -34,6 +34,8 @@ export async function getStepByName (
     date: string
     image: string
     tags: string[]
+    description: string
+    weight: number
   }>({
     source: rawMDX,
     components: {
@@ -65,7 +67,9 @@ export async function getStepByName (
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
-      tags: frontmatter.tags
+      tags: frontmatter.tags,
+      description: frontmatter.description,
+      weight: frontmatter.weight
     },
     content
   }
