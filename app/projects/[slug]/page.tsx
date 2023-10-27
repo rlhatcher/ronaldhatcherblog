@@ -67,7 +67,7 @@ export default async function ProjectPage ({ params: { slug } }: Props): Promise
                 {tags}
               </div>
               <div className="max-w-2xl mx-auto">
-                <div className="px-2 md:px-4 prose prose-xl prose-slate mx-auto">
+                <div className="px-2 md:px-4 prose prose-slate mx-auto">
                   {content}
                 </div>
               </div>
