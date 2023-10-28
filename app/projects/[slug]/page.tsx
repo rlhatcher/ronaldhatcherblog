@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
+import Gallery from '@/app/_components/Gallery'
 
 import { getProjectByName, getProjectsMeta } from '@/lib/projects'
 
@@ -24,7 +25,9 @@ export async function generateStaticParams (): Promise<Array<{ slug: string }>> 
   }))
 }
 
-export async function generateMetadata ({ params: { slug } }: Props): Promise<{ title: string }> {
+export async function generateMetadata ({
+  params: { slug }
+}: Props): Promise<{ title: string }> {
   const project = await getProjectByName(`${slug}.mdx`)
 
   if (project == null) {
@@ -38,7 +41,9 @@ export async function generateMetadata ({ params: { slug } }: Props): Promise<{ 
   }
 }
 
-export default async function ProjectPage ({ params: { slug } }: Props): Promise<React.JSX.Element> {
+export default async function ProjectPage ({
+  params: { slug }
+}: Props): Promise<React.JSX.Element> {
   const project = await getProjectByName(`${slug}.mdx`)
 
   if (project == null) notFound()
@@ -51,7 +56,7 @@ export default async function ProjectPage ({ params: { slug } }: Props): Promise
   ))
 
   return (
-    <div className="container mx-auto px-5">
+    <div className='container mx-auto px-5'>
       <TopNav
         links={[
           { href: '/', label: 'Ω' },
@@ -60,22 +65,21 @@ export default async function ProjectPage ({ params: { slug } }: Props): Promise
         page={{ title: meta.title }}
       />
       <article>
-        <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl lg:mx-0 ">
-              <div className="max-w-2xl mx-auto">
-                {tags}
-              </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="px-2 md:px-4 prose prose-slate mx-auto">
+        <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
+          <div className='mx-auto max-w-7xl px-6 lg:px-8'>
+            <div className='mx-auto max-w-3xl lg:mx-0 '>
+              <div className='max-w-2xl mx-auto'>{tags}</div>
+              <div className='max-w-2xl mx-auto'>
+                <div className='px-2 md:px-4 prose prose-slate mx-auto'>
                   {content}
                 </div>
               </div>
+              <Gallery folder={meta.slug} />
             </div>
           </div>
         </div>
       </article>
-      <hr className="border-accent-2 mt-28 mb-24" />
+      <hr className='border-accent-2 mt-28 mb-24' />
     </div>
   )
 }

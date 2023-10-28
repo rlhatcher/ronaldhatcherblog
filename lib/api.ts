@@ -8,34 +8,6 @@ icon {
 }
 `
 
-const POST_GRAPHQL_FIELDS = `
-slug
-title
-images
-date
-author {
-  name
-  picture {
-    url
-  }
-}
-excerpt
-content {
-  json
-  links {
-    assets {
-      block {
-        sys {
-          id
-        }
-        url
-        description
-      }
-    }
-  }
-}
-`
-
 async function fetchGraphQL (query: string, preview = false): Promise<any> {
   return await fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,

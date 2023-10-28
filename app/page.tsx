@@ -20,7 +20,7 @@ function Intro (): JSX.Element {
 }
 
 export default async function Page (): Promise<JSX.Element> {
-  const allFeatures = await getAllFeatures(isEnabled)
+  const allFeatures = await getAllFeatures(false)
 
   return (
     <div className='container mx-auto px-5'>
