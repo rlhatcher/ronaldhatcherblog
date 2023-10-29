@@ -5,7 +5,9 @@ import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
 import StepCards from '@/app/_components/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/lib/builds'
-
+import CoverImage from '@/app/_components/cover-image'
+import Tag from '@/app/_components/Tag'
+import Gallery from '@/app/_components/Gallery'
 export const revalidate = 10
 
 interface Props {
@@ -50,7 +52,7 @@ export default async function BuildPage ({
   const { meta, content } = build
   const tags = meta.tags.map((tag, i) => (
     <Link key={i} href={`/tags/${tag}`}>
-      {tag}
+      <Tag label={tag} />
     </Link>
   ))
 
@@ -78,23 +80,32 @@ export default async function BuildPage ({
                   </h1>
                   Project:{' '}
                   <Link href={`/projects/${meta.project}`}>{meta.project}</Link>
-                  <p className='mt-6 text-xl leading-8 text-gray-700'>{tags}</p>
+                  <div className='mx-auto overflow-hidden'>
+                    <div className='-mx-px grid grid-cols-4 p-0 border-l border-gray-200 sm:mx-0 md:grid-cols-6 lg:grid-cols-6'>
+                      {tags}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className='-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden'>
+              <CoverImage
+                title={meta.title}
+                image={meta.image}
+                slug={slug}
+                className='rounded-2xl'
+              />
               <h1 className='py-2 text-3xl text-center tracking-tight text-gray-900 sm:text-4xl'>
                 Steps
               </h1>
               <StepCards build={slug} />
             </div>
             <div className='lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
-              <div className='lg:pr-4'>
-                <div className='max-w-xl prose text-base leading-7 text-gray-700 lg:max-w-lg'>
-                  {content}
-                </div>
+              <div className='max-w-xl prose text-base leading-7 text-gray-700 lg:max-w-lg'>
+                {content}
               </div>
             </div>
+            <Gallery tags={[meta.slug, 'build']} />
           </div>
         </div>
         <hr className='border-accent-2 mt-28 mb-24' />

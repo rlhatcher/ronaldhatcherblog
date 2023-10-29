@@ -1,4 +1,3 @@
-import { draftMode } from 'next/headers'
 import { getAllFeatures } from '@/lib/api'
 import PostsSection from './_components/posts-section'
 import FeatureSection from './_components/feature-section'
@@ -21,8 +20,7 @@ function Intro (): JSX.Element {
 }
 
 export default async function Page (): Promise<JSX.Element> {
-  const { isEnabled } = draftMode()
-  const allFeatures = await getAllFeatures(isEnabled)
+  const allFeatures = await getAllFeatures(false)
 
   return (
     <div className='container mx-auto px-5'>
