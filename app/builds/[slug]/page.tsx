@@ -7,6 +7,7 @@ import StepCards from '@/app/_components/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/lib/builds'
 import CoverImage from '@/app/_components/cover-image'
 import Tag from '@/app/_components/Tag'
+import Gallery from '@/app/_components/Gallery'
 export const revalidate = 10
 
 interface Props {
@@ -100,12 +101,11 @@ export default async function BuildPage ({
               <StepCards build={slug} />
             </div>
             <div className='lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
-              <div className='lg:pr-4'>
-                <div className='max-w-xl prose text-base leading-7 text-gray-700 lg:max-w-lg'>
-                  {content}
-                </div>
+              <div className='max-w-xl prose text-base leading-7 text-gray-700 lg:max-w-lg'>
+                {content}
               </div>
             </div>
+            <Gallery tags={[meta.slug, 'build']} />
           </div>
         </div>
         <hr className='border-accent-2 mt-28 mb-24' />

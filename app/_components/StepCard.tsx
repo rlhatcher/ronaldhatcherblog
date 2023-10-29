@@ -3,6 +3,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import Link from 'next/link'
 import CoverImage from '@/app/_components/cover-image'
+import Tag from '@/app/_components/Tag'
 
 interface Props {
   step: Step
@@ -12,7 +13,7 @@ interface Props {
 export default function StepCard ({ step, build }: Props): React.JSX.Element {
   const tags = step.meta.tags.map((tag, i) => (
     <Link key={i} href={`/tags/${tag}`}>
-      {tag}
+      <Tag label={tag} />
     </Link>
   ))
   return (

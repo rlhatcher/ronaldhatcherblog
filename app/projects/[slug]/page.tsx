@@ -74,7 +74,7 @@ export default async function ProjectPage ({
                   {content}
                 </div>
               </div>
-              <Gallery folder={meta.slug} />
+              <Gallery tags={[meta.slug, 'project']} />
             </div>
           </div>
         </div>

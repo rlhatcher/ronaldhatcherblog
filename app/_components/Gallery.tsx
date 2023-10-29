@@ -4,14 +4,15 @@ import React from 'react'
 import GalleryItem from './GalleryItem'
 
 interface GalleryProps {
-  folder: string
+  tags: string[]
 }
 
 export default async function Gallery ({
-  folder
+  tags
 }: GalleryProps): Promise<React.JSX.Element | never[]> {
   const res = await cloudinary.v2.search
-    .expression(`folder:${folder}/*`)
+    .expression(tags.join(' AND '))
+    .with_field('tags')
     .sort_by('public_id', 'desc')
     .max_results(400)
     .execute()
