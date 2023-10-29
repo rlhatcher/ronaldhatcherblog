@@ -11,9 +11,9 @@ export default function GalleryItem ({
   return (
     <div
       key={publicid}
-      className='group relative border-b border-r border-gray-200 p-4 sm:p-6'
+      className='group relative border-b border-r border-gray-200'
     >
-      <div className='aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75'>
+      <div className='overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75'>
         <CldImage
           width='960'
           height='600'

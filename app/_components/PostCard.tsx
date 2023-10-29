@@ -19,8 +19,8 @@ export default function PostCard ({ post }: { post: BlogPost }): React.JSX.Eleme
         image={post.meta.image}
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
-      <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-800 via-gray-800/20" />
+      <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-00/20" />
 
       <div className="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
         <DateComponent dateString={post.meta.date} />

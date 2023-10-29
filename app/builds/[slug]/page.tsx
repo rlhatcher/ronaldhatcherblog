@@ -5,6 +5,7 @@ import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
 import StepCards from '@/app/_components/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/lib/builds'
+import CoverImage from '@/app/_components/cover-image'
 
 export const revalidate = 10
 
@@ -83,6 +84,7 @@ export default async function BuildPage ({
               </div>
             </div>
             <div className='-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden'>
+              <CoverImage title={meta.title} image={meta.image} slug={slug} className='rounded-2xl'/>
               <h1 className='py-2 text-3xl text-center tracking-tight text-gray-900 sm:text-4xl'>
                 Steps
               </h1>
