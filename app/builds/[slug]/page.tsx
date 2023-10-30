@@ -72,7 +72,7 @@ export default async function BuildPage ({
             <div className='font-mono lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8'>
               <div className='lg:pr-4'>
                 <div className='lg:max-w-lg'>
-                  <div className='mt-4 grid  grid-cols-2 items-center gap-x-5 border border-gray-300 p-4'>
+                  <div className='mt-4 grid  grid-cols-2 items-center gap-x-5 border border-gray-300 p-4 rounded-xl'>
                   <div className='text-base font-semibold leading-7 col-span-2 pb-2'>
                     {meta.description}
                   </div>

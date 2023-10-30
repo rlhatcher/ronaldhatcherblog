@@ -3,6 +3,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import Video from '@/app/_components/Video'
+import CoverImage from '@/app/_components/cover-image'
 
 interface gitFile {
   name: string
@@ -39,7 +40,8 @@ export async function getBuildByName (
   }>({
     source: rawMDX,
     components: {
-      Video
+      Video,
+      CoverImage
     },
     options: {
       parseFrontmatter: true,
