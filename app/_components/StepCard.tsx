@@ -47,7 +47,7 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
       </div>
       <div className='flex shrink-0 items-center gap-x-4'>
         <div className='hidden sm:flex sm:flex-col sm:items-end'>
-          <p className='text-sm leading-6 text-gray-900'>{tags}</p>
+          <div className='text-sm leading-6 text-gray-900'>{tags}</div>
           <p className='mt-1 text-xs leading-5 text-gray-500'>Last seen </p>
         </div>
         <ChevronRightIcon
