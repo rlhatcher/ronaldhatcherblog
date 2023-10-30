@@ -69,15 +69,15 @@ export default async function BuildPage ({
       <div className='relative isolate overflow-hidden bg-white px-6 py-2 sm:py-2 lg:overflow-visible lg:px-0'>
         <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
           <div className='mx-auto grid max-w-2xl gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10'>
-            <div className='lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8'>
+            <div className='font-mono lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8'>
               <div className='lg:pr-4'>
                 <div className='lg:max-w-lg'>
-                  <p className='text-base font-mono font-semibold leading-7'>
+                  <div className='mt-4 grid  grid-cols-2 items-center gap-x-5 border border-gray-300 p-4'>
+                  <div className='text-base font-semibold leading-7 col-span-2 pb-2'>
                     {meta.description}
-                  </p>
-                  <div className='mt-4 grid grid-rows-3 grid-cols-2 items-center gap-x-5 border border-gray-300 p-4'>
+                  </div>
                     <div>Project</div>
-                    <div>
+                    <div className='font-bold'>
                       <Link href={`/projects/${meta.project}`}>
                         {meta.project}
                       </Link>
