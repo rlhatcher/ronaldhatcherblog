@@ -1,9 +1,7 @@
 import React from 'react'
 interface AvatarProps {
   name: string
-  picture: {
-    url: string
-  }
+  picture: string
 }
 
 export default function Avatar ({

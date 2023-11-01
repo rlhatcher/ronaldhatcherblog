@@ -66,7 +66,7 @@ export async function getFeatureByName (
   return FeatureObj
 }
 
-export async function getFeaturesMeta (): Promise<Feature[] | undefined> {
+export async function getFeaturesMeta (): Promise<Feature[]> {
   const res = await fetch(
     'https://api.github.com/repos/rlhatcher/rlhblog-content/contents',
     {
@@ -78,7 +78,7 @@ export async function getFeaturesMeta (): Promise<Feature[] | undefined> {
     }
   )
 
-  if (!res.ok) return undefined
+  if (!res.ok) return []
 
   const repoFiletree: gitFile[] = await res.json()
 
