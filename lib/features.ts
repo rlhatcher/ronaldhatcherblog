@@ -30,6 +30,7 @@ export async function getFeatureByName (
   if (rawMDX === '404: Not Found') return undefined
 
   const { frontmatter, content } = await compileMDX<{
+    name: string
     title: string
     icon: string
   }>({
@@ -58,7 +59,7 @@ export async function getFeatureByName (
 
   const FeatureObj: Feature = {
     title: frontmatter.title,
-    name: fileName.replace(/\.mdx$/, ''),
+    name: frontmatter.name,
     icon: frontmatter.icon,
     content
   }
