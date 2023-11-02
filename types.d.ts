@@ -1,3 +1,10 @@
+interface Feature {
+  name: string
+  title: string
+  icon: string
+  content: ReactElement<any, string | JSXElementConstructor<any>>
+}
+
 interface Meta {
   title: string
   slug: string

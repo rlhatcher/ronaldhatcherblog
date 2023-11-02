@@ -1,6 +1,5 @@
 import React from 'react'
-import FeatureList from './feature-list'
-import { type Feature } from '../_types/types'
+import FeatureItem from './FeatureItem'
 
 export default function FeatureSection ({
   features
@@ -16,7 +15,11 @@ export default function FeatureSection ({
           </h2>
         </div>
         <div className='mx-auto max-w-2xl sm:mt-4 mt-4 lg:max-w-none'>
-          <FeatureList features={features} />
+          <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3'>
+            {features.map((feature) => (
+              <FeatureItem feature={feature} key={feature.name} />
+            ))}
+          </dl>
         </div>
       </div>
     </div>
