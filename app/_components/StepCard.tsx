@@ -19,29 +19,29 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
   return (
     <li
       key={step.meta.slug}
-      className='relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6'
+      className='relative flex justify-between gap-x-2 px-4 py-5 hover:bg-gray-50 sm:px-6'
     >
-      <div className='flex min-w-0 gap-x-4'>
+      <div className='flex min-w-0'>
         <CoverImage
           title={step.meta.title}
           slug={step.meta.slug}
           image={step.meta.image}
-          className='h-12 w-12 flex-none rounded-full bg-gray-50'
+          className='h-12 w-12 flex-none bg-gray-50'
         />
         <div className='min-w-0 flex-auto'>
           <p className='text-lg font-semibold leading-6 text-gray-900'>
-            <a href={`/build/${build}/${step.meta.slug}`}>
+            <Link href={`/build/${build}/${step.meta.slug}`}>
               <span className='absolute inset-x-0 -top-px bottom-0' />
               {step.meta.title}
-            </a>
+            </Link>
           </p>
           <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-            <a
+            <Link
               href={`/build/${build}/${step.meta.slug}`}
               className='relative truncate hover:underline'
             >
               {step.meta.description}
-            </a>
+            </Link>
           </p>
         </div>
       </div>

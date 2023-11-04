@@ -66,26 +66,22 @@ export default async function BuildPage ({
         page={{ title: meta.title }}
       />
 
-      <div className='relative isolate overflow-hidden bg-white px-6 py-2 sm:py-2 lg:overflow-visible lg:px-0'>
-        <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
-          <div className='mx-auto grid max-w-2xl gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10'>
-            <div className='font-mono lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:gap-x-8 lg:px-8 sm:px-4'>
-              <div className='lg:max-w-lg'>
-                <div className='mt-4 grid grid-cols-2 items-center gap-x-5 border border-gray-300 p-4 rounded-xl'>
-                  <div className='text-base font-semibold leading-7 col-span-2 pb-2'>
-                    {meta.description}
-                  </div>
-                  <div>Project</div>
-                  <div className='font-bold'>
-                    <Link href={`/projects/${meta.project}`}>
-                      {meta.project}
-                    </Link>
-                  </div>
-                  <div>Tags</div>
-                  <div>{tags}</div>
-                  <div>launches</div>
-                  <div>launches</div>
+      <div className='relative isolate bg-white px-6 py-2 lg:px-0'>
+        <div className='bg-gray-100 rounded-2xl py-4 sm:px-4'>
+          <div className='mx-auto grid gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10'>
+            <div className='font-mono p-4'>
+              <div className='mt-4 grid grid-cols-2 items-center  border border-gray-300 p-4 rounded-xl'>
+                <div className='text-base font-semibold leading-7 col-span-2 pb-2'>
+                  {meta.description}
                 </div>
+                <div>Project</div>
+                <div className='font-bold'>
+                  <Link href={`/projects/${meta.project}`}>{meta.project}</Link>
+                </div>
+                <div>Tags</div>
+                <div>{tags}</div>
+                <div>launches</div>
+                <div>launches</div>
               </div>
             </div>
             <div className='sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden px-4'>
