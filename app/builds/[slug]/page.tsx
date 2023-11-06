@@ -7,7 +7,6 @@ import StepCards from '@/app/_components/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/lib/builds'
 import CoverImage from '@/app/_components/cover-image'
 import Tag from '@/app/_components/Tag'
-import Gallery from '@/app/_components/Gallery'
 export const revalidate = 10
 
 interface Props {
@@ -65,46 +64,47 @@ export default async function BuildPage ({
         ]}
         page={{ title: meta.title }}
       />
-
-      <div className='relative isolate bg-white px-6 py-2 lg:px-0'>
-        <div className='bg-gray-100 rounded-2xl py-4 sm:px-4'>
-          <div className='mx-auto grid gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10'>
-            <div className='font-mono p-4'>
-              <div className='mt-4 grid grid-cols-2 items-center  border border-gray-300 p-4 rounded-xl'>
-                <div className='text-base font-semibold leading-7 col-span-2 pb-2'>
-                  {meta.description}
-                </div>
-                <div>Project</div>
-                <div className='font-bold'>
-                  <Link href={`/projects/${meta.project}`}>{meta.project}</Link>
-                </div>
-                <div>Tags</div>
-                <div>{tags}</div>
-                <div>launches</div>
-                <div>launches</div>
-              </div>
+      <div>
+        <CoverImage
+          title={meta.title}
+          image={meta.image}
+          className='rounded-2xl'
+        />
+        <div className='mt-6'>
+          <dl className='grid grid-cols-1 sm:grid-cols-2'>
+            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0'>
+              <dt className='text-lg font-medium leading-6 text-gray-900'>
+                Project
+              </dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
+                {meta.project}
+              </dd>
             </div>
-            <div className='sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden px-4'>
-              <CoverImage
-                title={meta.title}
-                image={meta.image}
-                slug={slug}
-                className='rounded-2xl'
-              />
-              <h1 className='py-2 text-3xl text-center tracking-tight text-gray-900 sm:text-4xl'>
+            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0'>
+              <dt className='text-lg font-medium leading-6 text-gray-900'>
+                Tags
+              </dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
+                {tags}
+              </dd>
+            </div>
+            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0'>
+              <dt className='text-lg font-medium leading-6 text-gray-900'>
                 Steps
-              </h1>
+              </dt>
               <StepCards build={slug} />
             </div>
-            <div className='lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
-              <div className='max-w-xl prose text-base leading-7 text-gray-700 lg:max-w-lg'>
+
+            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0'>
+              <dt className='text-lg font-medium leading-6 text-gray-900'>
+                Overview
+              </dt>
+              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2 prose'>
                 {content}
-              </div>
+              </dd>
             </div>
-            <Gallery tags={[meta.slug, 'build']} />
-          </div>
+          </dl>
         </div>
-        <hr className='border-accent-2 mt-28 mb-24' />
       </div>
     </div>
   )
