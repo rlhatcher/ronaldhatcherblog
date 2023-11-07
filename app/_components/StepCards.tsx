@@ -11,13 +11,15 @@ export default async function StepCards ({
   if (steps == null) return []
 
   return (
+    <div className='overflow-hidden bg-white shadow sm:rounded-md'>
       <ul
         role='list'
-        className='divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl'
+        className='divide-y divide-gray-200'
       >
         {steps.map((step, index) => (
           <StepCard key={index} step={step} build={build} />
         ))}
       </ul>
+    </div>
   )
 }

@@ -94,7 +94,6 @@ export default async function BuildPage ({
               </dt>
               <StepCards build={slug} />
             </div>
-
             <div className='border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0'>
               <dt className='text-lg font-medium leading-6 text-gray-900'>
                 Overview
