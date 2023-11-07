@@ -3,6 +3,7 @@ import { getBuildsMeta } from '@/lib/builds'
 import { getStepsMeta, getStepByName } from '@/lib/steps'
 import TopNav from '@/app/_components/top-nav'
 import { notFound } from 'next/navigation'
+import CoverImage from '@/app/_components/cover-image'
 
 interface Props {
   params: {
@@ -52,6 +53,7 @@ export default async function StepPage ({
         page={{ title: theStep.meta.title }}
       />
       <article>
+        <CoverImage title='build' image={theStep.meta.image} />
         <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
           <div className='mx-auto max-w-7xl px-6 lg:px-8'>
             <div className='mx-auto max-w-3xl lg:mx-0 '>

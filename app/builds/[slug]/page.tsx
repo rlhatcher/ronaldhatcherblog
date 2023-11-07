@@ -76,9 +76,11 @@ export default async function BuildPage ({
               <dt className='text-lg font-medium leading-6 text-gray-900'>
                 Project
               </dt>
-              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
-                {meta.project}
-              </dd>
+              <Link href={`/projects/${meta.project}`}>
+                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2 hover:underline'>
+                  {meta.project}
+                </dd>
+              </Link>
             </div>
             <div className='border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0'>
               <dt className='text-lg font-medium leading-6 text-gray-900'>

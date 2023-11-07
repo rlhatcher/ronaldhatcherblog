@@ -30,14 +30,14 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
         />
         <div className='min-w-0 flex-auto'>
           <p className='text-lg font-semibold leading-6 text-gray-900'>
-            <Link href={`/build/${build}/${step.meta.slug}`}>
+            <Link href={`/builds/${build}/${step.meta.slug}`}>
               <span className='absolute inset-x-0 -top-px bottom-0' />
               {step.meta.title}
             </Link>
           </p>
           <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
             <Link
-              href={`/build/${build}/${step.meta.slug}`}
+              href={`/builds/${build}/${step.meta.slug}`}
               className='relative truncate hover:underline'
             >
               {step.meta.description}
