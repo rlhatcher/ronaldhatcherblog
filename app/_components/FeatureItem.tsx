@@ -18,17 +18,17 @@ export default function FeatureItem ({
             className='h-8 w-8 flex-none bg-gray-50'
           />
           <h2 className='flex-auto text-xl font-semibold leading-7 text-gray-900'>
-              {feature.title}
+            {feature.title}
           </h2>
         </dt>
         <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
-        <Link
-              key={feature.name}
-              href={`/${feature.name}`}
-              className='hover:underline'
-            >
-              <span className='absolute inset-0' />
-          {feature.content}
+          <Link
+            key={feature.name}
+            href={`/${feature.name}`}
+            className='hover:underline'
+          >
+            <span className='absolute inset-0' />
+            {feature.content}
           </Link>
         </dd>
       </div>

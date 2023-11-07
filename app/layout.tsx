@@ -29,9 +29,7 @@ export default function RootLayout ({
   return (
     <html lang='en' className={`${mono.variable} ${sans.variable}`}>
       <body>
-        <section className='min-h-screen'>
-          <main>{children}</main>
-        </section>
+        <main>{children}</main>
         <Analytics />
       </body>
     </html>

@@ -23,7 +23,7 @@ export default async function Page (): Promise<JSX.Element> {
   const allFeatures: Feature[] = await getFeaturesMeta()
 
   return (
-    <div className='container mx-auto px-5'>
+    <div className='container mx-auto sm:px-6 lg:px-8'>
       <Intro />
       <FeatureSection features={allFeatures} />
       <PostsSection limit={3} />

@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function Tag ({ label }: { label: string }): React.JSX.Element {
   return (
-    <div className='text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-gray-200 text-gray-700 rounded-full'>
+    <span className="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-900/100">
       {label}
-    </div>
+    </span>
   )
 }
