@@ -29,8 +29,10 @@ export default function RootLayout ({
   return (
     <html lang='en' className={`${mono.variable} ${sans.variable}`}>
       <body>
-        <GoogleAnalytics />
-        <main>{children}</main>
+        <main>
+          <GoogleAnalytics />
+          {children}
+        </main>
       </body>
     </html>
   )
