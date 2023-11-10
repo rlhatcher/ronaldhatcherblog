@@ -1,7 +1,7 @@
 import './globals.css'
 import React from 'react'
 import { Inter, Red_Hat_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/react'
+import GoogleAnalytics from './_components/GoogleAnalytics'
 import { type Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -29,8 +29,8 @@ export default function RootLayout ({
   return (
     <html lang='en' className={`${mono.variable} ${sans.variable}`}>
       <body>
+        <GoogleAnalytics />
         <main>{children}</main>
-        <Analytics />
       </body>
     </html>
   )
