@@ -55,16 +55,14 @@ export default async function BuildPage ({
     </Link>
   ))
 
+  const links = [
+    { href: '/', label: 'Ω' },
+    { href: '/builds', label: 'Builds' }
+  ]
   return (
     <div className='container mx-auto px-5'>
-      <TopNav
-        links={[
-          { href: '/', label: 'Ω' },
-          { href: '/builds', label: 'Builds' }
-        ]}
-        page={{ title: meta.title }}
-      />
-      <div>
+      <TopNav links={links} page={{ title: meta.title }} />
+      <div className='bg-gray-100 rounded-2xl p-4'>
         <CoverImage
           title={meta.title}
           image={meta.image}
