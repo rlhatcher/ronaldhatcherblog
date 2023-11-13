@@ -23,8 +23,8 @@ export default function ImagePage ({ params: { publicId } }: Props): React.JSX.E
     <article>
       <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
       <CldImage
-        width='1600'
-        height='1600'
+        width='600'
+        height='600'
         sizes='100vw'
         src={publicIdString}
         alt='Description of my image'
