@@ -22,8 +22,8 @@ export default function ImagePage ({
     <div className='container mx-auto px-5'>
       <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
         <CldImage
-          width='1600'
-          height='1600'
+          width='600'
+          height='600'
           sizes='100vw'
           src={publicIdString}
           alt='Description of my image'
