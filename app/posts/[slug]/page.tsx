@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
+import CoverImage from '@/app/_components/cover-image'
 
 import { getPostByName, getPostsMeta } from '@/lib/posts'
 
@@ -24,7 +25,9 @@ export async function generateStaticParams (): Promise<Array<{ slug: string }>> 
   }))
 }
 
-export async function generateMetadata ({ params: { slug } }: Props): Promise<{ title: string }> {
+export async function generateMetadata ({
+  params: { slug }
+}: Props): Promise<{ title: string }> {
   const post = await getPostByName(`${slug}.mdx`)
 
   if (post == null) {
@@ -38,7 +41,9 @@ export async function generateMetadata ({ params: { slug } }: Props): Promise<{ 
   }
 }
 
-export default async function PostPage ({ params: { slug } }: Props): Promise<React.JSX.Element> {
+export default async function PostPage ({
+  params: { slug }
+}: Props): Promise<React.JSX.Element> {
   const post = await getPostByName(`${slug}.mdx`)
 
   if (post == null) notFound()
@@ -50,33 +55,25 @@ export default async function PostPage ({ params: { slug } }: Props): Promise<Re
     </Link>
   ))
 
+  const links = [
+    { href: '/', label: 'Ω' },
+    { href: '/posts', label: 'Posts' }
+  ]
+
   return (
-    <div className="container mx-auto px-5">
-      <TopNav
-        links={[
-          { href: '/', label: 'Ω' },
-          { href: '/posts', label: 'Posts' }
-        ]}
-        page={{ title: meta.title }}
-      />
-      <article>
-        <div className="bg-gray-100 rounded-2xl py-4 sm:pt-4">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl lg:mx-0 ">
-              <div className="max-w-2xl mx-auto">
-                {tags}
-              </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="px-2 md:px-4 prose prose-slate mx-auto">
-                  {content}
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className='container mx-auto px-5'>
+      <TopNav links={links} page={{ title: meta.title }} />
+      <div className='bg-gray-100 rounded-2xl p-4'>
+        <CoverImage
+          title={meta.title}
+          image={meta.image}
+          className='rounded-2xl'
+        />
+        <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
+          {tags}
         </div>
-      </article>
-      <hr className="border-accent-2 mt-28 mb-24" />
-      {/* <MoreStories morePosts={morePosts} /> */}
+        <div className='prose prose-slate mx-auto'>{content}</div>
+      </div>
     </div>
   )
 }
