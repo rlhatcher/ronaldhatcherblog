@@ -11,7 +11,7 @@ export default async function PostsSection ({
   if (posts == null) return []
 
   return (
-    <div className='rounded-2xl bg-gray-100 pt-6 sm:pt-6 font-mono'>
+    <section className='rounded-2xl bg-gray-100 pt-6 sm:pt-6 font-mono'>
       <div className='mx-auto max-w-7xl px-6 lg:px-8'>
         <div className='mx-auto max-w-2xl text-center mb-2'>
           <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl'>
@@ -27,6 +27,6 @@ export default async function PostsSection ({
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

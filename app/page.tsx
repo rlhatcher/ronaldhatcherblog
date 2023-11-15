@@ -1,4 +1,3 @@
-import { getFeaturesMeta } from '@/lib/features'
 import PostsSection from './_components/posts-section'
 import FeatureSection from './_components/FeatureSection'
 
@@ -20,12 +19,10 @@ function Intro (): JSX.Element {
 }
 
 export default async function Page (): Promise<JSX.Element> {
-  const allFeatures: Feature[] = await getFeaturesMeta()
-
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <Intro />
-      <FeatureSection features={allFeatures} />
+      <FeatureSection />
       <PostsSection limit={3} />
     </div>
   )
