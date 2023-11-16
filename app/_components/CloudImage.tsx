@@ -22,7 +22,9 @@ export default function CloudImage ({
     <CldImage
       fill={true}
       src={image}
-      sizes='100vw'
+      sizes='(min-width: 60em) 24vw,
+      (min-width: 28em) 45vw,
+      100vw'
       alt='Description of my image'
       className={className}
     />
@@ -30,9 +32,7 @@ export default function CloudImage ({
 
   return zoom
     ? (
-    <div>
       <Link href={`/images/${image}`}>{theImage}</Link>
-    </div>
       )
     : (
         theImage

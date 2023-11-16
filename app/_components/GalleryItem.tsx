@@ -11,13 +11,10 @@ export default function GalleryItem ({
   return (
     <Link href={`/images/${publicid}`} className='group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80'>
         <CldImage
-          width='600'
-          height='600'
+          fill={true}
           sizes='(max-width: 480px) 100vw, 50vw'
-          crop='thumb'
           src={publicid}
           alt='Description of my image'
-          gravity='faces:auto'
           className='absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110'
         />
         <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50'></div>

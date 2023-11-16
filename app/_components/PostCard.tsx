@@ -18,15 +18,18 @@ export default function PostCard ({
       <CloudImage
         image={post.meta.image}
         zoom={false}
-        className='-z-10 object-cover'
+        className='absolute inset-0 -z-10 h-full w-full object-cover'
       />
-      <div className='absolute inset-0 -z-10 bg-gradient-to-t from-gray-800 via-gray-800/20' />
+      <div className='absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40' />
 
       <div className='flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300'>
         <DateComponent dateString={post.meta.date} />
       </div>
       <h3 className='mt-3 text-lg font-semibold leading-6 text-white'>
-        <Link href={`/posts/${post.meta.slug}`} className='hover:underline'>
+        <Link
+          href={`/posts/${post.meta.slug}`}
+          className='hover:underline'
+        >
           <span className='absolute inset-0' />
           {post.meta.title}
         </Link>
