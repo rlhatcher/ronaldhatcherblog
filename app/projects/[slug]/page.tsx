@@ -56,7 +56,7 @@ export default async function ProjectPage ({
   ))
 
   return (
-    <div className='container mx-auto px-5'>
+    <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav
         links={[
           { href: '/', label: 'Ω' },

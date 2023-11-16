@@ -1,5 +1,5 @@
 'use client'
-import { CldImage } from 'next-cloudinary'
+import CloudImage from '@/app/_components/CloudImage'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -19,18 +19,15 @@ export default function ImagePage ({
   }
 
   return (
-    <div className='container mx-auto px-5'>
-      <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
-        <CldImage
-          width='600'
-          height='600'
-          sizes='100vw'
-          src={publicIdString}
-          alt='Description of my image'
-          className='object-cover object-center px-2'
-          onClick={handleImageClick}
-        />
-      </div>
+    <div
+      className='h-screen w-screen absolute mx-auto px-5 bg-blue-100 rounded-2xl py-4 sm:pt-4'
+      onClick={handleImageClick}
+    >
+      <CloudImage
+        image={publicIdString}
+        alt='Description of my image'
+        className='object-contain object-center rounded-xl px-2'
+      />
     </div>
   )
 }

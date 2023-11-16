@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/_components/top-nav'
-import CoverImage from '@/app/_components/cover-image'
 
 import { getPostByName, getPostsMeta } from '@/lib/posts'
+import CloudImage from '@/app/_components/CloudImage'
 
 export const revalidate = 10
 
@@ -61,14 +61,16 @@ export default async function PostPage ({
   ]
 
   return (
-    <div className='container mx-auto px-5'>
+    <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: meta.title }} />
       <div className='bg-gray-100 rounded-2xl p-4'>
-        <CoverImage
-          title={meta.title}
-          image={meta.image}
-          className='rounded-2xl'
-        />
+        <div className='relative mx-auto'>
+          <CloudImage
+            title={meta.title}
+            image={meta.image}
+            className='object-contain object-center rounded-xl px-2'
+          />
+        </div>
         <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
           {tags}
         </div>
