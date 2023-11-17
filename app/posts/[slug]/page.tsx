@@ -6,6 +6,7 @@ import TopNav from '@/app/_components/top-nav'
 
 import { getPostByName, getPostsMeta } from '@/lib/posts'
 import CloudImage from '@/app/_components/CloudImage'
+import Tag from '@/app/_components/Tag'
 
 export const revalidate = 10
 
@@ -50,11 +51,10 @@ export default async function PostPage ({
 
   const { meta, content } = post
   const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`}>
-      {tag}
+    <Link key={i} href={`/tags/${tag}`} className='p-1'>
+      <Tag label={tag} />
     </Link>
   ))
-
   const links = [
     { href: '/', label: 'Ω' },
     { href: '/posts', label: 'Posts' }
@@ -63,12 +63,12 @@ export default async function PostPage ({
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: meta.title }} />
-      <div className='bg-gray-100 rounded-2xl p-4'>
-        <div className='relative mx-auto'>
+      <div className='bg-gray-100 rounded-2xl'>
+        <div>
           <CloudImage
             title={meta.title}
             image={meta.image}
-            className='object-contain object-center rounded-xl px-2'
+            className='rounded-xl mx-auto w-full'
           />
         </div>
         <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>

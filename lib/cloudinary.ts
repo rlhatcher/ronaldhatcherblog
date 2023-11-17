@@ -8,3 +8,48 @@ cloudinary.v2.config({
 })
 
 export default cloudinary
+
+export async function getMetaByPublicId (publicId: string): Promise<ImageMeta> {
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/ronaldhatcher/resources/image/upload/${publicId}`,
+    {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization:
+          'Basic ' +
+          Buffer.from(
+            process.env.CLOUDINARY_API_KEY +
+              ':' +
+              process.env.CLOUDINARY_API_SECRET
+          ).toString('base64')
+      }
+    }
+  )
+
+  const data = await res.json()
+  const imageMeta: ImageMeta = {
+    assetId: data.asset_id,
+    publicId: data.public_id,
+    format: data.format,
+    bytes: data.bytes,
+    width: data.width,
+    height: data.height,
+    url: data.url
+  }
+
+  return imageMeta
+}
+
+export async function getImagesByTag (tags: string[]): Promise<string[]> {
+  const res = await cloudinary.v2.search
+    .expression(tags.join(' AND '))
+    .with_field('tags')
+    .sort_by('public_id', 'desc')
+    .max_results(400)
+    .execute()
+  const assets: string[] = []
+  for (const result of res.resources) {
+    assets.push(result.public_id)
+  }
+  return assets
+}
