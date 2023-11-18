@@ -1,6 +1,6 @@
 import React from 'react'
 import ProjectCards from '@/app/_components/ProjectCards'
-import TopNav from '@/app/_components/top-nav'
+import TopNav from '@/app/_components/TopNav'
 
 export default function ProjectPage (): React.JSX.Element {
   const links: BreadCrumb[] = []

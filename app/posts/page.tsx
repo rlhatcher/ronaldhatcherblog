@@ -1,12 +1,9 @@
 import React from 'react'
-import TopNav from '@/app/_components/top-nav'
+import TopNav from '@/app/_components/TopNav'
 import PostCards from '../_components/PostCards'
-
+// fix my fat layout
 export default function PostsPage (): React.JSX.Element {
-  const links = [{
-    href: '/',
-    label: 'Ω'
-  }]
+  const links: BreadCrumb[] = []
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: 'Posts' }} />
