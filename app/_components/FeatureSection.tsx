@@ -5,7 +5,7 @@ import { IoHammerOutline, IoFlaskOutline, IoBookOutline } from 'react-icons/io5'
 
 export default function FeatureSection (): React.JSX.Element {
   return (
-    <section className='overflow-hidden bg-gray-100 shadow sm:rounded-lg mb-2'>
+    <section className='overflow-hidden bg-gray-100 shadow sm:rounded-lg mb-2 p-2'>
       <div className='px-4 sm:p-6'>
         <div className='mx-auto max-w-2xl lg:max-w-none'>
           <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-8 lg:max-w-none lg:grid-cols-3'>
