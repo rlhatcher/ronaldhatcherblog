@@ -5,6 +5,11 @@ interface Feature {
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
+interface BreadCrumb {
+  href: string
+  label: string
+}
+
 interface Meta {
   title: string
   slug: string

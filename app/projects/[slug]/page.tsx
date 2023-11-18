@@ -59,7 +59,6 @@ export default async function ProjectPage ({
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav
         links={[
-          { href: '/', label: 'Ω' },
           { href: '/projects', label: 'Projects' }
         ]}
         page={{ title: meta.title }}

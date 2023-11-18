@@ -56,7 +56,6 @@ export default async function PostPage ({
     </Link>
   ))
   const links = [
-    { href: '/', label: 'Ω' },
     { href: '/posts', label: 'Posts' }
   ]
 
@@ -74,7 +73,7 @@ export default async function PostPage ({
         <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
           {tags}
         </div>
-        <div className='prose prose-slate mx-auto'>{content}</div>
+        <div className='prose prose-slate mx-auto mt-2'>{content}</div>
       </div>
     </div>
   )
