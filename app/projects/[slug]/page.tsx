@@ -2,10 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
-import TopNav from '@/app/_components/top-nav'
-import Gallery from '@/app/_components/Gallery'
+import TopNav from '@/app/_components/TopNav'
 
 import { getProjectByName, getProjectsMeta } from '@/lib/projects'
+import Tag from '@/app/_components/Tag'
+import CloudImage from '@/app/_components/CloudImage'
 
 export const revalidate = 10
 
@@ -50,36 +51,32 @@ export default async function ProjectPage ({
 
   const { meta, content } = project
   const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`}>
-      {tag}
+    <Link key={i} href={`/tags/${tag}`} className='p-1'>
+      <Tag label={tag} />
     </Link>
   ))
 
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav
-        links={[
-          { href: '/', label: 'Ω' },
-          { href: '/projects', label: 'Projects' }
-        ]}
+        links={[{ href: '/projects', label: 'Projects' }]}
         page={{ title: meta.title }}
       />
-      <article>
-        <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
-          <div className='mx-auto max-w-7xl px-6 lg:px-8'>
-            <div className='mx-auto max-w-3xl lg:mx-0 '>
-              <div className='max-w-2xl mx-auto'>{tags}</div>
-              <div className='max-w-2xl mx-auto'>
-                <div className='px-2 md:px-4 prose prose-slate mx-auto'>
-                  {content}
-                </div>
-              </div>
-              <Gallery tags={[meta.slug, 'project']} />
-            </div>
-          </div>
+      <div className='bg-gray-100 rounded-2xl static'>
+        <div>
+          <CloudImage
+            title={meta.title}
+            image={meta.image}
+            className='rounded-xl mx-auto w-full'
+          />
         </div>
-      </article>
-      <hr className='border-accent-2 mt-28 mb-24' />
+        <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
+          {tags}
+        </div>
+        <div className='prose prose-slate mx-auto bg-white relative top-0 -mt-32 p-5 sm:p-10'>
+          {content}
+        </div>
+      </div>
     </div>
   )
 }

@@ -20,21 +20,19 @@ export default function CloudImage ({
 }): React.JSX.Element {
   const theImage = (
     <CldImage
-      fill={true}
+      height='600'
+      width='600'
+      crop='fill'
+      gravity='faces:auto'
       src={image}
-      sizes='(min-width: 60em) 24vw,
-      (min-width: 28em) 45vw,
+      sizes='(min-width: 480px ) 50vw,
+      (min-width: 728px) 33vw,
+      (min-width: 976px) 25vw,
       100vw'
       alt='Description of my image'
       className={className}
     />
   )
 
-  return zoom
-    ? (
-      <Link href={`/images/${image}`}>{theImage}</Link>
-      )
-    : (
-        theImage
-      )
+  return zoom ? <Link href={`/images/${image}`}>{theImage}</Link> : theImage
 }

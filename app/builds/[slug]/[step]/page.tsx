@@ -1,9 +1,9 @@
 import React from 'react'
 import { getBuildsMeta } from '@/lib/builds'
 import { getStepsMeta, getStepByName } from '@/lib/steps'
-import TopNav from '@/app/_components/top-nav'
+import TopNav from '@/app/_components/TopNav'
 import { notFound } from 'next/navigation'
-import CoverImage from '@/app/_components/cover-image'
+import CloudImage from '@/app/_components/CloudImage'
 
 interface Props {
   params: {
@@ -43,32 +43,27 @@ export default async function StepPage ({
 
   if (theStep == null) notFound()
   return (
-    <div className='container mx-auto px-5'>
+    <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav
         links={[
-          { href: '/', label: 'Ω' },
           { href: '/builds', label: 'Builds' },
           { href: `/builds/${slug}`, label: slug }
         ]}
         page={{ title: theStep.meta.title }}
       />
-      <article>
-        <CoverImage title='build' image={theStep.meta.image} />
-        <div className='bg-gray-100 rounded-2xl py-4 sm:pt-4'>
-          <div className='mx-auto max-w-7xl px-6 lg:px-8'>
-            <div className='mx-auto max-w-3xl lg:mx-0 '>
-              {/* <div className='max-w-2xl mx-auto'>{tags}</div> */}
-              <div className='max-w-2xl mx-auto'>
-                <div className='px-2 md:px-4 prose prose-slate mx-auto'>
-                  {theStep.content}
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className='bg-gray-100 rounded-2xl static'>
+        <div>
+          <CloudImage
+            title='build'
+            image={theStep.meta.image}
+            className='rounded-xl mx-auto w-full'
+          />
         </div>
-      </article>
-      <hr className='border-accent-2 mt-28 mb-24' />
-      {/* <MoreStories morePosts={morePosts} /> */}
+
+        <div className='prose prose-slate mx-auto bg-white relative top-0 -mt-32 p-5 sm:p-10'>
+          {theStep.content}
+        </div>
+      </div>
     </div>
   )
 }

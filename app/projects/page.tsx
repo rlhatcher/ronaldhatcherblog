@@ -1,12 +1,9 @@
 import React from 'react'
 import ProjectCards from '@/app/_components/ProjectCards'
-import TopNav from '@/app/_components/top-nav'
+import TopNav from '@/app/_components/TopNav'
 
 export default function ProjectPage (): React.JSX.Element {
-  const links = [{
-    href: '/',
-    label: 'Ω'
-  }]
+  const links: BreadCrumb[] = []
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: 'Projects' }} />

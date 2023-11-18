@@ -2,7 +2,7 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import Link from 'next/link'
-import CoverImage from '@/app/_components/cover-image'
+import CloudImage from './CloudImage'
 import Tag from '@/app/_components/Tag'
 
 interface Props {
@@ -22,7 +22,7 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
       className='relative flex justify-between gap-x-2 px-4 py-5 hover:bg-gray-50 sm:px-6'
     >
       <div className='flex min-w-0'>
-        <CoverImage
+        <CloudImage
           title={step.meta.title}
           slug={step.meta.slug}
           image={step.meta.image}
