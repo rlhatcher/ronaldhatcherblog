@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import Video from '@/app/_components/Video'
 import CloudImage from '@/app/_components/CloudImage'
+import Gallery from '@/app/_components/Gallery'
 
 interface gitFile {
   name: string
@@ -41,7 +42,8 @@ export async function getBuildByName (
     source: rawMDX,
     components: {
       Video,
-      CloudImage
+      CloudImage,
+      Gallery
     },
     options: {
       parseFrontmatter: true,

@@ -18,8 +18,8 @@ export default async function Gallery ({
   }
 
   return (
-    <div className='mx-auto max-w-screen-2xl px-4 md:px-8'>
-      <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8'>
+    <div className='mx-auto max-w-full px-4 md:px-8'>
+      <div className='grid gap-4 md:gap-6 xl:gap-8'>
         {metas.map((meta) => (
           <GalleryItem imageMeta={meta} key={meta.assetId} />
         ))}
