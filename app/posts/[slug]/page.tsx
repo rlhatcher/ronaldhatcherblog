@@ -51,9 +51,11 @@ export default async function PostPage ({
 
   const { meta, content } = post
   const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`} className='p-1'>
-      <Tag label={tag} />
-    </Link>
+    <div key={i} className='mb-2'>
+      <Link href={`/tags/${tag}`} className='p-1'>
+        <Tag label={tag} />
+      </Link>
+    </div>
   ))
 
   return (
@@ -70,10 +72,8 @@ export default async function PostPage ({
             className='rounded-xl mx-auto w-full'
           />
         </div>
-        <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
-          {tags}
-        </div>
-        <div className='prose prose-slate mx-auto bg-white relative top-0 -mt-32 p-5 sm:p-10'>
+        <div className='flex flex-col'>{tags}</div>
+        <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
           {content}
         </div>
       </div>

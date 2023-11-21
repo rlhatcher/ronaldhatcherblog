@@ -3,6 +3,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import Video from '@/app/_components/Video'
+import CloudImage from '@/app/_components/CloudImage'
 
 interface gitFile {
   name: string
@@ -36,7 +37,8 @@ export async function getPostByName (
   }>({
     source: rawMDX,
     components: {
-      Video
+      Video,
+      CloudImage
     },
     options: {
       parseFrontmatter: true,
