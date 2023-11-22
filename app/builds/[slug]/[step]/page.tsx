@@ -60,7 +60,7 @@ export default async function StepPage ({
           />
         </div>
 
-        <div className='prose prose-slate mx-auto bg-white relative top-0 -mt-32 p-5 sm:p-10'>
+        <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
           {theStep.content}
         </div>
       </div>

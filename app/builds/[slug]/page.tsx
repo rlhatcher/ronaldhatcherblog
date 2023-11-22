@@ -92,7 +92,7 @@ export default async function BuildPage ({
           <div className='border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0'>
             <StepCards build={slug} />
           </div>
-          <div className='border-t border-gray-100 mx-auto sm:col-span-2 sm:px-0'>
+          <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
             {content}
           </div>
         </div>

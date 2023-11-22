@@ -73,7 +73,7 @@ export default async function ProjectPage ({
         <div className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
           {tags}
         </div>
-        <div className='prose prose-slate mx-auto bg-white relative top-0 -mt-32 p-5 sm:p-10'>
+        <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
           {content}
         </div>
       </div>
