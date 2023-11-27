@@ -10,6 +10,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.458.0",
     "@headlessui/react": "^1.7.17",
     "@tailwindcss/typography": "0.5.10",
     "@types/node": "^20.9.0",
