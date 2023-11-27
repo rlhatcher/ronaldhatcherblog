@@ -2,6 +2,7 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
+import remarkGfm from 'remark-gfm'
 import Video from '@/app/_components/Video'
 import CloudImage from '@/app/_components/CloudImage'
 import Gallery from '@/app/_components/Gallery'
@@ -45,6 +46,7 @@ export async function getProjectByName (
     options: {
       parseFrontmatter: true,
       mdxOptions: {
+        remarkPlugins: [[remarkGfm]],
         rehypePlugins: [
           // @ts-expect-error not sure
           rehypeHighlight,
