@@ -1,6 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
 import { getBucketFiles } from '@/lib/documents'
-import DocCard from './DocCard'
 
 export default async function DocCards ({
   limit
@@ -13,7 +13,9 @@ export default async function DocCards ({
   return (
     <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
       {files.map((file) => (
-        <DocCard file={file} key={file.key} />
+        <Link href={`/documents/${file.key}`} key={file.key}>
+          {file.key}
+        </Link>
       ))}
     </div>
   )
