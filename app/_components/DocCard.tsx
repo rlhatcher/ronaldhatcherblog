@@ -8,14 +8,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString()
 
 interface PdfViewerProps {
-  file: PublishedDoc
+  fileData: string
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ file }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({ fileData }) => {
   return (
     <div>
-      <Document file={file.url} className='pdf-document'>
-        <Page pageNumber={1} />
+      <Document file={fileData} className='pdf-document'>
+        <Page pageNumber={5} />
       </Document>
     </div>
   )

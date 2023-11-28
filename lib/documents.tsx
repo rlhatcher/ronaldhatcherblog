@@ -1,4 +1,5 @@
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3'
+import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3'
+import { type Readable } from 'stream'
 
 const bucketName = process.env.AWS_BUCKET_NAME
 const region = process.env.AWS_REGION
@@ -12,6 +13,30 @@ const s3Client = new S3Client({
     secretAccessKey: secretAccessKey ?? ''
   }
 })
+
+async function streamToBuffer (stream: Readable): Promise<Buffer> {
+  const chunks: Buffer[] = []
+  for await (const chunk of stream) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
+  }
+  return Buffer.concat(chunks)
+}
+
+export async function getFileString (objectKey: string): Promise<string> {
+  const getObjectParams = {
+    Bucket: bucketName,
+    Key: objectKey
+  }
+
+  const command = new GetObjectCommand(getObjectParams)
+  const response = await s3Client.send(command)
+
+  const pdfBuffer = await streamToBuffer(response.Body as Readable)
+  const pdfBase64 = pdfBuffer.toString('base64')
+
+  // Prepend the necessary prefix for a data URL of a PDF
+  return `data:application/pdf;base64,${pdfBase64}`
+}
 
 export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
   const command = new ListObjectsV2Command({ Bucket: bucketName })
