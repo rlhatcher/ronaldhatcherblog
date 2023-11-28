@@ -2,7 +2,16 @@ import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3'
 
 const bucketName = process.env.AWS_BUCKET_NAME
 const region = process.env.AWS_REGION
-const s3Client = new S3Client({ region })
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+
+const s3Client = new S3Client({
+  region,
+  credentials: {
+    accessKeyId: accessKeyId ?? '',
+    secretAccessKey: secretAccessKey ?? ''
+  }
+})
 
 export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
   const command = new ListObjectsV2Command({ Bucket: bucketName })
