@@ -1,8 +1,9 @@
-interface Feature {
+interface PublishedDoc {
+  key: string
+  url: string
   name: string
-  title: string
-  icon: string
-  content: ReactElement<any, string | JSXElementConstructor<any>>
+  date: Date
+  size: number
 }
 
 interface BreadCrumb {

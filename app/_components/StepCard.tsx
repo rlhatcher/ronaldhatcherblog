@@ -1,5 +1,4 @@
 'use client'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import Link from 'next/link'
 import CloudImage from './CloudImage'
@@ -50,10 +49,10 @@ export default function StepCard ({ step, build }: Props): React.JSX.Element {
           <div className='text-sm leading-6 text-gray-900'>{tags}</div>
           <p className='mt-1 text-xs leading-5 text-gray-500'>Last seen </p>
         </div>
-        <ChevronRightIcon
+        {/* <ChevronRightIcon
           className='h-5 w-5 flex-none text-gray-400'
           aria-hidden='true'
-        />
+        /> */}
       </div>
     </li>
   )
