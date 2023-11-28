@@ -1,7 +1,6 @@
 interface PublishedDoc {
   key: string
   url: string
-  name: string
   date: Date
   size: number
 }

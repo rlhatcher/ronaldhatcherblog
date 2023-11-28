@@ -15,7 +15,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileData }) => {
   return (
     <div>
       <Document file={fileData} className='pdf-document'>
-        <Page pageNumber={5} />
+        <Page pageNumber={1} />
       </Document>
     </div>
   )
