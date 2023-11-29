@@ -15,7 +15,14 @@ export default async function DocCards ({
       {files.map((file) => {
         return (
           <Link href={`/documents/${file.objectKey}`} key={file.objectKey}>
-            {file.objectKey}
+            {file.objectKey
+              .replace(/-/g, ' ')
+              .replace(
+                /\w\S*/g,
+                (text) =>
+                  text.charAt(0).toUpperCase() +
+                  text.slice(1).toLocaleLowerCase()
+              )}
           </Link>
         )
       })}

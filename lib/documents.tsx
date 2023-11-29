@@ -1,4 +1,8 @@
-import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3'
+import {
+  S3Client,
+  ListObjectsV2Command,
+  GetObjectCommand
+} from '@aws-sdk/client-s3'
 import { type Readable } from 'stream'
 
 const bucketName = process.env.AWS_BUCKET_NAME
@@ -54,5 +58,7 @@ export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
     return doc
   }).filter((doc): doc is PublishedDoc => doc != null)
 
-  return filesList
+  return filesList != null
+    ? filesList.sort((a, b) => (a.objectKey < b.objectKey ? -1 : 1))
+    : []
 }

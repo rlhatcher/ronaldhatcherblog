@@ -7,7 +7,9 @@ interface Props {
   }
 }
 
-export async function generateStaticParams (): Promise<Array<{ objectKey: string }>> {
+export async function generateStaticParams (): Promise<
+Array<{ objectKey: string }>
+> {
   const files = await getBucketFiles()
 
   if (files != null) {
