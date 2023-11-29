@@ -1,5 +1,6 @@
 import { getBucketFiles, getFileString } from '@/lib/documents'
 import PdfViewer from '@/app/_components/PdfViewer'
+import TopNav from '@/app/_components/TopNav'
 
 interface Props {
   params: {
@@ -25,8 +26,12 @@ export default async function PdfPage ({
   const pdfData: string = await getFileString(objectKey)
 
   return (
-    <div className='h-screen w-screen mx-auto px-5 bg-blue-100 rounded-2xl py-4 sm:pt-4'>
-      <PdfViewer key={objectKey} pdfData={pdfData} />
+    <div className='mx-auto sm:px-6 lg:px-8'>
+      <TopNav
+        links={[{ href: '/documents', label: 'Documents' }]}
+        page={{ title: objectKey }}
+      />
+        <PdfViewer key={objectKey} pdfData={pdfData} />
     </div>
   )
 }
