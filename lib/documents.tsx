@@ -1,4 +1,8 @@
-import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3'
+import {
+  S3Client,
+  ListObjectsV2Command,
+  GetObjectCommand
+} from '@aws-sdk/client-s3'
 import { type Readable } from 'stream'
 
 const bucketName = process.env.AWS_BUCKET_NAME
@@ -46,14 +50,15 @@ export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
     if (file.Key == null) {
       return null
     }
-    const key = file.Key
-    const url = `https://${bucketName}.s3.${region}.amazonaws.com/${key}`
-    const name = key?.split('/')[1]
+    const objectKey = file.Key
+    const url = `https://${bucketName}.s3.${region}.amazonaws.com/${objectKey}`
     const date = file.LastModified ?? new Date('1999-06-23')
     const size = file.Size ?? 0
-    const doc: PublishedDoc = { key, url, name, date, size }
+    const doc: PublishedDoc = { objectKey, url, date, size }
     return doc
   }).filter((doc): doc is PublishedDoc => doc != null)
 
-  return filesList
+  return filesList != null
+    ? filesList.sort((a, b) => (a.objectKey < b.objectKey ? -1 : 1))
+    : []
 }

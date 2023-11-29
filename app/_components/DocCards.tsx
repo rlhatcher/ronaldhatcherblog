@@ -5,18 +5,27 @@ import { getBucketFiles } from '@/lib/documents'
 export default async function DocCards ({
   limit
 }: {
-  limit: number
+  limit?: number
 }): Promise<React.JSX.Element | never[]> {
   const files = await getBucketFiles()
   if (files == null) return []
 
   return (
     <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
-      {files.map((file) => (
-        <Link href={`/documents/${file.key}`} key={file.key}>
-          {file.key}
-        </Link>
-      ))}
+      {files.map((file) => {
+        return (
+          <Link href={`/documents/${file.objectKey}`} key={file.objectKey}>
+            {file.objectKey
+              .replace(/-/g, ' ')
+              .replace(
+                /\w\S*/g,
+                (text) =>
+                  text.charAt(0).toUpperCase() +
+                  text.slice(1).toLocaleLowerCase()
+              )}
+          </Link>
+        )
+      })}
     </div>
   )
 }
