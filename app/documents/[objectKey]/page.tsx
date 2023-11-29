@@ -10,9 +10,11 @@ interface Props {
 export async function generateStaticParams (): Promise<Array<{ objectKey: string }>> {
   const files = await getBucketFiles()
 
-  if (files == null) return []
-
-  return files.map((pdf) => ({ objectKey: pdf.objectKey }))
+  if (files != null) {
+    return files.map((pdf) => ({ objectKey: pdf.objectKey }))
+  } else {
+    return []
+  }
 }
 
 export default async function PdfPage ({
