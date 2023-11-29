@@ -2,19 +2,19 @@
 import React from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 
+interface Props {
+  pdfData: string
+}
+
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
   import.meta.url
 ).toString()
 
-interface PdfViewerProps {
-  fileData: string
-}
-
-const PdfViewer: React.FC<PdfViewerProps> = ({ fileData }) => {
+const PdfViewer: React.FC<Props> = ({ pdfData }) => {
   return (
     <div>
-      <Document file={fileData} className='pdf-document'>
+      <Document file={pdfData} className='pdf-document'>
         <Page pageNumber={1} />
       </Document>
     </div>

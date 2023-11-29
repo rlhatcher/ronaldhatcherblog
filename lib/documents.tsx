@@ -46,11 +46,11 @@ export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
     if (file.Key == null) {
       return null
     }
-    const key = file.Key
-    const url = `https://${bucketName}.s3.${region}.amazonaws.com/${key}`
+    const objectKey = file.Key
+    const url = `https://${bucketName}.s3.${region}.amazonaws.com/${objectKey}`
     const date = file.LastModified ?? new Date('1999-06-23')
     const size = file.Size ?? 0
-    const doc: PublishedDoc = { key, url, date, size }
+    const doc: PublishedDoc = { objectKey, url, date, size }
     return doc
   }).filter((doc): doc is PublishedDoc => doc != null)
 
