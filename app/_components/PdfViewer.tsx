@@ -47,35 +47,35 @@ const PdfViewer: React.FC<Props> = ({ pdfData }) => {
   }
 
   return (
-    <>
-      <Nav pageNumber={pageNumber} numPages={numPages} />
+    <div className='grid grid-cols-9'>
+      <aside className='self-start sticky top-0 col-span-1'>
+        <Nav pageNumber={pageNumber} numPages={numPages} />
+        <button
+          onClick={goToPreviousPage}
+          disabled={pageNumber <= 1}
+          className='relative px-2 py-6 text-gray-400 hover:text-gray-900 focus:z-20'
+        >
+          <span className='sr-only'>Previous</span>
+          <GrLinkPrevious className='h-10 w-10' aria-hidden='true' />
+        </button>
+        <button
+          onClick={goToNextPage}
+          disabled={pageNumber >= numPages}
+          className='relative px-2 py-6 text-gray-400 hover:text-gray-900 focus:z-20'
+        >
+          <span className='sr-only'>Next</span>
+          <GrLinkNext className='h-10 w-10' aria-hidden='true' />
+        </button>
+      </aside>
+      <main className="col-span-8">
       <div
         hidden={loading}
         style={{ height: 'calc(100vh - 64px)' }}
         className='flex items-center'
       >
         <div
-          className={
-            'flex items-center justify-between absolute z-10 px-2'
-          }
-        >
-          <button
-            onClick={goToPreviousPage}
-            disabled={pageNumber <= 1}
-            className='relative h-[calc(100vh - 64px)] px-2 py-24 text-gray-400 hover:text-gray-900 focus:z-20'
-          >
-            <span className='sr-only'>Previous</span>
-            <GrLinkPrevious className='h-10 w-10' aria-hidden='true' />
-          </button>
-          <button
-            onClick={goToNextPage}
-            disabled={pageNumber >= numPages}
-            className='relative h-[calc(100vh - 64px)] px-2 py-24 text-gray-400 hover:text-gray-900 focus:z-20'
-          >
-            <span className='sr-only'>Next</span>
-            <GrLinkNext className='h-10 w-10' aria-hidden='true' />
-          </button>
-        </div>
+          className={'flex items-center justify-between absolute z-10 px-2'}
+        ></div>
 
         <div className='h-full flex justify-center mx-auto'>
           <Document
@@ -100,7 +100,8 @@ const PdfViewer: React.FC<Props> = ({ pdfData }) => {
           </Document>
         </div>
       </div>
-    </>
+      </main>
+    </div>
   )
 }
 
@@ -114,11 +115,11 @@ function Nav ({
   numPages: number
 }): JSX.Element {
   return (
-    <nav className='w-fit'>
-      <div className='mx-auto px-2 sm:px-6 lg:px-8'>
+    <nav className=''>
+      <div className='px-2 sm:px-6 lg:px-8'>
         <div className='bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium'>
           <span>{pageNumber}</span>
-          <span className='text-gray-400'> / {numPages}</span>
+          <span className='text-gray-400'>/{numPages}</span>
         </div>
       </div>
     </nav>

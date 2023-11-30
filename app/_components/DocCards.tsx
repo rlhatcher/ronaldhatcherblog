@@ -14,7 +14,7 @@ export default async function DocCards ({
     <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
       {files.map((file) => {
         return (
-          <Link href={`/documents/${file.objectKey}`} key={file.objectKey}>
+          <Link href={`/documents/${file.objectKey}`} key={file.objectKey} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'>
             {file.objectKey
               .replace(/-/g, ' ')
               .replace(
