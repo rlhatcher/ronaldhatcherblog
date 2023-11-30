@@ -1,6 +1,6 @@
 import PostsSection from './_components/posts-section'
 import FeatureSection from './_components/FeatureSection'
-
+import { RegisterLink, LoginLink } from '@kinde-oss/kinde-auth-nextjs/server'
 import React from 'react'
 
 export const revalidate = 10
@@ -21,6 +21,8 @@ function Intro (): JSX.Element {
 export default async function Page (): Promise<JSX.Element> {
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
+      <LoginLink>Sign in</LoginLink>
+      <RegisterLink>Sign up</RegisterLink>
       <Intro />
       <FeatureSection />
       <PostsSection limit={3} />
