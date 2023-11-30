@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import Image from 'next/image'
 
 export default function ProfilePage (): React.JSX.Element {
   const {
@@ -9,6 +10,7 @@ export default function ProfilePage (): React.JSX.Element {
   } = useKindeBrowserClient()
 
   if (isLoading === true) return <div>Loading...</div>
+  const image = (user?.picture != null) ? user?.picture : 'https://via.placeholder.com/50'
 
   return (
 
@@ -55,10 +57,10 @@ export default function ProfilePage (): React.JSX.Element {
             </div>
             <div className='pt-6 sm:flex'>
               <dt className='font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6'>
-                Title
+                Image
               </dt>
               <dd className='mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto'>
-                <div className='text-gray-900'>{user?.picture}</div>
+                <Image src={image} alt='Profile Picture' width={50} height={50} className='rounded-full' />
                 <button
                   type='button'
                   className='font-semibold text-indigo-600 hover:text-indigo-500'
