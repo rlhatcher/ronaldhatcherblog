@@ -14,7 +14,7 @@ const TopNav: React.FC<Props> = ({ links, page }) => {
   return (
     <section className='flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2'>
       <h1 className='text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8'>
-      <span className='flex'>
+        <span className='flex'>
           {breadcrumbs.map((link, index) => (
             <React.Fragment key={index}>
               <Link href={link.href} className='hover:underline'>
