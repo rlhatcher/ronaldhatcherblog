@@ -12,11 +12,8 @@ function Intro (): JSX.Element {
       <h1 className='text-3xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8'>
         Ronald Hatcher.
       </h1>
-      <div>
-        <LoginLink><MdOutlineManageAccounts className='text-2xl'/></LoginLink>
-      </div>
       <h2 className='text-center md:text-left text-xl mt-2 md:pl-8'>
-        Personal notes and projects.
+        Personal notes and projects.<LoginLink><MdOutlineManageAccounts /></LoginLink>
       </h2>
     </section>
   )
