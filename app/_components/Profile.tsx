@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import CloudImage from '@/app/_components/CloudImage'
+// import CloudImage from '@/app/_components/CloudImage'
 
 export default function ProfilePage (): React.JSX.Element {
   const {
