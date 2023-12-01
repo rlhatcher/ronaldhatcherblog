@@ -60,7 +60,7 @@ export default function ProfilePage (): React.JSX.Element {
                 Image
               </dt>
               <dd className='mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto'>
-                <CloudImage image={image} className='rounded-full' />
+                <img src={image} className='rounded-full' />
                 <button
                   type='button'
                   className='font-semibold text-indigo-600 hover:text-indigo-500'
