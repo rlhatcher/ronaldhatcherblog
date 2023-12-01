@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import Image from 'next/image'
+import CloudImage from '@/app/_components/CloudImage'
 
 export default function ProfilePage (): React.JSX.Element {
   const {
@@ -60,7 +60,7 @@ export default function ProfilePage (): React.JSX.Element {
                 Image
               </dt>
               <dd className='mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto'>
-                <Image src={image} alt='Profile Picture' width={50} height={50} className='rounded-full' />
+                <CloudImage image={image} className='rounded-full' />
                 <button
                   type='button'
                   className='font-semibold text-indigo-600 hover:text-indigo-500'
