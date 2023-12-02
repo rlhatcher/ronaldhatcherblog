@@ -1,7 +1,7 @@
 import React from 'react'
 import BuildCards from '../_components/BuildCards'
 import TopNav from '@/app/_components/TopNav'
-// Fix my fat layout
+
 export default function BuildsPage (): React.JSX.Element {
   const links: BreadCrumb[] = []
   return (
