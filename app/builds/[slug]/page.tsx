@@ -50,52 +50,42 @@ export default async function BuildPage ({
 
   const { meta, content } = build
   const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`}>
-      <Tag label={tag} />
-    </Link>
+    <div key={i}>
+      <Link href={`/tags/${tag}`}>
+        <Tag label={tag} />
+      </Link>
+    </div>
   ))
 
   const links = [{ href: '/builds', label: 'Builds' }]
   return (
-    <div className='container mx-auto px-5'>
+    <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: meta.title }} />
-      <div className='bg-gray-100 rounded-2xl p-4 w-full'>
-        <div>
+      <article className='relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900'>
           <CloudImage
             title={meta.title}
             image={meta.image}
             className='rounded-xl mx-auto w-full'
           />
-        </div>
-        <div className='mt-6'>
-          <dl className='grid grid-cols-1 sm:grid-cols-2'>
-            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0'>
-              <dt className='text-lg font-medium leading-6 text-gray-900'>
-                Project
-              </dt>
-              <Link href={`/projects/${meta.project}`}>
-                <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2 hover:underline'>
-                  {meta.project}
-                </dd>
-              </Link>
-            </div>
-            <div className='border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0'>
-              <dt className='text-lg font-medium leading-6 text-gray-900'>
-                Tags
-              </dt>
-              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:mt-2'>
-                {tags}
-              </dd>
-            </div>
-          </dl>
-
-          <div className='border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0'>
-            <StepCards build={slug} />
-          </div>
-          <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
-            {content}
+        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
+          <h3 className='text-lg font-semibold leading-6 text-white'>
+            {build.meta.description}
+          </h3>
+          <div className='container flex-wrap flex text-white flex-row font-mono justify-items-start gap-1 items-center px-5 py-2'>
+            <h4>Project</h4>
+            <Link href={`/projects/${build.meta.slug}`}>
+              <span className='inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-900/100'>
+                {build.meta.slug}
+              </span>
+            </Link>
+            <h4>Tags</h4>
+            {tags}
           </div>
         </div>
+      </article>
+      <div className='prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10'>
+      <StepCards build={slug} />
+        {content}
       </div>
     </div>
   )

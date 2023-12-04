@@ -36,6 +36,7 @@ export async function getProjectByName (
     date: string
     image: string
     tags: string[]
+    description: string
   }>({
     source: rawMDX,
     components: {
@@ -71,7 +72,7 @@ export async function getProjectByName (
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: ''
+      description: frontmatter.description
     },
     content
   }
