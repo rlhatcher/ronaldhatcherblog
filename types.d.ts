@@ -37,8 +37,12 @@ interface StepMeta extends Meta {
   weight: number
 }
 
+interface BlogPostMeta extends Meta {
+  project: string
+}
+
 interface BlogPost {
-  meta: Meta
+  meta: BlogPostMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
