@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectCard from '@/app/_components/ProjectCard'
+import ProjectCard from '@/app/components/ProjectCard'
 import { getProjectsMeta } from '@/lib/projects'
 
 export default async function ProjectCards ({

@@ -3,9 +3,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import Video from '@/app/_components/Video'
-import CloudImage from '@/app/_components/CloudImage'
-import Gallery from '@/app/_components/Gallery'
+import Video from '@/app/components/Video'
+import CloudImage from '@/app/components/CloudImage'
+import Gallery from '@/app/components/Gallery'
 
 interface gitFile {
   name: string

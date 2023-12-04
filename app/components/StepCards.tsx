@@ -1,5 +1,5 @@
 import React from 'react'
-import StepCard from '@/app/_components/StepCard'
+import StepCard from '@/app/components/StepCard'
 import { getStepsMeta } from '@/lib/steps'
 
 export default async function StepCards ({

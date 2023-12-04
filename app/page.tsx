@@ -1,5 +1,5 @@
-import PostsSection from './_components/posts-section'
-import FeatureSection from './_components/FeatureSection'
+import PostsSection from './components/posts-section'
+import FeatureSection from './components/FeatureSection'
 import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/server'
 import React from 'react'
 import { MdOutlineManageAccounts } from 'react-icons/md'

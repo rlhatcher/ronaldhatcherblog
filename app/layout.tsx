@@ -1,7 +1,7 @@
 import './globals.css'
 import React from 'react'
 import { Inter, Red_Hat_Mono } from 'next/font/google'
-import GoogleAnalytics from './_components/GoogleAnalytics'
+import GoogleAnalytics from './components/GoogleAnalytics'
 import { type Metadata } from 'next'
 
 export const metadata: Metadata = {

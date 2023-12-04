@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import CloudImage from './CloudImage'
-import Tag from '@/app/_components/Tag'
+import Tag from '@/app/components/Tag'
 
 interface Props {
   step: Step

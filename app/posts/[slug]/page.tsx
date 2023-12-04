@@ -2,11 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
-import TopNav from '@/app/_components/TopNav'
+import TopNav from '@/app/components/TopNav'
 
 import { getPostByName, getPostsMeta } from '@/lib/posts'
-import CloudImage from '@/app/_components/CloudImage'
-import Tag from '@/app/_components/Tag'
+import CloudImage from '@/app/components/CloudImage'
+import Tag from '@/app/components/Tag'
 
 export const revalidate = 10
 
