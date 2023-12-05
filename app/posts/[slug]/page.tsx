@@ -59,18 +59,18 @@ export default async function PostPage ({
   ))
 
   return (
-    <div className='container mx-auto sm:px-6 lg:px-8'>
+    <div className='container mx-auto sm:px-8 lg:px-10'>
       <TopNav
         links={[{ href: '/posts', label: 'Posts' }]}
         page={{ title: meta.title }}
       />
-      <article className='relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900'>
+      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900'>
         <CloudImage
           title={meta.title}
           image={meta.image}
-          className='rounded-xl mx-auto w-full'
+          className='mx-auto w-full'
         />
-        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
+        <div className='absolute bottom-5 left-0 right-0 w-full md:text-2xl bg-gradient-to-r from-gray-900 to-transparent'>
           <h3 className='text-lg font-semibold leading-6 text-white'>
             {post.meta.description}
           </h3>
