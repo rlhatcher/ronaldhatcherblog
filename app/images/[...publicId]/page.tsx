@@ -1,5 +1,5 @@
 'use client'
-import CloudImage from '@/app/_components/CloudImage'
+import CloudImage from '@/app/components/CloudImage'
 import { useRouter } from 'next/navigation'
 
 interface Props {

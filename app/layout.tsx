@@ -1,7 +1,7 @@
 import './globals.css'
 import React from 'react'
-import { Inter, Red_Hat_Mono } from 'next/font/google'
-import GoogleAnalytics from './_components/GoogleAnalytics'
+import { Inter, Courier_Prime } from 'next/font/google'
+import GoogleAnalytics from './components/GoogleAnalytics'
 import { type Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   description: 'This is a blog.'
 }
 
-const mono = Red_Hat_Mono({
+const mono = Courier_Prime({
+  weight: '400',
   variable: '--font-mono',
   subsets: ['latin'],
   display: 'swap'

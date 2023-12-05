@@ -1,5 +1,5 @@
-import PostsSection from './_components/posts-section'
-import FeatureSection from './_components/FeatureSection'
+import PostsSection from './components/posts-section'
+import FeatureSection from './components/FeatureSection'
 import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/server'
 import React from 'react'
 import { MdOutlineManageAccounts } from 'react-icons/md'
@@ -9,12 +9,15 @@ export const revalidate = 10
 function Intro (): JSX.Element {
   return (
     <section className='flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-4 md:mb-4'>
-      <h1 className='text-3xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8'>
+      <h1 className='text-3xl md:text-3xl font-bold flex-grow tracking-tighter leading-tight md:pr-8'>
         Ronald Hatcher.
       </h1>
       <h2 className='text-center md:text-left text-xl mt-2 md:pl-8'>
-        Personal notes and projects.<LoginLink><MdOutlineManageAccounts /></LoginLink>
+        Personal notes and projects.
       </h2>
+      <LoginLink>
+        <MdOutlineManageAccounts className='text-2xl ml-2' />
+      </LoginLink>
     </section>
   )
 }

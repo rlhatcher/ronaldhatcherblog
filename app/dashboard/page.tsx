@@ -1,6 +1,6 @@
 import React from 'react'
-import TopNav from '@/app/_components/TopNav'
-import Profile from '../_components/Profile'
+import TopNav from '@/app/components/TopNav'
+import Profile from '../components/Profile'
 // fix my fat layout
 export default function Dashboard (): React.JSX.Element {
   const links: BreadCrumb[] = []

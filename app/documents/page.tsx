@@ -1,6 +1,6 @@
 import React from 'react'
-import DocCards from '@/app/_components/DocCards'
-import TopNav from '@/app/_components/TopNav'
+import DocCards from '@/app/components/DocCards'
+import TopNav from '@/app/components/TopNav'
 
 export default async function DocumentPage (): Promise<React.JSX.Element | never[]> {
   const links: BreadCrumb[] = []
