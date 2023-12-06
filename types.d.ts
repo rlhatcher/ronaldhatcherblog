@@ -17,6 +17,7 @@ interface Meta {
   date: string
   image: string
   tags: string[]
+  type: string
 }
 
 interface ImageMeta {
