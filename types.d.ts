@@ -17,6 +17,7 @@ interface Meta {
   date: string
   image: string
   tags: string[]
+  type: string
 }
 
 interface ImageMeta {
@@ -59,4 +60,8 @@ interface Build {
 interface Step {
   meta: StepMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
+}
+interface TagObject {
+  value: string
+  count: number
 }

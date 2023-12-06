@@ -12,11 +12,13 @@ interface gitFile {
   path: string
 }
 
+const type: string = 'projects'
+
 export async function getProjectByName (
   fileName: string
 ): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/projects/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -72,7 +74,8 @@ export async function getProjectByName (
       date: frontmatter.date,
       image: frontmatter.image,
       tags: frontmatter.tags,
-      description: frontmatter.description
+      description: frontmatter.description,
+      type
     },
     content
   }
@@ -80,7 +83,7 @@ export async function getProjectByName (
   return ProjectObj
 }
 
-export async function getProjectsMeta (): Promise<Project[] | undefined> {
+export async function getProjectsMeta (): Promise<Project[]> {
   const res = await fetch(
     'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/projects',
     {
@@ -92,7 +95,7 @@ export async function getProjectsMeta (): Promise<Project[] | undefined> {
     }
   )
 
-  if (!res.ok) return undefined
+  if (!res.ok) return []
 
   const repoFiletree: gitFile[] = await res.json()
 
