@@ -64,7 +64,7 @@ export default async function PostPage ({
         links={[{ href: '/posts', label: 'Posts' }]}
         page={{ title: meta.title }}
       />
-      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900'>
+      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
         <CloudImage
           title={meta.title}
           image={meta.image}
