@@ -1,4 +1,5 @@
 import TopNav from '@/app/components/TopNav'
+import TypeIcon from '@/app/components/TypeIcon'
 import { getBuildsMeta } from '@/lib/builds'
 import { getPostsMeta } from '@/lib/posts'
 import { getProjectsMeta } from '@/lib/projects'
@@ -22,15 +23,34 @@ export default async function TagPage ({
         links={[{ href: '/tags', label: 'Tags' }]}
         page={{ title: `tag[${tag}]` }}
       />
-      <div>
+      <ul
+        role='list'
+        className='mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 w-2/3 mx-auto'
+      >
         {refs.map((detail, index) => (
-          <div key={index} className='mb-3'>
-            <Link href={`/${detail.type}/${detail.slug}`}>
-              {detail.type}: {detail.slug}
-            </Link>
-          </div>
+          <li
+            key={`/${detail.type}/${detail.slug}`}
+            className='col-span-1 flex rounded-md shadow-sm bg-slate-50'
+          >
+            <div
+              className={
+                'flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium bg-slate-100 text-slate-800'
+              }
+            >
+              <TypeIcon type={detail.type} />
+            </div>
+            <div className='flex-1 truncate px-4 py-2 text-sm'>
+              <Link
+                href={`/${detail.type}/${detail.slug}`}
+                className='font-medium text-gray-900 hover:text-gray-600'
+              >
+                {detail.slug}
+              </Link>
+              {/* <p className="text-gray-500">{project.members} Members</p> */}
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
