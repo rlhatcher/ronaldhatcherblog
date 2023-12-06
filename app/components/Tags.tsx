@@ -17,7 +17,6 @@ export default function Tags ({
   }
 
   return (
-    <div className='mx-auto bg-gray-300  w-1/2 rounded-xl p-2'>
     <TagCloud
       minSize={20}
       maxSize={50}
@@ -28,6 +27,5 @@ export default function Tags ({
       }}
       className='cursor-pointer font-mono'
     />
-    </div>
   )
 }

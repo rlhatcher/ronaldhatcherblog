@@ -25,6 +25,7 @@ export default function ImagePage ({
     >
       <CloudImage
         image={publicIdString}
+        crop='fill'
         alt='Description of my image'
         className='object-contain object-center rounded-xl px-2'
       />
