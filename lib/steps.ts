@@ -12,6 +12,8 @@ interface gitFile {
   path: string
 }
 
+const type: string = 'steps'
+
 export async function getStepByName (
   build: string,
   fileName: string
@@ -75,7 +77,8 @@ export async function getStepByName (
       image: frontmatter.image,
       tags: frontmatter.tags,
       description: frontmatter.description,
-      weight: frontmatter.weight
+      weight: frontmatter.weight,
+      type
     },
     content
   }

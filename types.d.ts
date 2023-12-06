@@ -61,3 +61,7 @@ interface Step {
   meta: StepMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
+interface TagObject {
+  value: string
+  count: number
+}
