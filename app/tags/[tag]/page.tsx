@@ -3,12 +3,29 @@ import TypeIcon from '@/app/components/TypeIcon'
 import { getBuildsMeta } from '@/lib/builds'
 import { getPostsMeta } from '@/lib/posts'
 import { getProjectsMeta } from '@/lib/projects'
+import { getAllTags } from '@/lib/tags'
 import Link from 'next/link'
 import React from 'react'
 
 interface Props {
   params: {
     tag: string
+  }
+}
+
+export async function generateStaticParams (): Promise<Array<{ tag: string }>> {
+  const allTags = await getAllTags()
+
+  return allTags.map((tag) => ({
+    tag: tag.value
+  }))
+}
+
+export async function generateMetadata ({
+  params: { tag }
+}: Props): Promise<{ title: string }> {
+  return {
+    title: `tag[${tag}]`
   }
 }
 

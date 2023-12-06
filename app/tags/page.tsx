@@ -1,8 +1,6 @@
-import { getBuildsMeta } from '@/lib/builds'
-import { getPostsMeta } from '@/lib/posts'
-import { getProjectsMeta } from '@/lib/projects'
 import Tags from '@/app/components/Tags'
 import TopNav from '@/app/components/TopNav'
+import { getAllTags } from '@/lib/tags'
 
 export default async function TagsPage (): Promise<React.JSX.Element | never[]> {
   const links: BreadCrumb[] = []
@@ -18,32 +16,4 @@ export default async function TagsPage (): Promise<React.JSX.Element | never[]> 
       </div>
     </div>
   )
-}
-
-async function getAllTags (): Promise<TagObject[]> {
-  const posts = await getPostsMeta()
-  const projects = await getProjectsMeta()
-  const builds = await getBuildsMeta()
-
-  const allMeta: Meta[] = [
-    ...posts.map((post) => post.meta),
-    ...projects.map((project) => project.meta),
-    ...builds.map((build) => build.meta)
-  ]
-
-  const tagCounts = new Map<string, number>()
-
-  allMeta.forEach((meta) => {
-    meta.tags.forEach((tag) => {
-      if (tagCounts.has(tag)) {
-        tagCounts.set(tag, (tagCounts.get(tag) as number) + 1)
-      } else {
-        tagCounts.set(tag, 1)
-      }
-    })
-  })
-  return Array.from(tagCounts.entries()).map(([tag, count]) => ({
-    value: tag,
-    count
-  }))
 }
