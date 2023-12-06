@@ -9,7 +9,10 @@ export default function CloudImage ({
   slug,
   className,
   alt,
-  zoom = true
+  zoom = true,
+  height = 400,
+  width = 600,
+  crop = 'thumb'
 }: {
   title?: string
   image: string
@@ -17,12 +20,15 @@ export default function CloudImage ({
   className?: string | undefined
   alt?: string
   zoom?: boolean
+  height?: number
+  width?: number
+  crop?: string
 }): React.JSX.Element {
   const theImage = (
     <CldImage
-      height='600'
-      width='600'
-      crop='fill'
+      height={height}
+      width={width}
+      crop={crop}
       gravity='faces:auto'
       src={image}
       sizes='(min-width: 480px ) 50vw,
