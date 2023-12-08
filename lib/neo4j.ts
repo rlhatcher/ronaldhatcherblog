@@ -151,3 +151,109 @@ export async function getMotor (id: string): Promise<Motor | null> {
     await session.close()
   }
 }
+
+export async function getKits (): Promise<Kit[]> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead(tx =>
+      tx.run(`
+        MATCH (k:Kit) RETURN k
+      `, {})
+    )
+
+    // Check if the result contains records
+    if (res.records.length === 0) {
+      return []
+    }
+
+    // Map the query results to the Kit array
+    const kits = res.records.map(record => {
+      const node = record.get('k').properties
+
+      // Convert node properties to Kit type
+      return {
+        mfg_id: node.mfg_id,
+        model: node.model,
+        name: node.name,
+        image: node.image,
+        recommended_engines: node.recommended_engines,
+        projected_max_altitude: node.projected_max_altitude,
+        recovery_system: node.recovery_system,
+        length: node.length,
+        diameter: node.diameter,
+        estimated_weight: node.estimated_weight,
+        estimated_assembly_time: node.estimated_assembly_time,
+        fin_materials: node.fin_materials,
+        decal_type: node.decal_type,
+        launch_system: node.launch_system,
+        launch_rod_size: node.launch_rod_size,
+        age_recommendation: node.age_recommendation,
+        description: node.description,
+        instructions: node.instructions,
+        src_url: node.src_url,
+        is_discontinued: node.is_discontinued
+      }
+    })
+
+    return kits
+  } catch (error) {
+    console.error(error)
+    return []
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
+
+export async function getKit (id: string): Promise<Kit | null> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead(tx =>
+      tx.run(`
+        MATCH (k:Kit {model: $id}) RETURN k
+      `, { id })
+    )
+
+    if (res.records.length === 0) {
+      return null // Return null if no kit found
+    }
+
+    // Extract the single kit record
+    const record = res.records[0]
+    const node = record.get('k').properties
+
+    // Convert node properties to Kit type
+    return {
+      mfg_id: node.mfg_id,
+      model: node.model,
+      name: node.name,
+      image: node.image,
+      recommended_engines: node.recommended_engines,
+      projected_max_altitude: node.projected_max_altitude,
+      recovery_system: node.recovery_system,
+      length: node.length,
+      diameter: node.diameter,
+      estimated_weight: node.estimated_weight,
+      estimated_assembly_time: node.estimated_assembly_time,
+      fin_materials: node.fin_materials,
+      decal_type: node.decal_type,
+      launch_system: node.launch_system,
+      launch_rod_size: node.launch_rod_size,
+      age_recommendation: node.age_recommendation,
+      description: node.description,
+      instructions: node.instructions,
+      src_url: node.src_url,
+      is_discontinued: node.is_discontinued
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}

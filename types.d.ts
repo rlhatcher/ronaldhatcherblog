@@ -91,3 +91,26 @@ interface Motor {
   updatedOn: Date
   caseInfo: string
 }
+
+interface Kit {
+  mfg_id: string
+  model: string
+  name: string
+  image: string
+  recommended_engines: string
+  projected_max_altitude: string
+  recovery_system: string
+  length: number
+  diameter: number
+  estimated_weight: number
+  estimated_assembly_time: number
+  fin_materials: string
+  decal_type: string
+  launch_system: string
+  launch_rod_size: string
+  age_recommendation: number
+  description: string
+  instructions: string
+  src_url: string
+  is_discontinued: boolean
+}

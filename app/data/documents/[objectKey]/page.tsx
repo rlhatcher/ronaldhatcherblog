@@ -28,7 +28,7 @@ export default async function PdfPage ({
   return (
     <div className='mx-auto sm:px-6 lg:px-8'>
       <TopNav
-        links={[{ href: '/documents', label: 'Documents' }]}
+        links={[{ href: '/data/documents', label: 'Documents' }]}
         page={{ title: objectKey }}
       />
         <PdfViewer key={objectKey} pdfData={pdfData} />
