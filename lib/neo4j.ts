@@ -19,14 +19,17 @@ export async function getMfgs (): Promise<string[]> {
   const manufacturers: string[] = []
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
       MATCH (n:Manufacturer) RETURN n
-  `, { })
+  `,
+        {}
+      )
     )
 
-    const values = res.records.map(record => record.toObject())
-    manufacturers.push(...values.map(value => value.n.properties.name))
+    const values = res.records.map((record) => record.toObject())
+    manufacturers.push(...values.map((value) => value.n.properties.name))
   } catch {
     // Handle any errors
   } finally {
@@ -42,10 +45,13 @@ export async function getMotors (): Promise<Motor[]> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
         MATCH (n:Motor) RETURN n
-      `, {})
+      `,
+        {}
+      )
     )
 
     // Check if the result contains records
@@ -54,35 +60,35 @@ export async function getMotors (): Promise<Motor[]> {
     }
 
     // Map the query results to the Motor array
-    const motors = res.records.map(record => {
+    const motors = res.records.map((record) => {
       // Extract node properties
       const node = record.get('n').properties
 
       // Convert node properties to Motor type
       return {
-        id: node.id,
+        id: node.motorId,
+        availability: node.availability,
+        avgThrustN: node.avgThrustN,
+        burnTimeS: node.burnTimeS,
+        certOrg: node.certOrg,
+        commonName: node.commonName,
+        dataFiles: node.dataFiles,
+        delays: node.delays,
+        designation: node.designation,
+        diameter: node.diameter, // Assuming diameter is a Neo4j Integer
+        impulseClass: node.impulseClass,
+        infoUrl: node.infoUrl,
+        length: node.length, // Assuming length is a Neo4j Integer
         manufacturer: node.manufacturer,
         manufacturerAbbrev: node.manufacturerAbbrev,
-        designation: node.designation,
-        commonName: node.commonName,
-        impulseClass: node.impulseClass,
-        diameter: node.diameter, // Assuming diameter is a Neo4j Integer
-        length: node.length, // Assuming length is a Neo4j Integer
-        type: node.type,
-        certOrg: node.certOrg,
-        avgThrustN: node.avgThrustN, // Convert Neo4j Integer to number
         maxThrustN: node.maxThrustN,
-        totImpulseNs: node.totImpulseNs,
-        burnTimeS: node.burnTimeS,
-        dataFiles: node.dataFiles,
-        infoUrl: node.infoUrl,
-        totalWeightG: node.totalWeightG,
-        propWeightG: node.propWeightG,
-        delays: node.delays,
         propInfo: node.propInfo,
+        propWeightG: node.propWeightG,
         sparky: node.sparky,
-        updatedOn: new Date(node.updatedOn), // Convert string to Date
-        caseInfo: node.caseInfo
+        totalWeightG: node.totalWeightG,
+        totImpulseNs: node.totImpulseNs,
+        type: node.type,
+        updatedOn: new Date(node.updatedOn) // Convert string to Date
       }
     })
 
@@ -102,10 +108,13 @@ export async function getMotor (id: string): Promise<Motor | null> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
-          MATCH (n:Motor {id: $id}) RETURN n
-        `, { id })
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+          MATCH (n:Motor {motorId: $id}) RETURN n
+        `,
+        { id }
+      )
     )
 
     if (res.records.length === 0) {
@@ -118,29 +127,29 @@ export async function getMotor (id: string): Promise<Motor | null> {
 
     // Convert node properties to Motor type
     return {
-      id: node.id,
+      id: node.motorId,
+      availability: node.availability,
+      avgThrustN: node.avgThrustN,
+      burnTimeS: node.burnTimeS,
+      certOrg: node.certOrg,
+      commonName: node.commonName,
+      dataFiles: node.dataFiles,
+      delays: node.delays,
+      designation: node.designation,
+      diameter: node.diameter,
+      impulseClass: node.impulseClass,
+      infoUrl: node.infoUrl,
+      length: node.length,
       manufacturer: node.manufacturer,
       manufacturerAbbrev: node.manufacturerAbbrev,
-      designation: node.designation,
-      commonName: node.commonName,
-      impulseClass: node.impulseClass,
-      diameter: node.diameter, // Adjust conversion as needed
-      length: node.length, // Adjust conversion as needed
-      type: node.type,
-      certOrg: node.certOrg,
-      avgThrustN: node.avgThrustN, // Adjust conversion as needed
       maxThrustN: node.maxThrustN,
-      totImpulseNs: node.totImpulseNs,
-      burnTimeS: node.burnTimeS,
-      dataFiles: node.dataFiles,
-      infoUrl: node.infoUrl,
-      totalWeightG: node.totalWeightG,
-      propWeightG: node.propWeightG,
-      delays: node.delays,
       propInfo: node.propInfo,
+      propWeightG: node.propWeightG,
       sparky: node.sparky,
-      updatedOn: new Date(node.updatedOn), // Convert string to Date
-      caseInfo: node.caseInfo
+      totalWeightG: node.totalWeightG,
+      totImpulseNs: node.totImpulseNs,
+      type: node.type,
+      updatedOn: new Date(node.updatedOn)
     }
   } catch (error) {
     // Handle any errors
@@ -157,10 +166,13 @@ export async function getKits (): Promise<Kit[]> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
         MATCH (k:Kit) RETURN k
-      `, {})
+      `,
+        {}
+      )
     )
 
     // Check if the result contains records
@@ -169,7 +181,7 @@ export async function getKits (): Promise<Kit[]> {
     }
 
     // Map the query results to the Kit array
-    const kits = res.records.map(record => {
+    const kits = res.records.map((record) => {
       const node = record.get('k').properties
 
       // Convert node properties to Kit type
@@ -212,10 +224,13 @@ export async function getKit (id: string): Promise<Kit | null> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
         MATCH (k:Kit {model: $id}) RETURN k
-      `, { id })
+      `,
+        { id }
+      )
     )
 
     if (res.records.length === 0) {

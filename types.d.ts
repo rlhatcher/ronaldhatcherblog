@@ -68,28 +68,28 @@ interface TagObject {
 
 interface Motor {
   id: string
+  availability: string
+  avgThrustN: number
+  burnTimeS: number
+  certOrg: string
+  commonName: string
+  dataFiles: number
+  delays: string
+  designation: string
+  diameter: number
+  impulseClass: string
+  infoUrl: string
+  length: number
   manufacturer: string
   manufacturerAbbrev: string
-  designation: string
-  commonName: string
-  impulseClass: string
-  diameter: number
-  length: number
-  type: string
-  certOrg: string
-  avgThrustN: number
   maxThrustN: number
-  totImpulseNs: number
-  burnTimeS: number
-  dataFiles: number
-  infoUrl: string
-  totalWeightG: number
-  propWeightG: number
-  delays: string
   propInfo: string
+  propWeightG: number
   sparky: boolean
+  totalWeightG: number
+  totImpulseNs: number
+  type: string
   updatedOn: Date
-  caseInfo: string
 }
 
 interface Kit {
