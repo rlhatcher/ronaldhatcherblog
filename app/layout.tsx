@@ -3,6 +3,7 @@ import React from 'react'
 import { Inter, Courier_Prime } from 'next/font/google'
 import GoogleAnalytics from './components/GoogleAnalytics'
 import { type Metadata } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'Ronald Hatcher',
@@ -32,6 +33,7 @@ export default function RootLayout ({
       <body>
         <main>
           <GoogleAnalytics />
+          <SpeedInsights />
           {children}
         </main>
       </body>
