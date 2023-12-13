@@ -66,51 +66,72 @@ interface TagObject {
   count: number
 }
 
-interface Motor {
-  id: string
-  availability: string
-  avgThrustN: number
-  burnTimeS: number
-  certOrg: string
-  commonName: string
-  dataFiles: number
-  delays: string
-  designation: string
-  diameter: number
-  impulseClass: string
-  infoUrl: string
-  length: number
-  manufacturer: string
-  manufacturerAbbrev: string
-  maxThrustN: number
-  propInfo: string
-  propWeightG: number
-  sparky: boolean
-  totalWeightG: number
-  totImpulseNs: number
-  type: string
-  updatedOn: Date
+interface Kit {
+  url: string
+  imageSrc: string
+  recommendedEngines: string
+  projectedMaxAltitude: string
+  recoverySystem: string
+  length: string
+  diameter: string
+  estimatedWeight: string
+  estimatedAssemblyTime: string
+  finMaterials: string
+  decalType: string
+  launchSystem: string
+  launchRodSize: string
+  instructions: string
+  ageRecommendation: string
+  mfgID: string
+  name: string
+  complexity: string
+  height: string
+  weight: string
+  motorMount: string
+  parachuteSize: string
+  shockCordType: string
+  shockCordMount: string
+  finThickness: string
+  ringThickness: string
+  price: string
+  currency: string
+  sku: string
+  stockStatus: string
+  description: string
+  links: string
+  parachute: string
+  finArray: string
+  uniqueID: string
 }
 
-interface Kit {
-  mfg_id: string
-  model: string
+interface Manufacturer {
   name: string
-  image: string
-  recommended_engines: string
-  projected_max_altitude: string
-  recovery_system: string
-  length: number
+  mfgID: string
+}
+
+interface Motor {
+  commonName: string
+  delays: string
   diameter: number
-  estimated_weight: number
-  estimated_assembly_time: number
-  fin_materials: string
-  decal_type: string
-  launch_system: string
-  launch_rod_size: string
-  age_recommendation: number
-  description: string
-  instructions: string
-  src_url: string
-  is_discontinued: boolean
+  infoUrl: string
+  totImpulseNs: number
+  manufacturer: string
+  burnTimeS: number
+  propInfo: string
+  length: number
+  avgThrustN: number
+  dataFiles: string
+  impulseClass: string
+  sparky: string
+  caseInfo: string
+  propWeightG: number
+  certOrg: string
+  motorId: string
+  availability: string
+  maxThrustN: number
+  totalWeightG: number
+  designation: string
+  updatedOn: string
+  type: string
+  mfgID: string
 }

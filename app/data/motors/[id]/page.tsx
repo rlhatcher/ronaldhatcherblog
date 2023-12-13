@@ -17,7 +17,7 @@ export async function generateStaticParams (): Promise<Array<{ id: string }>> {
   if (motors == null) return []
 
   return motors.map((motor) => ({
-    id: motor.id
+    id: motor.motorId
   }))
 }
 

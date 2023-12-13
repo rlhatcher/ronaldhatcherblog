@@ -17,7 +17,7 @@ export default async function KitCards ({
     className='mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4  mx-auto'
   >      {kits.map((kit, index) => (
     <li
-    key={`/${kit.model}`}
+    key={`/${kit.uniqueID}`}
     className='col-span-1 flex rounded-md shadow-sm bg-slate-50'
   >
     {/* <div
@@ -29,10 +29,10 @@ export default async function KitCards ({
     </div> */}
     <div className='flex-1 truncate px-4 py-2 text-sm'>
       <Link
-        href={`/data/kits/${kit.model}`}
+        href={`/data/kits/${kit.uniqueID}`}
         className='font-medium text-gray-900 hover:text-gray-600'
       >
-        {kit.mfg_id} - {kit.name}
+        {kit.mfgID} - {kit.name}
       </Link>
       {/* <p className="text-gray-500">{project.members} Members</p> */}
     </div>

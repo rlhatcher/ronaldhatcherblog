@@ -47,7 +47,7 @@ export async function getBucketFiles (): Promise<PublishedDoc[] | undefined> {
   const data = await s3Client.send(command)
 
   const filesList = data.Contents?.map((file) => {
-    if (file.Key == null) {
+    if (file.Key == null || !file.Key.endsWith('.pdf')) {
       return null
     }
     const objectKey = file.Key
