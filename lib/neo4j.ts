@@ -19,14 +19,17 @@ export async function getMfgs (): Promise<string[]> {
   const manufacturers: string[] = []
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
       MATCH (n:Manufacturer) RETURN n
-  `, { })
+  `,
+        {}
+      )
     )
 
-    const values = res.records.map(record => record.toObject())
-    manufacturers.push(...values.map(value => value.n.properties.name))
+    const values = res.records.map((record) => record.toObject())
+    manufacturers.push(...values.map((value) => value.n.properties.name))
   } catch {
     // Handle any errors
   } finally {
@@ -42,10 +45,13 @@ export async function getMotors (): Promise<Motor[]> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
         MATCH (n:Motor) RETURN n
-      `, {})
+      `,
+        {}
+      )
     )
 
     // Check if the result contains records
@@ -54,35 +60,36 @@ export async function getMotors (): Promise<Motor[]> {
     }
 
     // Map the query results to the Motor array
-    const motors = res.records.map(record => {
+    const motors = res.records.map((record) => {
       // Extract node properties
       const node = record.get('n').properties
 
       // Convert node properties to Motor type
       return {
-        id: node.id,
-        manufacturer: node.manufacturer,
-        manufacturerAbbrev: node.manufacturerAbbrev,
-        designation: node.designation,
         commonName: node.commonName,
-        impulseClass: node.impulseClass,
-        diameter: node.diameter, // Assuming diameter is a Neo4j Integer
-        length: node.length, // Assuming length is a Neo4j Integer
-        type: node.type,
-        certOrg: node.certOrg,
-        avgThrustN: node.avgThrustN, // Convert Neo4j Integer to number
-        maxThrustN: node.maxThrustN,
-        totImpulseNs: node.totImpulseNs,
-        burnTimeS: node.burnTimeS,
-        dataFiles: node.dataFiles,
-        infoUrl: node.infoUrl,
-        totalWeightG: node.totalWeightG,
-        propWeightG: node.propWeightG,
         delays: node.delays,
+        diameter: node.diameter,
+        infoUrl: node.infoUrl,
+        totImpulseNs: node.totImpulseNs,
+        manufacturer: node.manufacturer,
+        burnTimeS: node.burnTimeS,
         propInfo: node.propInfo,
+        length: node.length,
+        avgThrustN: node.avgThrustN,
+        dataFiles: node.dataFiles,
+        impulseClass: node.impulseClass,
         sparky: node.sparky,
-        updatedOn: new Date(node.updatedOn), // Convert string to Date
-        caseInfo: node.caseInfo
+        caseInfo: node.caseInfo,
+        propWeightG: node.propWeightG,
+        certOrg: node.certOrg,
+        motorId: node.motorId,
+        availability: node.availability,
+        maxThrustN: node.maxThrustN,
+        totalWeightG: node.totalWeightG,
+        designation: node.designation,
+        updatedOn: node.updatedOn,
+        type: node.type,
+        mfgID: node.mfgID
       }
     })
 
@@ -102,10 +109,13 @@ export async function getMotor (id: string): Promise<Motor | null> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
-          MATCH (n:Motor {id: $id}) RETURN n
-        `, { id })
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+          MATCH (n:Motor {motorId: $id}) RETURN n
+        `,
+        { id }
+      )
     )
 
     if (res.records.length === 0) {
@@ -118,29 +128,30 @@ export async function getMotor (id: string): Promise<Motor | null> {
 
     // Convert node properties to Motor type
     return {
-      id: node.id,
-      manufacturer: node.manufacturer,
-      manufacturerAbbrev: node.manufacturerAbbrev,
-      designation: node.designation,
       commonName: node.commonName,
-      impulseClass: node.impulseClass,
-      diameter: node.diameter, // Adjust conversion as needed
-      length: node.length, // Adjust conversion as needed
-      type: node.type,
-      certOrg: node.certOrg,
-      avgThrustN: node.avgThrustN, // Adjust conversion as needed
-      maxThrustN: node.maxThrustN,
-      totImpulseNs: node.totImpulseNs,
-      burnTimeS: node.burnTimeS,
-      dataFiles: node.dataFiles,
-      infoUrl: node.infoUrl,
-      totalWeightG: node.totalWeightG,
-      propWeightG: node.propWeightG,
       delays: node.delays,
+      diameter: node.diameter,
+      infoUrl: node.infoUrl,
+      totImpulseNs: node.totImpulseNs,
+      manufacturer: node.manufacturer,
+      burnTimeS: node.burnTimeS,
       propInfo: node.propInfo,
+      length: node.length,
+      avgThrustN: node.avgThrustN,
+      dataFiles: node.dataFiles,
+      impulseClass: node.impulseClass,
       sparky: node.sparky,
-      updatedOn: new Date(node.updatedOn), // Convert string to Date
-      caseInfo: node.caseInfo
+      caseInfo: node.caseInfo,
+      propWeightG: node.propWeightG,
+      certOrg: node.certOrg,
+      motorId: node.motorId,
+      availability: node.availability,
+      maxThrustN: node.maxThrustN,
+      totalWeightG: node.totalWeightG,
+      designation: node.designation,
+      updatedOn: node.updatedOn,
+      type: node.type,
+      mfgID: node.mfgID
     }
   } catch (error) {
     // Handle any errors
@@ -157,10 +168,13 @@ export async function getKits (): Promise<Kit[]> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
         MATCH (k:Kit) RETURN k
-      `, {})
+      `,
+        {}
+      )
     )
 
     // Check if the result contains records
@@ -169,31 +183,46 @@ export async function getKits (): Promise<Kit[]> {
     }
 
     // Map the query results to the Kit array
-    const kits = res.records.map(record => {
+    const kits = res.records.map((record) => {
       const node = record.get('k').properties
 
       // Convert node properties to Kit type
       return {
-        mfg_id: node.mfg_id,
-        model: node.model,
-        name: node.name,
-        image: node.image,
-        recommended_engines: node.recommended_engines,
-        projected_max_altitude: node.projected_max_altitude,
-        recovery_system: node.recovery_system,
-        length: node.length,
-        diameter: node.diameter,
-        estimated_weight: node.estimated_weight,
-        estimated_assembly_time: node.estimated_assembly_time,
-        fin_materials: node.fin_materials,
-        decal_type: node.decal_type,
-        launch_system: node.launch_system,
-        launch_rod_size: node.launch_rod_size,
-        age_recommendation: node.age_recommendation,
-        description: node.description,
+        url: node.url,
+        imageSrc: node.image_src,
+        recommendedEngines: node['Recommended Engines'],
+        projectedMaxAltitude: node['Projected Max Altitude'],
+        recoverySystem: node['Recovery System'],
+        length: node.Length,
+        diameter: node.Diameter,
+        estimatedWeight: node['Estimated Weight'],
+        estimatedAssemblyTime: node['Estimated Assembly Time'],
+        finMaterials: node['Fin Materials'],
+        decalType: node['Decal Type'],
+        launchSystem: node['Launch System'],
+        launchRodSize: node['Launch Rod Size'],
         instructions: node.instructions,
-        src_url: node.src_url,
-        is_discontinued: node.is_discontinued
+        ageRecommendation: node['Age Recommendation'],
+        mfgID: node.mfgID,
+        name: node.Name,
+        complexity: node.complexity,
+        height: node.height,
+        weight: node.weight,
+        motorMount: node.motorMount,
+        parachuteSize: node.parachuteSize,
+        shockCordType: node.shockCordType,
+        shockCordMount: node.shockCordMount,
+        finThickness: node.finThickness,
+        ringThickness: node.ringThickness,
+        price: node.price,
+        currency: node.currency,
+        sku: node.sku,
+        stockStatus: node.stockStatus,
+        description: node.description,
+        links: node.links,
+        parachute: node.parachute,
+        finArray: node.finArray,
+        uniqueID: node.UniqueID
       }
     })
 
@@ -212,10 +241,13 @@ export async function getKit (id: string): Promise<Kit | null> {
   const session = driver.session()
 
   try {
-    const res = await session.executeRead(tx =>
-      tx.run(`
-        MATCH (k:Kit {model: $id}) RETURN k
-      `, { id })
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (k:Kit {UniqueID: $id}) RETURN k
+      `,
+        { id }
+      )
     )
 
     if (res.records.length === 0) {
@@ -228,26 +260,41 @@ export async function getKit (id: string): Promise<Kit | null> {
 
     // Convert node properties to Kit type
     return {
-      mfg_id: node.mfg_id,
-      model: node.model,
-      name: node.name,
-      image: node.image,
-      recommended_engines: node.recommended_engines,
-      projected_max_altitude: node.projected_max_altitude,
-      recovery_system: node.recovery_system,
-      length: node.length,
-      diameter: node.diameter,
-      estimated_weight: node.estimated_weight,
-      estimated_assembly_time: node.estimated_assembly_time,
-      fin_materials: node.fin_materials,
-      decal_type: node.decal_type,
-      launch_system: node.launch_system,
-      launch_rod_size: node.launch_rod_size,
-      age_recommendation: node.age_recommendation,
-      description: node.description,
+      url: node.url,
+      imageSrc: node.image_src,
+      recommendedEngines: node['Recommended Engines'],
+      projectedMaxAltitude: node['Projected Max Altitude'],
+      recoverySystem: node['Recovery System'],
+      length: node.Length,
+      diameter: node.Diameter,
+      estimatedWeight: node['Estimated Weight'],
+      estimatedAssemblyTime: node['Estimated Assembly Time'],
+      finMaterials: node['Fin Materials'],
+      decalType: node['Decal Type'],
+      launchSystem: node['Launch System'],
+      launchRodSize: node['Launch Rod Size'],
       instructions: node.instructions,
-      src_url: node.src_url,
-      is_discontinued: node.is_discontinued
+      ageRecommendation: node['Age Recommendation'],
+      mfgID: node.mfgID,
+      name: node.Name,
+      complexity: node.complexity,
+      height: node.height,
+      weight: node.weight,
+      motorMount: node.motorMount,
+      parachuteSize: node.parachuteSize,
+      shockCordType: node.shockCordType,
+      shockCordMount: node.shockCordMount,
+      finThickness: node.finThickness,
+      ringThickness: node.ringThickness,
+      price: node.price,
+      currency: node.currency,
+      sku: node.sku,
+      stockStatus: node.stockStatus,
+      description: node.description,
+      links: node.links,
+      parachute: node.parachute,
+      finArray: node.finArray,
+      uniqueID: node.UniqueID
     }
   } catch (error) {
     console.error(error)
