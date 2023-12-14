@@ -189,22 +189,22 @@ export async function getKits (): Promise<Kit[]> {
       // Convert node properties to Kit type
       return {
         url: node.url,
-        imageSrc: node.imageSrc,
-        recommendedEngines: node.recommendedEngines,
-        projectedMaxAltitude: node.projectedMaxAltitude,
-        recoverySystem: node.recoverySystem,
-        length: node.length,
-        diameter: node.diameter,
-        estimatedWeight: node.estimatedWeight,
-        estimatedAssemblyTime: node.estimatedAssemblyTime,
-        finMaterials: node.finMaterials,
-        decalType: node.decalType,
-        launchSystem: node.launchSystem,
-        launchRodSize: node.launchRodSize,
+        imageSrc: node.image_src,
+        recommendedEngines: node['Recommended Engines'],
+        projectedMaxAltitude: node['Projected Max Altitude'],
+        recoverySystem: node['Recovery System'],
+        length: node.Length,
+        diameter: node.Diameter,
+        estimatedWeight: node['Estimated Weight'],
+        estimatedAssemblyTime: node['Estimated Assembly Time'],
+        finMaterials: node['Fin Materials'],
+        decalType: node['Decal Type'],
+        launchSystem: node['Launch System'],
+        launchRodSize: node['Launch Rod Size'],
         instructions: node.instructions,
-        ageRecommendation: node.ageRecommendation,
+        ageRecommendation: node['Age Recommendation'],
         mfgID: node.mfgID,
-        name: node.name,
+        name: node.Name,
         complexity: node.complexity,
         height: node.height,
         weight: node.weight,
@@ -222,7 +222,7 @@ export async function getKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.uniqueID
+        uniqueID: node.UniqueID
       }
     })
 
@@ -244,7 +244,7 @@ export async function getKit (id: string): Promise<Kit | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit {model: $id}) RETURN k
+        MATCH (k:Kit {UniqueID: $id}) RETURN k
       `,
         { id }
       )
@@ -261,22 +261,22 @@ export async function getKit (id: string): Promise<Kit | null> {
     // Convert node properties to Kit type
     return {
       url: node.url,
-      imageSrc: node.imageSrc,
-      recommendedEngines: node.recommendedEngines,
-      projectedMaxAltitude: node.projectedMaxAltitude,
-      recoverySystem: node.recoverySystem,
-      length: node.length,
-      diameter: node.diameter,
-      estimatedWeight: node.estimatedWeight,
-      estimatedAssemblyTime: node.estimatedAssemblyTime,
-      finMaterials: node.finMaterials,
-      decalType: node.decalType,
-      launchSystem: node.launchSystem,
-      launchRodSize: node.launchRodSize,
+      imageSrc: node.image_src,
+      recommendedEngines: node['Recommended Engines'],
+      projectedMaxAltitude: node['Projected Max Altitude'],
+      recoverySystem: node['Recovery System'],
+      length: node.Length,
+      diameter: node.Diameter,
+      estimatedWeight: node['Estimated Weight'],
+      estimatedAssemblyTime: node['Estimated Assembly Time'],
+      finMaterials: node['Fin Materials'],
+      decalType: node['Decal Type'],
+      launchSystem: node['Launch System'],
+      launchRodSize: node['Launch Rod Size'],
       instructions: node.instructions,
-      ageRecommendation: node.ageRecommendation,
+      ageRecommendation: node['Age Recommendation'],
       mfgID: node.mfgID,
-      name: node.name,
+      name: node.Name,
       complexity: node.complexity,
       height: node.height,
       weight: node.weight,
@@ -294,7 +294,7 @@ export async function getKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID
+      uniqueID: node.UniqueID
     }
   } catch (error) {
     console.error(error)
