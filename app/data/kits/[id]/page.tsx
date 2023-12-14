@@ -11,15 +11,13 @@ interface Props {
   }
 }
 
-export async function generateStaticParams (): Promise<Array<{ params: { id: string } }>> {
+export async function generateStaticParams (): Promise<Array<{ id: string }>> {
   const kits = await getKits()
 
   if (kits == null) return []
 
-  return kits.map(kit => ({
-    params: {
-      id: kit.uniqueID
-    }
+  return kits.map((kit) => ({
+    id: kit.uniqueID
   }))
 }
 
