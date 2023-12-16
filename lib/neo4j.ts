@@ -12,11 +12,9 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
-export async function getMfgs (): Promise<string[]> {
+export async function getMfgs (): Promise<Manufacturer[]> {
   // Open a new session
   const session = driver.session()
-
-  const manufacturers: string[] = []
 
   try {
     const res = await session.executeRead((tx) =>
@@ -27,17 +25,85 @@ export async function getMfgs (): Promise<string[]> {
         {}
       )
     )
-
-    const values = res.records.map((record) => record.toObject())
-    manufacturers.push(...values.map((value) => value.n.properties.name))
-  } catch {
+    // Check if the result contains records
+    if (res.records.length === 0) {
+      return []
+    }
+    const manufacturers = res.records.map((record) => {
+      const node = record.get('n').properties
+      return {
+        name: node.name,
+        mfgID: node.mfgID
+      }
+    })
+    return manufacturers
+  } catch (error) {
     // Handle any errors
+    console.error(error)
+    return []
   } finally {
     // Close the session
     await session.close()
   }
+}
 
-  return manufacturers
+export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (m:Manufacturer {mfgID: $id})-[:MAKES]->(product)
+        RETURN m AS manufacturer, collect(product) AS products
+        `,
+        { id }
+      )
+    )
+    if (res.records.length === 0) {
+      return null // Return null if no manufacturer found
+    }
+    const record = res.records[0]
+    const manufacturerNode = record.get('manufacturer').properties
+
+    const kits: Kit[] = []
+    const motors: Motor[] = []
+    // Add more arrays for other types if needed
+
+    record.get('products').forEach((node: { labels: any[], properties: any }) => {
+      const type = node.labels[0] // Assuming the first label is the type of the product
+      const product = {
+        type,
+        ...node.properties
+      }
+
+      switch (type) {
+        case 'Kit':
+          kits.push(product)
+          break
+        case 'Motor':
+          motors.push(product)
+          break
+        // Add more cases for other types
+      }
+    })
+
+    return {
+      name: manufacturerNode.name,
+      mfgID: manufacturerNode.mfgID,
+      kits,
+      motors
+      // Add more arrays for other types
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error(error)
+    return null // Return null in case of an error
+  } finally {
+    // Close the session
+    await session.close()
+  }
 }
 
 export async function getMotors (): Promise<Motor[]> {

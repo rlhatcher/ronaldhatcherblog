@@ -107,6 +107,8 @@ interface Kit {
 interface Manufacturer {
   name: string
   mfgID: string
+  kits?: Kit[]
+  motors?: Motor[]
 }
 
 interface Motor {
