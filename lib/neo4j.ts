@@ -20,7 +20,9 @@ export async function getMfgs (): Promise<Manufacturer[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-      MATCH (n:Manufacturer) RETURN n
+        MATCH (n:Manufacturer)
+        WHERE n.mfgID IS NOT NULL
+        RETURN n;
   `,
         {}
       )
@@ -56,6 +58,7 @@ export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
       tx.run(
         `
         MATCH (m:Manufacturer {mfgID: $id})-[:MAKES]->(product)
+        WHERE m.mfgID IS NOT NULL
         RETURN m AS manufacturer, collect(product) AS products
         `,
         { id }
@@ -114,7 +117,9 @@ export async function getMotors (): Promise<Motor[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (n:Motor) RETURN n
+        MATCH (n:Motor)
+        WHERE n.motorId IS NOT NULL
+        RETURN n
       `,
         {}
       )
@@ -178,7 +183,9 @@ export async function getMotor (id: string): Promise<Motor | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-          MATCH (n:Motor {motorId: $id}) RETURN n
+          MATCH (n:Motor {motorId: $id})
+          WHERE n.motorId IS NOT NULL
+          RETURN n
         `,
         { id }
       )
@@ -237,7 +244,9 @@ export async function getKits (): Promise<Kit[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit) RETURN k
+        MATCH (k:Kit)
+        WHERE k.UniqueID IS NOT NULL
+        RETURN k
       `,
         {}
       )
@@ -310,7 +319,9 @@ export async function getKit (id: string): Promise<Kit | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit {UniqueID: $id}) RETURN k
+        MATCH (k:Kit {UniqueID: $id})
+        WHERE k.UniqueID IS NOT NULL
+        RETURN k
       `,
         { id }
       )
