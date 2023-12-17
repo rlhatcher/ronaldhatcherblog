@@ -12,7 +12,7 @@ export default function FeatureSection (): React.JSX.Element {
               <dt className='flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900'>
               <TypeIcon type='projects' />
                 <h2 className='flex-auto text-lg font-semibold leading-7 text-gray-900'>
-                  Projects
+                  Rockets & Robots
                 </h2>
               </dt>
               <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
@@ -32,7 +32,7 @@ export default function FeatureSection (): React.JSX.Element {
               <dt className='flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900'>
                 <TypeIcon type='builds' />
                 <h2 className='flex-auto text-lg font-semibold leading-7 text-gray-900'>
-                  Builds
+                  Technology
                 </h2>
               </dt>
               <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
