@@ -1,5 +1,12 @@
 import React from 'react'
-import { IoHammerOutline, IoFlaskOutline, IoBookOutline } from 'react-icons/io5'
+import {
+  IoHammerOutline,
+  IoFlaskOutline,
+  IoBookOutline,
+  IoAddCircleOutline
+} from 'react-icons/io5'
+import { PiFactory, PiRocketLaunch } from 'react-icons/pi'
+import { SiMediafire } from 'react-icons/si'
 
 interface IconProps {
   type: string
@@ -15,8 +22,14 @@ const TypeIcon: React.FC<IconProps> = ({ type }) => {
       return <IoBookOutline />
     case 'documents':
       return <IoBookOutline />
+    case 'mfgs':
+      return <PiFactory />
+    case 'kits':
+      return <PiRocketLaunch/>
+    case 'motors':
+      return <SiMediafire/>
     default:
-      return null // or a default icon if you have one
+      return <IoAddCircleOutline />
   }
 }
 

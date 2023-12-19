@@ -50,7 +50,10 @@ export default async function MotorPage ({
   return (
     <div className='container mx-auto sm:px-8 lg:px-10'>
       <TopNav
-        links={[{ href: '/data/motors', label: 'Motors' }]}
+        links={[
+          { href: '/data', label: 'data' },
+          { href: '/data/motors', label: 'motors' }
+        ]}
         page={{ title: motor.designation }}
       />
       <Link

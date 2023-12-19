@@ -52,7 +52,7 @@ export default function FeatureSection (): React.JSX.Element {
                 </h2>
               </dt>
               <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
-                <Link key='documents' href='/documents' className='hover:underline'>
+                <Link key='documents' href='/data' className='hover:underline'>
                   <span className='absolute inset-0' />
                   Supplementary resources like documents, references, datasets and code repositories are all here.
                 </Link>
