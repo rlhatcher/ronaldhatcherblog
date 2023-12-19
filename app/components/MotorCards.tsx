@@ -1,6 +1,6 @@
 import React from 'react'
-import Link from 'next/link'
 import { getMotors } from '@/lib/neo4j'
+import MotorList from './MotorList'
 
 export default async function MotorCards ({
   limit
@@ -10,15 +10,5 @@ export default async function MotorCards ({
   const motors: Motor[] = await getMotors()
   if (motors == null) return []
 
-  return (
-    <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
-      {motors.map((motor) => {
-        return (
-          <Link href={`/data/motors/${motor.motorId}`} key={motor.motorId} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'>
-            {motor.manufacturer} {motor.designation}
-          </Link>
-        )
-      })}
-    </div>
-  )
+  return <MotorList motors={motors} />
 }

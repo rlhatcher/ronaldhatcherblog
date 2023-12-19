@@ -3,7 +3,9 @@ import DocCards from '@/app/components/DocCards'
 import TopNav from '@/app/components/TopNav'
 
 export default async function DocumentPage (): Promise<React.JSX.Element | never[]> {
-  const links: BreadCrumb[] = []
+  const links: BreadCrumb[] = [
+    { href: '/data', label: 'data' }
+  ]
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: 'Documents' }} />

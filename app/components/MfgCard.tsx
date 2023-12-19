@@ -27,7 +27,7 @@ const MfgCard: React.FC<MfgCardProps> = ({ manufacturer }) => {
               <button
                 key={tab.name}
                 onClick={() => { setSelectedTab(tab.name) }}
-                className={`whitespace-nowrap py-4 px-1 text-sm font-medium ${selectedTab === tab.name ? 'border-indigo-500 text-indigo-600 border-b-2' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}`}
+                className={`whitespace-nowrap py-4 px-1 text-sm font-medium ${selectedTab === tab.name ? 'border-slate-500 text-slate-600 border-b-2' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}`}
               >
                 {tab.name}
               </button>

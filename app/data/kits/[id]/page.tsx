@@ -48,13 +48,22 @@ export default async function KitPage ({
   }
 
   return (
-
     <div className='container mx-auto sm:px-8 lg:px-10'>
       <TopNav
-        links={[{ href: '/data/kits', label: 'Kits' }]}
+        links={[
+          { href: '/data', label: 'data' },
+          { href: '/data/kits', label: 'Kits' }
+        ]}
         page={{ title: kit.mfgID + ' ' + kit.name }}
       />
-      <Link href={`/data/manufacturers/${kit.mfgID}`} key={kit.mfgID} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'> {kit.mfgID} </Link>
+      <Link
+        href={`/data/manufacturers/${kit.mfgID}`}
+        key={kit.mfgID}
+        className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
+      >
+        {' '}
+        {kit.mfgID}{' '}
+      </Link>
       <div className='border-t border-gray-100'>
         <dl className='divide-y divide-gray-100 mx-auto'>
           {Object.entries(kit).map(([key, value]) => (
@@ -66,7 +75,7 @@ export default async function KitPage ({
                 {key.replace(/([A-Z])/g, ' $1')}
               </dt>
               <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                {(value == null) ? 'undefined' : value.toString()}
+                {value == null ? 'undefined' : value.toString()}
               </dd>
             </div>
           ))}

@@ -51,7 +51,7 @@ export default async function MfgPage ({
   return (
     <div className='container mx-auto sm:px-8 lg:px-10'>
       <TopNav
-        links={[{ href: '/data/manufacturers', label: 'Mamufacturers' }]}
+        links={[{ href: '/data', label: 'data' }, { href: '/data/manufacturers', label: 'manufacturers' }]}
         page={{ title: mfg.name }}
       />
       <div className='border-t border-gray-100'>
