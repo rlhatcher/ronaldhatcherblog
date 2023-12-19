@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
-    domains: ['estesrockets.com', 'lh3.googleusercontent.com']
+    domains: ['estesrockets.com']
   },
   webpack: (config) => {
     config.resolve.alias.canvas = false
