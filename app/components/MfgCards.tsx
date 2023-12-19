@@ -14,8 +14,8 @@ export default async function MfgcCards ({
     <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
       {manufacturers.map((manufacturer) => {
         return (
-          <Link href={`/data/manufacturers/${manufacturer}`} key={manufacturer} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'>
-            {manufacturer}
+          <Link href={`/data/manufacturers/${manufacturer.mfgID}`} key={manufacturer.mfgID} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'>
+            {manufacturer.name}
           </Link>
         )
       })}

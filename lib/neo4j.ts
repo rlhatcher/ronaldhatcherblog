@@ -12,32 +12,139 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
-export async function getMfgs (): Promise<string[]> {
+export async function getMfgs (): Promise<Manufacturer[]> {
   // Open a new session
   const session = driver.session()
-
-  const manufacturers: string[] = []
 
   try {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-      MATCH (n:Manufacturer) RETURN n
+        MATCH (n:Manufacturer)
+        WHERE n.mfgID IS NOT NULL
+        RETURN n;
   `,
         {}
       )
     )
-
-    const values = res.records.map((record) => record.toObject())
-    manufacturers.push(...values.map((value) => value.n.properties.name))
-  } catch {
+    // Check if the result contains records
+    if (res.records.length === 0) {
+      return []
+    }
+    const manufacturers = res.records.map((record) => {
+      const node = record.get('n').properties
+      return {
+        name: node.name,
+        mfgID: node.mfgID
+      }
+    })
+    return manufacturers
+  } catch (error) {
     // Handle any errors
+    console.error(error)
+    return []
   } finally {
     // Close the session
     await session.close()
   }
+}
 
-  return manufacturers
+export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (m:Manufacturer {mfgID: $id})-[:MAKES]->(product)
+        WHERE m.mfgID IS NOT NULL
+        RETURN m AS manufacturer, collect(product) AS products
+        `,
+        { id }
+      )
+    )
+    if (res.records.length === 0) {
+      return null // Return null if no manufacturer found
+    }
+    const record = res.records[0]
+    const manufacturerNode = record.get('manufacturer').properties
+
+    const kits: Kit[] = []
+    const motors: Motor[] = []
+    // Add more arrays for other types if needed
+
+    const products = record.get('products')
+
+    products.forEach((Node: { labels: any[], properties: any }) => {
+      const type = Node.labels[0] // Assuming the first label is the type of the product
+      const product = {
+        type,
+        ...Node.properties
+      }
+
+      switch (type) {
+        case 'Kit':
+          kits.push({
+            url: product.url,
+            imageSrc: product.image_src,
+            recommendedEngines: product['Recommended Engines'],
+            projectedMaxAltitude: product['Projected Max Altitude'],
+            recoverySystem: product['Recovery System'],
+            length: product.Length,
+            diameter: product.Diameter,
+            estimatedWeight: product['Estimated Weight'],
+            estimatedAssemblyTime: product['Estimated Assembly Time'],
+            finMaterials: product['Fin Materials'],
+            decalType: product['Decal Type'],
+            launchSystem: product['Launch System'],
+            launchRodSize: product['Launch Rod Size'],
+            instructions: product.instructions,
+            ageRecommendation: product['Age Recommendation'],
+            mfgID: product.mfgID,
+            name: product.Name,
+            complexity: product.complexity,
+            height: product.height,
+            weight: product.weight,
+            motorMount: product.motorMount,
+            parachuteSize: product.parachuteSize,
+            shockCordType: product.shockCordType,
+            shockCordMount: product.shockCordMount,
+            finThickness: product.finThickness,
+            ringThickness: product.ringThickness,
+            price: product.price,
+            currency: product.currency,
+            sku: product.sku,
+            stockStatus: product.stockStatus,
+            description: product.description,
+            links: product.links,
+            parachute: product.parachute,
+            finArray: product.finArray,
+            uniqueID: product.UniqueID
+          })
+          break
+        case 'Motor':
+          motors.push(product)
+          break
+        // Add more cases for other types
+      }
+    })
+
+    return {
+      name: manufacturerNode.name,
+      mfgID: manufacturerNode.mfgID,
+      kits,
+      motors
+      // Add more arrays for other types
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error(error)
+    return null // Return null in case of an error
+  } finally {
+    // Close the session
+    await session.close()
+  }
 }
 
 export async function getMotors (): Promise<Motor[]> {
@@ -48,7 +155,9 @@ export async function getMotors (): Promise<Motor[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (n:Motor) RETURN n
+        MATCH (n:Motor)
+        WHERE n.motorId IS NOT NULL
+        RETURN n
       `,
         {}
       )
@@ -112,7 +221,9 @@ export async function getMotor (id: string): Promise<Motor | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-          MATCH (n:Motor {motorId: $id}) RETURN n
+          MATCH (n:Motor {motorId: $id})
+          WHERE n.motorId IS NOT NULL
+          RETURN n
         `,
         { id }
       )
@@ -171,7 +282,9 @@ export async function getKits (): Promise<Kit[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit) RETURN k
+        MATCH (k:Kit)
+        WHERE k.UniqueID IS NOT NULL
+        RETURN k
       `,
         {}
       )
@@ -244,7 +357,9 @@ export async function getKit (id: string): Promise<Kit | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit {UniqueID: $id}) RETURN k
+        MATCH (k:Kit {UniqueID: $id})
+        WHERE k.UniqueID IS NOT NULL
+        RETURN k
       `,
         { id }
       )
