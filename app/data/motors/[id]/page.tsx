@@ -2,6 +2,7 @@ import React from 'react'
 import TopNav from '@/app/components/TopNav'
 
 import { getMotors, getMotor } from '@/lib/neo4j'
+import Link from 'next/link'
 
 export const revalidate = 10
 
@@ -47,12 +48,19 @@ export default async function MotorPage ({
   }
 
   return (
-
     <div className='container mx-auto sm:px-8 lg:px-10'>
       <TopNav
         links={[{ href: '/data/motors', label: 'Motors' }]}
-        page={{ title: motor.manufacturer + ' ' + motor.designation }}
+        page={{ title: motor.designation }}
       />
+      <Link
+        href={`/data/manufacturers/${motor.manufacturer}`}
+        key={motor.manufacturer}
+        className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
+      >
+        {' '}
+        {motor.manufacturer}{' '}
+      </Link>
       <div className='border-t border-gray-100'>
         <dl className='divide-y divide-gray-100 mx-auto'>
           {Object.entries(motor).map(([key, value]) => (
@@ -64,7 +72,7 @@ export default async function MotorPage ({
                 {key.replace(/([A-Z])/g, ' $1')}
               </dt>
               <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                {(value == null) ? 'undefined' : value.toString()}
+                {value == null ? 'undefined' : value.toString()}
               </dd>
             </div>
           ))}

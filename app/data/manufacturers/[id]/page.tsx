@@ -1,5 +1,7 @@
 import React from 'react'
 import { getMfgs, getMfgMakes } from '@/lib/neo4j'
+import TopNav from '@/app/components/TopNav'
+import MfgCard from '@/app/components/MfgCard'
 
 export const revalidate = 10
 
@@ -22,7 +24,7 @@ export async function generateStaticParams (): Promise<Array<{ id: string }>> {
 export async function generateMetadata ({
   params: { id }
 }: Props): Promise<{ title: string }> {
-  const mfg = await getMfgMakes(id)
+  const mfg: Manufacturer | null = await getMfgMakes(id)
 
   if (mfg == null) {
     return {
@@ -33,4 +35,28 @@ export async function generateMetadata ({
   return {
     title: mfg.name
   }
+}
+
+export default async function MfgPage ({
+  params: { id }
+}: Props): Promise<React.JSX.Element> {
+  const mfg: Manufacturer | null = await getMfgMakes(id)
+
+  if (mfg == null) {
+    return <div></div>
+  }
+
+  const mfgData = JSON.parse(JSON.stringify(mfg))
+
+  return (
+    <div className='container mx-auto sm:px-8 lg:px-10'>
+      <TopNav
+        links={[{ href: '/data/manufacturers', label: 'Mamufacturers' }]}
+        page={{ title: mfg.name }}
+      />
+      <div className='border-t border-gray-100'>
+        <MfgCard manufacturer={mfgData}/>
+      </div>
+    </div>
+  )
 }

@@ -74,16 +74,54 @@ export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
     const motors: Motor[] = []
     // Add more arrays for other types if needed
 
-    record.get('products').forEach((node: { labels: any[], properties: any }) => {
-      const type = node.labels[0] // Assuming the first label is the type of the product
+    const products = record.get('products')
+
+    products.forEach((Node: { labels: any[], properties: any }) => {
+      const type = Node.labels[0] // Assuming the first label is the type of the product
       const product = {
         type,
-        ...node.properties
+        ...Node.properties
       }
 
       switch (type) {
         case 'Kit':
-          kits.push(product)
+          kits.push({
+            url: product.url,
+            imageSrc: product.image_src,
+            recommendedEngines: product['Recommended Engines'],
+            projectedMaxAltitude: product['Projected Max Altitude'],
+            recoverySystem: product['Recovery System'],
+            length: product.Length,
+            diameter: product.Diameter,
+            estimatedWeight: product['Estimated Weight'],
+            estimatedAssemblyTime: product['Estimated Assembly Time'],
+            finMaterials: product['Fin Materials'],
+            decalType: product['Decal Type'],
+            launchSystem: product['Launch System'],
+            launchRodSize: product['Launch Rod Size'],
+            instructions: product.instructions,
+            ageRecommendation: product['Age Recommendation'],
+            mfgID: product.mfgID,
+            name: product.Name,
+            complexity: product.complexity,
+            height: product.height,
+            weight: product.weight,
+            motorMount: product.motorMount,
+            parachuteSize: product.parachuteSize,
+            shockCordType: product.shockCordType,
+            shockCordMount: product.shockCordMount,
+            finThickness: product.finThickness,
+            ringThickness: product.ringThickness,
+            price: product.price,
+            currency: product.currency,
+            sku: product.sku,
+            stockStatus: product.stockStatus,
+            description: product.description,
+            links: product.links,
+            parachute: product.parachute,
+            finArray: product.finArray,
+            uniqueID: product.UniqueID
+          })
           break
         case 'Motor':
           motors.push(product)

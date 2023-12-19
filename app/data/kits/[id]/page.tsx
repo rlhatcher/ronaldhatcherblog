@@ -2,6 +2,7 @@ import React from 'react'
 import TopNav from '@/app/components/TopNav'
 
 import { getKits, getKit } from '@/lib/neo4j'
+import Link from 'next/link'
 
 export const revalidate = 10
 
@@ -53,6 +54,7 @@ export default async function KitPage ({
         links={[{ href: '/data/kits', label: 'Kits' }]}
         page={{ title: kit.mfgID + ' ' + kit.name }}
       />
+      <Link href={`/data/manufacturers/${kit.mfgID}`} key={kit.mfgID} className='bg-gray-300 shadow-sm font-mono rounded-md p-2'> {kit.mfgID} </Link>
       <div className='border-t border-gray-100'>
         <dl className='divide-y divide-gray-100 mx-auto'>
           {Object.entries(kit).map(([key, value]) => (
