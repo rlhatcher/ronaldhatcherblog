@@ -54,8 +54,8 @@ export default async function MotorPage ({
         page={{ title: motor.designation }}
       />
       <Link
-        href={`/data/manufacturers/${motor.manufacturer}`}
-        key={motor.manufacturer}
+        href={`/data/manufacturers/${motor.mfgID}`}
+        key={motor.mfgID}
         className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
       >
         {' '}
