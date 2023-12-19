@@ -1,9 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 
-// Assuming the Kit interface is imported from types.d.ts
-// import { Kit } from './path-to-your/types.d.ts';
-
 interface KitListProps {
   kits: Kit[]
 }
