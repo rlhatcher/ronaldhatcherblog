@@ -10,9 +10,9 @@ interface Props {
 }
 
 const TopNav: React.FC<Props> = ({ links, page }) => {
-  const breadcrumbs = [{ href: '/', label: <IoHome /> }, ...links]
+  const breadcrumbs = [{ href: '/', label: <IoHome className='text-2xl'/> }, ...links]
   return (
-    <section className='flex-col md:flex-row flex font-mono items-center md:justify-between mt-2 mb-2 md:mb-2'>
+    <section className='flex-col md:flex-row flex font-mono items-baseline md:justify-between mt-2 mb-2 md:mb-2'>
       <h1 className='text-xl md:text-3xl font-bold tracking-tighter leading-tight md:pr-8'>
         <span className='flex'>
           {breadcrumbs.map((link, index) => (

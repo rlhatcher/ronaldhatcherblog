@@ -52,7 +52,7 @@ export default async function KitPage ({
       <TopNav
         links={[
           { href: '/data', label: 'data' },
-          { href: '/data/kits', label: 'Kits' }
+          { href: '/data/kits', label: 'kits' }
         ]}
         page={{ title: kit.mfgID + ' ' + kit.name }}
       />
