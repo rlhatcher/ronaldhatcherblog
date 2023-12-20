@@ -18,14 +18,12 @@ export default function FeatureSection (): React.JSX.Element {
                 <dt className='flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900'>
                   <TypeIcon type='projects' />
                   <h2 className='flex-auto text-lg font-semibold leading-7 text-gray-900'>
-                    Rockets & Robots
+                    Projects
                   </h2>
                 </dt>
                 <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
                   <span className='absolute inset-0' />
-                  Mostly rocketry and robotics. From the initial concept to the
-                  final implementation, addressing the inspiration, design
-                  thinking, research, coding, and engineering principles.
+                  Organised by project with references to the relevant content.
                 </dd>
               </div>
             </Link>
@@ -39,14 +37,13 @@ export default function FeatureSection (): React.JSX.Element {
                 <dt className='flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900'>
                   <TypeIcon type='builds' />
                   <h2 className='flex-auto text-lg font-semibold leading-7 text-gray-900'>
-                    Technology
+                    Builds
                   </h2>
                 </dt>
                 <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
                   <span className='absolute inset-0' />
-                  The tangible aspects of rocketry and robotics, this section
-                  provides a detailed look into the assembly and testing
-                  processes. All of my hands-on work lives here.
+                  The tangible aspects of things. This is where you can find
+                  construction details.
                 </dd>
               </div>
             </Link>
@@ -61,7 +58,7 @@ export default function FeatureSection (): React.JSX.Element {
                 <dd className='relative isolate mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600'>
                   <span className='absolute inset-0' />
                   Supplementary resources like documents, references, datasets
-                  and code repositories are all here.
+                  and code repositories.
                 </dd>
               </div>
             </Link>
