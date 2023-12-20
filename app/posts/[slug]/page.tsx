@@ -70,8 +70,8 @@ export default async function PostPage ({
           image={meta.image}
           className='mx-auto w-full'
         />
-        <div className='absolute bottom-5 left-0 right-0 w-full md:text-2xl bg-gradient-to-r from-gray-900 to-transparent'>
-          <h3 className='text-lg font-semibold leading-6 text-white'>
+        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
+          <h3 className='font-semibold leading-6 text-white'>
             {post.meta.description}
           </h3>
           <div className='container flex-wrap flex text-white flex-row font-mono justify-items-start gap-1 items-center px-5 py-2'>
