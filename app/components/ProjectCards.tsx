@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectCard from '@/app/components/ProjectCard'
+import ProjectList from './ProjectList'
 import { getProjectsMeta } from '@/lib/projects'
 
 export default async function ProjectCards ({
@@ -11,10 +11,6 @@ export default async function ProjectCards ({
   if (projects == null) return []
 
   return (
-    <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
-      {projects.map((project) => (
-        <ProjectCard project={project} key={project.meta.slug} />
-      ))}
-    </div>
+    <ProjectList projects={projects} />
   )
 }
