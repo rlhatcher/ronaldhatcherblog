@@ -1,6 +1,6 @@
 import React from 'react'
-import StepCard from '@/app/components/StepCard'
 import { getStepsMeta } from '@/lib/steps'
+import StepList from './StepList'
 
 export default async function StepCards ({
   build
@@ -11,15 +11,6 @@ export default async function StepCards ({
   if (steps == null) return []
 
   return (
-    <div className='overflow-hidden bg-white shadow sm:rounded-md'>
-      <ul
-        role='list'
-        className='divide-y divide-gray-200'
-      >
-        {steps.map((step, index) => (
-          <StepCard key={index} step={step} build={build} />
-        ))}
-      </ul>
-    </div>
+    <StepList steps={steps} />
   )
 }

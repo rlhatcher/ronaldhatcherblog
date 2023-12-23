@@ -1,20 +1,20 @@
 import React from 'react'
-import BuildCard from './BuildCard'
 import { getBuildsMeta } from '@/lib/builds'
+import BuildList from './BuildList'
 
 export default async function BuildCards ({
-  limit
+  pageSize
 }: {
-  limit: number
-}): Promise<React.JSX.Element | never[]> {
+  pageSize?: number
+}): Promise<React.JSX.Element> {
   const builds = await getBuildsMeta()
-  if (builds == null) return []
+  if (builds == null) {
+    return (
+    <div></div>
+    )
+  }
 
   return (
-    <div className='mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-8  lg:max-w-none lg:grid-cols-3'>
-      {builds.map((build) => (
-        <BuildCard build={build} key={build.meta.slug} />
-      ))}
-    </div>
+        <BuildList builds={builds} />
   )
 }
