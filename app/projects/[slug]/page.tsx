@@ -1,11 +1,9 @@
 import React from 'react'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/components/TopNav'
 
 import { getProjectByName, getProjectsMeta } from '@/lib/projects'
-import Tag from '@/app/components/Tag'
 import CloudImage from '@/app/components/CloudImage'
 
 export const revalidate = 10
@@ -50,13 +48,6 @@ export default async function ProjectPage ({
   if (project == null) notFound()
 
   const { meta, content } = project
-  const tags = meta.tags.map((tag, i) => (
-    <div key={i}>
-      <Link href={`/tags/${tag}`}>
-        <Tag label={tag} />
-      </Link>
-    </div>
-  ))
 
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
@@ -74,16 +65,6 @@ export default async function ProjectPage ({
           <h3 className='text-lg font-semibold leading-6 text-white'>
             {project.meta.description}
           </h3>
-          <div className='container flex-wrap flex text-white flex-row font-mono justify-items-start gap-1 items-center px-5 py-2'>
-            <h4>Builds</h4>
-            <Link href={`/builds/${project.meta.slug}`}>
-              <span className='inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-900/100'>
-                {project.meta.slug}
-              </span>
-            </Link>
-            <h4>Tags</h4>
-            {tags}
-          </div>
         </div>
       </article>
       <div className='prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10'>
