@@ -7,7 +7,7 @@ export default function ProjectPage (): React.JSX.Element {
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav links={links} page={{ title: 'Projects' }} />
-      <div className='bg-gray-100 rounded-2xl p-4'>
+      <div>
         <ProjectCards limit={30} />
       </div>
     </div>
