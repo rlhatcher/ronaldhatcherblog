@@ -11,6 +11,6 @@ export default async function StepCards ({
   if (steps == null) return []
 
   return (
-    <StepList steps={steps} />
+    <StepList steps={steps} build={build} />
   )
 }
