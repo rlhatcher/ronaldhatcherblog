@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React from 'react'
-import Tag from './Tag'
 
 interface MotorListProps {
   motors: Motor[]
@@ -14,13 +13,15 @@ const MotorList: React.FC<MotorListProps> = ({ motors }) => {
           <Link
             href={`/data/motors/${motor.motorId}`}
             key={motor.motorId}
-            className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
+            className='bg-slate-200 border-l-8 border-slate-400 shadow-sm font-mono rounded-md p-2'
           >
             <div className='flex justify-between'>
               <span>
                 {motor.commonName} {motor.designation}
               </span>
-              <Tag label={motor.mfgID} />
+              <Link href={`/data/manufacturers/${motor.mfgID}`} className='hove hover:underline'>
+                {motor.mfgID}
+              </Link>
             </div>
           </Link>
         )

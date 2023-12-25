@@ -13,7 +13,7 @@ const KitList: React.FC<KitListProps> = ({ kits }) => {
           <Link
             href={`/data/kits/${kit.uniqueID}`}
             key={kit.uniqueID}
-            className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
+            className='bg-slate-200 border-l-8 border-slate-400 shadow-sm font-mono rounded-md p-2'
           >
             {kit.name}
           </Link>

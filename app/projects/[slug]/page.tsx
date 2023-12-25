@@ -62,7 +62,7 @@ export default async function ProjectPage ({
           className='mx-auto w-full'
         />
         <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
-          <h3 className='text-lg font-semibold leading-6 text-white'>
+          <h3 className='text-lg font-semibold leading-6 text-white p-2'>
             {project.meta.description}
           </h3>
         </div>

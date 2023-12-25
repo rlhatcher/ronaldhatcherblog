@@ -26,6 +26,7 @@ export default function BuildList ({
                   height={96}
                   width={96}
                   crop='thumb'
+                  zoom={false}
                   alt=''
                 />
                 </div>
