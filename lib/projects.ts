@@ -3,9 +3,11 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
+
 import Video from '@/app/components/Video'
 import CloudImage from '@/app/components/CloudImage'
 import Gallery from '@/app/components/Gallery'
+import remarkToc from 'remark-toc'
 
 interface gitFile {
   name: string
@@ -49,7 +51,16 @@ export async function getProjectByName (
     options: {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [[remarkGfm]],
+        remarkPlugins: [
+          remarkGfm,
+          [
+            remarkToc,
+            {
+              tight: true,
+              heading: 'Contents'
+            }
+          ]
+        ],
         rehypePlugins: [
           // @ts-expect-error not sure
           rehypeHighlight,

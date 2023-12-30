@@ -1,8 +1,8 @@
 import PostsSection from './components/posts-section'
 import FeatureSection from './components/FeatureSection'
-import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/server'
 import React from 'react'
 import { MdOutlineManageAccounts } from 'react-icons/md'
+import Link from 'next/link'
 
 export const revalidate = 10
 
@@ -15,9 +15,9 @@ function Intro (): JSX.Element {
       <h2 className='text-center md:text-left text-xl mt-2 md:pl-8'>
         Personal notes and projects.
       </h2>
-      <LoginLink>
+      <Link href={'/dashbard'}>
         <MdOutlineManageAccounts className='text-2xl ml-2' />
-      </LoginLink>
+      </Link>
     </section>
   )
 }
