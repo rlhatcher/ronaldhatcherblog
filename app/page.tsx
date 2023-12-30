@@ -15,7 +15,7 @@ function Intro (): JSX.Element {
       <h2 className='text-center md:text-left text-xl mt-2 md:pl-8'>
         Personal notes and projects.
       </h2>
-      <Link href={'/dashbard'}>
+      <Link href={'/dashboard'}>
         <MdOutlineManageAccounts className='text-2xl ml-2' />
       </Link>
     </section>
