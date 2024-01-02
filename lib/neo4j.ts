@@ -12,6 +12,57 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
+export async function mrgPerson (person: Person): Promise<Person | null> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(
+        `
+        MERGE (p:Person {id: $id})
+        ON CREATE SET p.email = $email,
+                      p.family_name = $family_name,
+                      p.given_name = $given_name,
+                      p.picture = $picture
+        RETURN p
+      `,
+        {
+          id: person.id,
+          email: person.email,
+          family_name: person.family_name,
+          given_name: person.given_name,
+          picture: person.picture
+        }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null // Return null if no person found
+    }
+
+    // Extract the single person record
+    const record = res.records[0]
+    const node = record.get('p').properties
+
+    // Convert node properties to Person type
+    return {
+      id: node.id,
+      email: node.email,
+      family_name: node.family_name,
+      given_name: node.given_name,
+      picture: node.picture
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error(error)
+    return null // Return null in case of an error
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
+
 export async function getMfgs (): Promise<Manufacturer[]> {
   // Open a new session
   const session = driver.session()
