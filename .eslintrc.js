@@ -4,13 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: [
-    'standard-with-typescript',
-    'plugin:react/recommended',
-    'next/core-web-vitals',
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
-  ],
+  extends: ['standard-with-typescript', 'plugin:react/recommended', 'next/core-web-vitals', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:storybook/recommended'],
   overrides: [
     {
       env: {
