@@ -7,7 +7,9 @@
     "lint": "next lint",
     "setup": "node ./lib/setup.js",
     "clean": "rm -rf ./.next",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.458.0",
@@ -42,10 +44,20 @@
     "tailwindcss": "^3.3.5"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.7",
+    "@storybook/addon-interactions": "^7.6.7",
+    "@storybook/addon-links": "^7.6.7",
+    "@storybook/addon-onboarding": "^1.0.10",
+    "@storybook/addon-styling-webpack": "^0.0.5",
+    "@storybook/blocks": "^7.6.7",
+    "@storybook/nextjs": "^7.6.7",
+    "@storybook/react": "^7.6.7",
+    "@storybook/test": "^7.6.7",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/react-tagcloud": "^2.3.1",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
+    "css-loader": "^6.8.1",
     "eslint": "^8.53.0",
     "eslint-config-next": "^14.0.2",
     "eslint-config-standard-with-typescript": "^39.1.1",
@@ -53,6 +65,10 @@
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-storybook": "^0.6.15",
+    "postcss-loader": "^7.3.4",
+    "storybook": "^7.6.7",
+    "style-loader": "^3.3.3",
     "typescript": "^5.2.2"
   }
 }
