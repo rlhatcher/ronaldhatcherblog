@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 
 const mono = Courier_Prime({
   weight: '400',
-  variable: '--font-mono',
+  variable: '--font-courier',
   subsets: ['latin'],
   display: 'swap'
 })
 
 const sans = Inter({
-  variable: '--font-sans',
+  variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap'
 })

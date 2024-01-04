@@ -10,17 +10,32 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
-    {
-      name: "@storybook/addon-styling",
+    "@storybook/addon-styling-webpack",
+    ({
+      name: "@storybook/addon-styling-webpack",
+
       options: {
-          // Check out https://github.com/storybookjs/addon-styling/blob/main/docs/api.md
-          // For more details on this addon's options.
-          postCss: {
-              implementation: require.resolve("postcss")
-          }
+        rules: [{
+      test: /\.css$/,
+      sideEffects: true,
+      use: [
+          require.resolve("style-loader"),
+          {
+              loader: require.resolve("css-loader"),
+              options: {
+                  
+                  importLoaders: 1,
+              },
+          },{
+    loader: require.resolve("postcss-loader"),
+    options: {
+    implementation: require.resolve("postcss"),
+    },
+    },
+      ],
+    },],
       }
-  },
-    "@storybook/addon-styling-webpack"
+    })
   ],
   framework: {
     name: "@storybook/nextjs",
