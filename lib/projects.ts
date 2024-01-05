@@ -27,7 +27,7 @@ export async function getProjectByName (
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28'
       },
-      next: { revalidate: 3600 }
+      next: { revalidate: 600 }
     }
   )
   if (!res.ok) return undefined
@@ -104,7 +104,7 @@ export async function getProjectsMeta (): Promise<Project[]> {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28'
       },
-      next: { revalidate: 3600 }
+      next: { revalidate: 600 }
     }
   )
 
