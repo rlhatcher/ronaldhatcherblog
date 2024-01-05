@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { getBucketFiles } from '@/lib/documents'
+import { getBucketFiles } from '@/lib/aws'
 
 export default async function DocCards ({
   limit

@@ -1,4 +1,4 @@
-import { getBucketFiles, getFileString } from '@/lib/documents'
+import { getBucketFiles, getFileString } from '@/lib/aws'
 import PdfViewer from '@/app/components/PdfViewer'
 import TopNav from '@/app/components/TopNav'
 

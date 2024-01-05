@@ -1,6 +1,6 @@
-import { getBuildsMeta } from '@/lib/builds'
-import { getPostsMeta } from '@/lib/posts'
-import { getProjectsMeta } from '@/lib/projects'
+import { getBuildsMeta } from '@/lib/github/builds'
+import { getPostsMeta } from '@/lib/github/posts'
+import { getProjectsMeta } from '@/lib/github/projects'
 
 export async function getAllTags (): Promise<TagObject[]> {
   const posts = await getPostsMeta()

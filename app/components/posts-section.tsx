@@ -1,6 +1,6 @@
 import React from 'react'
 import PostCard from './PostCard'
-import { getPostsMeta } from '@/lib/posts'
+import { getPostsMeta } from '@/lib/github/posts'
 
 export default async function PostsSection ({
   limit

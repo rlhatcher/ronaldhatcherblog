@@ -1,5 +1,5 @@
 import React from 'react'
-import { getBuildsMeta } from '@/lib/builds'
+import { getBuildsMeta } from '@/lib/github/builds'
 import BuildList from './BuildList'
 
 export default async function BuildCards ({

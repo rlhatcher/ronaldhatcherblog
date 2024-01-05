@@ -1,7 +1,7 @@
 import React from 'react'
 import ProjectCards from '@/app/components/ProjectCards'
 import TopNav from '@/app/components/TopNav'
-import { getProjectsMeta } from '@/lib/projects'
+import { getProjectsMeta } from '@/lib/github/projects'
 
 export default async function ProjectPage (): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = []

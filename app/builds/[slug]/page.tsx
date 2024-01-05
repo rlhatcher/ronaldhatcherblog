@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/components/TopNav'
 import StepCards from '@/app/components/StepCards'
-import { getBuildByName, getBuildsMeta } from '@/lib/builds'
+import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
 import CloudImage from '@/app/components/CloudImage'
 export const revalidate = 10
 

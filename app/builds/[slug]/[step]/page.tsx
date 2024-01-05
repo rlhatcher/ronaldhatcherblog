@@ -1,6 +1,6 @@
 import React from 'react'
-import { getBuildsMeta } from '@/lib/builds'
-import { getStepsMeta, getStepByName } from '@/lib/steps'
+import { getBuildsMeta } from '@/lib/github/builds'
+import { getStepsMeta, getStepByName } from '@/lib/github/steps'
 import TopNav from '@/app/components/TopNav'
 import { notFound } from 'next/navigation'
 import CloudImage from '@/app/components/CloudImage'
