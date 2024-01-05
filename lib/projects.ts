@@ -26,7 +26,8 @@ export async function getProjectByName (
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28'
-      }
+      },
+      next: { revalidate: 3600 }
     }
   )
   if (!res.ok) return undefined
@@ -102,7 +103,8 @@ export async function getProjectsMeta (): Promise<Project[]> {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28'
-      }
+      },
+      next: { revalidate: 3600 }
     }
   )
 
