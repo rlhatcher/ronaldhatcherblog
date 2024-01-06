@@ -1,4 +1,5 @@
 import neo4j from 'neo4j-driver'
+import { cache } from 'react'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -62,6 +63,11 @@ export async function mrgPerson (person: Person): Promise<Person | null> {
     await session.close()
   }
 }
+
+export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
+  const mfgs = await getMfgs()
+  return mfgs
+})
 
 export async function getMfgs (): Promise<Manufacturer[]> {
   // Open a new session

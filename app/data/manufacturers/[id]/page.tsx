@@ -1,9 +1,9 @@
 import React from 'react'
-import { getMfgs, getMfgMakes } from '@/lib/neo4j'
+import { getManufacturers, getMfgMakes } from '@/lib/neo4j'
 import TopNav from '@/app/components/TopNav'
 import MfgCard from '@/app/components/MfgCard'
 
-export const revalidate = 10
+export const revalidate = 360
 
 interface Props {
   params: {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export async function generateStaticParams (): Promise<Array<{ id: string }>> {
-  const mfgs = await getMfgs()
+  const mfgs = await getManufacturers()
 
   if (mfgs == null) return []
 
