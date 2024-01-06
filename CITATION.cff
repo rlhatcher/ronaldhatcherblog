@@ -1,0 +1,19 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Ronald Hatcher blog
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Ronald
+    family-names: Hatcher
+    email: ronaldhatcher@mac.com
+url: 'https://ronaldhatcher.com'
+abstract: Content based on amateur rocketry and robotics
+keywords:
+  - rockets
+  - robotics
+license: CC-BY-NC-ND-4.0
