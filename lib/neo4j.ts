@@ -13,7 +13,14 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
-export async function mrgPerson (person: Person): Promise<Person | null> {
+export const mrgPerson = cache(
+  async (person: Person): Promise<Person | null> => {
+    const dbPerson = await mrgDbPerson(person)
+    return dbPerson
+  }
+)
+
+export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session
   const session = driver.session()
 
@@ -65,11 +72,11 @@ export async function mrgPerson (person: Person): Promise<Person | null> {
 }
 
 export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
-  const mfgs = await getMfgs()
+  const mfgs = await getDbManufacturers()
   return mfgs
 })
 
-export async function getMfgs (): Promise<Manufacturer[]> {
+export async function getDbManufacturers (): Promise<Manufacturer[]> {
   // Open a new session
   const session = driver.session()
 
@@ -106,7 +113,12 @@ export async function getMfgs (): Promise<Manufacturer[]> {
   }
 }
 
-export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
+export const getMfgMakes = cache(async (id: string): Promise<Manufacturer> => {
+  const mfgs = await getDbMfgMakes(id)
+  return mfgs
+})
+
+export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
   // Open a new session
   const session = driver.session()
 
@@ -122,7 +134,7 @@ export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
       )
     )
     if (res.records.length === 0) {
-      return null // Return null if no manufacturer found
+      return { name: '', mfgID: '' }
     }
     const record = res.records[0]
     const manufacturerNode = record.get('manufacturer').properties
@@ -197,15 +209,19 @@ export async function getMfgMakes (id: string): Promise<Manufacturer | null> {
   } catch (error) {
     // Handle any errors
     console.error(error)
-    return null // Return null in case of an error
+    return { name: '', mfgID: '' }
   } finally {
     // Close the session
     await session.close()
   }
 }
 
-export async function getMotors (): Promise<Motor[]> {
-  // Open a new session
+export const getMotors = cache(async (): Promise<Motor[]> => {
+  const motors = await getDbMotors()
+  return motors
+})
+
+export async function getDbMotors (): Promise<Motor[]> {
   const session = driver.session()
 
   try {
@@ -270,7 +286,12 @@ export async function getMotors (): Promise<Motor[]> {
   }
 }
 
-export async function getMotor (id: string): Promise<Motor | null> {
+export const getMotor = cache(async (id: string): Promise<Motor | null> => {
+  const motor = await getDbMotor(id)
+  return motor
+})
+
+export async function getDbMotor (id: string): Promise<Motor | null> {
   // Open a new session
   const session = driver.session()
 
@@ -331,7 +352,12 @@ export async function getMotor (id: string): Promise<Motor | null> {
   }
 }
 
-export async function getKits (): Promise<Kit[]> {
+export const getKits = cache(async (): Promise<Kit[]> => {
+  const kits = await getDbKits()
+  return kits
+})
+
+async function getDbKits (): Promise<Kit[]> {
   // Open a new session
   const session = driver.session()
 
@@ -406,7 +432,12 @@ export async function getKits (): Promise<Kit[]> {
   }
 }
 
-export async function getKit (id: string): Promise<Kit | null> {
+export const getKit = cache(async (id: string): Promise<Kit | null> => {
+  const kit = await getDbKit(id)
+  return kit
+})
+
+export async function getDbKit (id: string): Promise<Kit | null> {
   // Open a new session
   const session = driver.session()
 
