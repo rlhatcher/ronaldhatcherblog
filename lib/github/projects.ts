@@ -22,7 +22,7 @@ export async function getProjectByName (
   fileName: string
 ): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}.mdx`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -69,7 +69,15 @@ export async function getProjectByName (
           rehypeHighlight,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [rehypeCitation, { bibliography: `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}.bib` }]
+          [
+            // @ts-expect-error not sure
+            rehypeCitation,
+            {
+              bibliography: [
+                `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}.bib`
+              ]
+            }
+          ]
         ]
       }
     }
@@ -93,7 +101,7 @@ export async function getProjectByName (
 
 export async function getProjectsMeta (): Promise<Project[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/projects',
+    'https://api.github.com/repos/rlhatcher/blog_content/contents/projects',
     {
       headers: {
         Accept: 'application/vnd.github+json',
