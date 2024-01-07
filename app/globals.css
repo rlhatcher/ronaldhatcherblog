@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Citations and Bibliography */
+.csl-entry {
+  @apply text-base p-2 border-t border-slate-200 rounded;
+}
+.csl-bib-body {
+  @apply bg-slate-100;
+}
