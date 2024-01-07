@@ -27,7 +27,7 @@ export async function generateStaticParams (): Promise<Array<{ slug: string }>> 
 export async function generateMetadata ({
   params: { slug }
 }: Props): Promise<{ title: string }> {
-  const project = await getProjectByName(`${slug}.mdx`)
+  const project = await getProjectByName(slug)
 
   if (project == null) {
     return {
@@ -43,7 +43,7 @@ export async function generateMetadata ({
 export default async function ProjectPage ({
   params: { slug }
 }: Props): Promise<React.JSX.Element> {
-  const project = await getProjectByName(`${slug}.mdx`)
+  const project = await getProjectByName(slug)
 
   if (project == null) notFound()
 
