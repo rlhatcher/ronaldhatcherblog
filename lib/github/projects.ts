@@ -3,11 +3,13 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
+import rehypeCitation from 'rehype-citation'
 
 import Video from '@/app/components/Video'
 import CloudImage from '@/app/components/CloudImage'
 import Gallery from '@/app/components/Gallery'
 import remarkToc from 'remark-toc'
+import path from 'path'
 
 interface gitFile {
   name: string
@@ -20,7 +22,7 @@ export async function getProjectByName (
   fileName: string
 ): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -66,22 +68,16 @@ export async function getProjectByName (
           // @ts-expect-error not sure
           rehypeHighlight,
           rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: 'prepend'
-            }
-          ]
+          [rehypeAutolinkHeadings, { behavior: 'prepend' }],
+          [rehypeCitation, { bibliography: `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}.bib` }]
         ]
       }
     }
   })
 
-  const slug = fileName.replace(/\.mdx$/, '')
-
   const ProjectObj: Project = {
     meta: {
-      slug,
+      slug: fileName,
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
@@ -119,7 +115,7 @@ export async function getProjectsMeta (): Promise<Project[]> {
   const projects: Project[] = []
 
   for (const file of filesArray) {
-    const project = await getProjectByName(file)
+    const project = await getProjectByName(path.parse(file).name)
     if (project != null) {
       projects.push(project)
     }
