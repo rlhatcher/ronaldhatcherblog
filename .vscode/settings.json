@@ -3,6 +3,8 @@
     "boto",
     "cloudscraper",
     "dotenv",
-    "mfgs"
+    "Filetree",
+    "mfgs",
+    "rehype"
   ]
 }
