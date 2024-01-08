@@ -75,6 +75,9 @@ export async function getProjectByName (
             {
               bibliography: [
                 `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}.bib`
+              ],
+              inlineClass: [
+                'citation'
               ]
             }
           ]

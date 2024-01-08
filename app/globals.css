@@ -9,3 +9,7 @@
 .csl-bib-body {
   @apply bg-slate-100;
 }
+
+.citation {
+  @apply font-light text-sm p-0;
+}
