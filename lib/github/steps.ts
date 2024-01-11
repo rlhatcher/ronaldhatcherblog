@@ -19,7 +19,7 @@ export async function getStepByName (
   fileName: string
 ): Promise<Step | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/builds/${build}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/builds/${build}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -90,7 +90,7 @@ export async function getStepsMeta (
   build: string
 ): Promise<Step[] | undefined> {
   const res = await fetch(
-    `https://api.github.com/repos/rlhatcher/rlhblog-content/contents/builds/${build}`,
+    `https://api.github.com/repos/rlhatcher/blog_content/contents/builds/${build}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

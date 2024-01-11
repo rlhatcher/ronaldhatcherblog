@@ -18,7 +18,7 @@ export async function getBuildByName (
   fileName: string
 ): Promise<Build | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -88,7 +88,7 @@ export async function getBuildByName (
 
 export async function getBuildsMeta (): Promise<Build[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/builds',
+    'https://api.github.com/repos/rlhatcher/blog_content/contents/builds',
     {
       headers: {
         Accept: 'application/vnd.github+json',

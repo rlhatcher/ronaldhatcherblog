@@ -18,7 +18,7 @@ export async function getPostByName (
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/rlhblog-content/main/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -88,7 +88,7 @@ export async function getPostByName (
 
 export async function getPostsMeta (): Promise<BlogPost[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/rlhblog-content/contents/posts',
+    'https://api.github.com/repos/rlhatcher/blog_content/contents/posts',
     {
       headers: {
         Accept: 'application/vnd.github+json',
