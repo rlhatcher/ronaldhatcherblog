@@ -42,6 +42,9 @@ export default async function StepPage ({
   const theStep = await getStepByName(slug, `${step}.mdx`)
 
   if (theStep == null) notFound()
+
+  const { meta, content } = theStep
+
   return (
     <div className='container mx-auto sm:px-6 lg:px-8'>
       <TopNav
@@ -51,18 +54,21 @@ export default async function StepPage ({
         ]}
         page={{ title: theStep.meta.title }}
       />
-      <div className='bg-gray-100 rounded-2xl static'>
-        <div>
-          <CloudImage
-            title='build'
-            image={theStep.meta.image}
-            className='rounded-xl mx-auto w-full'
-          />
+      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
+        <CloudImage
+          title='build'
+          image={meta.image}
+          className='mx-auto w-full'
+          crop='thumb'
+        />
+        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
+          <h3 className='text-lg font-semibold px-2 leading-6 text-white'>
+            {meta.description}
+          </h3>
         </div>
-
-        <div className='prose prose-slate mx-auto max-w-full w-4/5 bg-white relative top-0 -mt-32 p-5 sm:p-10'>
-          {theStep.content}
-        </div>
+      </article>
+      <div className='prose prose-slate mx-auto max-w-full bg-slate-50 relative top-0  p-5 m:p-10'>
+        {content}
       </div>
     </div>
   )

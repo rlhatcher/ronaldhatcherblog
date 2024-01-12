@@ -61,14 +61,12 @@ export default async function BuildPage ({
         />
         <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
           <h3 className='text-lg font-semibold px-2 leading-6 text-white'>
-            {build.meta.description}
+            {meta.description}
           </h3>
         </div>
       </article>
-      <div className='prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10'>
-        <h2>Build Steps</h2>
-        <StepCards build={slug} />
-        <h2>Overview</h2>
+      <StepCards build={slug} />
+      <div className='prose prose-slate mx-auto max-w-full relative top-0  p-5 m:p-10 bg-slate-50'>
         {content}
       </div>
     </div>

@@ -58,7 +58,7 @@ export async function getBuildByName (
             remarkToc,
             {
               tight: true,
-              heading: 'Contents'
+              heading: 'Steps'
             }
           ]
         ],
