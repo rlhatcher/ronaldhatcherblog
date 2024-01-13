@@ -1,5 +1,6 @@
 'use client'
-import CloudImage from '@/app/components/CloudImage'
+import React, { useEffect, useState } from 'react'
+import ImageFull from '@/app/components/ImageFull'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -14,20 +15,44 @@ export default function ImagePage ({
   const publicIdString = publicId.join('/')
   const router = useRouter()
 
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    // Ensure window is available (client-side)
+    if (typeof window !== 'undefined') {
+      // Function to update screen size
+      const handleResize = (): void => {
+        setScreenSize({
+          width: window.innerWidth,
+          height: window.innerHeight
+        })
+      }
+
+      // Set initial size
+      handleResize()
+
+      // Add event listener
+      window.addEventListener('resize', handleResize)
+
+      // Remove event listener on cleanup
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
+  }, [])
+
   const handleImageClick = (): void => {
     router.back()
   }
 
   return (
-    <div
-      className='h-screen w-screen absolute mx-auto px-5 bg-blue-100 rounded-2xl py-4 sm:pt-4'
-      onClick={handleImageClick}
-    >
-      <CloudImage
-        image={publicIdString}
+    <div className='h-screen w-screen' onClick={handleImageClick}>
+      <ImageFull
+        src={publicIdString}
         crop='fill'
         alt='Description of my image'
-        className='object-contain object-center rounded-xl px-2'
+        width={screenSize.width}
+        height={screenSize.height}
       />
     </div>
   )

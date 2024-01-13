@@ -10,7 +10,7 @@ export default function GalleryItem ({
 }): React.JSX.Element {
   return (
     <Link href={`/images/${imageMeta.publicId}`}>
-      <CloudImage image={imageMeta.publicId} alt='Description of my image' />
+      <CloudImage image={imageMeta.publicId} alt='Description of my image' crop='auto'/>
     </Link>
   )
 }
