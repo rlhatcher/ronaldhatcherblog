@@ -20,7 +20,7 @@ export default async function Gallery ({
   return (
     <div className='mx-auto max-w-full px-2 md:px-4'>
         {metas.map((meta) => (
-          <GalleryItem imageMeta={meta} key={meta.assetId} />
+          <GalleryItem publicId={meta.publicId} key={meta.publicId} />
         ))}
     </div>
   )
