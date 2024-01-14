@@ -1,6 +1,6 @@
 import { getBucketFiles, getFileString } from '@/lib/aws'
-import PdfViewer from '@/app/components/PdfViewer'
-import TopNav from '@/app/components/TopNav'
+import PdfViewer from '@/app/ui/PdfViewer'
+import TopNav from '@/app/ui/TopNav'
 
 interface Props {
   params: {

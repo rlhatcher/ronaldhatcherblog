@@ -1,7 +1,7 @@
 import './globals.css'
 import React from 'react'
 import { inter, courier } from '@/lib/fonts'
-import GoogleAnalytics from './components/GoogleAnalytics'
+import GoogleAnalytics from './ui/GoogleAnalytics'
 import { type Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout ({
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <html lang='en' className={`${courier.variable} ${inter.variable}`}>
+    <html lang='en' className={`${courier.variable} antialiased ${inter.variable} antialiased`}>
       <body>
         <main>
           <GoogleAnalytics />

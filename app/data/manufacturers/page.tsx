@@ -1,6 +1,6 @@
 import React from 'react'
-import TopNav from '@/app/components/TopNav'
-import MfgCards from '@/app/components/MfgCards'
+import TopNav from '@/app/ui/TopNav'
+import MfgCards from '@/app/ui/MfgCards'
 
 export default async function ManufacturerPage (): Promise<
 React.JSX.Element | never[]

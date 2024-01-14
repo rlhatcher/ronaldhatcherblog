@@ -1,6 +1,6 @@
 import React from 'react'
-import TopNav from '@/app/components/TopNav'
-import MotorCards from '@/app/components/MotorCards'
+import TopNav from '@/app/ui/TopNav'
+import MotorCards from '@/app/ui/MotorCards'
 
 export default async function MotorsPage (): Promise<
 React.JSX.Element | never[]

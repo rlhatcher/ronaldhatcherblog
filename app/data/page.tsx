@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import TypeIcon from '../components/TypeIcon'
-import TopNav from '../components/TopNav'
+import TypeIcon from '../ui/TypeIcon'
+import TopNav from '../ui/TopNav'
 
 const features = [
   {

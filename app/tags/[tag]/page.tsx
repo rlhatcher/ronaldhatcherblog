@@ -1,5 +1,5 @@
-import TopNav from '@/app/components/TopNav'
-import TypeIcon from '@/app/components/TypeIcon'
+import TopNav from '@/app/ui/TopNav'
+import TypeIcon from '@/app/ui/TypeIcon'
 import { getBuildsMeta } from '@/lib/github/builds'
 import { getPostsMeta } from '@/lib/github/posts'
 import { getProjectsMeta } from '@/lib/github/projects'

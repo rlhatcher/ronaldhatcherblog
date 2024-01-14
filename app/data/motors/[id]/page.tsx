@@ -1,5 +1,5 @@
 import React from 'react'
-import TopNav from '@/app/components/TopNav'
+import TopNav from '@/app/ui/TopNav'
 
 import { getMotors, getMotor } from '@/lib/neo4j'
 import Link from 'next/link'

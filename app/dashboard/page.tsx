@@ -1,6 +1,6 @@
 import React from 'react'
-import TopNav from '@/app/components/TopNav'
-import Profile from '../components/Profile'
+import TopNav from '@/app/ui/TopNav'
+import Profile from '../ui/Profile'
 import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 

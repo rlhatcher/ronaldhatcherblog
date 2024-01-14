@@ -1,7 +1,7 @@
 import React from 'react'
 import { getManufacturers, getMfgMakes } from '@/lib/neo4j'
-import TopNav from '@/app/components/TopNav'
-import MfgCard from '@/app/components/MfgCard'
+import TopNav from '@/app/ui/TopNav'
+import MfgCard from '@/app/ui/MfgCard'
 
 export const revalidate = 360
 

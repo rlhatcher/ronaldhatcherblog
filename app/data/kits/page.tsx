@@ -1,6 +1,6 @@
 import React from 'react'
-import TopNav from '@/app/components/TopNav'
-import KitCards from '@/app/components/KitCards'
+import TopNav from '@/app/ui/TopNav'
+import KitCards from '@/app/ui/KitCards'
 
 export default async function KitsPage (): Promise<React.JSX.Element | never[]> {
   const links: BreadCrumb[] = [{ href: '/data', label: 'data' }]
