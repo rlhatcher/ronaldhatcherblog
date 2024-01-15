@@ -4,7 +4,7 @@ The profile retrieves identity information from the IDP and retrieves the person
 */
 import React from 'react'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import { mrgPerson } from '@/lib/neo4j'
+import { mrgPerson } from '@/app/lib/neo4j'
 
 export default async function ProfilePage (): Promise<React.JSX.Element> {
   const { getUser } = getKindeServerSession()

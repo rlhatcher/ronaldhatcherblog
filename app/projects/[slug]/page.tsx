@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/ui/TopNav'
 
-import { getProjectByName, getProjectsMeta } from '@/lib/github/projects'
+import { getProjectByName, getProjectsMeta } from '@/app/lib/github/projects'
 import CloudImage from '@/app/ui/CloudImage'
 
 export const revalidate = 10

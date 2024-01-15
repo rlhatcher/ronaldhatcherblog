@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import GalleryItem from '@/app/ui/GalleryItem'
+import GalleryItem from './GalleryItem'
 
 const meta = {
   title: 'Components/GalleryItem',

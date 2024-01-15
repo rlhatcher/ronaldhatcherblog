@@ -1,5 +1,5 @@
 import React from 'react'
-import BuildCards from '../ui/BuildCards'
+import BuildCards from '../ui/builds/BuildCards'
 import TopNav from '@/app/ui/TopNav'
 
 export default function BuildsPage (): React.JSX.Element {

@@ -15,11 +15,15 @@ import clsx from 'clsx'
 const links = [
   { name: 'Home', href: '/dashboard', icon: IoHomeOutline },
   {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
+    name: 'Builds',
+    href: '/dashboard/builds',
     icon: IoDuplicateOutline
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: IoPeopleOutline }
+  {
+    name: 'Kits',
+    href: '/dashboard/kits',
+    icon: IoPeopleOutline
+  }
 ]
 
 export default function NavLinks (): React.JSX.Element {
@@ -39,8 +43,8 @@ export default function NavLinks (): React.JSX.Element {
               }
             )}
           >
-            <LinkIcon className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
+            <LinkIcon className='w-6' />
+            <p className='hidden md:block'>{link.name}</p>
           </Link>
         )
       })}

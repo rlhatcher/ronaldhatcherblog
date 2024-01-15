@@ -1,4 +1,4 @@
-import { getImagesByTag, getMetaByPublicId } from '@/lib/cloudinary'
+import { getImagesByTag, getMetaByPublicId } from '@/app/lib/cloudinary'
 
 import React from 'react'
 import GalleryItem from './GalleryItem'

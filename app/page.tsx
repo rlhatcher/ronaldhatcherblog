@@ -1,5 +1,5 @@
-import PostsSection from './ui/posts-section'
-import FeatureSection from './ui/FeatureSection'
+import PostsSection from './ui/blog/posts-section'
+import FeatureSection from './ui/blog/FeatureSection'
 import React from 'react'
 import { MdOutlineManageAccounts } from 'react-icons/md'
 import Link from 'next/link'

@@ -1,7 +1,7 @@
-import './globals.css'
+import '@/app/ui/globals.css'
 import React from 'react'
-import { inter, courier } from '@/lib/fonts'
-import GoogleAnalytics from './ui/GoogleAnalytics'
+import { inter, courier } from '@/app/lib/fonts'
+import GoogleAnalytics from '@/app/ui/GoogleAnalytics'
 import { type Metadata } from 'next'
 
 export const metadata: Metadata = {

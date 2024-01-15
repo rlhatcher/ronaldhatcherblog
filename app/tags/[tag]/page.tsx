@@ -1,9 +1,9 @@
 import TopNav from '@/app/ui/TopNav'
 import TypeIcon from '@/app/ui/TypeIcon'
-import { getBuildsMeta } from '@/lib/github/builds'
-import { getPostsMeta } from '@/lib/github/posts'
-import { getProjectsMeta } from '@/lib/github/projects'
-import { getAllTags } from '@/lib/github/tags'
+import { getBuildsMeta } from '@/app/lib/github/builds'
+import { getPostsMeta } from '@/app/lib/github/posts'
+import { getProjectsMeta } from '@/app/lib/github/projects'
+import { getAllTags } from '@/app/lib/github/tags'
 import Link from 'next/link'
 import React from 'react'
 

@@ -1,16 +1,17 @@
-'use client'
 import React from 'react'
 import Link from 'next/link'
-import CloudImage from '@/app/ui/CloudImage'
+import CloudImage from './CloudImage'
 
-export default function GalleryItem ({
-  publicId
-}: {
+interface GalleryItemProps {
   publicId: string
-}): React.JSX.Element {
+}
+
+const GalleryItem: React.FC<GalleryItemProps> = ({ publicId }) => {
   return (
     <Link href={`/images/${publicId}`}>
       <CloudImage image={publicId} alt='Description of my image' crop='auto'/>
     </Link>
   )
 }
+
+export default GalleryItem
