@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import NavLinks from './nav-links'
 import {
   IoPowerOutline
@@ -8,15 +7,8 @@ import React from 'react'
 export default function SideNav (): React.JSX.Element {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-slate-300 p-4 md:h-40"
-        href="/"
-      >
-        <div className="w-32 text-white md:w-40">
-          {/* <AcmeLogo /> */}
-        </div>
-      </Link>
-      <div className="flex grow flex-row justify-between font-mono space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+
+      <div className="flex grow flex-row justify-between text-xl space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-slate-100 md:block"></div>
         <form>
