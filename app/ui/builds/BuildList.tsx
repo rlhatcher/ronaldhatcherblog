@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import CloudImage from '../CloudImage'
+import CloudImage from '../images/CloudImage'
 
 export default function BuildList ({
   builds

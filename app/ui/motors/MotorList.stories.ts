@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import MotorList from './MotorList'
 
 const meta = {
-  title: 'MotorList',
+  title: 'Motors/MotorList',
   component: MotorList,
   parameters: {
     layout: 'centered'

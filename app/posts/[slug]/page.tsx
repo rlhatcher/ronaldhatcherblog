@@ -4,7 +4,7 @@ import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/ui/TopNav'
 
 import { getPostByName, getPostsMeta } from '@/app/lib/github/posts'
-import CloudImage from '@/app/ui/CloudImage'
+import CloudImage from '@/app/ui/images/CloudImage'
 
 export const revalidate = 10
 

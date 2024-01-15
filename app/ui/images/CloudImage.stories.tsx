@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import CloudImage from './CloudImage'
 
 const meta = {
-  title: 'Components/CloudImage',
+  title: 'Images/CloudImage',
   component: CloudImage,
   parameters: {
     layout: 'centered'

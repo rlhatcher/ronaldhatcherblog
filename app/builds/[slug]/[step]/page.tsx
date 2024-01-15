@@ -3,7 +3,7 @@ import { getBuildsMeta } from '@/app/lib/github/builds'
 import { getStepsMeta, getStepByName } from '@/app/lib/github/steps'
 import TopNav from '@/app/ui/TopNav'
 import { notFound } from 'next/navigation'
-import CloudImage from '@/app/ui/CloudImage'
+import CloudImage from '@/app/ui/images/CloudImage'
 
 interface Props {
   params: {

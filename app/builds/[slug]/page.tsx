@@ -4,7 +4,7 @@ import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/ui/TopNav'
 import StepCards from '@/app/ui/blog/StepCards'
 import { getBuildByName, getBuildsMeta } from '@/app/lib/github/builds'
-import CloudImage from '@/app/ui/CloudImage'
+import CloudImage from '@/app/ui/images/CloudImage'
 export const revalidate = 10
 
 interface Props {

@@ -5,9 +5,9 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import rehypeCitation from 'rehype-citation'
 
-import Video from '@/app/ui/Video'
-import CloudImage from '@/app/ui/CloudImage'
-import Gallery from '@/app/ui/Gallery'
+import Video from '@/app/ui/images/Video'
+import CloudImage from '@/app/ui/images/CloudImage'
+import Gallery from '@/app/ui/images/Gallery'
 import remarkToc from 'remark-toc'
 import path from 'path'
 

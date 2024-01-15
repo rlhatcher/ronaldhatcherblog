@@ -4,7 +4,7 @@ import React from 'react'
 import DateComponent from '../date'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import CloudImage from '../CloudImage'
+import CloudImage from '../images/CloudImage'
 
 export default function PostCard ({
   post
