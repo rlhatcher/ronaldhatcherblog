@@ -3,7 +3,6 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import SideNav from './side-nav'
 
 const meta = {
-
   title: 'Dashboard/SideNav',
   component: SideNav,
   parameters: {
@@ -15,6 +14,5 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 export const Primary: Story = {
-  args: {
-  }
+  args: {}
 } satisfies Meta<typeof SideNav>

@@ -4,8 +4,8 @@ The profile retrieves identity information from the IDP and retrieves the person
 */
 import React from 'react'
 
-import ProfileBar from './dashboard/profile-bar'
-import getUser from '../lib/kinde'
+import ProfileBar from './profile-bar'
+import { getUser } from '../../lib/kinde'
 
 export default async function ProfilePage (): Promise<React.JSX.Element> {
   const user: Person = await getUser()

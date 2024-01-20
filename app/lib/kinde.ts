@@ -1,6 +1,6 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
-export default async function getUser (): Promise<Person> {
+export async function getUser (): Promise<Person> {
   const { getUser } = getKindeServerSession()
 
   const user = await getUser()

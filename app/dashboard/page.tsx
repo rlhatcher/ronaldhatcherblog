@@ -1,5 +1,5 @@
 import React from 'react'
-import Profile from '../ui/Profile'
+import Profile from '../ui/dashboard/profile'
 import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
