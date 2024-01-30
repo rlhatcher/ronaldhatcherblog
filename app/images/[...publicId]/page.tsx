@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import ImageFull from '@/app/components/ImageFull'
+import ImageFull from '@/app/ui/ImageFull'
 import { useRouter } from 'next/navigation'
 
 interface Props {

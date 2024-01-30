@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react";
-import "../app/globals.css";
-import { inter, courier } from "../lib/fonts";
+import "../app/ui/globals.css";
+import { inter, courier } from "../app/lib/fonts";
 import React from "react";
 
 const preview: Preview = {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
-import TopNav from '@/app/components/TopNav'
-import StepCards from '@/app/components/StepCards'
-import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
-import CloudImage from '@/app/components/CloudImage'
+import TopNav from '@/app/ui/TopNav'
+import StepCards from '@/app/ui/blog/StepCards'
+import { getBuildByName, getBuildsMeta } from '@/app/lib/github/builds'
+import CloudImage from '@/app/ui/images/CloudImage'
 export const revalidate = 10
 
 interface Props {

@@ -22,6 +22,7 @@
     "@vercel/speed-insights": "^1.0.1",
     "autoprefixer": "10.4.16",
     "cloudinary": "^1.41.0",
+    "clsx": "^2.1.0",
     "date-fns": "2.30.0",
     "highlight.js": "^11.9.0",
     "neo4j-driver": "^5.15.0",

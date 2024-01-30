@@ -1,9 +1,9 @@
 import React from 'react'
-import { getBuildsMeta } from '@/lib/github/builds'
-import { getStepsMeta, getStepByName } from '@/lib/github/steps'
-import TopNav from '@/app/components/TopNav'
+import { getBuildsMeta } from '@/app/lib/github/builds'
+import { getStepsMeta, getStepByName } from '@/app/lib/github/steps'
+import TopNav from '@/app/ui/TopNav'
 import { notFound } from 'next/navigation'
-import CloudImage from '@/app/components/CloudImage'
+import CloudImage from '@/app/ui/images/CloudImage'
 
 interface Props {
   params: {

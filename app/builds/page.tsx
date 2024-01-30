@@ -1,6 +1,6 @@
 import React from 'react'
-import BuildCards from '../components/BuildCards'
-import TopNav from '@/app/components/TopNav'
+import BuildCards from '../ui/builds/BuildCards'
+import TopNav from '@/app/ui/TopNav'
 
 export default function BuildsPage (): React.JSX.Element {
   const links: BreadCrumb[] = []

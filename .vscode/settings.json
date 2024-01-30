@@ -4,7 +4,9 @@
     "cloudscraper",
     "dotenv",
     "Filetree",
+    "kinde",
     "mfgs",
+    "nextjs",
     "rehype"
   ]
 }

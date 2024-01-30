@@ -1,6 +1,6 @@
-import Tags from '@/app/components/Tags'
-import TopNav from '@/app/components/TopNav'
-import { getAllTags } from '@/lib/github/tags'
+import Tags from '@/app/ui/Tags'
+import TopNav from '@/app/ui/TopNav'
+import { getAllTags } from '@/app/lib/github/tags'
 
 export default async function TagsPage (): Promise<React.JSX.Element | never[]> {
   const links: BreadCrumb[] = []
