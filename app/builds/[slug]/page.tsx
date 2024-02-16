@@ -57,7 +57,7 @@ export default async function BuildPage ({
           title={meta.title}
           image={meta.image}
           className='mx-auto w-full'
-          crop='auto'
+          crop='scale'
         />
         <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
           <h3 className='text-lg font-semibold px-2 leading-6 text-white'>
