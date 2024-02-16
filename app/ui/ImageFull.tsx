@@ -6,7 +6,21 @@ interface ImageFullProps {
   src: string
   height?: number
   width?: number
-  crop?: string
+  crop?:
+  | 'crop'
+  | 'fill'
+  | 'lfill'
+  | 'fill_pad'
+  | 'thumb'
+  | 'scale'
+  | 'fit'
+  | 'limit'
+  | 'mfit'
+  | 'pad'
+  | 'lpad'
+  | 'mpad'
+  | 'imagga_scale'
+  | 'imagga_crop'
 }
 
 export default function ImageFull ({
