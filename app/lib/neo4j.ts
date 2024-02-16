@@ -13,6 +13,66 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
+export const getFlightCards = cache(async (): Promise<FlightCard[]> => {
+  const cards = await getDbFlightCards()
+  return cards
+})
+
+export async function getDbFlightCards (): Promise<any[]> {
+  // Open a new session
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+      MATCH (fc:FlightCard)-[r]->(endNode)
+      RETURN 
+        fc.id AS id, 
+        collect(endNode) AS relatedInfo`,
+        {}
+      )
+    )
+
+    if (res.records.length === 0) {
+      return []
+    }
+
+    const flightCards = res.records.map((record) => {
+      const id = record.get('id')
+      const relatedInfo = record.get('relatedInfo')
+      // Initialize an object to consolidate properties
+
+      const card: FlightCard = { id }
+
+      card.id = id
+      relatedInfo.forEach((Node: { labels: any[], properties: any }) => {
+        const type = Node.labels[0]
+        switch (type) {
+          case 'Configuration':
+            card.motor = Node.properties.name
+            break
+          case 'ModelRocket':
+            card.rocket = Node.properties.name
+            break
+          case 'Flight':
+            card.altitude = Node.properties.altitude
+        }
+      })
+
+      return card
+    })
+
+    return flightCards
+  } catch (error) {
+    // Handle any errors
+    console.error(error)
+    return []
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
 export const mrgPerson = cache(
   async (person: Person): Promise<Person | null> => {
     const dbPerson = await mrgDbPerson(person)
