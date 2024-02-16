@@ -9,7 +9,7 @@ interface GalleryItemProps {
 const GalleryItem: React.FC<GalleryItemProps> = ({ publicId }) => {
   return (
     <Link href={`/images/${publicId}`}>
-      <CloudImage image={publicId} alt='Description of my image' crop='auto'/>
+      <CloudImage image={publicId} alt='Description of my image' crop='scale'/>
     </Link>
   )
 }
