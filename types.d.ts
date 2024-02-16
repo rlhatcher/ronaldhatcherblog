@@ -111,6 +111,17 @@ interface Manufacturer {
   motors?: Motor[]
 }
 
+interface FlightCard {
+  id: string
+  date?: string
+  location?: string
+  rocket?: string
+  motor?: string
+  altitude?: string
+  speed?: string
+  notes?: string
+}
+
 interface Motor {
   commonName: string
   delays: string
