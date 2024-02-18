@@ -22,7 +22,21 @@ export default function CloudImage ({
   zoom?: boolean
   height?: number
   width?: number
-  crop?: string
+  crop?:
+  | 'crop'
+  | 'fill'
+  | 'lfill'
+  | 'fill_pad'
+  | 'thumb'
+  | 'scale'
+  | 'fit'
+  | 'limit'
+  | 'mfit'
+  | 'pad'
+  | 'lpad'
+  | 'mpad'
+  | 'imagga_scale'
+  | 'imagga_crop'
 }): React.JSX.Element {
   const theImage = (
     <CldImage
