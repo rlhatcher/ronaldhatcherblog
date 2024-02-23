@@ -1,5 +1,6 @@
 import neo4j from 'neo4j-driver'
 import { cache } from 'react'
+import { getUser } from '@/app/lib/kinde'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -12,6 +13,48 @@ if (uri == null || username == null || password == null) {
 }
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
+
+export async function fetchMyRockets (): Promise<Rocket[] | null> {
+  // Open a new session
+  const session = driver.session()
+  const user = await getUser()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (:Person {id: $id})-[]->(r:Rocket)
+        RETURN r
+      `,
+        { id: user.id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null // Return null if no kit found
+    }
+
+    // Map the query results to the Rocket array
+    const rockets = res.records.map((record) => {
+      // Extract node properties
+      const node = record.get('r').properties
+
+      // Convert node properties to Motor type
+      return {
+        name: node.name,
+        slug: node.slug
+      }
+    })
+
+    return rockets
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
 
 export const getFlightCards = cache(async (): Promise<FlightCard[]> => {
   const cards = await getDbFlightCards()

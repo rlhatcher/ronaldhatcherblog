@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import Profile from '@/app/ui/dashboard/profile'
-import FlightCards from '@/app/ui/dashboard/flight-cards'
+import MyRockets from '@/app/ui/dashboard/my-rockets'
 import {
   // RevenueChartSkeleton,
   LatestDesignsSkeleton
@@ -11,7 +11,7 @@ export default async function Page (): Promise<React.JSX.Element> {
     <main>
       <Profile />
       <Suspense fallback={<LatestDesignsSkeleton />}>
-        <FlightCards />
+        <MyRockets />
       </Suspense>
     </main>
   )

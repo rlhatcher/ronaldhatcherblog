@@ -156,3 +156,13 @@ interface Person {
   family_name: string
   picture: string
 }
+
+interface Rocket {
+  slug: string
+  name: string
+  description?: string
+  image?: string
+  manufacturer?: string
+  basedOn?: Rocket[]
+  definedBy?: Rocket[]
+}
