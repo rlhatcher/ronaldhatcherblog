@@ -217,21 +217,21 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
           kits.push({
             url: product.url,
             imageSrc: product.image_src,
-            recommendedEngines: product['Recommended Engines'],
-            projectedMaxAltitude: product['Projected Max Altitude'],
-            recoverySystem: product['Recovery System'],
-            length: product.Length,
-            diameter: product.Diameter,
-            estimatedWeight: product['Estimated Weight'],
-            estimatedAssemblyTime: product['Estimated Assembly Time'],
-            finMaterials: product['Fin Materials'],
-            decalType: product['Decal Type'],
-            launchSystem: product['Launch System'],
-            launchRodSize: product['Launch Rod Size'],
+            recommendedEngines: product.recommendedEngines,
+            projectedMaxAltitude: product.projectedMaxAltitude,
+            recoverySystem: product.recoverySystem,
+            length: product.length,
+            diameter: product.diameter,
+            estimatedWeight: product.estimatedWeight,
+            estimatedAssemblyTime: product.estimatedAssemblyTime,
+            finMaterials: product.finMaterials,
+            decalType: product.decalType,
+            launchSystem: product.launchSystem,
+            launchRodSize: product.launchRodSize,
             instructions: product.instructions,
-            ageRecommendation: product['Age Recommendation'],
+            ageRecommendation: product.ageRecommendation,
             mfgID: product.mfgID,
-            name: product.Name,
+            name: product.name,
             complexity: product.complexity,
             height: product.height,
             weight: product.weight,
@@ -249,7 +249,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             links: product.links,
             parachute: product.parachute,
             finArray: product.finArray,
-            uniqueID: product.UniqueID
+            uniqueID: product.uniqueID
           })
           break
         case 'Motor':
@@ -426,7 +426,7 @@ async function getDbKits (): Promise<Kit[]> {
       tx.run(
         `
         MATCH (k:Kit)
-        WHERE k.UniqueID IS NOT NULL
+        WHERE k.uniqueID IS NOT NULL
         RETURN k
       `,
         {}
@@ -446,21 +446,21 @@ async function getDbKits (): Promise<Kit[]> {
       return {
         url: node.url,
         imageSrc: node.image_src,
-        recommendedEngines: node['Recommended Engines'],
-        projectedMaxAltitude: node['Projected Max Altitude'],
-        recoverySystem: node['Recovery System'],
-        length: node.Length,
-        diameter: node.Diameter,
-        estimatedWeight: node['Estimated Weight'],
-        estimatedAssemblyTime: node['Estimated Assembly Time'],
-        finMaterials: node['Fin Materials'],
-        decalType: node['Decal Type'],
-        launchSystem: node['Launch System'],
-        launchRodSize: node['Launch Rod Size'],
+        recommendedEngines: node.recommendedEngines,
+        projectedMaxAltitude: node.projectedMaxAltitude,
+        recoverySystem: node.recoverySystem,
+        length: node.length,
+        diameter: node.diameter,
+        estimatedWeight: node.estimatedWeight,
+        estimatedAssemblyTime: node.estimatedAssemblyTime,
+        finMaterials: node.finMaterials,
+        decalType: node.decalType,
+        launchSystem: node.launchSystem,
+        launchRodSize: node.launchRodSize,
         instructions: node.instructions,
-        ageRecommendation: node['Age Recommendation'],
+        ageRecommendation: node.ageRecommendation,
         mfgID: node.mfgID,
-        name: node.Name,
+        name: node.name,
         complexity: node.complexity,
         height: node.height,
         weight: node.weight,
@@ -478,7 +478,7 @@ async function getDbKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.UniqueID
+        uniqueID: node.uniqueID
       }
     })
 
@@ -506,7 +506,7 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       tx.run(
         `
         MATCH (k:Kit {UniqueID: $id})
-        WHERE k.UniqueID IS NOT NULL
+        WHERE k.uniqueID IS NOT NULL
         RETURN k
       `,
         { id }
@@ -525,21 +525,21 @@ export async function getDbKit (id: string): Promise<Kit | null> {
     return {
       url: node.url,
       imageSrc: node.image_src,
-      recommendedEngines: node['Recommended Engines'],
-      projectedMaxAltitude: node['Projected Max Altitude'],
-      recoverySystem: node['Recovery System'],
-      length: node.Length,
-      diameter: node.Diameter,
-      estimatedWeight: node['Estimated Weight'],
-      estimatedAssemblyTime: node['Estimated Assembly Time'],
-      finMaterials: node['Fin Materials'],
-      decalType: node['Decal Type'],
-      launchSystem: node['Launch System'],
-      launchRodSize: node['Launch Rod Size'],
+      recommendedEngines: node.recommendedEngines,
+      projectedMaxAltitude: node.projectedMaxAltitude,
+      recoverySystem: node.recoverySystem,
+      length: node.length,
+      diameter: node.diameter,
+      estimatedWeight: node.estimatedWeight,
+      estimatedAssemblyTime: node.estimatedAssemblyTime,
+      finMaterials: node.finMaterials,
+      decalType: node.decalType,
+      launchSystem: node.launchSystem,
+      launchRodSize: node.launchRodSize,
       instructions: node.instructions,
-      ageRecommendation: node['Age Recommendation'],
+      ageRecommendation: node.ageRecommendation,
       mfgID: node.mfgID,
-      name: node.Name,
+      name: node.name,
       complexity: node.complexity,
       height: node.height,
       weight: node.weight,
@@ -557,7 +557,7 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.UniqueID
+      uniqueID: node.uniqueID
     }
   } catch (error) {
     console.error(error)
