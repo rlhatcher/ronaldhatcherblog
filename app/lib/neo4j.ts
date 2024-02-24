@@ -1,6 +1,7 @@
 import neo4j from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
+import { unstable_noStore as noStore } from 'next/cache'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -14,8 +15,11 @@ if (uri == null || username == null || password == null) {
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
 
+/**
+ * Fetches the rockets associated with the current user.
+ * @returns A promise that resolves to an array of Rocket objects, or null if no rockets are found.
+ */
 export async function fetchMyRockets (): Promise<Rocket[] | null> {
-  // Open a new session
   const session = driver.session()
   const user = await getUser()
 
@@ -25,21 +29,18 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
         `
         MATCH (:Person {id: $id})-[]->(r:Rocket)
         RETURN r
-      `,
+        `,
         { id: user.id }
       )
     )
 
     if (res.records.length === 0) {
-      return null // Return null if no kit found
+      return null
     }
 
-    // Map the query results to the Rocket array
     const rockets = res.records.map((record) => {
-      // Extract node properties
       const node = record.get('r').properties
 
-      // Convert node properties to Motor type
       return {
         name: node.name,
         slug: node.slug
@@ -53,6 +54,43 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
   } finally {
     // Close the session
     await session.close()
+  }
+}
+
+const ITEMS_PER_PAGE = 6
+export async function fetchFilteredKits (
+  query: string,
+  currentPage: number
+): Promise<Kit[]> {
+  noStore()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+  try {
+    const invoices = await sql<InvoicesTable>`
+      SELECT
+        invoices.id,
+        invoices.amount,
+        invoices.date,
+        invoices.status,
+        customers.name,
+        customers.email,
+        customers.image_url
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      WHERE
+        customers.name ILIKE ${`%${query}%`} OR
+        customers.email ILIKE ${`%${query}%`} OR
+        invoices.amount::text ILIKE ${`%${query}%`} OR
+        invoices.date::text ILIKE ${`%${query}%`} OR
+        invoices.status ILIKE ${`%${query}%`}
+      ORDER BY invoices.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
+
+    return invoices.rows
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch invoices.')
   }
 }
 
