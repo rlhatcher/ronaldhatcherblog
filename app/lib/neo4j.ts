@@ -1,7 +1,7 @@
 import neo4j from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
-import { unstable_noStore as noStore } from 'next/cache'
+// import { unstable_noStore as noStore } from 'next/cache'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -57,42 +57,42 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
   }
 }
 
-const ITEMS_PER_PAGE = 6
-export async function fetchFilteredKits (
-  query: string,
-  currentPage: number
-): Promise<Kit[]> {
-  noStore()
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+// const ITEMS_PER_PAGE = 6
+// export async function fetchFilteredKits (
+//   query: string,
+//   currentPage: number
+// ): Promise<Kit[]> {
+//   noStore()
+//   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
-  try {
-    const invoices = await sql<InvoicesTable>`
-      SELECT
-        invoices.id,
-        invoices.amount,
-        invoices.date,
-        invoices.status,
-        customers.name,
-        customers.email,
-        customers.image_url
-      FROM invoices
-      JOIN customers ON invoices.customer_id = customers.id
-      WHERE
-        customers.name ILIKE ${`%${query}%`} OR
-        customers.email ILIKE ${`%${query}%`} OR
-        invoices.amount::text ILIKE ${`%${query}%`} OR
-        invoices.date::text ILIKE ${`%${query}%`} OR
-        invoices.status ILIKE ${`%${query}%`}
-      ORDER BY invoices.date DESC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `
+//   try {
+//     const invoices = await sql<InvoicesTable>`
+//       SELECT
+//         invoices.id,
+//         invoices.amount,
+//         invoices.date,
+//         invoices.status,
+//         customers.name,
+//         customers.email,
+//         customers.image_url
+//       FROM invoices
+//       JOIN customers ON invoices.customer_id = customers.id
+//       WHERE
+//         customers.name ILIKE ${`%${query}%`} OR
+//         customers.email ILIKE ${`%${query}%`} OR
+//         invoices.amount::text ILIKE ${`%${query}%`} OR
+//         invoices.date::text ILIKE ${`%${query}%`} OR
+//         invoices.status ILIKE ${`%${query}%`}
+//       ORDER BY invoices.date DESC
+//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+//     `
 
-    return invoices.rows
-  } catch (error) {
-    console.error('Database Error:', error)
-    throw new Error('Failed to fetch invoices.')
-  }
-}
+//     return invoices.rows
+//   } catch (error) {
+//     console.error('Database Error:', error)
+//     throw new Error('Failed to fetch invoices.')
+//   }
+// }
 
 export const getFlightCards = cache(async (): Promise<FlightCard[]> => {
   const cards = await getDbFlightCards()
@@ -160,6 +160,48 @@ export const mrgPerson = cache(
     return dbPerson
   }
 )
+
+export async function mrgRocket (rocket: Rocket): Promise<Rocket | null> {
+  const session = driver.session()
+  const user = await getUser()
+
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(
+        `
+        MERGE (r:Rocket:Model {slug: $slug})
+        ON CREATE SET r.name = $name
+        WITH r
+        MATCH (p:Person {id: $id})
+        MERGE (p)-[:OWNS]->(r)
+        RETURN r
+      `,
+        {
+          slug: rocket.slug,
+          name: rocket.name,
+          id: user.id
+        }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const record = res.records[0]
+    const node = record.get('r').properties
+
+    return {
+      name: node.name,
+      slug: node.slug
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
 
 export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session

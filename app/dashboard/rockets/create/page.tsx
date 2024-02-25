@@ -1,4 +1,4 @@
-// import Form from '@/app/ui/rockets/create-form'
+import Form from '@/app/ui/rockets/create-form'
 // import { fetchCustomers } from '@/app/lib/data'
 
 export default async function Page (): Promise<React.JSX.Element> {
@@ -6,7 +6,7 @@ export default async function Page (): Promise<React.JSX.Element> {
 
   return (
     <main>
-      {/* <Form customers={customers} /> */}
+      <Form />
     </main>
   )
 }
