@@ -1,3 +1,4 @@
+'use client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export default function Search ({ placeholder }: { placeholder: string }): React.JSX.Element {
