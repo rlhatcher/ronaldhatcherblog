@@ -8,12 +8,12 @@ import {
   ListboxSelectedOption as HeadlessListboxSelectedOption,
   Transition as HeadlessTransition,
   type ListboxOptionProps as HeadlessListboxOptionProps,
-  type ListboxProps as HeadlessListboxProps,
+  type ListboxProps as HeadlessListboxProps
 } from '@headlessui/react'
 import clsx from 'clsx'
 import { Fragment } from 'react'
 
-export function Listbox<T>({
+export function Listbox<T> ({
   className,
   placeholder,
   autoFocus,
@@ -21,17 +21,17 @@ export function Listbox<T>({
   children: options,
   ...props
 }: {
-  className?: string
-  placeholder?: React.ReactNode
-  autoFocus?: boolean
+  'className'?: string
+  'placeholder'?: React.ReactNode
+  'autoFocus'?: boolean
   'aria-label'?: string
-  children?: React.ReactNode
-} & Omit<HeadlessListboxProps<typeof Fragment, T>, 'multiple'>) {
+  'children'?: React.ReactNode
+} & Omit<HeadlessListboxProps<typeof Fragment, T>, 'multiple'>): JSX.Element {
   return (
     <HeadlessListbox {...props} multiple={false}>
       <HeadlessListboxButton
         autoFocus={autoFocus}
-        data-slot="control"
+        data-slot='control'
         aria-label={ariaLabel}
         className={clsx([
           className,
@@ -52,13 +52,19 @@ export function Listbox<T>({
           'after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent sm:after:data-[focus]:ring-2 sm:after:data-[focus]:ring-blue-500',
 
           // Disabled state
-          'data-[disabled]:opacity-50 before:data-[disabled]:bg-zinc-950/5 before:data-[disabled]:shadow-none',
+          'data-[disabled]:opacity-50 before:data-[disabled]:bg-zinc-950/5 before:data-[disabled]:shadow-none'
         ])}
       >
         <HeadlessListboxSelectedOption
-          as="span"
+          as='span'
           options={options}
-          placeholder={placeholder && <span className="block truncate text-zinc-500">{placeholder}</span>}
+          placeholder={
+            (placeholder != null) && (
+              <span className='block truncate text-zinc-500'>
+                {placeholder}
+              </span>
+            )
+          }
           className={clsx([
             // Basic layout
             'relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)]',
@@ -82,33 +88,43 @@ export function Listbox<T>({
             'group-data-[invalid]:border-red-500 group-data-[invalid]:group-data-[hover]:border-red-500 group-data-[invalid]:dark:border-red-600 group-data-[invalid]:data-[hover]:dark:border-red-600',
 
             // Disabled state
-            'group-data-[disabled]:border-zinc-950/20 group-data-[disabled]:opacity-100 group-data-[disabled]:dark:border-white/15 group-data-[disabled]:dark:bg-white/[2.5%] dark:data-[hover]:group-data-[disabled]:border-white/15',
+            'group-data-[disabled]:border-zinc-950/20 group-data-[disabled]:opacity-100 group-data-[disabled]:dark:border-white/15 group-data-[disabled]:dark:bg-white/[2.5%] dark:data-[hover]:group-data-[disabled]:border-white/15'
           ])}
         />
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+        <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
           <svg
-            className="size-5 stroke-zinc-500 group-data-[disabled]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
-            viewBox="0 0 16 16"
-            aria-hidden="true"
-            fill="none"
+            className='size-5 stroke-zinc-500 group-data-[disabled]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]'
+            viewBox='0 0 16 16'
+            aria-hidden='true'
+            fill='none'
           >
-            <path d="M5.75 10.75L8 13L10.25 10.75" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M10.25 5.25L8 3L5.75 5.25" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d='M5.75 10.75L8 13L10.25 10.75'
+              strokeWidth={1.5}
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
+            <path
+              d='M10.25 5.25L8 3L5.75 5.25'
+              strokeWidth={1.5}
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            />
           </svg>
         </span>
       </HeadlessListboxButton>
       <HeadlessTransition
         as={Fragment}
-        leave="transition-opacity duration-100 ease-in pointer-events-none"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+        leave='transition-opacity duration-100 ease-in pointer-events-none'
+        leaveFrom='opacity-100'
+        leaveTo='opacity-0'
       >
         <HeadlessListboxOptions
-          as="div"
+          as='div'
           anchor={{
             to: 'selection start',
             offset: 'var(--anchor-offset)',
-            padding: 'var(--anchor-padding)',
+            padding: 'var(--anchor-padding)'
           }}
           className={clsx(
             // Anchor positioning
@@ -137,11 +153,11 @@ export function Listbox<T>({
   )
 }
 
-export function ListboxOption<T>({
+export function ListboxOption<T> ({
   children,
   className,
   ...props
-}: { children?: React.ReactNode } & HeadlessListboxOptionProps<'div', T>) {
+}: { children?: React.ReactNode } & HeadlessListboxOptionProps<'div', T>): JSX.Element {
   const sharedClasses = clsx(
     // Base
     'flex min-w-0 items-center',
@@ -157,7 +173,9 @@ export function ListboxOption<T>({
     <HeadlessListboxOption as={Fragment} {...props}>
       {({ selectedOption }) => {
         if (selectedOption) {
-          return <div className={clsx(className, sharedClasses)}>{children}</div>
+          return (
+            <div className={clsx(className, sharedClasses)}>{children}</div>
+          )
         }
 
         return (
@@ -180,14 +198,21 @@ export function ListboxOption<T>({
             )}
           >
             <svg
-              className="relative hidden size-5 self-center stroke-current group-data-[selected]/option:inline sm:size-4"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true"
+              className='relative hidden size-5 self-center stroke-current group-data-[selected]/option:inline sm:size-4'
+              viewBox='0 0 16 16'
+              fill='none'
+              aria-hidden='true'
             >
-              <path d="M4 8.5l3 3L12 4" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d='M4 8.5l3 3L12 4'
+                strokeWidth={1.5}
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              />
             </svg>
-            <span className={clsx(className, sharedClasses, 'col-start-2')}>{children}</span>
+            <span className={clsx(className, sharedClasses, 'col-start-2')}>
+              {children}
+            </span>
           </div>
         )
       }}
@@ -195,11 +220,26 @@ export function ListboxOption<T>({
   )
 }
 
-export function ListboxLabel({ className, ...props }: React.ComponentPropsWithoutRef<'span'>) {
-  return <span className={clsx(className, 'ml-2.5 truncate first:ml-0 sm:ml-2 sm:first:ml-0')} {...props} />
+export function ListboxLabel ({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'>): JSX.Element {
+  return (
+    <span
+      className={clsx(
+        className,
+        'ml-2.5 truncate first:ml-0 sm:ml-2 sm:first:ml-0'
+      )}
+      {...props}
+    />
+  )
 }
 
-export function ListboxDescription({ className, children, ...props }: React.ComponentPropsWithoutRef<'span'>) {
+export function ListboxDescription ({
+  className,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'>): JSX.Element {
   return (
     <span
       className={clsx(
@@ -208,7 +248,7 @@ export function ListboxDescription({ className, children, ...props }: React.Comp
       )}
       {...props}
     >
-      <span className="flex-1 truncate">{children}</span>
+      <span className='flex-1 truncate'>{children}</span>
     </span>
   )
 }

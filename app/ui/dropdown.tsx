@@ -18,37 +18,43 @@ import {
   type MenuItemsProps as HeadlessMenuItemsProps,
   type MenuProps as HeadlessMenuProps,
   type MenuSectionProps as HeadlessMenuSectionProps,
-  type MenuSeparatorProps as HeadlessMenuSeparatorProps,
+  type MenuSeparatorProps as HeadlessMenuSeparatorProps
 } from '@headlessui/react'
 import clsx from 'clsx'
-import type React from 'react'
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Button } from './button'
 import { Link } from './link'
 
-export function Dropdown(props: HeadlessMenuProps) {
+export function Dropdown (props: HeadlessMenuProps): React.JSX.Element {
   return <HeadlessMenu {...props} />
 }
 
-export function DropdownButton<T extends React.ElementType = typeof Button>(
+export function DropdownButton<T extends React.ElementType = typeof Button> (
   props: React.ComponentProps<typeof HeadlessMenuButton<T>>
-) {
+): React.JSX.Element {
   return <HeadlessMenuButton as={Button} {...props} />
 }
 
-export function DropdownMenu({
+export function DropdownMenu ({
   anchor = 'bottom',
   ...props
-}: { anchor?: NonNullable<HeadlessMenuItemsProps['anchor']>['to'] } & Omit<HeadlessMenuItemsProps, 'anchor'>) {
+}: { anchor?: NonNullable<HeadlessMenuItemsProps['anchor']>['to'] } & Omit<
+HeadlessMenuItemsProps,
+'anchor'
+>): React.JSX.Element {
   return (
-    <HeadlessTransition as={Fragment} leave="duration-100 ease-in" leaveTo="opacity-0">
+    <HeadlessTransition
+      as={Fragment}
+      leave='duration-100 ease-in'
+      leaveTo='opacity-0'
+    >
       <HeadlessMenuItems
         {...props}
         anchor={{
           to: anchor,
           gap: 'var(--anchor-gap)',
           offset: 'var(--anchor-offset)',
-          padding: 'var(--anchor-padding)',
+          padding: 'var(--anchor-padding)'
         }}
         className={clsx(
           props.className,
@@ -79,11 +85,13 @@ export function DropdownMenu({
   )
 }
 
-export function DropdownItem(props: { href?: string } & HeadlessMenuItemProps<'button'>) {
+export function DropdownItem (
+  props: { href?: string } & HeadlessMenuItemProps<'button'>
+): React.JSX.Element {
   return (
     <HeadlessMenuItem
-      as={props.href ? Link : 'button'}
-      type={props.href ? undefined : 'button'}
+      as={((props.href ?? '').length > 0) ? Link : 'button'}
+      type={((props.href ?? '').length > 0) ? undefined : 'button'}
       {...props}
       className={clsx(
         props.className,
@@ -114,11 +122,22 @@ export function DropdownItem(props: { href?: string } & HeadlessMenuItemProps<'b
   )
 }
 
-export function DropdownHeader({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  return <div {...props} className={clsx(className, 'col-span-5 px-3.5 pb-1 pt-2.5 sm:px-3')} />
+export function DropdownHeader ({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'>): React.JSX.Element {
+  return (
+    <div
+      {...props}
+      className={clsx(className, 'col-span-5 px-3.5 pb-1 pt-2.5 sm:px-3')}
+    />
+  )
 }
 
-export function DropdownSection({ className, ...props }: HeadlessMenuSectionProps) {
+export function DropdownSection ({
+  className,
+  ...props
+}: HeadlessMenuSectionProps): React.JSX.Element {
   return (
     <HeadlessMenuSection
       {...props}
@@ -131,7 +150,10 @@ export function DropdownSection({ className, ...props }: HeadlessMenuSectionProp
   )
 }
 
-export function DropdownHeading({ className, ...props }: HeadlessMenuHeadingProps) {
+export function DropdownHeading ({
+  className,
+  ...props
+}: HeadlessMenuHeadingProps): React.JSX.Element {
   return (
     <HeadlessMenuHeading
       {...props}
@@ -143,7 +165,10 @@ export function DropdownHeading({ className, ...props }: HeadlessMenuHeadingProp
   )
 }
 
-export function DropdownSeparator({ className, ...props }: HeadlessMenuSeparatorProps) {
+export function DropdownSeparator ({
+  className,
+  ...props
+}: HeadlessMenuSeparatorProps): React.JSX.Element {
   return (
     <HeadlessMenuSeparator
       {...props}
@@ -155,16 +180,24 @@ export function DropdownSeparator({ className, ...props }: HeadlessMenuSeparator
   )
 }
 
-export function DropdownLabel({ className, ...props }: HeadlessLabelProps) {
+export function DropdownLabel ({ className, ...props }: HeadlessLabelProps): React.JSX.Element {
   return (
-    <HeadlessLabel {...props} data-slot="label" className={clsx(className, 'col-start-2 row-start-1')} {...props} />
+    <HeadlessLabel
+      {...props}
+      data-slot='label'
+      className={clsx(className, 'col-start-2 row-start-1')}
+      {...props}
+    />
   )
 }
 
-export function DropdownDescription({ className, ...props }: HeadlessDescriptionProps) {
+export function DropdownDescription ({
+  className,
+  ...props
+}: HeadlessDescriptionProps): React.JSX.Element {
   return (
     <HeadlessDescription
-      data-slot="description"
+      data-slot='description'
       {...props}
       className={clsx(
         className,
@@ -174,16 +207,19 @@ export function DropdownDescription({ className, ...props }: HeadlessDescription
   )
 }
 
-export function DropdownShortcut({
+export function DropdownShortcut ({
   className,
   keys,
   ...props
-}: { keys: string | string[] } & HeadlessDescriptionProps<'kbd'>) {
+}: { keys: string | string[] } & HeadlessDescriptionProps<'kbd'>): React.JSX.Element {
   return (
     <HeadlessDescription
-      as="kbd"
+      as='kbd'
       {...props}
-      className={clsx(className, 'col-start-5 row-start-1 flex justify-self-end')}
+      className={clsx(
+        className,
+        'col-start-5 row-start-1 flex justify-self-end'
+      )}
     >
       {(Array.isArray(keys) ? keys : keys.split('')).map((char, index) => (
         <kbd
@@ -192,7 +228,7 @@ export function DropdownShortcut({
             'min-w-[2ch] text-center font-sans capitalize text-zinc-400 group-data-[focus]:text-white forced-colors:group-data-[focus]:text-[HighlightText]',
 
             // Make sure key names that are longer than one character (like "Tab") have extra space
-            index > 0 && char.length > 1 && 'pl-1',
+            index > 0 && char.length > 1 && 'pl-1'
           ])}
         >
           {char}

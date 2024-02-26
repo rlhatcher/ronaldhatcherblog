@@ -1,4 +1,7 @@
-import { Button as HeadlessButton, type ButtonProps as HeadlessButtonProps } from '@headlessui/react'
+import {
+  Button as HeadlessButton,
+  type ButtonProps as HeadlessButtonProps
+} from '@headlessui/react'
 import clsx from 'clsx'
 import React from 'react'
 import { TouchTarget } from './button'
@@ -31,12 +34,18 @@ const colors = {
     'bg-fuchsia-400/15 text-fuchsia-700 group-data-[hover]:bg-fuchsia-400/25 dark:bg-fuchsia-400/10 dark:text-fuchsia-400 dark:group-data-[hover]:bg-fuchsia-400/20',
   pink: 'bg-pink-400/15 text-pink-700 group-data-[hover]:bg-pink-400/25 dark:bg-pink-400/10 dark:text-pink-400 dark:group-data-[hover]:bg-pink-400/20',
   rose: 'bg-rose-400/15 text-rose-700 group-data-[hover]:bg-rose-400/25 dark:bg-rose-400/10 dark:text-rose-400 dark:group-data-[hover]:bg-rose-400/20',
-  zinc: 'bg-zinc-600/10 text-zinc-700 group-data-[hover]:bg-zinc-600/20 dark:bg-white/5 dark:text-zinc-400 dark:group-data-[hover]:bg-white/10',
+  zinc: 'bg-zinc-600/10 text-zinc-700 group-data-[hover]:bg-zinc-600/20 dark:bg-white/5 dark:text-zinc-400 dark:group-data-[hover]:bg-white/10'
 }
 
-type BadgeProps = { color?: keyof typeof colors }
+interface BadgeProps {
+  color?: keyof typeof colors
+}
 
-export function Badge({ color = 'zinc', className, ...props }: BadgeProps & React.ComponentPropsWithoutRef<'span'>) {
+export function Badge ({
+  color = 'zinc',
+  className,
+  ...props
+}: BadgeProps & React.ComponentPropsWithoutRef<'span'>): React.ReactElement {
   return (
     <span
       {...props}
@@ -49,31 +58,40 @@ export function Badge({ color = 'zinc', className, ...props }: BadgeProps & Reac
   )
 }
 
-export const BadgeButton = React.forwardRef(function BadgeButton(
+export const BadgeButton = React.forwardRef(function BadgeButton (
   {
     color = 'zinc',
     className,
     children,
     ...props
-  }: BadgeProps & { children: React.ReactNode } & (HeadlessButtonProps | React.ComponentPropsWithoutRef<typeof Link>),
+  }: BadgeProps & { children: React.ReactNode } & (
+    | HeadlessButtonProps
+    | React.ComponentPropsWithoutRef<typeof Link>
+  ),
   ref: React.ForwardedRef<HTMLElement>
 ) {
-  let classes = clsx(
+  const classes = clsx(
     className,
     'group relative inline-flex rounded-md focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500'
   )
 
-  return 'href' in props ? (
-    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
+  return 'href' in props
+    ? (
+    <Link
+      {...props}
+      className={classes}
+      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+    >
       <TouchTarget>
         <Badge color={color}>{children}</Badge>
       </TouchTarget>
     </Link>
-  ) : (
+      )
+    : (
     <HeadlessButton {...props} className={classes} ref={ref}>
       <TouchTarget>
         <Badge color={color}>{children}</Badge>
       </TouchTarget>
     </HeadlessButton>
-  )
+      )
 })

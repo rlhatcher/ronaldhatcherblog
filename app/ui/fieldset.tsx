@@ -8,25 +8,31 @@ import {
   type FieldProps as HeadlessFieldProps,
   type FieldsetProps as HeadlessFieldsetProps,
   type LabelProps as HeadlessLabelProps,
-  type LegendProps as HeadlessLegendProps,
+  type LegendProps as HeadlessLegendProps
 } from '@headlessui/react'
 import clsx from 'clsx'
-import type React from 'react'
+import React from 'react'
 
-export function Fieldset({ className, ...props }: { disabled?: boolean } & HeadlessFieldsetProps) {
+export function Fieldset ({
+  className,
+  ...props
+}: { disabled?: boolean } & HeadlessFieldsetProps): React.ReactElement {
   return (
     <HeadlessFieldset
       {...props}
-      className={clsx(className, '[&>*+[data-slot=control]]:mt-6 [&>[data-slot=text]]:mt-1')}
+      className={clsx(
+        className,
+        '[&>*+[data-slot=control]]:mt-6 [&>[data-slot=text]]:mt-1'
+      )}
     />
   )
 }
 
-export function Legend({ ...props }: HeadlessLegendProps) {
+export function Legend ({ ...props }: HeadlessLegendProps): React.ReactElement {
   return (
     <HeadlessLegend
       {...props}
-      data-slot="legend"
+      data-slot='legend'
       className={clsx(
         props.className,
         'text-base/6 font-semibold text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white'
@@ -35,11 +41,20 @@ export function Legend({ ...props }: HeadlessLegendProps) {
   )
 }
 
-export function FieldGroup({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  return <div {...props} data-slot="control" className={clsx(className, 'space-y-8')} />
+export function FieldGroup ({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'>): React.ReactElement {
+  return (
+    <div
+      {...props}
+      data-slot='control'
+      className={clsx(className, 'space-y-8')}
+    />
+  )
 }
 
-export function Field({ className, ...props }: HeadlessFieldProps) {
+export function Field ({ className, ...props }: HeadlessFieldProps): React.ReactElement {
   return (
     <HeadlessField
       className={clsx(
@@ -56,11 +71,14 @@ export function Field({ className, ...props }: HeadlessFieldProps) {
   )
 }
 
-export function Label({ className, ...props }: { className?: string } & HeadlessLabelProps) {
+export function Label ({
+  className,
+  ...props
+}: { className?: string } & HeadlessLabelProps): React.ReactElement {
   return (
     <HeadlessLabel
       {...props}
-      data-slot="label"
+      data-slot='label'
       className={clsx(
         className,
         'select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white'
@@ -69,15 +87,15 @@ export function Label({ className, ...props }: { className?: string } & Headless
   )
 }
 
-export function Description({
+export function Description ({
   className,
   disabled,
   ...props
-}: { className?: string; disabled?: boolean } & HeadlessDescriptionProps) {
+}: { className?: string, disabled?: boolean } & HeadlessDescriptionProps): React.ReactElement {
   return (
     <HeadlessDescription
       {...props}
-      data-slot="description"
+      data-slot='description'
       className={clsx(
         className,
         'text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400'
@@ -86,16 +104,19 @@ export function Description({
   )
 }
 
-export function ErrorMessage({
+export function ErrorMessage ({
   className,
   disabled,
   ...props
-}: { className?: string; disabled?: boolean } & HeadlessDescriptionProps) {
+}: { className?: string, disabled?: boolean } & HeadlessDescriptionProps): React.ReactElement {
   return (
     <HeadlessDescription
       {...props}
-      data-slot="error"
-      className={clsx(className, 'text-base/6 text-red-600 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-red-500')}
+      data-slot='error'
+      className={clsx(
+        className,
+        'text-base/6 text-red-600 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-red-500'
+      )}
     />
   )
 }
