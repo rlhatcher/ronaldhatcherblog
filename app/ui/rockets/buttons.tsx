@@ -14,7 +14,7 @@ export function CreateRocket (): JSX.Element {
 export function UpdateRocket ({ id }: { id: string }): JSX.Element {
   return (
     <Link
-      href={`/dashboard/rocket/${id}/edit`}
+      href={`/dashboard/rockets/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />

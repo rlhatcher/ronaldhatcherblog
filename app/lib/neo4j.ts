@@ -301,6 +301,15 @@ export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
     await session.close()
   }
 }
+
+/**
+*  ____
+* |  _ \ ___ _ __ ___  ___  _ __
+* | |_) / _ \ '__/ __|/ _ \| '_ \
+* |  __/  __/ |  \__ \ (_) | | | |
+* |_|   \___|_|  |___/\___/|_| |_|
+ */
+
 export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session
   const session = driver.session()
