@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
 import { clsx } from 'clsx'
@@ -64,11 +63,11 @@ export function TableRow ({
         {...props}
         className={clsx(
           className,
-          href &&
+          (href != null) &&
             'has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%]',
           striped && 'even:bg-zinc-950/[2.5%] dark:even:bg-white/[2.5%]',
-          href && striped && 'hover:bg-zinc-950/5 dark:hover:bg-white/5',
-          href && !striped && 'hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]'
+          (href != null) && striped && 'hover:bg-zinc-950/5 dark:hover:bg-white/5',
+          (href != null) && !striped && 'hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]'
         )}
       >
         {children}
@@ -100,7 +99,7 @@ export function TableCell ({ className, children, ...props }: React.ComponentPro
 
   return (
     <td
-      ref={href ? setCellRef : undefined}
+      ref={((href ?? '').length > 0) ? setCellRef : undefined}
       {...props}
       className={clsx(
         className,
@@ -111,7 +110,7 @@ export function TableCell ({ className, children, ...props }: React.ComponentPro
         !bleed && 'sm:first:pl-2 sm:last:pr-2'
       )}
     >
-      {href && (
+      {(href != null) && (
         <Link
           data-row-link
           href={href}

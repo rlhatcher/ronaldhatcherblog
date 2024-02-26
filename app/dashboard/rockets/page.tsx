@@ -11,22 +11,9 @@ export default async function Page (): Promise<React.JSX.Element> {
   return (
     <main>
       <Profile />
-      <div className='px-4 sm:px-6 lg:px-8'>
-        <div className='sm:flex sm:items-center'>
-          <div className='sm:flex-auto'>
-            <h1 className='text-base font-semibold leading-6 text-gray-900'>
-              My Rockets
-            </h1>
-            <p className='mt-2 text-sm text-gray-700'>
-              A list of all the rockets in your fleet. You can create a new
-              rocket by providing a name
-            </p>
-          </div>
-          <div className='mt-4 sm:ml-16 sm:mt-0 sm:flex-none'>
-            <CreateRocket />
-          </div>
-        </div>
-        <MyRockets />
+      <MyRockets />
+      <div className='mt-6 flex items-center justify-end gap-x-6'>
+      <CreateRocket />
       </div>
     </main>
   )

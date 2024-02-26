@@ -27,7 +27,7 @@ export default function Form ({
           ))}
         </div>
         <Fieldset className='border-b border-gray-900/10 pb-12'>
-          <h2 className='text-base font-semibold leading-7 text-gray-900'>Add a Rocket</h2>
+          <h2 className='text-base font-semibold leading-7 text-gray-900'>Edit your Rocket</h2>
           <Text className="mt-1 text-sm leading-6 text-gray-600">Enter the details for your new rocket</Text>
           <FieldGroup className="mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
             <Field className='col-span-full'>
@@ -48,7 +48,7 @@ export default function Form ({
         >
           Cancel
         </Link>
-        <Button type='submit'>Save Changes</Button>
+        <Button type='submit'>Save</Button>
       </div>
     </form>
   )

@@ -2,8 +2,8 @@ import {
   Table,
   TableBody,
   TableCell,
-  // TableHead,
-  // TableHeader,
+  TableHead,
+  TableHeader,
   TableRow
 } from '@/app/ui/table'
 import { fetchMyRockets } from '@/app/lib/neo4j'
@@ -15,7 +15,15 @@ export default async function MyRockets (): Promise<React.JSX.Element> {
     return <div>Failed to load rockets</div>
   }
   return (
-    <Table className='[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]min-w-full'>
+    <Table
+      striped
+      className='[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]min-w-full font-mono border-b border-gray-900/10 pb-6'
+    >
+      <TableHead>
+        <TableRow>
+          <TableHeader className='text-2xl'>My Rockets</TableHeader>
+        </TableRow>
+      </TableHead>
       <TableBody>
         {rockets.map((rocket) => (
           <TableRow
