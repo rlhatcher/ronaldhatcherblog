@@ -1,6 +1,7 @@
 'use client'
+import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-
+import { useDebouncedCallback } from 'use-debounce'
 export default function Search ({ placeholder }: { placeholder: string }): React.JSX.Element {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
@@ -13,7 +14,7 @@ export default function Search ({ placeholder }: { placeholder: string }): React
 
     params.set('page', '1')
 
-    if (term) {
+    if (term !== '') {
       params.set('query', term)
     } else {
       params.delete('query')
