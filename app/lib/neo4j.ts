@@ -1,4 +1,4 @@
-import neo4j from 'neo4j-driver'
+import neo4j, { type Integer } from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
 // import { unstable_noStore as noStore } from 'next/cache'
@@ -14,48 +14,6 @@ if (uri == null || username == null || password == null) {
 }
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
-
-/**
- * Fetches the rockets associated with the current user.
- * @returns A promise that resolves to an array of Rocket objects, or null if no rockets are found.
- */
-export async function fetchMyRockets (): Promise<Rocket[] | null> {
-  const session = driver.session()
-  const user = await getUser()
-
-  try {
-    const res = await session.executeRead((tx) =>
-      tx.run(
-        `
-        MATCH (:Person {id: $id})-[]->(r:Rocket)
-        RETURN r
-        `,
-        { id: user.id }
-      )
-    )
-
-    if (res.records.length === 0) {
-      return null
-    }
-
-    const rockets = res.records.map((record) => {
-      const node = record.get('r').properties
-
-      return {
-        name: node.name,
-        slug: node.slug
-      }
-    })
-
-    return rockets
-  } catch (error) {
-    console.error(error)
-    return null
-  } finally {
-    // Close the session
-    await session.close()
-  }
-}
 
 // const ITEMS_PER_PAGE = 6
 // export async function fetchFilteredKits (
@@ -161,7 +119,105 @@ export const mrgPerson = cache(
   }
 )
 
-export async function mrgRocket (rocket: Rocket): Promise<Rocket | null> {
+/**
+ *  ____            _        _
+ * |  _ \ ___   ___| | _____| |_
+ * | |_) / _ \ / __| |/ / _ \ __|
+ * |  _ < (_) | (__|   <  __/ |_
+ * |_| \_\___/ \___|_|\_\___|\__|
+ */
+
+/**
+ * Fetches a rocket from the database based on its ID.
+ * @param id The ID of the rocket to fetch.
+ * @returns A Promise that resolves to the fetched rocket, or null if the rocket is not found.
+ */
+export async function fetchRocket (id: string): Promise<Rocket | null> {
+  const session = driver.session()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (r:Model:Rocket {slug: $id})
+        RETURN r
+        `,
+        { id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const rockets = res.records.map((record) => {
+      const node = record.get('r').properties
+
+      return {
+        name: node.name,
+        slug: node.slug
+      }
+    })
+
+    return rockets[0]
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ * Fetches the rockets associated with the current user.
+ * @returns A promise that resolves to an array of Rocket objects, or null if no rockets are found.
+ */
+export async function fetchMyRockets (): Promise<Rocket[] | null> {
+  const session = driver.session()
+  const user = await getUser()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (:Person {id: $id})-[]->(r:Rocket)
+        RETURN r
+        `,
+        { id: user.id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const rockets = res.records.map((record) => {
+      const node = record.get('r').properties
+
+      return {
+        name: node.name,
+        slug: node.slug
+      }
+    })
+
+    return rockets
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
+
+/**
+ * Merges a Rocket node in the Neo4j database and establishes a relationship between the rocket and the current user.
+ * If the rocket node does not exist, it will be created.
+ *
+ * @param rocket - The Rocket object to be merged.
+ * @returns A Promise that resolves to the merged Rocket object, or null if an error occurs.
+ */
+export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
   const session = driver.session()
   const user = await getUser()
 
@@ -171,6 +227,7 @@ export async function mrgRocket (rocket: Rocket): Promise<Rocket | null> {
         `
         MERGE (r:Rocket:Model {slug: $slug})
         ON CREATE SET r.name = $name
+        ON MATCH SET r.name = $name 
         WITH r
         MATCH (p:Person {id: $id})
         MERGE (p)-[:OWNS]->(r)
@@ -203,6 +260,47 @@ export async function mrgRocket (rocket: Rocket): Promise<Rocket | null> {
   }
 }
 
+/**
+ * Removes a rocket from the Neo4j database.
+ *
+ * @param rocket - The rocket object to be removed.
+ * @returns A promise that resolves to the number of rockets deleted, or null if no rockets were deleted.
+ */
+export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
+  const session = driver.session()
+
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(
+        `
+        MATCH (r:Rocket:Model {slug: $slug, name: $name})
+        DETACH DELETE r
+        RETURN count(r) AS deletedCount
+      `,
+        {
+          slug: rocket.slug,
+          name: rocket.name
+        }
+      )
+    )
+
+    if (
+      res.records.length === 0 ||
+      res.records[0].get('deletedCount').toInt() === 0
+    ) {
+      // No nodes were deleted
+      return null
+    } else {
+      // Nodes were deleted
+      return res.records[0].get('deletedCount').toInt()
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
 export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session
   const session = driver.session()

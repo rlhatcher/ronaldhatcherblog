@@ -8,7 +8,11 @@ import { Input } from '@/app/ui/input'
 import { Field, FieldGroup, Fieldset, Label } from '../fieldset'
 import { Text } from '@/app/ui/text'
 
-export default function Form (): JSX.Element {
+export default function Form ({
+  rocket
+}: {
+  rocket: Rocket
+}): JSX.Element {
   const initialState = { message: null, errors: {} }
   const [state, dispatch] = useFormState(createRocket, initialState)
 
@@ -28,11 +32,11 @@ export default function Form (): JSX.Element {
           <FieldGroup className="mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
             <Field className='col-span-full'>
               <Label className="block text-sm font-medium leading-6 text-gray-900">Name</Label>
-              <Input name='name' className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
+              <Input name='name' defaultValue={rocket.name} className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
             </Field>
             <Field className='sm:col-span-4'>
               <Label>Slug</Label>
-              <Input name='slug' className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
+              <Input name='slug' defaultValue={rocket.slug} className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
             </Field>
           </FieldGroup>
         </Fieldset>
@@ -44,7 +48,7 @@ export default function Form (): JSX.Element {
         >
           Cancel
         </Link>
-        <Button type='submit'>Create Rocket</Button>
+        <Button type='submit'>Save Changes</Button>
       </div>
     </form>
   )

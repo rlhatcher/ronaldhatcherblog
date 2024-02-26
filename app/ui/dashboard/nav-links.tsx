@@ -15,6 +15,11 @@ import clsx from 'clsx'
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: IoEyeOutline },
   {
+    name: 'My Rockets',
+    href: '/dashboard/rockets',
+    icon: IoDuplicateOutline
+  },
+  {
     name: 'Builds',
     href: '/dashboard/builds',
     icon: IoDuplicateOutline
