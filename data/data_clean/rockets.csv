@@ -1,3 +1,3 @@
-name,mfgID,id
-Launcher One,vorb,lone
-AIM54A Phoenix,hughes,phx
+name,mfgID,id,photo
+Launcher One,vorb,launcherone,https://space.skyrocket.de/img_lau/launcherone__9.jpg
+AIM54A Phoenix,hughes,aim54a,https://commons.wikimedia.org/wiki/File:AIM-54A_(left)_on_F-14_at_NAS_Pax_1984.JPEG#/media/File:AIM-54A_(left)_on_F-14_at_NAS_Pax_1984.JPEG
