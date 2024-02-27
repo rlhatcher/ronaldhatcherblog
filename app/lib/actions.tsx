@@ -1,22 +1,13 @@
 'use server'
 
-import { z } from 'zod'
 import { mergeRocket, removeRocket } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-const FormSchema = z.object({
-  id: z.string(),
-  slug: z.string(),
-  name: z.string()
-})
-
-const CreateRocket = FormSchema.omit({ id: true })
-
 // This is temporary
 export interface State {
   errors?: {
-    slug?: string[]
+    rid?: string[]
     name?: string[]
   }
   message?: string | null
@@ -26,22 +17,10 @@ export async function createRocket (
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  // Validate form fields using Zod
-  const validatedFields = CreateRocket.safeParse({
-    slug: formData.get('slug'),
-    name: formData.get('name')
-  })
+  const rocketId = formData.get('rid') as string
+  const rocketName = formData.get('name') as string
 
-  // If form validation fails, return errors early. Otherwise, continue.
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Rocket.'
-    }
-  }
-
-  // Prepare data for insertion into the database
-  const rocketData: Rocket = validatedFields.data
+  const rocketData: Rocket = { id: rocketId, name: rocketName }
 
   const res = await mergeRocket(rocketData)
   if (res === null) {
@@ -60,21 +39,11 @@ export async function deleteRocket (
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  const validatedFields = CreateRocket.safeParse({
-    slug: formData.get('slug'),
-    name: formData.get('name')
-  })
-
-  // If form validation fails, return errors early. Otherwise, continue.
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Rocket.'
-    }
-  }
+  const rocketId = formData.get('id') as string
+  const rocketName = formData.get('name') as string
 
   // Prepare data for insertion into the database
-  const rocketData: Rocket = validatedFields.data
+  const rocketData: Rocket = { id: rocketId, name: rocketName }
 
   const res = await removeRocket(rocketData)
   if (res === null) {

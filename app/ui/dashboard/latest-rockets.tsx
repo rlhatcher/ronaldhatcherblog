@@ -15,7 +15,10 @@ export default async function LatestRockets (): Promise<React.JSX.Element> {
     return <div>Failed to load rockets</div>
   }
   return (
-    <Table striped className='[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)] font-mono'>
+    <Table
+      striped
+      className='[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)] font-mono'
+    >
       <TableHead>
         <TableRow>
           <TableHeader className='text-2xl'>Latest Rockets</TableHeader>
@@ -23,10 +26,7 @@ export default async function LatestRockets (): Promise<React.JSX.Element> {
       </TableHead>
       <TableBody>
         {rockets.map((rocket) => (
-          <TableRow
-            key={rocket.slug}
-            href={`/dashboard/rockets/${rocket.slug}`}
-          >
+          <TableRow key={rocket.id} href={`/dashboard/rockets/${rocket.id}`}>
             <TableCell>{rocket.name}</TableCell>
           </TableRow>
         ))}

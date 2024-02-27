@@ -20,7 +20,7 @@ export default function Form ({
     <form action={dispatch}>
       <div className='space-y-6'>
         <div id='customer-error' aria-live='polite' aria-atomic='true'>
-          {state.errors?.slug?.map((error: string) => (
+          {state.errors?.rid?.map((error: string) => (
             <p className='mt-2 text-sm text-red-500' key={error}>
               {error}
             </p>
@@ -35,8 +35,8 @@ export default function Form ({
               <Input name='name' defaultValue={rocket.name} className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
             </Field>
             <Field className='sm:col-span-4'>
-              <Label>Slug</Label>
-              <Input name='slug' defaultValue={rocket.slug} className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
+              <Label>ID</Label>
+              <Input name='rid' defaultValue={rocket.id} className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
             </Field>
           </FieldGroup>
         </Fieldset>

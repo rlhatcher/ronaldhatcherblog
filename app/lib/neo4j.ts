@@ -1,4 +1,4 @@
-import neo4j, { type Integer } from 'neo4j-driver'
+import neo4j, { type Session, type Record, type Integer } from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
 // import { unstable_noStore as noStore } from 'next/cache'
@@ -6,6 +6,11 @@ import { getUser } from '@/app/lib/kinde'
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
 const password = process.env.NEO4J_PASSWORD
+
+// Defining a generic interface for Neo4j nodes to improve type safety
+interface Neo4jNode<T> {
+  properties: T
+}
 
 if (uri == null || username == null || password == null) {
   throw new Error(
@@ -129,18 +134,20 @@ export const mrgPerson = cache(
 
 /**
  * Fetches a rocket from the database based on its ID.
- * @param id The ID of the rocket to fetch.
+ *
+ * @param id - The ID of the rocket to fetch.
  * @returns A Promise that resolves to the fetched rocket, or null if the rocket is not found.
  */
 export async function fetchRocket (id: string): Promise<Rocket | null> {
-  const session = driver.session()
-
+  const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (r:Model:Rocket {slug: $id})
-        RETURN r
+        MATCH (r:Model:Rocket {id: $id})
+        OPTIONAL MATCH (r)-[:DEFINED_BY]->(d:Design)
+        OPTIONAL MATCH (r)-[:BASED_ON]->(b)
+        RETURN r, collect(DISTINCT d) AS designs, collect(DISTINCT b) AS basedOn
         `,
         { id }
       )
@@ -150,16 +157,35 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
       return null
     }
 
-    const rockets = res.records.map((record) => {
-      const node = record.get('r').properties
+    const record: Record = res.records[0]
+    const rocketNode: Neo4jNode<Rocket> = record.get('r')
+    const designs: Design[] = record
+      .get('designs')
+      .filter(
+        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
+      )
+      .map((d: Neo4jNode<Design>) => d.properties)
+    const basedOn: Rocket[] = record
+      .get('basedOn')
+      .filter(
+        (b: Neo4jNode<Rocket> | null): b is Neo4jNode<Rocket> => b !== null
+      )
+      .map((b: Neo4jNode<Rocket>) => b.properties)
 
-      return {
-        name: node.name,
-        slug: node.slug
-      }
-    })
+    const rocket: Rocket = {
+      id: rocketNode.properties.id,
+      name: rocketNode.properties.name,
+      description: rocketNode.properties.description,
+      image: rocketNode.properties.image,
+      manufacturer: rocketNode.properties.manufacturer,
+      definedBy: designs,
+      basedOn: basedOn.map((item) => ({
+        id: item.id,
+        name: item.name
+      }))
+    }
 
-    return rockets[0]
+    return rocket
   } catch (error) {
     console.error(error)
     return null
@@ -196,7 +222,7 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
 
       return {
         name: node.name,
-        slug: node.slug
+        id: node.id
       }
     })
 
@@ -225,18 +251,18 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
     const res = await session.executeWrite((tx) =>
       tx.run(
         `
-        MERGE (r:Rocket:Model {slug: $slug})
+        MERGE (r:Rocket:Model {id: $rocketId})
         ON CREATE SET r.name = $name
         ON MATCH SET r.name = $name 
         WITH r
-        MATCH (p:Person {id: $id})
+        MATCH (p:Person {id: $userId})
         MERGE (p)-[:OWNS]->(r)
         RETURN r
       `,
         {
-          slug: rocket.slug,
+          rocketId: rocket.id,
           name: rocket.name,
-          id: user.id
+          userId: user.id
         }
       )
     )
@@ -250,7 +276,7 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
 
     return {
       name: node.name,
-      slug: node.slug
+      id: node.id
     }
   } catch (error) {
     console.error(error)
@@ -273,12 +299,12 @@ export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
     const res = await session.executeWrite((tx) =>
       tx.run(
         `
-        MATCH (r:Rocket:Model {slug: $slug, name: $name})
+        MATCH (r:Rocket:Model {id: $id, name: $name})
         DETACH DELETE r
         RETURN count(r) AS deletedCount
       `,
         {
-          slug: rocket.slug,
+          id: rocket.id,
           name: rocket.name
         }
       )
@@ -303,11 +329,11 @@ export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
 }
 
 /**
-*  ____
-* |  _ \ ___ _ __ ___  ___  _ __
-* | |_) / _ \ '__/ __|/ _ \| '_ \
-* |  __/  __/ |  \__ \ (_) | | | |
-* |_|   \___|_|  |___/\___/|_| |_|
+ *  ____
+ * |  _ \ ___ _ __ ___  ___  _ __
+ * | |_) / _ \ '__/ __|/ _ \| '_ \
+ * |  __/  __/ |  \__ \ (_) | | | |
+ * |_|   \___|_|  |___/\___/|_| |_|
  */
 
 export async function mrgDbPerson (person: Person): Promise<Person | null> {

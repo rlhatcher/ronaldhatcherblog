@@ -27,8 +27,8 @@ export default async function MyRockets (): Promise<React.JSX.Element> {
       <TableBody>
         {rockets.map((rocket) => (
           <TableRow
-            key={rocket.slug}
-            href={`/dashboard/rockets/${rocket.slug}`}
+            key={rocket.id}
+            href={`/dashboard/rockets/${rocket.id}`}
           >
             <TableCell>{rocket.name}</TableCell>
           </TableRow>

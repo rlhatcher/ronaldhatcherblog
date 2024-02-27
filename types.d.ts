@@ -157,12 +157,19 @@ interface Person {
   picture: string
 }
 
+interface Design {
+  name: string
+  rocket: string
+  fileURL: string
+  filename: string
+}
+
 interface Rocket {
-  slug: string
+  id: string
   name: string
   description?: string
   image?: string
   manufacturer?: string
   basedOn?: Rocket[]
-  definedBy?: Rocket[]
+  definedBy?: Design[]
 }
