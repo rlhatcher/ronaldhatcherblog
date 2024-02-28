@@ -132,6 +132,60 @@ export const mrgPerson = cache(
  * |_| \_\___/ \___|_|\_\___|\__|
  */
 
+// Helper function to map generic node properties to Kit or Rocket
+function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
+  if (labels.includes('Kit')) {
+    // Map properties specific to Kit
+    return {
+      // List all properties for Kit, casting as necessary
+      url: node.url,
+      imageSrc: node.imageSrc,
+      recommendedEngines: node.recommendedEngines,
+      projectedMaxAltitude: node.projectedMaxAltitude,
+      recoverySystem: node.recoverySystem,
+      length: node.length,
+      diameter: node.diameter,
+      estimatedWeight: node.estimatedWeight,
+      estimatedAssemblyTime: node.estimatedAssemblyTime,
+      finMaterials: node.finMaterials,
+      decalType: node.decalType,
+      launchSystem: node.launchSystem,
+      launchRodSize: node.launchRodSize,
+      instructions: node.instructions,
+      ageRecommendation: node.ageRecommendation,
+      mfgID: node.mfgID,
+      name: node.name,
+      complexity: node.complexity,
+      height: node.height,
+      weight: node.weight,
+      motorMount: node.motorMount,
+      parachuteSize: node.parachuteSize,
+      shockCordType: node.shockCordType,
+      shockCordMount: node.shockCordMount,
+      finThickness: node.finThickness,
+      ringThickness: node.ringThickness,
+      price: node.price,
+      currency: node.currency,
+      sku: node.sku,
+      stockStatus: node.stockStatus,
+      description: node.description,
+      links: node.links,
+      parachute: node.parachute,
+      finArray: node.finArray,
+      uniqueID: node.uniqueID,
+      labels
+    } satisfies Kit
+  }
+  // Assume Rocket if not a Kit
+  return {
+    id: node.id,
+    name: node.name,
+    description: node.description,
+    image: node.image,
+    isModel: labels.includes('Model')
+  } satisfies Rocket
+}
+
 /**
  * Fetches a rocket from the database based on its ID.
  *
@@ -148,11 +202,12 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
         OPTIONAL MATCH (r)-[:DEFINED_BY]->(d:Design)
         OPTIONAL MATCH (r)-[:BASED_ON]->(b)
         OPTIONAL MATCH (i)-[:BASED_ON]->(r)
+        WITH r, d, b, i, LABELS(b) AS basedOnLabels
         RETURN r, 
-               LABELS(r) as labels, 
-               collect(DISTINCT d) AS designs, 
-               collect(DISTINCT b) AS basedOn, 
-               collect(DISTINCT i) AS inspired
+          LABELS(r) AS labels,
+          collect(DISTINCT d) AS designs,
+          collect(DISTINCT {node: b, labels: basedOnLabels}) AS basedOn,
+          collect(DISTINCT i) AS inspired
         `,
         { id }
       )
@@ -170,12 +225,12 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
         (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
       )
       .map((d: Neo4jNode<Design>) => d.properties)
-    const basedOn: Rocket[] = record
-      .get('basedOn')
-      .filter(
-        (b: Neo4jNode<Rocket> | null): b is Neo4jNode<Rocket> => b !== null
-      )
-      .map((b: Neo4jNode<Rocket>) => b.properties)
+
+    const basedOn: Array<Kit | Rocket> = record.get('basedOn')
+      .filter((obj: any): obj is { node: any, labels: string[] } => obj.node !== null)
+      .map((obj: { node: any, labels: string[] }) => {
+        return mapNodeToType(obj.node.properties, obj.labels)
+      })
 
     const inspired: Rocket[] = record
       .get('inspired')
@@ -187,6 +242,7 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
     const labels: string[] = record.get('labels')
 
     const rocket: Rocket = {
+      isModel: labels.includes('Model'),
       id: rocketNode.properties.id,
       name: rocketNode.properties.name,
       description: rocketNode.properties.description,
@@ -220,7 +276,7 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
       tx.run(
         `
         MATCH (:Person {id: $id})-[]->(r:Rocket)
-        RETURN r
+        RETURN r, LABELS(r) AS labels
         `,
         { id: user.id }
       )
@@ -232,8 +288,9 @@ export async function fetchMyRockets (): Promise<Rocket[] | null> {
 
     const rockets = res.records.map((record) => {
       const node = record.get('r').properties
-
+      const labels: string[] = record.get('labels')
       return {
+        isModel: labels.includes('Model'),
         name: node.name,
         id: node.id
       }
@@ -270,7 +327,7 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
         WITH r
         MATCH (p:Person {id: $userId})
         MERGE (p)-[:OWNS]->(r)
-        RETURN r
+        RETURN r, LABELS(r) AS labels
       `,
         {
           rocketId: rocket.id,
@@ -286,8 +343,10 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
 
     const record = res.records[0]
     const node = record.get('r').properties
+    const labels: string[] = record.get('labels')
 
     return {
+      isModel: labels.includes('Model'),
       name: node.name,
       id: node.id
     }

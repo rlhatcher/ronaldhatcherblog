@@ -166,12 +166,13 @@ interface Design {
 }
 
 interface Rocket {
+  isModel: boolean
   id: string
   name: string
   description?: string
   image?: string
   mfgID?: string
-  basedOn?: Rocket[]
+  basedOn?: Array<Kit | Rocket>
   definedBy?: Design[]
   inspired?: Rocket[]
   labels?: string[]

@@ -1,14 +1,19 @@
 import { RocketNav } from './buttons'
+import { KitNav } from '../kits/kit-nav'
+
+function isKit (item: Kit | Rocket): item is Kit {
+  return (item as Kit).uniqueID !== undefined
+}
 
 export default function RocketList ({
-  rockets,
+  listItems,
   label
 }: {
-  rockets: Rocket[] | undefined
+  listItems: Array<Kit | Rocket> | undefined
   label: string
 }): React.JSX.Element {
-  if (rockets === undefined) {
-    return <div>No rockets</div>
+  if (listItems === undefined) {
+    return <div>No Items</div>
   }
 
   return (
@@ -19,8 +24,12 @@ export default function RocketList ({
           role='list'
           className='divide-y divide-gray-100 rounded-md border border-gray-200'
         >
-          {rockets.map((rocket) => {
-            return <RocketNav key={rocket.name} rocket={rocket} />
+          {listItems.map((item) => {
+            if (isKit(item)) {
+              return <KitNav key={item.name} kit={item} />
+            } else {
+              return <RocketNav key={item.name} rocket={item} />
+            }
           })}
         </ul>
       </dd>

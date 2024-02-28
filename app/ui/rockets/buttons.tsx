@@ -29,34 +29,37 @@ export function UpdateRocket ({ id }: { id: string }): JSX.Element {
 
 export function RocketNav ({ rocket }: { rocket: Rocket }): JSX.Element {
   return (
-    <li
-      key={rocket.name}
-      className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6'
-    >
-      <div className='flex w-0 flex-1 items-center'>
-        {rocket.id}
-        <div className='ml-4 flex min-w-0 flex-1 gap-2'>
-          <span className='truncate font-medium'>{rocket.name}</span>
-          <span className='flex-shrink-0 text-gray-400'>{rocket.mfgID}</span>
-          {rocket.labels?.map((mylabel) => {
-            if (mylabel === 'Model') {
-              return <Badge key='model' color='emerald'>Model</Badge>
-            } else if (mylabel === 'Rocket') {
-              return <Badge key='rocket' color='blue'>Rocket</Badge>
-            }
-            return <Badge key='kit' color='orange'>Kit</Badge>
-          })}
+    <Link href={`/dashboard/rockets/${rocket.id}`}>
+      <li
+        key={rocket.name}
+        className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
+      >
+        <div className='flex w-0 flex-1 items-center'>
+          {rocket.id}
+          <div className='ml-4 flex min-w-0 flex-1 gap-2'>
+            <span className='truncate font-medium'>{rocket.name}</span>
+            <span className='flex-shrink-0 text-gray-400'>{rocket.mfgID}</span>
+            {rocket.isModel
+              ? (
+              <Badge key='model' color='emerald'>
+                Model
+              </Badge>
+                )
+              : (
+              <Badge key='rocket' color='blue'>
+                Rocket
+              </Badge>
+                )}
+          </div>
         </div>
-      </div>
-      <div className='ml-4 flex-shrink-0'>
-        <Link href={`/dashboard/rockets/${rocket.id}`}>
+        <div className='ml-4 flex-shrink-0'>
           <ChevronRightIcon
             className='h-5 w-5 flex-shrink-0 text-gray-400'
             aria-hidden='true'
           />
-        </Link>
-      </div>
-    </li>
+        </div>
+      </li>
+    </Link>
   )
 }
 // export function DeleteRocket ({ id }: { id: string }): JSX.Element {

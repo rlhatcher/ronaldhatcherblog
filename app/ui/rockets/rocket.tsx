@@ -59,8 +59,8 @@ export default function DetailView ({
               </ul>
             </dd>
           </div>
-          <RocketList rockets={rocket.basedOn} label='Based On' />
-          <RocketList rockets={rocket.inspired} label='Inspired By' />
+          <RocketList listItems={rocket.basedOn} label='Based On' />
+          <RocketList listItems={rocket.inspired} label='Inspired By' />
         </dl>
       </div>
     </div>

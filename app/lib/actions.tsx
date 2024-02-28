@@ -20,7 +20,7 @@ export async function createRocket (
   const rocketId = formData.get('rid') as string
   const rocketName = formData.get('name') as string
 
-  const rocketData: Rocket = { id: rocketId, name: rocketName }
+  const rocketData: Rocket = { id: rocketId, name: rocketName, isModel: true }
 
   const res = await mergeRocket(rocketData)
   if (res === null) {
@@ -43,7 +43,7 @@ export async function deleteRocket (
   const rocketName = formData.get('name') as string
 
   // Prepare data for insertion into the database
-  const rocketData: Rocket = { id: rocketId, name: rocketName }
+  const rocketData: Rocket = { id: rocketId, name: rocketName, isModel: true }
 
   const res = await removeRocket(rocketData)
   if (res === null) {
