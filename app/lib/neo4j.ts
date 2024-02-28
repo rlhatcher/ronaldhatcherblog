@@ -202,12 +202,12 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
         OPTIONAL MATCH (r)-[:DEFINED_BY]->(d:Design)
         OPTIONAL MATCH (r)-[:BASED_ON]->(b)
         OPTIONAL MATCH (i)-[:BASED_ON]->(r)
-        WITH r, d, b, i, LABELS(b) AS basedOnLabels
+        WITH r, d, b, i, LABELS(b) AS basedOnLabels, LABELS(i) AS inspiredLabels
         RETURN r, 
           LABELS(r) AS labels,
           collect(DISTINCT d) AS designs,
           collect(DISTINCT {node: b, labels: basedOnLabels}) AS basedOn,
-          collect(DISTINCT i) AS inspired
+          collect(DISTINCT {node: i, labels: inspiredLabels}) AS inspired
         `,
         { id }
       )
@@ -232,12 +232,12 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
         return mapNodeToType(obj.node.properties, obj.labels)
       })
 
-    const inspired: Rocket[] = record
-      .get('inspired')
-      .filter(
-        (i: Neo4jNode<Rocket> | null): i is Neo4jNode<Rocket> => i !== null
+    const inspired: Rocket[] = record.get('inspired')
+      .filter((i: any): i is { node: any, labels: string[] } => i.node !== null
       )
-      .map((i: Neo4jNode<Rocket>) => i.properties)
+      .map((i: { node: any, labels: string[] }) => {
+        return mapNodeToType(i.node.properties, i.labels)
+      })
 
     const labels: string[] = record.get('labels')
 

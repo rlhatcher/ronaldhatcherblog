@@ -1,4 +1,4 @@
-import { UpdateRocket, CreateRocket } from './buttons'
+import { UpdateRocket } from './buttons'
 import { DesignNav } from '@/app/ui/designs/buttons'
 import RocketList from './rocket-list'
 
@@ -22,13 +22,13 @@ export default function DetailView ({
       </div>
       <div className='mt-6 border-t border-gray-100'>
         <dl className='divide-y divide-gray-100'>
-          <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+          <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt className='text-sm font-medium leading-6 text-gray-900'>ID</dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
               {rocket.id}
             </dd>
           </div>
-          <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+          <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt className='text-sm font-medium leading-6 text-gray-900'>
               Full name
             </dt>
@@ -36,7 +36,7 @@ export default function DetailView ({
               {rocket.name}
             </dd>
           </div>
-          <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+          <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt className='text-sm font-medium leading-6 text-gray-900'>
               Description
             </dt>
@@ -46,7 +46,7 @@ export default function DetailView ({
           </div>
           <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt className='text-sm font-medium leading-6 text-gray-900'>
-              Designs <CreateRocket />
+              Designs
             </dt>
             <dd className='mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0'>
               <ul
@@ -60,7 +60,7 @@ export default function DetailView ({
             </dd>
           </div>
           <RocketList listItems={rocket.basedOn} label='Based On' />
-          <RocketList listItems={rocket.inspired} label='Inspired By' />
+          <RocketList listItems={rocket.inspired} label='Inspired' />
         </dl>
       </div>
     </div>
