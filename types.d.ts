@@ -102,6 +102,7 @@ interface Kit {
   parachute: string
   finArray: string
   uniqueID: string
+  labels: string[]
 }
 
 interface Manufacturer {
@@ -169,7 +170,9 @@ interface Rocket {
   name: string
   description?: string
   image?: string
-  manufacturer?: string
+  mfgID?: string
   basedOn?: Rocket[]
   definedBy?: Design[]
+  inspired?: Rocket[]
+  labels?: string[]
 }

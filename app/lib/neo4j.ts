@@ -144,10 +144,15 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (r:Model:Rocket {id: $id})
+        MATCH (r:Rocket {id: $id})
         OPTIONAL MATCH (r)-[:DEFINED_BY]->(d:Design)
         OPTIONAL MATCH (r)-[:BASED_ON]->(b)
-        RETURN r, collect(DISTINCT d) AS designs, collect(DISTINCT b) AS basedOn
+        OPTIONAL MATCH (i)-[:BASED_ON]->(r)
+        RETURN r, 
+               LABELS(r) as labels, 
+               collect(DISTINCT d) AS designs, 
+               collect(DISTINCT b) AS basedOn, 
+               collect(DISTINCT i) AS inspired
         `,
         { id }
       )
@@ -159,7 +164,7 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
 
     const record: Record = res.records[0]
     const rocketNode: Neo4jNode<Rocket> = record.get('r')
-    const designs: Design[] = record
+    const definedBy: Design[] = record
       .get('designs')
       .filter(
         (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
@@ -172,17 +177,25 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
       )
       .map((b: Neo4jNode<Rocket>) => b.properties)
 
+    const inspired: Rocket[] = record
+      .get('inspired')
+      .filter(
+        (i: Neo4jNode<Rocket> | null): i is Neo4jNode<Rocket> => i !== null
+      )
+      .map((i: Neo4jNode<Rocket>) => i.properties)
+
+    const labels: string[] = record.get('labels')
+
     const rocket: Rocket = {
       id: rocketNode.properties.id,
       name: rocketNode.properties.name,
       description: rocketNode.properties.description,
       image: rocketNode.properties.image,
-      manufacturer: rocketNode.properties.manufacturer,
-      definedBy: designs,
-      basedOn: basedOn.map((item) => ({
-        id: item.id,
-        name: item.name
-      }))
+      mfgID: rocketNode.properties.mfgID,
+      definedBy,
+      basedOn,
+      inspired,
+      labels
     }
 
     return rocket
@@ -505,7 +518,8 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             links: product.links,
             parachute: product.parachute,
             finArray: product.finArray,
-            uniqueID: product.uniqueID
+            uniqueID: product.uniqueID,
+            labels: ['Kit']
           })
           break
         case 'Motor':
@@ -734,7 +748,8 @@ async function getDbKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.uniqueID
+        uniqueID: node.uniqueID,
+        labels: ['Kit']
       }
     })
 
@@ -813,7 +828,8 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID
+      uniqueID: node.uniqueID,
+      labels: ['Kit']
     }
   } catch (error) {
     console.error(error)
