@@ -1,0 +1,4 @@
+rocket,name,id,filename,fileURL,stages,massEmpty,stabilityCal,stabilityPct,cg,cp,length,maxDiameter
+lone,LauncherOne 38,lone_38,launcher_one_38.ork,https://www.openrocket.info/files/launcher_one_38.ork,1,1400,2.38,21.8,515,757,1120,102
+lone,LauncherOne 54,lone_54,launcher_one_54.rkt,https://www.openrocket.info/files/launcher_one_38.ork,1,1520,2.38,21.8,515,757,1120,102
+phx,Phoenix,phx,phoenix.rkt,https://www.openrocket.info/files/phoenix.rkt,1,23700,2.38,21.8,515,757,1120,102

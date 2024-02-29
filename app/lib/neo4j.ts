@@ -1,9 +1,16 @@
-import neo4j from 'neo4j-driver'
+import neo4j, { type Session, type Record, type Integer } from 'neo4j-driver'
 import { cache } from 'react'
+import { getUser } from '@/app/lib/kinde'
+// import { unstable_noStore as noStore } from 'next/cache'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
 const password = process.env.NEO4J_PASSWORD
+
+// Defining a generic interface for Neo4j nodes to improve type safety
+interface Neo4jNode<T> {
+  properties: T
+}
 
 if (uri == null || username == null || password == null) {
   throw new Error(
@@ -12,6 +19,43 @@ if (uri == null || username == null || password == null) {
 }
 
 const driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
+
+// const ITEMS_PER_PAGE = 6
+// export async function fetchFilteredKits (
+//   query: string,
+//   currentPage: number
+// ): Promise<Kit[]> {
+//   noStore()
+//   const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+//   try {
+//     const invoices = await sql<InvoicesTable>`
+//       SELECT
+//         invoices.id,
+//         invoices.amount,
+//         invoices.date,
+//         invoices.status,
+//         customers.name,
+//         customers.email,
+//         customers.image_url
+//       FROM invoices
+//       JOIN customers ON invoices.customer_id = customers.id
+//       WHERE
+//         customers.name ILIKE ${`%${query}%`} OR
+//         customers.email ILIKE ${`%${query}%`} OR
+//         invoices.amount::text ILIKE ${`%${query}%`} OR
+//         invoices.date::text ILIKE ${`%${query}%`} OR
+//         invoices.status ILIKE ${`%${query}%`}
+//       ORDER BY invoices.date DESC
+//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+//     `
+
+//     return invoices.rows
+//   } catch (error) {
+//     console.error('Database Error:', error)
+//     throw new Error('Failed to fetch invoices.')
+//   }
+// }
 
 export const getFlightCards = cache(async (): Promise<FlightCard[]> => {
   const cards = await getDbFlightCards()
@@ -80,6 +124,290 @@ export const mrgPerson = cache(
   }
 )
 
+/**
+ *  ____            _        _
+ * |  _ \ ___   ___| | _____| |_
+ * | |_) / _ \ / __| |/ / _ \ __|
+ * |  _ < (_) | (__|   <  __/ |_
+ * |_| \_\___/ \___|_|\_\___|\__|
+ */
+
+// Helper function to map generic node properties to Kit or Rocket
+function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
+  if (labels.includes('Kit')) {
+    return {
+      url: node.url,
+      imageSrc: node.imageSrc,
+      recommendedEngines: node.recommendedEngines,
+      projectedMaxAltitude: node.projectedMaxAltitude,
+      recoverySystem: node.recoverySystem,
+      length: node.length,
+      diameter: node.diameter,
+      estimatedWeight: node.estimatedWeight,
+      estimatedAssemblyTime: node.estimatedAssemblyTime,
+      finMaterials: node.finMaterials,
+      decalType: node.decalType,
+      launchSystem: node.launchSystem,
+      launchRodSize: node.launchRodSize,
+      instructions: node.instructions,
+      ageRecommendation: node.ageRecommendation,
+      mfgID: node.mfgID,
+      name: node.name,
+      complexity: node.complexity,
+      height: node.height,
+      weight: node.weight,
+      motorMount: node.motorMount,
+      parachuteSize: node.parachuteSize,
+      shockCordType: node.shockCordType,
+      shockCordMount: node.shockCordMount,
+      finThickness: node.finThickness,
+      ringThickness: node.ringThickness,
+      price: node.price,
+      currency: node.currency,
+      sku: node.sku,
+      stockStatus: node.stockStatus,
+      description: node.description,
+      links: node.links,
+      parachute: node.parachute,
+      finArray: node.finArray,
+      uniqueID: node.uniqueID,
+      labels
+    } satisfies Kit
+  }
+  return {
+    id: node.id,
+    name: node.name,
+    description: node.description,
+    image: node.image,
+    isModel: labels.includes('Model')
+  } satisfies Rocket
+}
+
+/**
+ * Fetches a rocket from the database based on its ID.
+ *
+ * @param id - The ID of the rocket to fetch.
+ * @returns A Promise that resolves to the fetched rocket, or null if the rocket is not found.
+ */
+export async function fetchRocket (id: string): Promise<Rocket | null> {
+  const session: Session = driver.session()
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (r:Rocket {id: $id})
+        OPTIONAL MATCH (r)-[:DEFINED_BY]->(d:Design)
+        OPTIONAL MATCH (r)-[:BASED_ON]->(b)
+        OPTIONAL MATCH (i)-[:BASED_ON]->(r)
+        WITH r, d, b, i, LABELS(b) AS basedOnLabels, LABELS(i) AS inspiredLabels
+        RETURN r, 
+          LABELS(r) AS labels,
+          collect(DISTINCT d) AS designs,
+          collect(DISTINCT {node: b, labels: basedOnLabels}) AS basedOn,
+          collect(DISTINCT {node: i, labels: inspiredLabels}) AS inspired
+        `,
+        { id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const record: Record = res.records[0]
+    const rocketNode: Neo4jNode<Rocket> = record.get('r')
+    const definedBy: Design[] = record
+      .get('designs')
+      .filter(
+        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
+      )
+      .map((d: Neo4jNode<Design>) => d.properties)
+
+    const basedOn: Array<Kit | Rocket> = record
+      .get('basedOn')
+      .filter(
+        (obj: any): obj is { node: any, labels: string[] } => obj.node !== null
+      )
+      .map((obj: { node: any, labels: string[] }) => {
+        return mapNodeToType(obj.node.properties, obj.labels)
+      })
+
+    const inspired: Rocket[] = record
+      .get('inspired')
+      .filter((i: any): i is { node: any, labels: string[] } => i.node !== null)
+      .map((i: { node: any, labels: string[] }) => {
+        return mapNodeToType(i.node.properties, i.labels)
+      })
+
+    const labels: string[] = record.get('labels')
+
+    const rocket: Rocket = {
+      isModel: labels.includes('Model'),
+      id: rocketNode.properties.id,
+      name: rocketNode.properties.name,
+      description: rocketNode.properties.description,
+      image: rocketNode.properties.image,
+      mfgID: rocketNode.properties.mfgID,
+      definedBy,
+      basedOn,
+      inspired,
+      labels
+    }
+
+    return rocket
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ * Fetches the rockets associated with the current user.
+ * @returns A promise that resolves to an array of Rocket objects, or null if no rockets are found.
+ */
+export async function fetchMyRockets (): Promise<Rocket[] | null> {
+  const session = driver.session()
+  const user = await getUser()
+
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (:Person {id: $id})-[]->(r:Rocket)
+        RETURN r, LABELS(r) AS labels
+        `,
+        { id: user.id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const rockets = res.records.map((record) => {
+      const node = record.get('r').properties
+      const labels: string[] = record.get('labels')
+      return {
+        isModel: labels.includes('Model'),
+        name: node.name,
+        id: node.id
+      }
+    })
+
+    return rockets
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    // Close the session
+    await session.close()
+  }
+}
+
+/**
+ * Merges a Rocket node in the Neo4j database and establishes a relationship between the rocket and the current user.
+ * If the rocket node does not exist, it will be created.
+ *
+ * @param rocket - The Rocket object to be merged.
+ * @returns A Promise that resolves to the merged Rocket object, or null if an error occurs.
+ */
+export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
+  const session = driver.session()
+  const user = await getUser()
+
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(
+        `
+        MERGE (r:Rocket:Model {id: $rocketId})
+        ON CREATE SET r.name = $name
+        ON MATCH SET r.name = $name 
+        WITH r
+        MATCH (p:Person {id: $userId})
+        MERGE (p)-[:OWNS]->(r)
+        RETURN r, LABELS(r) AS labels
+      `,
+        {
+          rocketId: rocket.id,
+          name: rocket.name,
+          userId: user.id
+        }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const record = res.records[0]
+    const node = record.get('r').properties
+    const labels: string[] = record.get('labels')
+
+    return {
+      isModel: labels.includes('Model'),
+      name: node.name,
+      id: node.id
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ * Removes a rocket from the Neo4j database.
+ *
+ * @param rocket - The rocket object to be removed.
+ * @returns A promise that resolves to the number of rockets deleted, or null if no rockets were deleted.
+ */
+export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
+  const session = driver.session()
+
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(
+        `
+        MATCH (r:Rocket:Model {id: $id, name: $name})
+        DETACH DELETE r
+        RETURN count(r) AS deletedCount
+      `,
+        {
+          id: rocket.id,
+          name: rocket.name
+        }
+      )
+    )
+
+    if (
+      res.records.length === 0 ||
+      res.records[0].get('deletedCount').toInt() === 0
+    ) {
+      // No nodes were deleted
+      return null
+    } else {
+      // Nodes were deleted
+      return res.records[0].get('deletedCount').toInt()
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ *  ____
+ * |  _ \ ___ _ __ ___  ___  _ __
+ * | |_) / _ \ '__/ __|/ _ \| '_ \
+ * |  __/  __/ |  \__ \ (_) | | | |
+ * |_|   \___|_|  |___/\___/|_| |_|
+ */
+
 export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session
   const session = driver.session()
@@ -131,6 +459,51 @@ export async function mrgDbPerson (person: Person): Promise<Person | null> {
   }
 }
 
+/**
+ *  ____            _
+ * |  _ \  ___  ___(_) __ _ _ __  ___
+ * | | | |/ _ \/ __| |/ _` | '_ \/ __|
+ * | |_| |  __/\__ \ | (_| | | | \__ \
+ * |____/ \___||___/_|\__, |_| |_|___/
+ *                    |___/
+ */
+
+export async function fetchDesign (id: string): Promise<Design | null> {
+  const session: Session = driver.session()
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (d:Design {id: $id})
+        RETURN d
+        `,
+        { id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const record: Record = res.records[0]
+    const design: Design = record.get('d').properties
+
+    return design
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ *  __  __                    __            _
+ * |  \/  | __ _ _ __  _   _ / _| __ _  ___| |_ _   _ _ __ ___ _ __ ___
+ * | |\/| |/ _` | '_ \| | | | |_ / _` |/ __| __| | | | '__/ _ \ '__/ __|
+ * | |  | | (_| | | | | |_| |  _| (_| | (__| |_| |_| | | |  __/ |  \__ \
+ * |_|  |_|\__,_|_| |_|\__,_|_|  \__,_|\___|\__|\__,_|_|  \___|_|  |___/
+ */
 export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
   const mfgs = await getDbManufacturers()
   return mfgs
@@ -249,7 +622,8 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             links: product.links,
             parachute: product.parachute,
             finArray: product.finArray,
-            uniqueID: product.uniqueID
+            uniqueID: product.uniqueID,
+            labels: ['Kit']
           })
           break
         case 'Motor':
@@ -478,7 +852,8 @@ async function getDbKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.uniqueID
+        uniqueID: node.uniqueID,
+        labels: ['Kit']
       }
     })
 
@@ -557,7 +932,8 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID
+      uniqueID: node.uniqueID,
+      labels: ['Kit']
     }
   } catch (error) {
     console.error(error)

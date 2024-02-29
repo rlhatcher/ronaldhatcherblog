@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='utf-8'?>
+<openrocket version="1.9" creator="OpenRocket 23.09">
+  <rocket>
+    <name>Rocket</name>
+    <id>2f525640-dec9-4aa1-bab4-5d9d7ed6867b</id>
+    <axialoffset method="absolute">0.0</axialoffset>
+    <position type="absolute">0.0</position>
+    <referencetype>maximum</referencetype>
+
+    <subcomponents>
+      <stage>
+        <name>Stage</name>
+        <id>03cedc14-59d5-4e93-82c6-45a48bab423a</id>
+
+        <subcomponents>
+          <nosecone>
+            <name>Nose cone</name>
+            <id>caa58db2-18d3-472b-82ce-f08831d3cde2</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <overridemass>0.011800000000000001</overridemass>
+            <overridesubcomponentsmass>false</overridesubcomponentsmass>
+            <overridecg>0.0729996</overridecg>
+            <overridesubcomponentscg>false</overridesubcomponentscg>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.098425</length>
+            <thickness>0.0010668</thickness>
+            <shape>ogive</shape>
+            <shapeparameter>1.0</shapeparameter>
+            <aftradius>0.015113</aftradius>
+            <aftshoulderradius>0.014376400000000001</aftshoulderradius>
+            <aftshoulderlength>0.0411988</aftshoulderlength>
+            <aftshoulderthickness>0.0010668</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+            <isflipped>false</isflipped>
+
+            <subcomponents>
+              <masscomponent>
+                <name>Clay Nose Weight</name>
+                <id>3ca6bf01-b112-413f-ba48-08fc6f3a9b3e</id>
+                <axialoffset method="top">0.0254</axialoffset>
+                <position type="top">0.0254</position>
+                <overridemass>0.03</overridemass>
+                <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                <overridecg>0.0</overridecg>
+                <overridesubcomponentscg>false</overridesubcomponentscg>
+                <packedlength>0.0</packedlength>
+                <packedradius>0.0125</packedradius>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <mass>0.03</mass>
+                <masscomponenttype>masscomponent</masscomponenttype>
+              </masscomponent>
+            </subcomponents>
+          </nosecone>
+
+          <bodytube>
+            <name>Upper Stage Body Tube</name>
+            <id>bec7fda8-a4f6-4721-b4a5-d089b220010b</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1121.29">Paper</material>
+            <length>0.4064</length>
+            <thickness>5.587999999999999E-4</thickness>
+            <radius>0.015113</radius>
+          </bodytube>
+
+          <transition>
+            <name>Upper Stage Transition A</name>
+            <id>29271f1b-29b0-41ad-8a1b-7d97d53ab19c</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.0463804</length>
+            <thickness>0.0010668</thickness>
+            <shape>conical</shape>
+            <foreradius>0.015113</foreradius>
+            <aftradius>0.01524</aftradius>
+            <foreshoulderradius>0.0144272</foreshoulderradius>
+            <foreshoulderlength>0.0308102</foreshoulderlength>
+            <foreshoulderthickness>0.0010668</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.0010668</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+
+            <subcomponents>
+              <freeformfinset>
+                <name>Fin set</name>
+                <id>bbabdf46-ad2e-4547-8ad8-bebd12279781</id>
+                <appearance>
+                  <paint red="0" green="0" blue="255" alpha="255"/>
+                  <shine>0.3</shine>
+                </appearance>
+                <instancecount>4</instancecount>
+                <fincount>4</fincount>
+                <radiusoffset method="surface">0.0</radiusoffset>
+                <angleoffset method="relative">0.0</angleoffset>
+                <rotation>0.0</rotation>
+                <axialoffset method="bottom">-0.0</axialoffset>
+                <position type="bottom">-0.0</position>
+                <overridemass>0.015300000000000001</overridemass>
+                <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                <overridecg>0.06096</overridecg>
+                <overridesubcomponentscg>false</overridesubcomponentscg>
+                <finish>polished</finish>
+                <material type="bulk" density="1049.21">Polystyrene PS</material>
+                <thickness>0.00238252</thickness>
+                <crosssection>airfoil</crosssection>
+                <cant>0.0</cant>
+                <filletradius>0.0</filletradius>
+                <filletmaterial type="bulk" density="680.0">Cardboard</filletmaterial>
+                <finpoints>
+                  <point x="0.0" y="0.0"/>
+                  <point x="0.0653288" y="0.0381"/>
+                  <point x="0.108737" y="0.0381"/>
+                  <point x="0.09133839999999999" y="0.007569200000000001"/>
+                  <point x="0.078486" y="1.2700000000000038E-4"/>
+                </finpoints>
+              </freeformfinset>
+            </subcomponents>
+          </transition>
+
+          <transition>
+            <name>Upper Stage Transition B</name>
+            <id>97ea97d4-b06b-4935-ab61-a263d2aef342</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.027431999999999998</length>
+            <thickness>0.0010668</thickness>
+            <shape>conical</shape>
+            <foreradius>0.01524</foreradius>
+            <aftradius>0.020815300000000002</aftradius>
+            <foreshoulderradius>0.0</foreshoulderradius>
+            <foreshoulderlength>0.0</foreshoulderlength>
+            <foreshoulderthickness>0.0010668</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.0010668</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+          </transition>
+
+          <transition>
+            <name>Upper Stage Transition C</name>
+            <id>ec1ee652-6772-48e8-b280-881d13f0598e</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.0214376</length>
+            <thickness>0.0010668</thickness>
+            <shape>conical</shape>
+            <foreradius>0.020815300000000002</foreradius>
+            <aftradius>0.020828</aftradius>
+            <foreshoulderradius>0.0</foreshoulderradius>
+            <foreshoulderlength>0.0</foreshoulderlength>
+            <foreshoulderthickness>0.0010668</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.02025015</aftshoulderradius>
+            <aftshoulderlength>0.031114999999999997</aftshoulderlength>
+            <aftshoulderthickness>0.0010668</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+          </transition>
+
+          <bodytube>
+            <name>Second Stage Body Tube</name>
+            <id>04b06826-91c5-4f7a-9199-88dcaccf5c13</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1121.29">Paper</material>
+            <length>0.23495</length>
+            <thickness>3.682999999999985E-4</thickness>
+            <radius>0.020828</radius>
+
+            <subcomponents>
+              <parachute>
+                <name>Parachute</name>
+                <id>a0e4c032-39b8-4943-a381-40e892317698</id>
+                <axialoffset method="top">0.041275</axialoffset>
+                <position type="top">0.041275</position>
+                <overridemass>0.0253</overridemass>
+                <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                <overridecg>0.0</overridecg>
+                <overridesubcomponentscg>false</overridesubcomponentscg>
+                <packedlength>0.025</packedlength>
+                <packedradius>0.0187452</packedradius>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <cd>0.75</cd>
+                <material type="surface" density="0.054">Rip stop nylon</material>
+                <deployevent>ejection</deployevent>
+                <deployaltitude>200.0</deployaltitude>
+                <deploydelay>0.0</deploydelay>
+                <diameter>0.6096</diameter>
+                <linecount>8</linecount>
+                <linelength>0.7493</linelength>
+                <linematerial type="line" density="3.2972E-4">Carpet String (Apogee 29500)</linematerial>
+              </parachute>
+            </subcomponents>
+          </bodytube>
+
+          <transition>
+            <name>Second Stage Boattail</name>
+            <id>6eedf930-81d1-42ca-87dc-60b9407ca7f4</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.0594106</length>
+            <thickness>0.001016</thickness>
+            <shape>conical</shape>
+            <foreradius>0.020828</foreradius>
+            <aftradius>0.0188341</aftradius>
+            <foreshoulderradius>0.019837399999999998</foreshoulderradius>
+            <foreshoulderlength>0.0168402</foreshoulderlength>
+            <foreshoulderthickness>0.001016</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.001016</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+
+            <subcomponents>
+              <freeformfinset>
+                <name>Second Stage Fin Set</name>
+                <id>b8f52abe-7a3a-4417-9657-cfb0475db7c2</id>
+                <appearance>
+                  <paint red="0" green="0" blue="255" alpha="255"/>
+                  <shine>0.3</shine>
+                </appearance>
+                <instancecount>4</instancecount>
+                <fincount>4</fincount>
+                <radiusoffset method="surface">0.0</radiusoffset>
+                <angleoffset method="relative">0.0</angleoffset>
+                <rotation>0.0</rotation>
+                <axialoffset method="bottom">-0.0</axialoffset>
+                <position type="bottom">-0.0</position>
+                <overridemass>0.0124</overridemass>
+                <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                <overridecg>0.032969200000000004</overridecg>
+                <overridesubcomponentscg>false</overridesubcomponentscg>
+                <finish>polished</finish>
+                <material type="bulk" density="128.148">Balsa</material>
+                <thickness>0.0047625</thickness>
+                <crosssection>airfoil</crosssection>
+                <cant>0.0</cant>
+                <tabheight>0.004658611936725095</tabheight>
+                <tablength>0.0286004</tablength>
+                <tabposition relativeto="front">0.015367</tabposition>
+                <tabposition relativeto="top">0.015367</tabposition>
+                <filletradius>0.0</filletradius>
+                <filletmaterial type="bulk" density="680.0">Cardboard</filletmaterial>
+                <finpoints>
+                  <point x="0.0" y="0.0"/>
+                  <point x="0.016763999999999998" y="0.045212"/>
+                  <point x="0.0482981" y="0.045212"/>
+                  <point x="0.0647192" y="0.0045212"/>
+                  <point x="0.0565531" y="-0.001897998439504063"/>
+                </finpoints>
+              </freeformfinset>
+            </subcomponents>
+          </transition>
+
+          <transition>
+            <name>Second Stage Transition A</name>
+            <id>20111691-a3eb-4397-af92-955704bd3cd4</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.028625800000000003</length>
+            <thickness>0.001016</thickness>
+            <shape>conical</shape>
+            <foreradius>0.0188341</foreradius>
+            <aftradius>0.0286004</aftradius>
+            <foreshoulderradius>0.0</foreshoulderradius>
+            <foreshoulderlength>0.0</foreshoulderlength>
+            <foreshoulderthickness>0.001016</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.001016</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+          </transition>
+
+          <transition>
+            <name>Second Stage Transition B</name>
+            <id>0ca2907b-8538-43ca-80f6-32aebfcc498b</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.0139954</length>
+            <thickness>0.001016</thickness>
+            <shape>conical</shape>
+            <foreradius>0.0286004</foreradius>
+            <aftradius>0.0280289</aftradius>
+            <foreshoulderradius>0.0</foreshoulderradius>
+            <foreshoulderlength>0.0</foreshoulderlength>
+            <foreshoulderthickness>0.001016</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0275336</aftshoulderradius>
+            <aftshoulderlength>0.0254</aftshoulderlength>
+            <aftshoulderthickness>0.001016</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+          </transition>
+
+          <bodytube>
+            <name>First Stage Body Tube</name>
+            <id>0dbd32fa-ac37-4bde-84bf-3e0a93adb84b</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1121.29">Paper</material>
+            <length>0.155575</length>
+            <thickness>3.593999999999993E-4</thickness>
+            <radius>0.0280924</radius>
+          </bodytube>
+
+          <transition>
+            <name>First Stage Boattail A</name>
+            <id>d6ac1fdf-2829-4c6e-b0ee-5fb30a843663</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.015747999999999998</length>
+            <thickness>0.001016</thickness>
+            <shape>conical</shape>
+            <foreradius>0.0280289</foreradius>
+            <aftradius>0.0294005</aftradius>
+            <foreshoulderradius>0.0274955</foreshoulderradius>
+            <foreshoulderlength>0.0254</foreshoulderlength>
+            <foreshoulderthickness>0.001016</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.001016</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+          </transition>
+
+          <transition>
+            <name>First Stage Boattail B</name>
+            <id>d96bc6e6-c832-4c1a-bb11-c8cf5e4e8f9d</id>
+            <appearance>
+              <paint red="0" green="0" blue="255" alpha="255"/>
+              <shine>0.3</shine>
+            </appearance>
+            <finish>polished</finish>
+            <material type="bulk" density="1049.21">Polystyrene PS</material>
+            <length>0.0553974</length>
+            <thickness>0.001016</thickness>
+            <shape>conical</shape>
+            <foreradius>0.0294005</foreradius>
+            <aftradius>0.028956</aftradius>
+            <foreshoulderradius>0.0</foreshoulderradius>
+            <foreshoulderlength>0.0</foreshoulderlength>
+            <foreshoulderthickness>0.001016</foreshoulderthickness>
+            <foreshouldercapped>false</foreshouldercapped>
+            <aftshoulderradius>0.0</aftshoulderradius>
+            <aftshoulderlength>0.0</aftshoulderlength>
+            <aftshoulderthickness>0.001016</aftshoulderthickness>
+            <aftshouldercapped>false</aftshouldercapped>
+
+            <subcomponents>
+              <innertube>
+                <name>MMT</name>
+                <id>0190fc57-cfd6-46ab-88ee-ab4cdff486ea</id>
+                <axialoffset method="bottom">-0.0</axialoffset>
+                <position type="bottom">-0.0</position>
+                <material type="bulk" density="1121.29">Paper</material>
+                <length>0.3556</length>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <outerradius>0.015113</outerradius>
+                <thickness>5.715000000000008E-4</thickness>
+                <clusterconfiguration>single</clusterconfiguration>
+                <clusterscale>1.0</clusterscale>
+                <clusterrotation>0.0</clusterrotation>
+                <motormount>
+                  <ignitionevent>automatic</ignitionevent>
+                  <ignitiondelay>0.0</ignitiondelay>
+                  <overhang>0.00635</overhang>
+                </motormount>
+
+                <subcomponents>
+                  <masscomponent>
+                    <name>29mm Estes Retainer</name>
+                    <id>510f0e91-9deb-48fe-ba68-7748da5590aa</id>
+                    <axialoffset method="bottom">-0.00635</axialoffset>
+                    <position type="bottom">-0.00635</position>
+                    <overridemass>0.013300000000000001</overridemass>
+                    <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                    <overridecg>0.0</overridecg>
+                    <overridesubcomponentscg>false</overridesubcomponentscg>
+                    <packedlength>0.0</packedlength>
+                    <packedradius>0.0125</packedradius>
+                    <radialposition>0.0</radialposition>
+                    <radialdirection>0.0</radialdirection>
+                    <mass>0.013300000000000001</mass>
+                    <masscomponenttype>masscomponent</masscomponenttype>
+                  </masscomponent>
+                </subcomponents>
+              </innertube>
+
+              <freeformfinset>
+                <name>First Stage Fin Set</name>
+                <id>9ad2e029-6f16-4d76-8182-81918c524c75</id>
+                <appearance>
+                  <paint red="0" green="0" blue="255" alpha="255"/>
+                  <shine>0.3</shine>
+                </appearance>
+                <instancecount>4</instancecount>
+                <fincount>4</fincount>
+                <radiusoffset method="surface">0.0</radiusoffset>
+                <angleoffset method="relative">0.0</angleoffset>
+                <rotation>0.0</rotation>
+                <axialoffset method="bottom">-0.0</axialoffset>
+                <position type="bottom">-0.0</position>
+                <overridemass>0.0195</overridemass>
+                <overridesubcomponentsmass>false</overridesubcomponentsmass>
+                <overridecg>0.041909999999999996</overridecg>
+                <overridesubcomponentscg>false</overridesubcomponentscg>
+                <finish>polished</finish>
+                <material type="bulk" density="128.148">Balsa</material>
+                <thickness>0.00635</thickness>
+                <crosssection>airfoil</crosssection>
+                <cant>0.0</cant>
+                <tabheight>0.012834494222833564</tabheight>
+                <tablength>0.0282194</tablength>
+                <tabposition relativeto="front">0.037338</tabposition>
+                <tabposition relativeto="top">0.037338</tabposition>
+                <filletradius>0.0</filletradius>
+                <filletmaterial type="bulk" density="680.0">Cardboard</filletmaterial>
+                <finpoints>
+                  <point x="0.0" y="0.0"/>
+                  <point x="0.015875" y="0.041275"/>
+                  <point x="0.0889" y="0.041275"/>
+                  <point x="0.0889" y="-4.4450000000000045E-4"/>
+                </finpoints>
+              </freeformfinset>
+            </subcomponents>
+          </transition>
+        </subcomponents>
+      </stage>
+    </subcomponents>
+  </rocket>
+
+  <simulations>
+  </simulations>
+  <photostudio>
+  </photostudio>
+</openrocket>
