@@ -135,9 +135,7 @@ export const mrgPerson = cache(
 // Helper function to map generic node properties to Kit or Rocket
 function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
   if (labels.includes('Kit')) {
-    // Map properties specific to Kit
     return {
-      // List all properties for Kit, casting as necessary
       url: node.url,
       imageSrc: node.imageSrc,
       recommendedEngines: node.recommendedEngines,
@@ -176,7 +174,6 @@ function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
       labels
     } satisfies Kit
   }
-  // Assume Rocket if not a Kit
   return {
     id: node.id,
     name: node.name,
@@ -226,15 +223,18 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
       )
       .map((d: Neo4jNode<Design>) => d.properties)
 
-    const basedOn: Array<Kit | Rocket> = record.get('basedOn')
-      .filter((obj: any): obj is { node: any, labels: string[] } => obj.node !== null)
+    const basedOn: Array<Kit | Rocket> = record
+      .get('basedOn')
+      .filter(
+        (obj: any): obj is { node: any, labels: string[] } => obj.node !== null
+      )
       .map((obj: { node: any, labels: string[] }) => {
         return mapNodeToType(obj.node.properties, obj.labels)
       })
 
-    const inspired: Rocket[] = record.get('inspired')
-      .filter((i: any): i is { node: any, labels: string[] } => i.node !== null
-      )
+    const inspired: Rocket[] = record
+      .get('inspired')
+      .filter((i: any): i is { node: any, labels: string[] } => i.node !== null)
       .map((i: { node: any, labels: string[] }) => {
         return mapNodeToType(i.node.properties, i.labels)
       })
@@ -459,6 +459,51 @@ export async function mrgDbPerson (person: Person): Promise<Person | null> {
   }
 }
 
+/**
+ *  ____            _
+ * |  _ \  ___  ___(_) __ _ _ __  ___
+ * | | | |/ _ \/ __| |/ _` | '_ \/ __|
+ * | |_| |  __/\__ \ | (_| | | | \__ \
+ * |____/ \___||___/_|\__, |_| |_|___/
+ *                    |___/
+ */
+
+export async function fetchDesign (id: string): Promise<Design | null> {
+  const session: Session = driver.session()
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (d:Design {id: $id})
+        RETURN d
+        `,
+        { id }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const record: Record = res.records[0]
+    const design: Design = record.get('d').properties
+
+    return design
+  } catch (error) {
+    console.error(error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
+ *  __  __                    __            _
+ * |  \/  | __ _ _ __  _   _ / _| __ _  ___| |_ _   _ _ __ ___ _ __ ___
+ * | |\/| |/ _` | '_ \| | | | |_ / _` |/ __| __| | | | '__/ _ \ '__/ __|
+ * | |  | | (_| | | | | |_| |  _| (_| | (__| |_| |_| | | |  __/ |  \__ \
+ * |_|  |_|\__,_|_| |_|\__,_|_|  \__,_|\___|\__|\__,_|_|  \___|_|  |___/
+ */
 export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
   const mfgs = await getDbManufacturers()
   return mfgs

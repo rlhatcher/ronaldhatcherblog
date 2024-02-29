@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export function DesignNav ({ design }: { design: Design }): JSX.Element {
   return (
-    <Link href={`/dashboard/design/${design.name}`}>
+    <Link href={`/dashboard/designs/${design.id}`}>
       <li
         key={design.name}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'

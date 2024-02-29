@@ -1,0 +1,22 @@
+import Profile from '@/app/ui/dashboard/profile'
+import DesignView from '@/app/ui/designs/design'
+import { fetchDesign } from '@/app/lib/neo4j'
+
+export default async function Page ({
+  params
+}: {
+  params: { id: string }
+}): Promise<React.JSX.Element> {
+  const id = params.id
+  const design = await fetchDesign(id)
+
+  if (design === null) {
+    return <div>Failed to load design</div>
+  }
+  return (
+    <main>
+      <Profile />
+      <DesignView design={design}/>
+    </main>
+  )
+}
