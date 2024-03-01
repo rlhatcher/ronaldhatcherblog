@@ -53,3 +53,22 @@ export async function getImagesByTag (tags: string[]): Promise<string[]> {
   }
   return assets
 }
+
+export async function uploadImage (
+  imageFile: File,
+  options: cloudinary.UploadApiOptions | undefined
+): Promise<any> {
+  const arrayBuffer = await imageFile.arrayBuffer()
+  const buffer = new Uint8Array(arrayBuffer)
+  return await new Promise((resolve, reject) => {
+    cloudinary.v2.uploader
+      .upload_stream(options, (error: any, result: any) => {
+        if (error != null && error !== undefined) {
+          reject(error)
+        } else {
+          resolve(result)
+        }
+      })
+      .end(buffer)
+  })
+}

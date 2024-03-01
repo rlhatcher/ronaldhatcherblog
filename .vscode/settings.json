@@ -3,12 +3,16 @@
     "boto",
     "cloudscraper",
     "clsx",
+    "configid",
     "dotenv",
     "Filetree",
+    "flightdata",
     "headlessui",
     "heroicons",
     "kinde",
     "mfgs",
+    "motorconfig",
+    "motorconfiguration",
     "nextjs",
     "rehype"
   ]

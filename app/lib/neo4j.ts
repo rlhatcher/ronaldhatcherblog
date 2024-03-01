@@ -322,8 +322,8 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
       tx.run(
         `
         MERGE (r:Rocket:Model {id: $rocketId})
-        ON CREATE SET r.name = $name
-        ON MATCH SET r.name = $name 
+        ON CREATE SET r.name = $name, r.image = $image
+        ON MATCH SET r.name = $name, r.image = $image 
         WITH r
         MATCH (p:Person {id: $userId})
         MERGE (p)-[:OWNS]->(r)
@@ -332,7 +332,8 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
         {
           rocketId: rocket.id,
           name: rocket.name,
-          userId: user.id
+          userId: user.id,
+          image: rocket.image
         }
       )
     )

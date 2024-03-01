@@ -3,6 +3,7 @@
 import { mergeRocket, removeRocket } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { uploadImage } from './cloudinary'
 
 // This is temporary
 export interface State {
@@ -19,10 +20,24 @@ export async function createRocket (
 ): Promise<State> {
   const rocketId = formData.get('rid') as string
   const rocketName = formData.get('name') as string
+  const file = formData.get('image') as File
 
-  const rocketData: Rocket = { id: rocketId, name: rocketName, isModel: true }
+  const resImage = await uploadImage(file, {
+    public_id: `rockets/${rocketId}/main`,
+    overwrite: true,
+    tags: [rocketId, rocketName, 'createRocket']
+  })
+
+  if (resImage === null) {
+    return {
+      message: 'Failed to upload image.'
+    }
+  }
+
+  const rocketData: Rocket = { id: rocketId, name: rocketName, isModel: true, image: `rockets/${rocketId}/main` }
 
   const res = await mergeRocket(rocketData)
+
   if (res === null) {
     // If a database error occurs, return a more specific error.
     return {

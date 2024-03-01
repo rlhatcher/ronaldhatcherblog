@@ -186,3 +186,11 @@ interface Rocket {
   inspired?: Rocket[]
   labels?: string[]
 }
+
+interface Configuration {
+  id: string
+  motor: Motor
+  ignition: string
+  stage: number
+  active: boolean
+}

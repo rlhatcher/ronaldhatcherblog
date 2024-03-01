@@ -23,16 +23,32 @@ export default function Form (): JSX.Element {
           ))}
         </div>
         <Fieldset className='border-b border-gray-900/10 pb-12'>
-          <h2 className='text-base font-semibold leading-7 text-gray-900'>Add a Rocket</h2>
-          <Text className="mt-1 text-sm leading-6 text-gray-600">Enter the details for your new rocket</Text>
-          <FieldGroup className="mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+          <h2 className='text-base font-semibold leading-7 text-gray-900'>
+            Add a Rocket
+          </h2>
+          <Text className='mt-1 text-sm leading-6 text-gray-600'>
+            Enter the details for your new rocket
+          </Text>
+          <FieldGroup className='mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6'>
             <Field className='col-span-full'>
-              <Label className="block text-sm font-medium leading-6 text-gray-900">Name</Label>
-              <Input name='name' className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
+              <Label className='block text-sm font-medium leading-6 text-gray-900'>
+                Name
+              </Label>
+              <Input
+                name='name'
+                className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'
+              />
             </Field>
             <Field className='sm:col-span-4'>
               <Label>ID</Label>
-              <Input name='rid' className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'/>
+              <Input
+                name='rid'
+                className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md'
+              />
+            </Field>
+            <Field className='sm:col-span-2 font-mono'>
+              <Label>Select an image to upload</Label>
+              <Input id='image' name='image' type='file' className='block w-full border-slate-400' />
             </Field>
           </FieldGroup>
         </Fieldset>
