@@ -1,5 +1,6 @@
-import { ChevronRightIcon } from '@heroicons/react/16/solid'
+import { ChevronRightIcon, PlusIcon } from '@heroicons/react/16/solid'
 import Link from 'next/link'
+import { Button } from '../button'
 
 export function DesignNav ({ design }: { design: Design }): JSX.Element {
   return (
@@ -25,5 +26,14 @@ export function DesignNav ({ design }: { design: Design }): JSX.Element {
         </div>
       </li>
     </Link>
+  )
+}
+
+export function UploadDesign (): JSX.Element {
+  return (
+    <Button href='/dashboard/designs/upload'>
+      <PlusIcon />
+      <span className='hidden md:block'>Upload .ork</span>{' '}
+    </Button>
   )
 }

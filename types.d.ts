@@ -187,10 +187,30 @@ interface Rocket {
   labels?: string[]
 }
 
-interface Configuration {
-  id: string
-  motor: Motor
-  ignition: string
-  stage: number
-  active: boolean
+interface SimulationDetail {
+  name: string
+  simulator: string
+  calculator: string
+  maxaltitude?: string
+  maxvelocity?: string
+  maxacceleration?: string
+  maxmach?: string
+  timetoapogee?: string
+  flighttime?: string
+  groundhitvelocity?: string
+  launchrodvelocity?: string
+  deploymentvelocity?: string
+  optimumdelay?: string
+}
+
+interface ConfigurationDetail {
+  configId: string
+  stageNumber?: number
+  stageActive: boolean
+  manufacturer: string
+  designation: string
+  delay: string
+  ignitionEvent: string
+  ignitionDelay: string
+  simulations: SimulationDetail[]
 }
