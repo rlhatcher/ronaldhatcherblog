@@ -1,0 +1,3 @@
+{
+  "redirects": [{ "source": "/xform", "destination": "/api/xform" }]
+}
