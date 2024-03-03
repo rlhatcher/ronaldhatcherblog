@@ -1,23 +1,24 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  images: {
-    domains: ['estesrockets.com']
-  },
   async rewrites() {
     return [
+      {
+        source: '/api/auth/:path*',
+        destination: '/api/auth/:path*'
+      },
       {
         source: '/api/:path*',
         destination:
           process.env.NODE_ENV === 'development'
             ? 'http://127.0.0.1:5254/api/:path*'
-            : '/api/',
-      },
+            : '/api/'
+      }
     ]
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '2mb',
-    },
+      bodySizeLimit: '2mb'
+    }
   },
   webpack: (config) => {
     config.resolve.alias.canvas = false
