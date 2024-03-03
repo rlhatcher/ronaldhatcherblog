@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 
-@app.route('/api/process', methods=['POST'])
+@app.route('/api/openrocket/ork', methods=['POST'])
 def process_xml():
     post_data = request.data
 
@@ -13,12 +13,12 @@ def process_xml():
     root = ET.fromstring(post_data)
 
     configurations = []
-    motors_by_configid = {}
+    motors_by_cfgid = {}
 
     # Your existing processing logic
     for motor in root.findall(".//motor"):
         config_id = motor.get('configid')
-        motors_by_configid[config_id] = {
+        motors_by_cfgid[config_id] = {
             'manufacturer': motor.find('manufacturer').text,
             'designation': motor.find('designation').text,
             'delay': motor.find('delay').text,
@@ -28,10 +28,10 @@ def process_xml():
 
     for ignitionconfig in root.findall(".//ignitionconfiguration"):
         config_id = ignitionconfig.get('configid')
-        if config_id and config_id in motors_by_configid:
-            motors_by_configid[config_id]['ignitionevent'] = ignitionconfig.find(
+        if config_id and config_id in motors_by_cfgid:
+            motors_by_cfgid[config_id]['ignitionevent'] = ignitionconfig.find(
                 'ignitionevent').text
-            motors_by_configid[config_id]['ignitiondelay'] = ignitionconfig.find(
+            motors_by_cfgid[config_id]['ignitiondelay'] = ignitionconfig.find(
                 'ignitiondelay').text
 
     for motorconfig in root.findall(".//motorconfiguration"):
@@ -41,7 +41,7 @@ def process_xml():
         stageActive = stage.get(
             'active') == 'true' if stage is not None else False
 
-        motor_details = motors_by_configid.get(config_id, {})
+        motor_details = motors_by_cfgid.get(config_id, {})
         manufacturer = motor_details.get('manufacturer', "Unknown")
         designation = motor_details.get('designation', "Unknown")
         delay = motor_details.get('delay', "Unknown")
@@ -67,8 +67,8 @@ def process_xml():
                     'flighttime': flight_data.get('flighttime'),
                     'groundhitvelocity': flight_data.get('groundhitvelocity'),
                     'launchrodvelocity': flight_data.get('launchrodvelocity'),
-                    'deploymentvelocity': flight_data.get('deploymentvelocity'),
-                    'optimumdelay': flight_data.get('optimumdelay')
+                    'optimumdelay': flight_data.get('optimumdelay'),
+                    'deploymentvelocity': flight_data.get('deploymentvelocity')
                 })
 
         config_data = {
