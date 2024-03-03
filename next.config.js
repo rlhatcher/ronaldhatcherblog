@@ -1,20 +1,20 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/api/auth/:path*',
-  //       destination: '/api/auth/:path*'
-  //     },
-  //     {
-  //       source: '/api/:path*',
-  //       destination:
-  //         process.env.NODE_ENV === 'development'
-  //           ? 'http://127.0.0.1:5254/api/:path*'
-  //           : '/api/'
-  //     }
-  //   ]
-  // },
+  async rewrites() {
+    return [
+      // {
+      //   source: '/api/auth/:path*',
+      //   destination: '/api/auth/:path*'
+      // },
+      {
+        source: '/api/:path*',
+        destination:
+          process.env.NODE_ENV === 'development'
+            ? 'http://127.0.0.1:5254/api/:path*'
+            : '/api/'
+      }
+    ]
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb'
@@ -26,3 +26,4 @@ module.exports = {
     return config
   }
 }
+

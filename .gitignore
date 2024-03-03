@@ -35,3 +35,6 @@ yarn-error.log*
 next-env.d.ts
 public/sitemap.xml
 public/robots.txt
+
+# python
+__pycache__/
