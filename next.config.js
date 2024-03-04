@@ -3,18 +3,11 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
+        source: '/api/rest/:path*',
         destination:
           process.env.NODE_ENV === 'development'
-            ? 'http://127.0.0.1:5254/api/:path*'
-            : '/api/'
-      },
-      {
-        source: '/app/api/auth:path*',
-        destination:
-          process.env.NODE_ENV === 'development'
-            ? 'http://127.0.0.1:5254/api/:path*'
-            : '/app/api/auth/'
+            ? 'http://127.0.0.1:5254/api/rest/:path*'
+            : '/api/rest/'
       }
     ]
   },

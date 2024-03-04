@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify
 import xml.etree.ElementTree as ET
-import json
 
 app = Flask(__name__)
 
 
-@app.route('/api/ork', methods=['POST'])
+@app.route('/api/rest/ork', methods=['POST'])
 def process_xml():
     post_data = request.data
 
@@ -85,11 +84,8 @@ def process_xml():
 
         configurations.append(config_data)
 
-    # Convert configurations to JSON
-    response_data = json.dumps(configurations, indent=4)
-
     # Send the response as JSON
-    return jsonify(response_data), 200
+    return jsonify(configurations), 200
 
 
 if __name__ == '__main__':

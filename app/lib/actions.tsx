@@ -44,8 +44,9 @@ export async function uploadDesign (
       }
     })
 
-  await processOrkFile(xmlPath)
+  const orkJson = await processOrkFile(xmlPath)
 
+  console.log(orkJson)
   revalidatePath(`/dashboard/designs/${rocketId}`)
   redirect(`/dashboard/designs/${rocketId}`)
 }
