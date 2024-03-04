@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 
-@app.route('/api/ork', methods=['POST', 'GET'])
+@app.route('/api/ork', methods=['POST'])
 def process_xml():
     post_data = request.data
 
