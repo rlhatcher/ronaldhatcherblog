@@ -1,5 +1,5 @@
 'use server'
-import { mergeRocket, removeRocket } from './neo4j'
+import { mergeRocket, removeRocket, mergeConfigs } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { uploadImage } from './cloudinary'
@@ -19,27 +19,22 @@ export async function uploadDesign (
   const url = 'http://localhost:3000/api/rest/ork'
 
   try {
-    // Make a POST request to the Flask app with the form data
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData // Pass the form data directly
-      // No need to set 'Content-Type'; it's handled automatically with FormData
-    })
+    const response = await fetch(url, { method: 'POST', body: formData })
+    const designId = formData.get('rid') as string
 
-    // Check if the request was successful
     if (response.ok) {
-      const data = await response.json()
-      console.log(data)
-      return data
+      const data: ConfigurationDetail[] = await response.json()
+      console.debug(JSON.stringify(data, null, 2))
+      await mergeConfigs(designId, data)
+      return {
+        message: 'Design uploaded successfully'
+      }
     } else {
-      // Handle HTTP error responses
       console.error('Failed to upload design:', response.statusText)
-      // Throw an error or return a custom error object
       throw new Error('Failed to upload design')
     }
   } catch (error) {
     console.error('Error during fetch operation:', error)
-    // Handle fetch errors by throwing or returning an error object
     throw error
   }
 }

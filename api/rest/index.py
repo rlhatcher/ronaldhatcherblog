@@ -33,12 +33,12 @@ def ork():
             root = ET.fromstring(xml_content)
 
             configurations = []
-            motors_by_cfgid = {}
+            motors_by_cfg = {}
 
             # Process motors
             for motor in root.findall(".//motor"):
                 config_id = motor.get('configid')
-                motors_by_cfgid[config_id] = {
+                motors_by_cfg[config_id] = {
                     'manufacturer': motor.find('manufacturer').text,
                     'designation': motor.find('designation').text,
                     'delay': motor.find('delay').text,
@@ -47,12 +47,12 @@ def ork():
                 }
 
             # Process ignition configurations
-            for ignitionconfig in root.findall(".//ignitionconfiguration"):
-                config_id = ignitionconfig.get('configid')
-                if config_id in motors_by_cfgid:
-                    motors_by_cfgid[config_id]['ignitionevent'] = ignitionconfig.find(
+            for ignconfig in root.findall(".//ignitionconfiguration"):
+                config_id = ignconfig.get('configid')
+                if config_id in motors_by_cfg:
+                    motors_by_cfg[config_id]['ignitionevent'] = ignconfig.find(
                         'ignitionevent').text
-                    motors_by_cfgid[config_id]['ignitiondelay'] = ignitionconfig.find(
+                    motors_by_cfg[config_id]['ignitiondelay'] = ignconfig.find(
                         'ignitiondelay').text
 
             # Process motor configurations
@@ -64,7 +64,7 @@ def ork():
                 stageActive = stage.get(
                     'active') == 'true' if stage is not None else False
 
-                motor_details = motors_by_cfgid.get(config_id, {})
+                motor_details = motors_by_cfg.get(config_id, {})
                 manufacturer = motor_details.get('manufacturer', "Unknown")
                 designation = motor_details.get('designation', "Unknown")
                 delay = motor_details.get('delay', "Unknown")

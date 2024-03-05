@@ -498,6 +498,51 @@ export async function fetchDesign (id: string): Promise<Design | null> {
   }
 }
 
+export async function mergeConfigs (
+  designId: string,
+  configs: ConfigurationDetail[]
+): Promise<void> {
+  const query = `
+  UNWIND $configs as configDetail
+  MERGE (design:Design { designId: $designId })
+  MERGE (config:Configuration { configId: configDetail.configId })
+  ON CREATE SET config += configDetail
+  ON MATCH SET config += configDetail
+  MERGE (design)-[:SUPPORTS]->(config)
+  
+  WITH config, configDetail.simulations AS simulations
+  UNWIND simulations AS simulationDetail
+  MERGE (simulation:Simulation { name: simulationDetail.name })
+  ON CREATE SET simulation.calculator = simulationDetail.calculator,
+                simulation.deploymentvelocity = simulationDetail.deploymentvelocity,
+                simulation.optimumdelay = simulationDetail.optimumdelay,
+                simulation.simulator = simulationDetail.simulator,
+                simulation.maxmach = simulationDetail.maxmach,
+                simulation.launchrodvelocity = simulationDetail.launchrodvelocity,
+                simulation.flighttime = simulationDetail.flighttime,
+                simulation.maxaltitude = simulationDetail.maxaltitude,
+                simulation.groundhitvelocity = simulationDetail.groundhitvelocity,
+                simulation.maxacceleration = simulationDetail.maxacceleration,
+                simulation.timetoapogee = simulationDetail.timetoapogee,
+                simulation.maxvelocity = simulationDetail.maxvelocity
+  ON MATCH SET simulation += simulationDetail
+  MERGE (config)-[:SIMULATES]->(simulation)
+  `
+  const session: Session = driver.session()
+  try {
+    const res = await session.executeWrite((tx) =>
+      tx.run(query, { designId, configs })
+    )
+    if (res !== null) {
+      console.log('Configs merged successfully')
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    await session.close()
+  }
+}
+
 /**
  *  __  __                    __            _
  * |  \/  | __ _ _ __  _   _ / _| __ _  ___| |_ _   _ _ __ ___ _ __ ___
