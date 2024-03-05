@@ -1,91 +1,120 @@
 from flask import Flask, request, jsonify
 import xml.etree.ElementTree as ET
+import zipfile
+from io import BytesIO
 
 app = Flask(__name__)
 
 
 @app.route('/api/rest/ork', methods=['POST'])
-def process_xml():
-    post_data = request.data
+def ork():
+    app.logger.debug('Received request to process XML')
 
-    # Parse XML from POST data
-    root = ET.fromstring(post_data)
+    # Check if the expected file part is in the request
+    if 'ork' not in request.files:
+        return jsonify({'error': 'No file part found'}), 400
 
-    configurations = []
-    motors_by_cfgid = {}
+    file = request.files['ork']
+    app.logger.debug('File received')
 
-    # Your existing processing logic
-    for motor in root.findall(".//motor"):
-        config_id = motor.get('configid')
-        motors_by_cfgid[config_id] = {
-            'manufacturer': motor.find('manufacturer').text,
-            'designation': motor.find('designation').text,
-            'delay': motor.find('delay').text,
-            'ignitionevent': "",
-            'ignitiondelay': "",
-        }
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
 
-    for ignitionconfig in root.findall(".//ignitionconfiguration"):
-        config_id = ignitionconfig.get('configid')
-        if config_id and config_id in motors_by_cfgid:
-            motors_by_cfgid[config_id]['ignitionevent'] = ignitionconfig.find(
-                'ignitionevent').text
-            motors_by_cfgid[config_id]['ignitiondelay'] = ignitionconfig.find(
-                'ignitiondelay').text
+    try:
+        app.logger.debug('Attempting to process file')
 
-    for motorconfig in root.findall(".//motorconfiguration"):
-        config_id = motorconfig.get('configid')
-        stage = motorconfig.find('.//stage')
-        stageNumber = int(stage.get('number')) if stage is not None else None
-        stageActive = stage.get(
-            'active') == 'true' if stage is not None else False
+        # Process the ZIP file
+        with zipfile.ZipFile(BytesIO(file.read()), 'r') as zip_ref:
+            # Extract `rocket.ork` from the ZIP archive
+            with zip_ref.open('rocket.ork') as rocket_ork_file:
+                xml_content = rocket_ork_file.read()
 
-        motor_details = motors_by_cfgid.get(config_id, {})
-        manufacturer = motor_details.get('manufacturer', "Unknown")
-        designation = motor_details.get('designation', "Unknown")
-        delay = motor_details.get('delay', "Unknown")
-        ignitionevent = motor_details.get('ignitionevent', "Unknown")
-        ignitiondelay = motor_details.get('ignitiondelay', "Unknown")
+            # Parse the XML content
+            root = ET.fromstring(xml_content)
 
-        simulations = []
+            configurations = []
+            motors_by_cfgid = {}
 
-        for simulation in root.findall(".//simulation"):
-            conditions = simulation.find('conditions')
-            sim_configid = conditions.find('configid').text
-            if sim_configid == config_id:
-                flight_data = simulation.find('.//flightdata')
-                simulations.append({
-                    'name': simulation.find('name').text,
-                    'simulator': simulation.find('simulator').text,
-                    'calculator': simulation.find('calculator').text,
-                    'maxaltitude': flight_data.get('maxaltitude'),
-                    'maxvelocity': flight_data.get('maxvelocity'),
-                    'maxacceleration': flight_data.get('maxacceleration'),
-                    'maxmach': flight_data.get('maxmach'),
-                    'timetoapogee': flight_data.get('timetoapogee'),
-                    'flighttime': flight_data.get('flighttime'),
-                    'groundhitvelocity': flight_data.get('groundhitvelocity'),
-                    'launchrodvelocity': flight_data.get('launchrodvelocity'),
-                    'optimumdelay': flight_data.get('optimumdelay'),
-                    'deploymentvelocity': flight_data.get('deploymentvelocity')
-                })
+            # Process motors
+            for motor in root.findall(".//motor"):
+                config_id = motor.get('configid')
+                motors_by_cfgid[config_id] = {
+                    'manufacturer': motor.find('manufacturer').text,
+                    'designation': motor.find('designation').text,
+                    'delay': motor.find('delay').text,
+                    'ignitionevent': "",
+                    'ignitiondelay': "",
+                }
 
-        config_data = {
-            'configId': config_id,
-            'stageNumber': stageNumber,
-            'stageActive': stageActive,
-            'manufacturer': manufacturer,
-            'designation': designation,
-            'delay': delay,
-            'ignitionEvent': ignitionevent,
-            'ignitionDelay': ignitiondelay,
-            'simulations': simulations
-        }
+            # Process ignition configurations
+            for ignitionconfig in root.findall(".//ignitionconfiguration"):
+                config_id = ignitionconfig.get('configid')
+                if config_id in motors_by_cfgid:
+                    motors_by_cfgid[config_id]['ignitionevent'] = ignitionconfig.find(
+                        'ignitionevent').text
+                    motors_by_cfgid[config_id]['ignitiondelay'] = ignitionconfig.find(
+                        'ignitiondelay').text
 
-        configurations.append(config_data)
+            # Process motor configurations
+            for motorconfig in root.findall(".//motorconfiguration"):
+                config_id = motorconfig.get('configid')
+                stage = motorconfig.find('.//stage')
+                stageNumber = int(stage.get('number')
+                                  ) if stage is not None else None
+                stageActive = stage.get(
+                    'active') == 'true' if stage is not None else False
 
-    # Send the response as JSON
-    return jsonify(configurations), 200
+                motor_details = motors_by_cfgid.get(config_id, {})
+                manufacturer = motor_details.get('manufacturer', "Unknown")
+                designation = motor_details.get('designation', "Unknown")
+                delay = motor_details.get('delay', "Unknown")
+                ignitionevent = motor_details.get('ignitionevent', "Unknown")
+                ignitiondelay = motor_details.get('ignitiondelay', "Unknown")
+
+                simulations = []
+
+                # Process simulations
+                for simulation in root.findall(".//simulation"):
+                    conditions = simulation.find('conditions')
+                    sim_configid = conditions.find('configid').text
+                    if sim_configid == config_id:
+                        flight_data = simulation.find('.//flightdata')
+                        simulations.append({
+                            'name': simulation.find('name').text,
+                            'simulator': simulation.find('simulator').text,
+                            'calculator': simulation.find('calculator').text,
+                            'maxaltitude': flight_data.get('maxaltitude'),
+                            'maxvelocity': flight_data.get('maxvelocity'),
+                            'maxacceleration': flight_data.get('maxacceleration'),
+                            'maxmach': flight_data.get('maxmach'),
+                            'timetoapogee': flight_data.get('timetoapogee'),
+                            'flighttime': flight_data.get('flighttime'),
+                            'groundhitvelocity': flight_data.get('groundhitvelocity'),
+                            'launchrodvelocity': flight_data.get('launchrodvelocity'),
+                            'optimumdelay': flight_data.get('optimumdelay'),
+                            'deploymentvelocity': flight_data.get('deploymentvelocity'),
+                        })
+
+                config_data = {
+                    'configId': config_id,
+                    'stageNumber': stageNumber,
+                    'stageActive': stageActive,
+                    'manufacturer': manufacturer,
+                    'designation': designation,
+                    'delay': delay,
+                    'ignitionEvent': ignitionevent,
+                    'ignitionDelay': ignitiondelay,
+                    'simulations': simulations,
+                }
+
+                configurations.append(config_data)
+
+        # Send the processed configurations as a JSON response
+        return jsonify(configurations), 200
+
+    except Exception as e:
+        app.logger.error(f'Error processing file: {e}')
+        return jsonify({'error': 'Error processing file', 'message': str(e)}), 500
 
 
 if __name__ == '__main__':

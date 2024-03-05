@@ -1,12 +1,8 @@
 'use server'
-import fs, { writeFileSync } from 'fs'
-import unzipper from 'unzipper'
 import { mergeRocket, removeRocket } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { uploadImage } from './cloudinary'
-import { join } from 'path'
-import { processOrkFile } from './openrocket'
 
 export interface State {
   errors?: {
@@ -20,35 +16,32 @@ export async function uploadDesign (
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  const orkFile: File | null = formData.get('ork') as unknown as File
-  const rocketId: string = formData.get('rid') as string
+  const url = 'http://localhost:3000/api/rest/ork'
 
-  const orkPath = join('/', 'tmp', orkFile.name)
-  const xmlPath = join('/', 'tmp', rocketId + '.xml')
-
-  const bytes = await orkFile.arrayBuffer()
-  const buffer = Buffer.from(bytes)
-
-  writeFileSync(orkPath, buffer)
-
-  fs.createReadStream(orkPath)
-    .pipe(unzipper.Parse())
-    .on('entry', function (entry) {
-      const fileName = entry.path
-      // const type = entry.type // 'Directory' or 'File'
-      // const size = entry.vars.uncompressedSize // There is also compressedSize;
-      if (fileName === 'rocket.ork') {
-        entry.pipe(fs.createWriteStream(xmlPath))
-      } else {
-        entry.autodrain()
-      }
+  try {
+    // Make a POST request to the Flask app with the form data
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData // Pass the form data directly
+      // No need to set 'Content-Type'; it's handled automatically with FormData
     })
 
-  const orkJson = await processOrkFile(xmlPath)
-
-  console.log(orkJson)
-  revalidatePath(`/dashboard/designs/${rocketId}`)
-  redirect(`/dashboard/designs/${rocketId}`)
+    // Check if the request was successful
+    if (response.ok) {
+      const data = await response.json()
+      console.log(data)
+      return data
+    } else {
+      // Handle HTTP error responses
+      console.error('Failed to upload design:', response.statusText)
+      // Throw an error or return a custom error object
+      throw new Error('Failed to upload design')
+    }
+  } catch (error) {
+    console.error('Error during fetch operation:', error)
+    // Handle fetch errors by throwing or returning an error object
+    throw error
+  }
 }
 
 export async function createRocket (
