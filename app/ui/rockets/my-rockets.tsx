@@ -37,3 +37,20 @@ export default async function MyRockets (): Promise<React.JSX.Element> {
     </Table>
   )
 }
+
+export async function MyRocketsSelect (): Promise<React.JSX.Element> {
+  const rockets = await fetchMyRockets()
+
+  if (rockets === null) {
+    return <div>Failed to load rockets</div>
+  }
+  return (
+    <select name='myrocket_id' className='w-full border-slate-400'>
+      {rockets.map((rocket) => (
+        <option key={rocket.id} value={rocket.id}>
+          {rocket.name}
+        </option>
+      ))}
+    </select>
+  )
+}

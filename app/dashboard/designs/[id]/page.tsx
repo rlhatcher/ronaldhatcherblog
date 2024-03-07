@@ -1,7 +1,6 @@
 import Profile from '@/app/ui/dashboard/profile'
 import DesignView from '@/app/ui/designs/design'
 import { fetchDesign } from '@/app/lib/neo4j'
-import { UploadDesign } from '@/app/ui/designs/buttons'
 
 export default async function Page ({
   params
@@ -19,7 +18,6 @@ export default async function Page ({
       <Profile />
       <DesignView design={design}/>
       <div className='mt-6 flex items-center justify-end gap-x-6'>
-      <UploadDesign />
       </div>
     </main>
   )

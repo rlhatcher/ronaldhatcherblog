@@ -1,39 +1,55 @@
 from flask import Flask, request, jsonify
-import xml.etree.ElementTree as ET
 import zipfile
 from io import BytesIO
+import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 
 
 @app.route('/api/rest/ork', methods=['POST'])
 def ork():
-    app.logger.debug('Received request to process XML')
-
-    # Check if the expected file part is in the request
     if 'ork' not in request.files:
         return jsonify({'error': 'No file part found'}), 400
 
     file = request.files['ork']
-    app.logger.debug('File received')
-
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
 
     try:
-        app.logger.debug('Attempting to process file')
-
-        # Process the ZIP file
         with zipfile.ZipFile(BytesIO(file.read()), 'r') as zip_ref:
-            # Extract `rocket.ork` from the ZIP archive
             with zip_ref.open('rocket.ork') as rocket_ork_file:
                 xml_content = rocket_ork_file.read()
 
-            # Parse the XML content
             root = ET.fromstring(xml_content)
-
             configurations = []
             motors_by_cfg = {}
+            rocket_name = root.find(
+                ".//rocket/name").text if root.find(".//rocket/name") is not None else "Unknown Rocket"
+
+            def calculate_length_diameter(root):
+                len_tags = {'nosecone', 'bodytube',
+                            'transition', 'fairing', 'secondstage'}
+                total_len = 0.0
+                max_diameter = 0.0
+
+                for part in root.iter():
+                    if part.tag.lower() in len_tags and part.find('length') is not None:
+                        try:
+                            total_len += float(part.find('length').text)
+                        except (TypeError, ValueError):
+                            pass
+
+                    if part.find('radius') is not None:
+                        try:
+                            radius = float(part.find('radius').text)
+                            diameter = radius * 2
+                            max_diameter = max(max_diameter, diameter)
+                        except (TypeError, ValueError):
+                            pass
+
+                return total_len, max_diameter
+
+            total_length, max_diameter = calculate_length_diameter(root)
 
             # Process motors
             for motor in root.findall(".//motor"):
@@ -78,21 +94,21 @@ def ork():
                     conditions = simulation.find('conditions')
                     sim_configid = conditions.find('configid').text
                     if sim_configid == config_id:
-                        flight_data = simulation.find('.//flightdata')
+                        flt = simulation.find('.//flightdata')
                         simulations.append({
                             'name': simulation.find('name').text,
                             'simulator': simulation.find('simulator').text,
                             'calculator': simulation.find('calculator').text,
-                            'maxaltitude': flight_data.get('maxaltitude'),
-                            'maxvelocity': flight_data.get('maxvelocity'),
-                            'maxacceleration': flight_data.get('maxacceleration'),
-                            'maxmach': flight_data.get('maxmach'),
-                            'timetoapogee': flight_data.get('timetoapogee'),
-                            'flighttime': flight_data.get('flighttime'),
-                            'groundhitvelocity': flight_data.get('groundhitvelocity'),
-                            'launchrodvelocity': flight_data.get('launchrodvelocity'),
-                            'optimumdelay': flight_data.get('optimumdelay'),
-                            'deploymentvelocity': flight_data.get('deploymentvelocity'),
+                            'maxaltitude': flt.get('maxaltitude'),
+                            'maxvelocity': flt.get('maxvelocity'),
+                            'maxacceleration': flt.get('maxacceleration'),
+                            'maxmach': flt.get('maxmach'),
+                            'timetoapogee': flt.get('timetoapogee'),
+                            'flighttime': flt.get('flighttime'),
+                            'groundhitvelocity': flt.get('groundhitvelocity'),
+                            'launchrodvelocity': flt.get('launchrodvelocity'),
+                            'optimumdelay': flt.get('optimumdelay'),
+                            'deploymentvelocity': flt.get('deploymentvelocity')
                         })
 
                 config_data = {
@@ -109,12 +125,18 @@ def ork():
 
                 configurations.append(config_data)
 
-        # Send the processed configurations as a JSON response
-        return jsonify(configurations), 200
+        response_data = {
+            'configurations': configurations,
+            'totalLength': total_length,
+            'maxDiameter': max_diameter,
+            'name': rocket_name
+        }
+
+        return jsonify(response_data), 200
 
     except Exception as e:
         app.logger.error(f'Error processing file: {e}')
-        return jsonify({'error': 'Error processing file', 'message': str(e)}), 500
+        return jsonify({'error': 'Error with file', 'message': str(e)}), 500
 
 
 if __name__ == '__main__':

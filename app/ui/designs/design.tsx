@@ -29,9 +29,9 @@ export default function DesignView ({
               Weights and Measures
             </dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-              {design.massEmpty} g (empty)
-              {design.length} mm (length)
-              {design.maxDiameter} mm (max diameter)
+              weight {design.massEmpty} g
+              length {design.length} m
+              diameter {design.maxDiameter} m
             </dd>
           </div>
           <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>

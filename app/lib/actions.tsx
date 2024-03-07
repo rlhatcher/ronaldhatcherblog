@@ -1,5 +1,5 @@
 'use server'
-import { mergeRocket, removeRocket, mergeConfigs } from './neo4j'
+import { mergeRocket, removeRocket, mergeDesign } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { uploadImage } from './cloudinary'
@@ -23,9 +23,11 @@ export async function uploadDesign (
     const designId = formData.get('rid') as string
 
     if (response.ok) {
-      const data: ConfigurationDetail[] = await response.json()
+      const data: Design = await response.json()
+      data.id = designId
       console.debug(JSON.stringify(data, null, 2))
-      await mergeConfigs(designId, data)
+
+      await mergeDesign(data)
       return {
         message: 'Design uploaded successfully'
       }

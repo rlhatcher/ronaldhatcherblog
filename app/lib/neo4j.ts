@@ -476,7 +476,11 @@ export async function fetchDesign (id: string): Promise<Design | null> {
       tx.run(
         `
         MATCH (d:Design {id: $id})
-        RETURN d
+        OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
+        OPTIONAL MATCH (c)-[:HAS_SIMULATION]->(s:Simulation)
+        RETURN d AS design, 
+               collect(DISTINCT c) AS configurations,
+               collect(DISTINCT s) AS simulations
         `,
         { id }
       )
@@ -487,57 +491,86 @@ export async function fetchDesign (id: string): Promise<Design | null> {
     }
 
     const record: Record = res.records[0]
-    const design: Design = record.get('d').properties
+    const designNode: any = record.get('design')
+    const configurationsNodes: any[] = record.get('configurations')
+    const simulationsNodes: any[] = record.get('simulations')
 
+    // Constructing the Design object
+    const design: Design = {
+      ...designNode.properties,
+      configurations: configurationsNodes.filter(cfg => cfg !== null).map(cfg => ({
+        ...cfg.properties,
+        simulations: simulationsNodes.filter(sim => sim !== null && sim.properties.configId === cfg.properties.configId).map(sim => sim.properties)
+      }))
+    }
+    console.log(design)
     return design
   } catch (error) {
-    console.error(error)
+    console.error('Failed to fetch design:', error)
     return null
   } finally {
     await session.close()
   }
 }
 
-export async function mergeConfigs (
-  designId: string,
-  configs: ConfigurationDetail[]
-): Promise<void> {
+export async function mergeDesign (design: Design): Promise<void> {
+  const session = driver.session()
+
+  const params = {
+    designId: design.id,
+    name: design.name,
+    rocket: design.rocket ?? null,
+    fileURL: design.fileURL ?? null,
+    filename: design.filename ?? null,
+    stages: design.stages ?? null,
+    massEmpty: design.massEmpty ?? null,
+    stabilityCal: design.stabilityCal ?? null,
+    stabilityPct: design.stabilityPct ?? null,
+    cg: design.cg ?? null,
+    cp: design.cp ?? null,
+    length: design.length ?? null,
+    maxDiameter: design.maxDiameter ?? null,
+    configurations: design.configurations // Assuming configurations include simulations
+  }
+
   const query = `
-  UNWIND $configs as configDetail
-  MERGE (design:Design { designId: $designId })
-  MERGE (config:Configuration { configId: configDetail.configId })
-  ON CREATE SET config += configDetail
-  ON MATCH SET config += configDetail
-  MERGE (design)-[:SUPPORTS]->(config)
-  
-  WITH config, configDetail.simulations AS simulations
-  UNWIND simulations AS simulationDetail
-  MERGE (simulation:Simulation { name: simulationDetail.name })
-  ON CREATE SET simulation.calculator = simulationDetail.calculator,
-                simulation.deploymentvelocity = simulationDetail.deploymentvelocity,
-                simulation.optimumdelay = simulationDetail.optimumdelay,
-                simulation.simulator = simulationDetail.simulator,
-                simulation.maxmach = simulationDetail.maxmach,
-                simulation.launchrodvelocity = simulationDetail.launchrodvelocity,
-                simulation.flighttime = simulationDetail.flighttime,
-                simulation.maxaltitude = simulationDetail.maxaltitude,
-                simulation.groundhitvelocity = simulationDetail.groundhitvelocity,
-                simulation.maxacceleration = simulationDetail.maxacceleration,
-                simulation.timetoapogee = simulationDetail.timetoapogee,
-                simulation.maxvelocity = simulationDetail.maxvelocity
-  ON MATCH SET simulation += simulationDetail
-  MERGE (config)-[:SIMULATES]->(simulation)
-  `
-  const session: Session = driver.session()
-  try {
-    const res = await session.executeWrite((tx) =>
-      tx.run(query, { designId, configs })
-    )
-    if (res !== null) {
-      console.log('Configs merged successfully')
+    MERGE (design:Design {id: $designId})
+    SET design += {
+      name: $name, rocket: $rocket, fileURL: $fileURL, filename: $filename,
+      stages: $stages, massEmpty: $massEmpty, stabilityCal: $stabilityCal,
+      stabilityPct: $stabilityPct, cg: $cg, cp: $cp,
+      length: $length, maxDiameter: $maxDiameter
     }
+
+    WITH design
+    UNWIND $configurations AS cfg
+    MERGE (configuration:Configuration {configId: cfg.configId})
+    ON CREATE SET configuration += {
+      stageNumber: cfg.stageNumber, stageActive: cfg.stageActive,
+      manufacturer: cfg.manufacturer, designation: cfg.designation,
+      delay: cfg.delay, ignitionEvent: cfg.ignitionEvent, ignitionDelay: cfg.ignitionDelay
+    }
+    MERGE (design)-[:SUPPORTS]->(configuration)
+
+    WITH configuration, cfg.simulations AS sims
+    UNWIND sims AS sim
+    MERGE (simulation:Simulation {name: sim.name})
+    ON CREATE SET simulation += {
+      simulator: sim.simulator, calculator: sim.calculator,
+      maxaltitude: sim.maxaltitude, maxvelocity: sim.maxvelocity,
+      maxacceleration: sim.maxacceleration, maxmach: sim.maxmach,
+      timetoapogee: sim.timetoapogee, flighttime: sim.flighttime,
+      groundhitvelocity: sim.groundhitvelocity, launchrodvelocity: sim.launchrodvelocity,
+      deploymentvelocity: sim.deploymentvelocity, optimumdelay: sim.optimumdelay
+    }
+    MERGE (configuration)-[:HAS_SIMULATION]->(simulation)
+  `
+
+  try {
+    await session.writeTransaction(async tx => await tx.run(query, params))
+    console.log('Design, configurations, and simulations merged successfully')
   } catch (error) {
-    console.error(error)
+    console.error('Failed to merge design, configurations, and simulations:', error)
   } finally {
     await session.close()
   }

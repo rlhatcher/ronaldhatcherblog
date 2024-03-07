@@ -160,18 +160,19 @@ interface Person {
 
 interface Design {
   name: string
-  rocket: string
-  fileURL: string
-  filename: string
+  rocket?: string
+  fileURL?: string
+  filename?: string
   id: string
-  stages: string
-  massEmpty: number
-  stabilityCal: number
-  stabilityPct: number
-  cg: number
-  cp: number
-  length: number
-  maxDiameter: number
+  stages?: string
+  massEmpty?: number
+  stabilityCal?: number
+  stabilityPct?: number
+  cg?: number
+  cp?: number
+  length?: number
+  maxDiameter?: number
+  configurations?: ConfigurationDetail[]
 }
 
 interface Rocket {

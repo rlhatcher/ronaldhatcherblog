@@ -6,6 +6,7 @@ import { uploadDesign } from '@/app/lib/actions'
 import { Input } from '@/app/ui/input'
 import { Field, FieldGroup, Fieldset, Label } from '../fieldset'
 import { Text } from '@/app/ui/text'
+import { MyRocketsSelect } from '../rockets/my-rockets'
 
 export default function Form (): JSX.Element {
   const initialState = { message: null, errors: {} }
@@ -23,25 +24,20 @@ export default function Form (): JSX.Element {
         </div>
         <Fieldset className='border-b border-gray-900/10 pb-12'>
           <h2 className='text-base font-semibold leading-7 text-gray-900'>
-            Upload an OpenRocket file
+            Add a Design
           </h2>
           <Text className='mt-1 text-sm leading-6 text-gray-600'>
-            Any simulation data will be automatically extracted and added to the
-            database
+            Enter details or upload an Openrocket design file
           </Text>
           <FieldGroup className='mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6'>
-            <Field className='sm:col-span-3'>
-              <Label htmlFor='rid'>Rocket ID</Label>
-              <Input
-                id='rid'
-                name='rid'
-                type='text'
-                defaultValue='phx'
-                className='w-full border-slate-400'
-              />
+            <Field className='col-span-full'>
+              <Label className='block text-sm font-medium leading-6 text-gray-900'>
+                Rocket
+              </Label>
+              <MyRocketsSelect />
             </Field>
             <Field className='sm:col-span-2 font-mono'>
-              <Label>Select an file to upload</Label>
+              <Label>Select an ORK File</Label>
               <Input
                 id='ork'
                 name='ork'
@@ -59,7 +55,7 @@ export default function Form (): JSX.Element {
         >
           Cancel
         </Link>
-        <Button type='submit'>Create Rocket</Button>
+        <Button type='submit'>Save Design</Button>
       </div>
     </form>
   )

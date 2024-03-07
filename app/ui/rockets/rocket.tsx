@@ -1,7 +1,7 @@
 import { UpdateRocket } from './buttons'
-import { DesignNav } from '@/app/ui/designs/buttons'
 import CloudImage from '@/app/ui/cloud-image'
 import RocketList from './rocket-list'
+import DesignList from '../designs/design-list'
 
 export default function DetailView ({
   rocket
@@ -69,21 +69,7 @@ export default function DetailView ({
       {/* Full-width design sections below the top content */}
       <div className='mt-6 w-full'>
         <dl className='divide-y divide-gray-100'>
-          <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-            <dt className='text-sm font-medium leading-6 text-gray-900'>
-              Designs
-            </dt>
-            <dd className='mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0'>
-              <ul
-                role='list'
-                className='divide-y divide-gray-100 rounded-md border border-gray-200'
-              >
-                {rocket.definedBy?.map((design) => (
-                  <DesignNav key={design.name} design={design} />
-                ))}
-              </ul>
-            </dd>
-          </div>
+          <DesignList listItems={rocket.definedBy} label='Designs' />
           <RocketList listItems={rocket.basedOn} label='Based On' />
           <RocketList listItems={rocket.inspired} label='Inspired' />
         </dl>
