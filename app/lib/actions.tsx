@@ -4,6 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { uploadImage } from './cloudinary'
 
+import { z } from 'zod'
+import { Identifier } from '@/app/lib/schema/sharedTypes'
+
 export interface State {
   errors?: {
     rid?: string[]
@@ -11,6 +14,15 @@ export interface State {
   }
   message?: string | null
 }
+
+export const CreateRocketSchema = z.object({
+  id: Identifier,
+  name: z.string(),
+  description: z.string().optional(),
+  image: z.instanceof(File).optional()
+})
+
+const CreateRocket = CreateRocketSchema.omit({ id: true })
 
 export async function uploadDesign (
   prevState: State,
@@ -39,29 +51,37 @@ export async function uploadDesign (
     console.error('Error during fetch operation:', error)
     throw error
   }
+  revalidatePath('/dashboard/designs')
+  redirect('/dashboard/designs')
 }
 
 export async function createRocket (
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  const rocketId = formData.get('rid') as string
-  const rocketName = formData.get('name') as string
-  const file = formData.get('image') as File
+  const url = 'http://localhost:3000/api/rest/ork'
 
-  const resImage = await uploadImage(file, {
-    public_id: `rockets/${rocketId}/main`,
-    overwrite: true,
-    tags: [rocketId, rocketName, 'createRocket']
+  const { name, image, file, description } = CreateRocket.parse({
+    name: formData.get('name'),
+    image: formData.get('image'),
+    file: formData.get('file'),
+    description: formData.get('description')
   })
 
-  if (resImage === null) {
-    return {
-      message: 'Failed to upload image.'
+  if (image instanceof File) {
+    const resImage = await uploadImage(image, {
+      public_id: `rockets/${name}/main`,
+      overwrite: true,
+      tags: [name, 'createRocket']
+    })
+    if (resImage === null) {
+      return {
+        message: 'Failed to upload image.'
+      }
     }
   }
 
-  const rocketData: Rocket = { id: rocketId, name: rocketName, isModel: true, image: `rockets/${rocketId}/main` }
+  const rocketData: Rocket = { id: '', name, isModel: true, image: `rockets/${name}/main` }
 
   const res = await mergeRocket(rocketData)
 

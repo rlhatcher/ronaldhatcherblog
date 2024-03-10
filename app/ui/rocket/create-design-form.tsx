@@ -6,7 +6,7 @@ import { uploadDesign } from '@/app/lib/actions'
 import { Input } from '@/app/ui/input'
 import { Field, FieldGroup, Fieldset, Label } from '../fieldset'
 import { Text } from '@/app/ui/text'
-import { MyRocketsSelect } from '../rockets/my-rockets'
+import { Select } from '../select'
 
 export default function Form (): JSX.Element {
   const initialState = { message: null, errors: {} }
@@ -34,7 +34,12 @@ export default function Form (): JSX.Element {
               <Label className='block text-sm font-medium leading-6 text-gray-900'>
                 Rocket
               </Label>
-              <MyRocketsSelect />
+              <Select>
+                <option value='1'>Falcon 9</option>
+                <option value='2'>Starship</option>
+                <option value='3'>New Glenn</option>
+              </Select>
+              {/* <MyRocketsSelect /> */}
             </Field>
             <Field className='sm:col-span-2 font-mono'>
               <Label>Select an ORK File</Label>

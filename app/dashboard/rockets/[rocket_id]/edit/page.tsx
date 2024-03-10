@@ -1,5 +1,5 @@
 import Profile from '@/app/ui/dashboard/profile'
-import DetailView from '@/app/ui/rockets/rocket'
+import Form from '@/app/ui/rocket/edit-form'
 import { fetchRocket } from '@/app/lib/neo4j'
 
 export default async function Page ({
@@ -16,7 +16,7 @@ export default async function Page ({
   return (
     <main>
       <Profile />
-      <DetailView rocket={rocket}/>
+      <Form rocket={rocket}/>
     </main>
   )
 }

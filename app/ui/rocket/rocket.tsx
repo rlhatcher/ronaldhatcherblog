@@ -1,7 +1,7 @@
 import { UpdateRocket } from './buttons'
 import CloudImage from '@/app/ui/cloud-image'
 import RocketList from './rocket-list'
-import DesignList from '../designs/design-list'
+import DesignList from './design-list'
 
 export default function DetailView ({
   rocket

@@ -519,8 +519,7 @@ export async function mergeDesign (design: Design): Promise<void> {
   const params = {
     designId: design.id,
     name: design.name,
-    rocket: design.rocket ?? null,
-    fileURL: design.fileURL ?? null,
+    rocket: design.rocket_id ?? null,
     filename: design.filename ?? null,
     stages: design.stages ?? null,
     massEmpty: design.massEmpty ?? null,

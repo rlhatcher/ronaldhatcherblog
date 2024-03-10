@@ -66,6 +66,17 @@ interface TagObject {
   count: number
 }
 
+interface FlightCard {
+  id: string
+  date?: string
+  location?: string
+  rocket?: string
+  motor?: string
+  altitude?: string
+  speed?: string
+  notes?: string
+}
+
 interface Kit {
   url: string
   imageSrc: string
@@ -112,17 +123,6 @@ interface Manufacturer {
   motors?: Motor[]
 }
 
-interface FlightCard {
-  id: string
-  date?: string
-  location?: string
-  rocket?: string
-  motor?: string
-  altitude?: string
-  speed?: string
-  notes?: string
-}
-
 interface Motor {
   commonName: string
   delays: string
@@ -158,27 +158,10 @@ interface Person {
   picture: string
 }
 
-interface Design {
-  name: string
-  rocket?: string
-  fileURL?: string
-  filename?: string
-  id: string
-  stages?: string
-  massEmpty?: number
-  stabilityCal?: number
-  stabilityPct?: number
-  cg?: number
-  cp?: number
-  length?: number
-  maxDiameter?: number
-  configurations?: ConfigurationDetail[]
-}
-
 interface Rocket {
-  isModel: boolean
   id: string
   name: string
+  isModel: boolean
   description?: string
   image?: string
   mfgID?: string
@@ -188,10 +171,41 @@ interface Rocket {
   labels?: string[]
 }
 
-interface SimulationDetail {
+interface Design {
+  id: string
   name: string
-  simulator: string
-  calculator: string
+  rocket_id: string
+  filename?: string
+  stages?: string
+  massEmpty?: number
+  stabilityCal?: number
+  stabilityPct?: number
+  cg?: number
+  cp?: number
+  length?: number
+  maxDiameter?: number
+  configurations?: Configuration[]
+}
+
+interface Configuration {
+  id: string
+  name: string
+  design_id: string
+  stageNumber?: number
+  stageActive?: boolean
+  motor?: Motor[]
+  delay?: string
+  ignitionEvent?: string
+  ignitionDelay?: string
+  simulations?: Simulation[]
+}
+
+interface Simulation {
+  id: string
+  name: string
+  config_id: string
+  simulator?: string
+  calculator?: string
   maxaltitude?: string
   maxvelocity?: string
   maxacceleration?: string
@@ -202,16 +216,4 @@ interface SimulationDetail {
   launchrodvelocity?: string
   deploymentvelocity?: string
   optimumdelay?: string
-}
-
-interface ConfigurationDetail {
-  configId: string
-  stageNumber?: number
-  stageActive: boolean
-  manufacturer: string
-  designation: string
-  delay: string
-  ignitionEvent: string
-  ignitionDelay: string
-  simulations: SimulationDetail[]
 }

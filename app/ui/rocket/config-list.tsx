@@ -3,7 +3,7 @@ export default function ConfigList ({
   listItems = [],
   label
 }: {
-  listItems: ConfigurationDetail[] | undefined
+  listItems: Configuration[] | undefined
   label: string
 }): React.JSX.Element {
   const content =
@@ -17,7 +17,7 @@ export default function ConfigList ({
         className='divide-y divide-gray-100 rounded-md border border-gray-200'
       >
         {listItems.map((config) => (
-          <ConfigNav key={config.configId} config={config} />
+          <ConfigNav key={config.id} config={config} />
         ))}
       </ul>
         )
