@@ -1,15 +1,17 @@
 import { CreateDesign, DesignNav } from './buttons'
 export default function DesignList ({
   listItems = [],
+  rocketId,
   label
 }: {
   listItems: Design[] | undefined
+  rocketId: string
   label: string
 }): React.JSX.Element {
   const content =
     listItems.length === 0
       ? (
-      <CreateDesign />
+      <CreateDesign rocketId={rocketId}/>
         )
       : (
       <ul

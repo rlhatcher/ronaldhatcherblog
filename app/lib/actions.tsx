@@ -3,9 +3,8 @@ import { mergeRocket, removeRocket, mergeDesign } from './neo4j'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { uploadImage } from './cloudinary'
-
+import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
-import { Identifier } from '@/app/lib/schema/sharedTypes'
 
 export interface State {
   errors?: {
@@ -15,14 +14,60 @@ export interface State {
   message?: string | null
 }
 
-export const CreateRocketSchema = z.object({
-  id: Identifier,
+/**
+ * Rocket
+ */
+const CreateRocketSchema = z.object({
+  id: z.string(),
   name: z.string(),
   description: z.string().optional(),
   image: z.instanceof(File).optional()
 })
 
 const CreateRocket = CreateRocketSchema.omit({ id: true })
+
+export async function createRocket (
+  prevState: State,
+  formData: FormData
+): Promise<State> {
+  const { name, image, description } = CreateRocket.parse({
+    name: formData.get('name'),
+    image: formData.get('image'),
+    description: formData.get('description')
+  })
+
+  if (image instanceof File) {
+    const resImage = await uploadImage(image, {
+      public_id: `rockets/${name}/main`,
+      overwrite: true,
+      tags: [name, 'createRocket']
+    })
+    if (resImage === null) {
+      return {
+        message: 'Failed to upload image.'
+      }
+    }
+  }
+
+  const rocketData: Rocket = {
+    id: uuidv4(),
+    name,
+    isModel: true,
+    image: `rockets/${name}/main`,
+    description
+  }
+
+  const res = await mergeRocket(rocketData)
+
+  if (res === null) {
+    return {
+      message: 'Database Error: Failed to Create Rocket.'
+    }
+  }
+
+  revalidatePath('/dashboard/rockets')
+  redirect('/dashboard/rockets')
+}
 
 export async function uploadDesign (
   prevState: State,
@@ -53,48 +98,6 @@ export async function uploadDesign (
   }
   revalidatePath('/dashboard/designs')
   redirect('/dashboard/designs')
-}
-
-export async function createRocket (
-  prevState: State,
-  formData: FormData
-): Promise<State> {
-  const url = 'http://localhost:3000/api/rest/ork'
-
-  const { name, image, file, description } = CreateRocket.parse({
-    name: formData.get('name'),
-    image: formData.get('image'),
-    file: formData.get('file'),
-    description: formData.get('description')
-  })
-
-  if (image instanceof File) {
-    const resImage = await uploadImage(image, {
-      public_id: `rockets/${name}/main`,
-      overwrite: true,
-      tags: [name, 'createRocket']
-    })
-    if (resImage === null) {
-      return {
-        message: 'Failed to upload image.'
-      }
-    }
-  }
-
-  const rocketData: Rocket = { id: '', name, isModel: true, image: `rockets/${name}/main` }
-
-  const res = await mergeRocket(rocketData)
-
-  if (res === null) {
-    // If a database error occurs, return a more specific error.
-    return {
-      message: 'Database Error: Failed to Create Rocket.'
-    }
-  }
-
-  // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath('/dashboard/rockets')
-  redirect('/dashboard/rockets')
 }
 
 export async function deleteRocket (

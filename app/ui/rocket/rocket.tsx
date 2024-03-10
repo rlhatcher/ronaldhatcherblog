@@ -48,7 +48,7 @@ export default function DetailView ({
                 Description
               </dt>
               <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                {rocket.name}
+                {rocket.description}
               </dd>
             </div>
           </dl>
@@ -69,7 +69,7 @@ export default function DetailView ({
       {/* Full-width design sections below the top content */}
       <div className='mt-6 w-full'>
         <dl className='divide-y divide-gray-100'>
-          <DesignList listItems={rocket.definedBy} label='Designs' />
+          <DesignList rocketId={rocket.id} listItems={rocket.definedBy} label='Designs' />
           <RocketList listItems={rocket.basedOn} label='Based On' />
           <RocketList listItems={rocket.inspired} label='Inspired' />
         </dl>

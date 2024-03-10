@@ -16,9 +16,9 @@ export function CreateRocket (): JSX.Element {
   )
 }
 
-export function CreateDesign (): JSX.Element {
+export function CreateDesign ({ rocketId }: { rocketId: string }): JSX.Element {
   return (
-    <Button href='/dashboard/designs/create'>
+    <Button href={`/dashboard/rockets/${rocketId}/designs/create`}>
       <PlusIcon />
       <span className='hidden md:block'>Create Design</span>{' '}
     </Button>
