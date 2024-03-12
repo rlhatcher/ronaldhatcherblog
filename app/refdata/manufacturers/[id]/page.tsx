@@ -1,5 +1,5 @@
 import React from 'react'
-import { getManufacturers, getMfgMakes } from '@/app/lib/neo4j'
+import { getManufacturers, getManufacturer } from '@/app/lib/neo4j'
 import TopNav from '@/app/ui/TopNav'
 import MfgCard from '@/app/ui/data/MfgCard'
 
@@ -17,14 +17,14 @@ export async function generateStaticParams (): Promise<Array<{ id: string }>> {
   if (mfgs == null) return []
 
   return mfgs.map((mfg) => ({
-    id: mfg.mfgID
+    id: mfg.id
   }))
 }
 
 export async function generateMetadata ({
   params: { id }
 }: Props): Promise<{ title: string }> {
-  const mfg: Manufacturer | null = await getMfgMakes(id)
+  const mfg: Manufacturer | null = await getManufacturer(id)
 
   if (mfg == null) {
     return {
@@ -40,7 +40,7 @@ export async function generateMetadata ({
 export default async function MfgPage ({
   params: { id }
 }: Props): Promise<React.JSX.Element> {
-  const mfg: Manufacturer | null = await getMfgMakes(id)
+  const mfg: Manufacturer | null = await getManufacturer(id)
 
   if (mfg == null) {
     return <div></div>

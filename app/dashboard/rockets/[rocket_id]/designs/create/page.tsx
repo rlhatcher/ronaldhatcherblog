@@ -1,10 +1,15 @@
+import Profile from '@/app/ui/dashboard/profile'
 import Form from '@/app/ui/rocket/create-design-form'
-// import { MyRocketsSelect } from '@/app/ui/rockets/my-rockets'
 
-export default async function Page (): Promise<React.JSX.Element> {
+export default async function Page ({
+  params
+}: {
+  params: { rocket_id: string }
+}): Promise<React.JSX.Element> {
   return (
     <main>
-      <Form />
+      <Profile />
+      <Form rocketId={params.rocket_id} />
     </main>
   )
 }

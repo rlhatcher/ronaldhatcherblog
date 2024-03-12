@@ -4,16 +4,16 @@ import { ChevronRightIcon } from '@heroicons/react/16/solid'
 
 export function KitNav ({ kit }: { kit: Kit }): JSX.Element {
   return (
-    <Link href={`/dashboard/kits/${kit.uniqueID}`}>
+    <Link href={`/dashboard/kits/${kit.id}`}>
       <li
-        key={kit.uniqueID}
+        key={kit.id}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
       >
         <div className='flex w-0 flex-1 items-center'>
           {kit.name}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{kit.description}</span>
-            <span className='flex-shrink-0 text-gray-400'>{kit.mfgID}</span>
+            <span className='flex-shrink-0 text-gray-400'>{kit.madeBy.name}</span>
             <Badge key='kit' color='orange'>
               Kit
             </Badge>

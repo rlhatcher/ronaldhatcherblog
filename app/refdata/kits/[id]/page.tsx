@@ -18,7 +18,7 @@ export async function generateStaticParams (): Promise<Array<{ id: string }>> {
   if (kits == null) return []
 
   return kits.map((kit) => ({
-    id: kit.uniqueID
+    id: kit.id
   }))
 }
 
@@ -34,7 +34,7 @@ export async function generateMetadata ({
   }
 
   return {
-    title: kit.mfgID + ' ' + kit.name
+    title: kit.name
   }
 }
 
@@ -54,15 +54,15 @@ export default async function KitPage ({
           { href: '/refdata', label: 'data' },
           { href: '/refdata/kits', label: 'kits' }
         ]}
-        page={{ title: kit.mfgID + ' ' + kit.name }}
+        page={{ title: kit.madeBy.name + ' ' + kit.name }}
       />
       <Link
-        href={`/refdata/manufacturers/${kit.mfgID}`}
-        key={kit.mfgID}
+        href={`/refdata/manufacturers/${kit.madeBy.id}`}
+        key={kit.madeBy.id}
         className='bg-gray-300 shadow-sm font-mono rounded-md p-1'
       >
         {' '}
-        {kit.mfgID}{' '}
+        {kit.madeBy.name}{' '}
       </Link>
       <div className='border-t border-gray-100'>
         <dl className='divide-y divide-gray-100 mx-auto'>

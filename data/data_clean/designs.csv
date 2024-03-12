@@ -1,4 +1,4 @@
-rocket,name,id,filename,stages,massEmpty,stabilityCal,stabilityPct,cg,cp,length,maxDiameter
-lone,LauncherOne 38,lone_38,launcher_one_38.ork,1,1400,2.38,21.8,515,757,1120,102
-lone,LauncherOne 54,lone_54,launcher_one_54.rkt,1,1520,2.38,21.8,515,757,1120,102
-phx,Phoenix,phx,phoenix.rkt,1,23700,2.38,21.8,515,757,1120,102
+id,name,rocketId,filename,stages,massEmpty,stabilityCal,stabilityPct,cg,cp,length,maxDiameter
+243c5c13-3c2a-4386-a45d-babb82fabd66,LauncherOne 38,d3cd5b35-924f-405f-bbd7-9c435a018453,launcher_one_38.ork,1,1400,2.38,21.8,515,757,1120,102
+48040596-0ff2-4274-9a06-aaa24a1d5f54,LauncherOne 54,d3cd5b35-924f-405f-bbd7-9c435a018453,launcher_one_54.rkt,1,1520,2.38,21.8,515,757,1120,102
+2b37d587-1e3f-4cbb-94d5-d41a30a0057c,Phoenix,b5294a38-eaf5-4b7d-a6ae-de4468d9c9e0,phoenix.rkt,1,23700,2.38,21.8,515,757,1120,102

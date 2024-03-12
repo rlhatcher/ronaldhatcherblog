@@ -2,7 +2,7 @@ import { RocketNav } from './buttons'
 import { KitNav } from '../kits/kit-nav'
 
 function isKit (item: Kit | Rocket): item is Kit {
-  return (item as Kit).uniqueID !== undefined
+  return (item as Kit).madeBy !== undefined
 }
 
 export default function RocketList ({

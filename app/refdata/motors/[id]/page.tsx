@@ -34,7 +34,7 @@ export async function generateMetadata ({
   }
 
   return {
-    title: motor.manufacturer + ' ' + motor.designation
+    title: motor.madeBy.name + ' ' + motor.designation
   }
 }
 
@@ -57,12 +57,12 @@ export default async function MotorPage ({
         page={{ title: motor.designation }}
       />
       <Link
-        href={`/refdata/manufacturers/${motor.mfgID}`}
-        key={motor.mfgID}
+        href={`/refdata/manufacturers/${motor.madeBy.id}`}
+        key={motor.madeBy.name}
         className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
       >
         {' '}
-        {motor.manufacturer}{' '}
+        {motor.madeBy.name}{' '}
       </Link>
       <div className='border-t border-gray-100'>
         <dl className='divide-y divide-gray-100 mx-auto'>

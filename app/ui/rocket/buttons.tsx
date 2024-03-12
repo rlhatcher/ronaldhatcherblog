@@ -56,7 +56,6 @@ export function RocketNav ({ rocket }: { rocket: Rocket }): JSX.Element {
           {rocket.id}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{rocket.name}</span>
-            <span className='flex-shrink-0 text-gray-400'>{rocket.mfgID}</span>
             {rocket.isModel
               ? (
               <Badge key='model' color='emerald'>
@@ -119,11 +118,11 @@ export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
       >
         <div className='flex w-0 flex-1 items-center'>
-          {config.motor[0].designation}-{config.motor[0].manufacturer}
+          {config.motor[0].designation}-{config.motor[0].madeBy.name}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{config.motor[0].designation}</span>
             <span className='flex-shrink-0 text-gray-400'>
-              {config.motor[0].manufacturer}
+              {config.motor[0].madeBy.name}
             </span>
           </div>
         </div>

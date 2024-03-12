@@ -74,20 +74,18 @@ export async function uploadDesign (
   formData: FormData
 ): Promise<State> {
   const url = 'http://localhost:3000/api/rest/ork'
+  const rocketId = formData.get('rocketId') as string
 
   try {
     const response = await fetch(url, { method: 'POST', body: formData })
-    const designId = formData.get('rid') as string
+    // making a new design so we need to generate an id
+    const designId = uuidv4()
 
     if (response.ok) {
       const data: Design = await response.json()
       data.id = designId
-      console.debug(JSON.stringify(data, null, 2))
-
+      data.rocketId = rocketId
       await mergeDesign(data)
-      return {
-        message: 'Design uploaded successfully'
-      }
     } else {
       console.error('Failed to upload design:', response.statusText)
       throw new Error('Failed to upload design')
@@ -96,8 +94,8 @@ export async function uploadDesign (
     console.error('Error during fetch operation:', error)
     throw error
   }
-  revalidatePath('/dashboard/designs')
-  redirect('/dashboard/designs')
+  revalidatePath(`/dashboard/rockets/${rocketId}/designs`)
+  redirect(`/dashboard/rockets/${rocketId}/designs`)
 }
 
 export async function deleteRocket (

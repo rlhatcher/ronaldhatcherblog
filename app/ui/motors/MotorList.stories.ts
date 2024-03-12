@@ -18,12 +18,15 @@ export const Primary: Story = {
   args: {
     motors: [
       {
+        madeBy: {
+          id: 'Estes',
+          name: 'Estes Industries'
+        },
         commonName: 'A8',
         delays: 'delays',
         diameter: 0,
         infoUrl: 'infoUrl',
         totImpulseNs: 0,
-        manufacturer: 'manufacturer',
         burnTimeS: 0,
         propInfo: 'propInfo',
         length: 0,
@@ -40,8 +43,7 @@ export const Primary: Story = {
         totalWeightG: 0,
         designation: 'designation',
         updatedOn: 'updatedOn',
-        type: 'type',
-        mfgID: 'mfgID'
+        type: 'type'
       }
     ]
   }

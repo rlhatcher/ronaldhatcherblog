@@ -18,8 +18,8 @@ export default async function MfgCards ({
       {manufacturers.map((manufacturer) => {
         return (
           <Link
-            href={`/refdata/manufacturers/${manufacturer.mfgID}`}
-            key={manufacturer.mfgID}
+            href={`/refdata/manufacturers/${manufacturer.id}`}
+            key={manufacturer.id}
             className='bg-slate-200 border-l-8 border-slate-400 shadow-sm font-mono rounded-md p-2'
           >
             {manufacturer.name}

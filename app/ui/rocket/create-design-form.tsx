@@ -6,9 +6,10 @@ import { uploadDesign } from '@/app/lib/actions'
 import { Input } from '@/app/ui/input'
 import { Field, FieldGroup, Fieldset, Label } from '../fieldset'
 import { Text } from '@/app/ui/text'
-import { Select } from '../select'
 
-export default function Form (): JSX.Element {
+export default function Form ({
+  rocketId
+}: { rocketId: string }): JSX.Element {
   const initialState = { message: null, errors: {} }
   const [state, dispatch] = useFormState(uploadDesign, initialState)
 
@@ -30,17 +31,6 @@ export default function Form (): JSX.Element {
             Enter details or upload an Openrocket design file
           </Text>
           <FieldGroup className='mt-10 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6'>
-            <Field className='col-span-full'>
-              <Label className='block text-sm font-medium leading-6 text-gray-900'>
-                Rocket
-              </Label>
-              <Select>
-                <option value='1'>Falcon 9</option>
-                <option value='2'>Starship</option>
-                <option value='3'>New Glenn</option>
-              </Select>
-              {/* <MyRocketsSelect /> */}
-            </Field>
             <Field className='sm:col-span-2 font-mono'>
               <Label>Select an ORK File</Label>
               <Input
@@ -48,6 +38,16 @@ export default function Form (): JSX.Element {
                 name='ork'
                 type='file'
                 className='w-full border-slate-400'
+              />
+            </Field>
+            <Field hidden>
+              <Label>rocketId</Label>
+              <Input
+                id='rocketId'
+                name='rocketId'
+                type='text'
+                value={rocketId}
+                readOnly
               />
             </Field>
           </FieldGroup>

@@ -1,4 +1,4 @@
-name,id,image
-Launcher One,lone,rockets/lone/main
-Phoenix,phx,phoenix/IMG_2479_idmfta
-Babys First High-Powered Rocket,bfhr,black-brant/Father_and_Son_arlsox
+isModel,name,id,image,description
+Y,Launcher One,d3cd5b35-924f-405f-bbd7-9c435a018453,rockets/lone/main,"Scale model of the Launcher One rocket."
+Y,Phoenix,b5294a38-eaf5-4b7d-a6ae-de4468d9c9e0,phoenix/IMG_2479_idmfta,"Scale model of the AIM54A Phoenix missile."
+Y,Babys First High-Powered Rocket,e4fd5dd2-7524-4ab8-9c88-24e8d52d2102,black-brant/Father_and_Son_arlsox,"Dalton's Level 1"

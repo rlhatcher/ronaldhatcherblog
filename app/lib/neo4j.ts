@@ -136,6 +136,10 @@ export const mrgPerson = cache(
 function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
   if (labels.includes('Kit')) {
     return {
+      madeBy: {
+        id: node.id,
+        name: node.name
+      },
       url: node.url,
       imageSrc: node.imageSrc,
       recommendedEngines: node.recommendedEngines,
@@ -151,7 +155,6 @@ function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
       launchRodSize: node.launchRodSize,
       instructions: node.instructions,
       ageRecommendation: node.ageRecommendation,
-      mfgID: node.mfgID,
       name: node.name,
       complexity: node.complexity,
       height: node.height,
@@ -170,7 +173,7 @@ function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID,
+      id: node.id,
       labels
     } satisfies Kit
   }
@@ -247,7 +250,6 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
       name: rocketNode.properties.name,
       description: rocketNode.properties.description,
       image: rocketNode.properties.image,
-      mfgID: rocketNode.properties.mfgID,
       definedBy,
       basedOn,
       inspired,
@@ -322,8 +324,8 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
       tx.run(
         `
         MERGE (r:Rocket:Model {id: $rocketId})
-        ON CREATE SET r.name = $name, r.image = $image
-        ON MATCH SET r.name = $name, r.image = $image 
+        ON CREATE SET r.name = $name, r.image = $image, r.description = $description
+        ON MATCH SET r.name = $name, r.image = $image, r.description = $description 
         WITH r
         MATCH (p:Person {id: $userId})
         MERGE (p)-[:OWNS]->(r)
@@ -333,6 +335,7 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
           rocketId: rocket.id,
           name: rocket.name,
           userId: user.id,
+          description: rocket.description,
           image: rocket.image
         }
       )
@@ -498,10 +501,18 @@ export async function fetchDesign (id: string): Promise<Design | null> {
     // Constructing the Design object
     const design: Design = {
       ...designNode.properties,
-      configurations: configurationsNodes.filter(cfg => cfg !== null).map(cfg => ({
-        ...cfg.properties,
-        simulations: simulationsNodes.filter(sim => sim !== null && sim.properties.configId === cfg.properties.configId).map(sim => sim.properties)
-      }))
+      configurations: configurationsNodes
+        .filter((cfg) => cfg !== null)
+        .map((cfg) => ({
+          ...cfg.properties,
+          simulations: simulationsNodes
+            .filter(
+              (sim) =>
+                sim !== null &&
+                sim.properties.configId === cfg.properties.configId
+            )
+            .map((sim) => sim.properties)
+        }))
     }
     console.log(design)
     return design
@@ -519,7 +530,7 @@ export async function mergeDesign (design: Design): Promise<void> {
   const params = {
     designId: design.id,
     name: design.name,
-    rocket: design.rocket_id ?? null,
+    rocket: design.rocketId ?? null,
     filename: design.filename ?? null,
     stages: design.stages ?? null,
     massEmpty: design.massEmpty ?? null,
@@ -529,17 +540,17 @@ export async function mergeDesign (design: Design): Promise<void> {
     cp: design.cp ?? null,
     length: design.length ?? null,
     maxDiameter: design.maxDiameter ?? null,
-    configurations: design.configurations // Assuming configurations include simulations
+    configurations: design.configurations
   }
 
   const query = `
     MERGE (design:Design {id: $designId})
     SET design += {
-      name: $name, rocket: $rocket, fileURL: $fileURL, filename: $filename,
-      stages: $stages, massEmpty: $massEmpty, stabilityCal: $stabilityCal,
-      stabilityPct: $stabilityPct, cg: $cg, cp: $cp,
-      length: $length, maxDiameter: $maxDiameter
+      name: $name, rocket: $rocket, filename: $filename, stages: $stages,
+      massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
+      cg: $cg, cp: $cp, length: $length, maxDiameter: $maxDiameter
     }
+    MERGE (rocket:Rocket {id: $rocket})-[:HAS_DESIGN]->(design)
 
     WITH design
     UNWIND $configurations AS cfg
@@ -566,10 +577,13 @@ export async function mergeDesign (design: Design): Promise<void> {
   `
 
   try {
-    await session.writeTransaction(async tx => await tx.run(query, params))
+    await session.executeWrite(async (tx) => await tx.run(query, params))
     console.log('Design, configurations, and simulations merged successfully')
   } catch (error) {
-    console.error('Failed to merge design, configurations, and simulations:', error)
+    console.error(
+      'Failed to merge design, configurations, and simulations:',
+      error
+    )
   } finally {
     await session.close()
   }
@@ -582,13 +596,7 @@ export async function mergeDesign (design: Design): Promise<void> {
  * | |  | | (_| | | | | |_| |  _| (_| | (__| |_| |_| | | |  __/ |  \__ \
  * |_|  |_|\__,_|_| |_|\__,_|_|  \__,_|\___|\__|\__,_|_|  \___|_|  |___/
  */
-export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
-  const mfgs = await getDbManufacturers()
-  return mfgs
-})
-
-export async function getDbManufacturers (): Promise<Manufacturer[]> {
-  // Open a new session
+export async function getManufacturers (): Promise<Manufacturer[]> {
   const session = driver.session()
 
   try {
@@ -596,13 +604,12 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
       tx.run(
         `
         MATCH (n:Manufacturer)
-        WHERE n.mfgID IS NOT NULL
+        WHERE n.id IS NOT NULL
         RETURN n;
-  `,
+        `,
         {}
       )
     )
-    // Check if the result contains records
     if (res.records.length === 0) {
       return []
     }
@@ -610,7 +617,7 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
       const node = record.get('n').properties
       return {
         name: node.name,
-        mfgID: node.mfgID
+        id: node.id
       }
     })
     return manufacturers
@@ -624,35 +631,28 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
   }
 }
 
-export const getMfgMakes = cache(async (id: string): Promise<Manufacturer> => {
-  const mfgs = await getDbMfgMakes(id)
-  return mfgs
-})
-
-export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
-  // Open a new session
+export async function getManufacturer (id: string): Promise<Manufacturer> {
   const session = driver.session()
 
   try {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (m:Manufacturer {mfgID: $id})-[:MAKES]->(product)
-        WHERE m.mfgID IS NOT NULL
+        MATCH (m:Manufacturer {id: $id})-[:MAKES]->(product)
+        WHERE m.id IS NOT NULL
         RETURN m AS manufacturer, collect(product) AS products
         `,
         { id }
       )
     )
     if (res.records.length === 0) {
-      return { name: '', mfgID: '' }
+      return { name: '', id: '' }
     }
     const record = res.records[0]
     const manufacturerNode = record.get('manufacturer').properties
 
     const kits: Kit[] = []
     const motors: Motor[] = []
-    // Add more arrays for other types if needed
 
     const products = record.get('products')
 
@@ -666,6 +666,10 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
       switch (type) {
         case 'Kit':
           kits.push({
+            madeBy: {
+              id: manufacturerNode.id,
+              name: manufacturerNode.name
+            },
             url: product.url,
             imageSrc: product.image_src,
             recommendedEngines: product.recommendedEngines,
@@ -681,7 +685,6 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             launchRodSize: product.launchRodSize,
             instructions: product.instructions,
             ageRecommendation: product.ageRecommendation,
-            mfgID: product.mfgID,
             name: product.name,
             complexity: product.complexity,
             height: product.height,
@@ -700,7 +703,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             links: product.links,
             parachute: product.parachute,
             finArray: product.finArray,
-            uniqueID: product.uniqueID,
+            id: product.id,
             labels: ['Kit']
           })
           break
@@ -713,7 +716,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
 
     return {
       name: manufacturerNode.name,
-      mfgID: manufacturerNode.mfgID,
+      id: manufacturerNode.id,
       kits,
       motors
       // Add more arrays for other types
@@ -721,7 +724,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
   } catch (error) {
     // Handle any errors
     console.error(error)
-    return { name: '', mfgID: '' }
+    return { name: '', id: '' }
   } finally {
     // Close the session
     await session.close()
@@ -740,9 +743,9 @@ export async function getDbMotors (): Promise<Motor[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (n:Motor)
-        WHERE n.motorId IS NOT NULL
-        RETURN n
+        MATCH (mfg:Manufacturer)-[:MAKES]->(m:Motor)
+        WHERE m.motorId IS NOT NULL
+        RETURN m, mfg
       `,
         {}
       )
@@ -756,16 +759,20 @@ export async function getDbMotors (): Promise<Motor[]> {
     // Map the query results to the Motor array
     const motors = res.records.map((record) => {
       // Extract node properties
-      const node = record.get('n').properties
+      const node = record.get('m').properties
+      const mfgNode = record.get('mfg').properties
 
       // Convert node properties to Motor type
       return {
+        madeBy: {
+          id: mfgNode.id,
+          name: mfgNode.name
+        },
         commonName: node.commonName,
         delays: node.delays,
         diameter: node.diameter,
         infoUrl: node.infoUrl,
         totImpulseNs: node.totImpulseNs,
-        manufacturer: node.manufacturer,
         burnTimeS: node.burnTimeS,
         propInfo: node.propInfo,
         length: node.length,
@@ -782,8 +789,7 @@ export async function getDbMotors (): Promise<Motor[]> {
         totalWeightG: node.totalWeightG,
         designation: node.designation,
         updatedOn: node.updatedOn,
-        type: node.type,
-        mfgID: node.mfgID
+        type: node.type
       }
     })
 
@@ -811,9 +817,9 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-          MATCH (n:Motor {motorId: $id})
-          WHERE n.motorId IS NOT NULL
-          RETURN n
+          MATCH (mfg:Manufacturer)-[:MAKES]->(m:Motor {motorId: $id})
+          WHERE m.motorId IS NOT NULL
+          RETURN mfg, m
         `,
         { id }
       )
@@ -825,16 +831,20 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
 
     // Extract the single motor record
     const record = res.records[0]
-    const node = record.get('n').properties
+    const node = record.get('m').properties
+    const mfgNode = record.get('mfg').properties
 
     // Convert node properties to Motor type
     return {
+      madeBy: {
+        id: mfgNode.id,
+        name: mfgNode.name
+      },
       commonName: node.commonName,
       delays: node.delays,
       diameter: node.diameter,
       infoUrl: node.infoUrl,
       totImpulseNs: node.totImpulseNs,
-      manufacturer: node.manufacturer,
       burnTimeS: node.burnTimeS,
       propInfo: node.propInfo,
       length: node.length,
@@ -851,8 +861,7 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
       totalWeightG: node.totalWeightG,
       designation: node.designation,
       updatedOn: node.updatedOn,
-      type: node.type,
-      mfgID: node.mfgID
+      type: node.type
     }
   } catch (error) {
     // Handle any errors
@@ -877,9 +886,8 @@ async function getDbKits (): Promise<Kit[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit)
-        WHERE k.uniqueID IS NOT NULL
-        RETURN k
+        MATCH (m:Manufacturer)-[:MAKES]->(k:Kit)
+        RETURN m, k
       `,
         {}
       )
@@ -893,9 +901,14 @@ async function getDbKits (): Promise<Kit[]> {
     // Map the query results to the Kit array
     const kits = res.records.map((record) => {
       const node = record.get('k').properties
+      const mfgNode = record.get('m').properties
 
       // Convert node properties to Kit type
       return {
+        madeBy: {
+          id: mfgNode.id,
+          name: mfgNode.name
+        },
         url: node.url,
         imageSrc: node.image_src,
         recommendedEngines: node.recommendedEngines,
@@ -911,7 +924,6 @@ async function getDbKits (): Promise<Kit[]> {
         launchRodSize: node.launchRodSize,
         instructions: node.instructions,
         ageRecommendation: node.ageRecommendation,
-        mfgID: node.mfgID,
         name: node.name,
         complexity: node.complexity,
         height: node.height,
@@ -930,7 +942,7 @@ async function getDbKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.uniqueID,
+        id: node.id,
         labels: ['Kit']
       }
     })
@@ -958,9 +970,8 @@ export async function getDbKit (id: string): Promise<Kit | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit {UniqueID: $id})
-        WHERE k.uniqueID IS NOT NULL
-        RETURN k
+        MATCH (k:Kit {id: $id}), (m:Manufacturer)-[:MAKES]->(k)
+        RETURN m, k
       `,
         { id }
       )
@@ -973,9 +984,15 @@ export async function getDbKit (id: string): Promise<Kit | null> {
     // Extract the single kit record
     const record = res.records[0]
     const node = record.get('k').properties
+    const mfgNode = record.get('m').properties
 
     // Convert node properties to Kit type
     return {
+      madeBy: {
+        id: mfgNode.id,
+        name: mfgNode.name
+      },
+      id: node.id,
       url: node.url,
       imageSrc: node.image_src,
       recommendedEngines: node.recommendedEngines,
@@ -991,7 +1008,6 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       launchRodSize: node.launchRodSize,
       instructions: node.instructions,
       ageRecommendation: node.ageRecommendation,
-      mfgID: node.mfgID,
       name: node.name,
       complexity: node.complexity,
       height: node.height,
@@ -1010,7 +1026,6 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID,
       labels: ['Kit']
     }
   } catch (error) {

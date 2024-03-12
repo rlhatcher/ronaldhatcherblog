@@ -78,6 +78,8 @@ interface FlightCard {
 }
 
 interface Kit {
+  id: string
+  madeBy: Manufacturer
   url: string
   imageSrc: string
   recommendedEngines: string
@@ -93,7 +95,6 @@ interface Kit {
   launchRodSize: string
   instructions: string
   ageRecommendation: string
-  mfgID: string
   name: string
   complexity: string
   height: string
@@ -112,24 +113,23 @@ interface Kit {
   links: string
   parachute: string
   finArray: string
-  uniqueID: string
   labels: string[]
 }
 
 interface Manufacturer {
   name: string
-  mfgID: string
+  id: string
   kits?: Kit[]
   motors?: Motor[]
 }
 
 interface Motor {
+  madeBy: Manufacturer
   commonName: string
   delays: string
   diameter: number
   infoUrl: string
   totImpulseNs: number
-  manufacturer: string
   burnTimeS: number
   propInfo: string
   length: number
@@ -147,7 +147,6 @@ interface Motor {
   designation: string
   updatedOn: string
   type: string
-  mfgID: string
 }
 
 interface Person {
@@ -164,7 +163,6 @@ interface Rocket {
   isModel: boolean
   description?: string
   image?: string
-  mfgID?: string
   basedOn?: Array<Kit | Rocket>
   definedBy?: Design[]
   inspired?: Rocket[]
@@ -174,7 +172,7 @@ interface Rocket {
 interface Design {
   id: string
   name: string
-  rocket_id: string
+  rocketId: string
   filename?: string
   stages?: string
   massEmpty?: number
