@@ -530,7 +530,7 @@ export async function mergeDesign (design: Design): Promise<void> {
   const params = {
     designId: design.id,
     name: design.name,
-    rocket: design.rocketId ?? null,
+    rocketId: design.rocketId ?? null,
     filename: design.filename ?? null,
     stages: design.stages ?? null,
     massEmpty: design.massEmpty ?? null,
@@ -545,12 +545,12 @@ export async function mergeDesign (design: Design): Promise<void> {
 
   const query = `
     MERGE (design:Design {id: $designId})
-    SET design += {
-      name: $name, rocket: $rocket, filename: $filename, stages: $stages,
+    ON CREATE SET design += {
+      name: $name, rocket: $rocketId, filename: $filename, stages: $stages,
       massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
       cg: $cg, cp: $cp, length: $length, maxDiameter: $maxDiameter
     }
-    MERGE (rocket:Rocket {id: $rocket})-[:HAS_DESIGN]->(design)
+    MERGE (rocket:Rocket:Model {id: $rocketId})-[:HAS_DESIGN]->(design)
 
     WITH design
     UNWIND $configurations AS cfg
