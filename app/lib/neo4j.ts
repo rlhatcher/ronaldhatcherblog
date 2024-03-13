@@ -472,7 +472,7 @@ export async function mrgDbPerson (person: Person): Promise<Person | null> {
  *                    |___/
  */
 
-export async function fetchDesign (id: string): Promise<Design | null> {
+export async function fetchDesign (designId: string): Promise<Design | null> {
   const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
@@ -480,12 +480,14 @@ export async function fetchDesign (id: string): Promise<Design | null> {
         `
         MATCH (d:Design {id: $id})
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
-        OPTIONAL MATCH (c)-[:HAS_SIMULATION]->(s:Simulation)
+        OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
+        MATCH (r)-[:DEFINED_BY]->(d)
         RETURN d AS design, 
-               collect(DISTINCT c) AS configurations,
-               collect(DISTINCT s) AS simulations
+               r as rocket,
+               collect(DISTINCT c) AS supports,
+               collect(DISTINCT s) AS validatedBy
         `,
-        { id }
+        { designId }
       )
     )
 
@@ -495,25 +497,31 @@ export async function fetchDesign (id: string): Promise<Design | null> {
 
     const record: Record = res.records[0]
     const designNode: any = record.get('design')
-    const configurationsNodes: any[] = record.get('configurations')
-    const simulationsNodes: any[] = record.get('simulations')
+    const supportsNodes: any[] = record.get('supports')
+    const validatedByNodes: any[] = record.get('validatedBy')
+    const rocketNode: any = record.get('rocket')
 
-    // Constructing the Design object
     const design: Design = {
       ...designNode.properties,
-      configurations: configurationsNodes
+      supports: supportsNodes
         .filter((cfg) => cfg !== null)
         .map((cfg) => ({
           ...cfg.properties,
-          simulations: simulationsNodes
+          validatedBy: validatedByNodes
             .filter(
               (sim) =>
                 sim !== null &&
-                sim.properties.configId === cfg.properties.configId
+                sim.properties.validates.id === cfg.properties.id
             )
             .map((sim) => sim.properties)
-        }))
+        })),
+      defines: {
+        id: rocketNode.properties.id,
+        name: rocketNode.properties.name,
+        isModel: rocketNode.labels.includes('Model')
+      }
     }
+
     console.log(design)
     return design
   } catch (error) {
@@ -530,8 +538,8 @@ export async function mergeDesign (design: Design): Promise<void> {
   const params = {
     designId: design.id,
     name: design.name,
-    rocketId: design.rocketId ?? null,
-    filename: design.filename ?? null,
+    rocketId: design.defines.id ?? null,
+    filename: design.reflectedIn ?? null,
     stages: design.stages ?? null,
     massEmpty: design.massEmpty ?? null,
     stabilityCal: design.stabilityCal ?? null,
@@ -540,24 +548,34 @@ export async function mergeDesign (design: Design): Promise<void> {
     cp: design.cp ?? null,
     length: design.length ?? null,
     maxDiameter: design.maxDiameter ?? null,
-    configurations: design.configurations
+    supports: design.supports
   }
 
+  /**
+   * The query below merges a Design node and its related Configuration and Simulation nodes.
+   * Connect the design with the associated rocket/model
+   * Create the design
+   * Connect the design with the associated configurations
+   * Create the configurations
+   * Connect the configurations with the associated simulations
+   * Create the simulations
+   */
   const query = `
     MERGE (design:Design {id: $designId})
     ON CREATE SET design += {
-      name: $name, rocket: $rocketId, filename: $filename, stages: $stages,
+      name: $name, reflectedIn: $filename, stages: $stages,
       massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
       cg: $cg, cp: $cp, length: $length, maxDiameter: $maxDiameter
     }
-    MERGE (rocket:Rocket:Model {id: $rocketId})-[:HAS_DESIGN]->(design)
-
     WITH design
-    UNWIND $configurations AS cfg
-    MERGE (configuration:Configuration {configId: cfg.configId})
+    MATCH (rocket:Rocket:Model {id: $rocketId})
+    MERGE (rocket)-[:DEFINED_BY]->(design)
+    
+    WITH design
+    UNWIND $supports AS cfg
+    MERGE (configuration:Configuration {id: cfg.id})
     ON CREATE SET configuration += {
-      stageNumber: cfg.stageNumber, stageActive: cfg.stageActive,
-      manufacturer: cfg.manufacturer, designation: cfg.designation,
+      name: cfg.name, stageNumber: cfg.stageNumber, stageActive: cfg.stageActive,
       delay: cfg.delay, ignitionEvent: cfg.ignitionEvent, ignitionDelay: cfg.ignitionDelay
     }
     MERGE (design)-[:SUPPORTS]->(configuration)
@@ -573,7 +591,7 @@ export async function mergeDesign (design: Design): Promise<void> {
       groundhitvelocity: sim.groundhitvelocity, launchrodvelocity: sim.launchrodvelocity,
       deploymentvelocity: sim.deploymentvelocity, optimumdelay: sim.optimumdelay
     }
-    MERGE (configuration)-[:HAS_SIMULATION]->(simulation)
+    MERGE (configuration)-[:VALIDATED_BY]->(simulation)
   `
 
   try {

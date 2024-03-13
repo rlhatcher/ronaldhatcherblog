@@ -75,6 +75,7 @@ export async function uploadDesign (
 ): Promise<State> {
   const url = 'http://localhost:3000/api/rest/ork'
   const rocketId = formData.get('rocketId') as string
+  const rocketName = formData.get('rocketName') as string
 
   try {
     const response = await fetch(url, { method: 'POST', body: formData })
@@ -84,7 +85,11 @@ export async function uploadDesign (
     if (response.ok) {
       const data: Design = await response.json()
       data.id = designId
-      data.rocketId = rocketId
+      data.defines = {
+        id: rocketId,
+        name: rocketName,
+        isModel: true
+      } satisfies Rocket
       await mergeDesign(data)
     } else {
       console.error('Failed to upload design:', response.statusText)

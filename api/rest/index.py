@@ -112,7 +112,7 @@ def ork():
                         })
 
                 config_data = {
-                    'configId': config_id,
+                    'id': config_id,
                     'stageNumber': stageNumber,
                     'stageActive': stageActive,
                     'manufacturer': manufacturer,
@@ -126,7 +126,7 @@ def ork():
                 configurations.append(config_data)
 
         response_data = {
-            'configurations': configurations,
+            'supports': configurations,
             'totalLength': total_length,
             'maxDiameter': max_diameter,
             'name': rocket_name

@@ -82,7 +82,7 @@ export function RocketNav ({ rocket }: { rocket: Rocket }): JSX.Element {
 
 export function DesignNav ({ design }: { design: Design }): JSX.Element {
   return (
-    <Link href={`/dashboard/designs/${design.id}`}>
+    <Link href={`/dashboard/rockets/${design.defines.id}/designs/${design.id}`}>
       <li
         key={design.name}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
@@ -92,7 +92,7 @@ export function DesignNav ({ design }: { design: Design }): JSX.Element {
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{design.name}</span>
             <span className='flex-shrink-0 text-gray-400'>
-              {design.filename}
+              {design.reflectedIn}
             </span>
           </div>
         </div>
@@ -108,9 +108,6 @@ export function DesignNav ({ design }: { design: Design }): JSX.Element {
 }
 
 export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
-  if (config.motor === undefined) {
-    return (<div> </div>)
-  }
   return (
     <Link href={`/dashboard/designs/${config.id}`}>
       <li
@@ -118,11 +115,11 @@ export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
       >
         <div className='flex w-0 flex-1 items-center'>
-          {config.motor[0].designation}-{config.motor[0].madeBy.name}
+          {config.name}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
-            <span className='truncate font-medium'>{config.motor[0].designation}</span>
+            <span className='truncate font-medium'>{config.name}</span>
             <span className='flex-shrink-0 text-gray-400'>
-              {config.motor[0].madeBy.name}
+              {config.name}
             </span>
           </div>
         </div>

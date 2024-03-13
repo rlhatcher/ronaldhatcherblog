@@ -170,10 +170,11 @@ interface Rocket {
 }
 
 interface Design {
+  defines: Rocket
+  supports?: Configuration[]
+  reflectedIn?: string
   id: string
   name: string
-  rocketId: string
-  filename?: string
   stages?: string
   massEmpty?: number
   stabilityCal?: number
@@ -182,26 +183,25 @@ interface Design {
   cp?: number
   length?: number
   maxDiameter?: number
-  configurations?: Configuration[]
 }
 
 interface Configuration {
+  validatedBy?: Simulation[]
+  usesMotor: Motor[]
+  appliesTo: Design
   id: string
   name: string
-  design_id: string
   stageNumber?: number
   stageActive?: boolean
-  motor?: Motor[]
   delay?: string
   ignitionEvent?: string
   ignitionDelay?: string
-  simulations?: Simulation[]
 }
 
 interface Simulation {
+  validates: string
   id: string
   name: string
-  config_id: string
   simulator?: string
   calculator?: string
   maxaltitude?: string
