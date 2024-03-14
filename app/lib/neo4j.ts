@@ -484,14 +484,13 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (d:Design {id: $designId})
+        MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
         OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
-        MATCH (r)-[:DEFINED_BY]->(d)
         RETURN d AS design, 
-               r as rocket,
-               collect(DISTINCT c) AS supports,
-               collect(DISTINCT s) AS validatedBy
+               r AS rocket,
+               COLLECT(DISTINCT c) AS supports,
+               COLLECT(DISTINCT s) AS validatedBy
         `,
         { designId }
       )
@@ -501,34 +500,42 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
       return null
     }
 
-    const record: Record = res.records[0]
-    const designNode: any = record.get('design')
-    const supportsNodes: any[] = record.get('supports')
-    const validatedByNodes: any[] = record.get('validatedBy')
-    const rocketNode: any = record.get('rocket')
+    const record = res.records[0]
+    const designNodeProperties = record.get('design').properties
+    const rocketNodeProperties = record.get('rocket').properties
+    const configurationsNodes = record.get('supports').filter(cfg => cfg !== null)
+    const simulationsNodes = record.get('validatedBy').filter(sim => sim !== null)
 
-    const design: Design = {
-      ...designNode.PROPERTIES,
-      supports: supportsNodes
-        .filter((cfg) => cfg !== null)
-        .map((cfg) => ({
-          ...cfg.properties,
-          validatedBy: validatedByNodes
-            .filter(
-              (sim) =>
-                sim !== null &&
-                sim.properties.validates.id === cfg.properties.id
-            )
-            .map((sim) => sim.properties)
-        })),
+    // Temporarily construct the Design object without setting 'appliesTo'
+    const tempDesign: Omit<Design, 'supports'> = {
+      ...designNodeProperties,
       defines: {
-        id: rocketNode.properties.id,
-        name: rocketNode.properties.name,
-        isModel: rocketNode.labels.includes('Model')
+        ...rocketNodeProperties
+        // Additional Rocket properties as necessary
       }
+      // Initially omit 'supports' or set it as undefined
     }
 
-    console.log(design)
+    // After constructing tempDesign, populate 'supports' with proper 'appliesTo' references
+    const supports = configurationsNodes.map(cfgNode => {
+      const cfgProperties = cfgNode.properties // Access the properties of Configuration node
+      const cfgSimulations = simulationsNodes
+        .filter(simNode => simNode.properties.validates === cfgProperties.id)
+        .map(simNode => simNode.properties) // Convert to Simulation properties
+
+      return {
+        ...cfgProperties,
+        validatedBy: cfgSimulations,
+        appliesTo: tempDesign // Now we can reference tempDesign
+      }
+    })
+
+    // Complete the Design object construction
+    const design: Design = {
+      ...tempDesign,
+      supports // Now set the supports with configurations having 'appliesTo' set
+    }
+
     return design
   } catch (error) {
     console.error('Failed to fetch design:', error)
