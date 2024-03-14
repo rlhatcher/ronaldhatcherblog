@@ -1,7 +1,6 @@
 import neo4j, { type Session, type Record, type Integer } from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
-// import { unstable_noStore as noStore } from 'next/cache'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -478,6 +477,7 @@ export async function mrgDbPerson (person: Person): Promise<Person | null> {
  *                    |___/
  */
 
+// Adjusting fetchDesign function using the Neo4jNode<T> interface for type safety
 export async function fetchDesign (designId: string): Promise<Design | null> {
   const session: Session = driver.session()
   try {
@@ -503,37 +503,31 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
     const record = res.records[0]
     const designNodeProperties = record.get('design').properties
     const rocketNodeProperties = record.get('rocket').properties
-    const configurationsNodes = record.get('supports').filter(cfg => cfg !== null)
-    const simulationsNodes = record.get('validatedBy').filter(sim => sim !== null)
 
-    // Temporarily construct the Design object without setting 'appliesTo'
-    const tempDesign: Omit<Design, 'supports'> = {
-      ...designNodeProperties,
-      defines: {
-        ...rocketNodeProperties
-        // Additional Rocket properties as necessary
-      }
-      // Initially omit 'supports' or set it as undefined
-    }
+    // Using the Neo4jNode<T> interface to improve type safety
+    const configurationsNodes: Array<Neo4jNode<Configuration>> = record.get('supports')
+      .filter((cfg: Neo4jNode<Configuration> | null): cfg is Neo4jNode<Configuration> => cfg !== null)
+    const simulationsNodes: Array<Neo4jNode<Simulation>> = record.get('validatedBy')
+      .filter((sim: Neo4jNode<Simulation> | null): sim is Neo4jNode<Simulation> => sim !== null)
 
-    // After constructing tempDesign, populate 'supports' with proper 'appliesTo' references
     const supports = configurationsNodes.map(cfgNode => {
-      const cfgProperties = cfgNode.properties // Access the properties of Configuration node
+      const cfgProperties = cfgNode.properties // Direct access to properties thanks to typing
       const cfgSimulations = simulationsNodes
         .filter(simNode => simNode.properties.validates === cfgProperties.id)
-        .map(simNode => simNode.properties) // Convert to Simulation properties
+        .map(simNode => simNode.properties) // Direct access to properties thanks to typing
 
       return {
         ...cfgProperties,
-        validatedBy: cfgSimulations,
-        appliesTo: tempDesign // Now we can reference tempDesign
+        validatedBy: cfgSimulations
       }
     })
 
-    // Complete the Design object construction
     const design: Design = {
-      ...tempDesign,
-      supports // Now set the supports with configurations having 'appliesTo' set
+      ...designNodeProperties,
+      defines: {
+        ...rocketNodeProperties
+      },
+      supports
     }
 
     return design
