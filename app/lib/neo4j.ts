@@ -219,12 +219,6 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
 
     const record: Record = res.records[0]
     const rocketNode: Neo4jNode<Rocket> = record.get('r')
-    const definedBy: Design[] = record
-      .get('designs')
-      .filter(
-        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
-      )
-      .map((d: Neo4jNode<Design>) => d.properties)
 
     const basedOn: Array<Kit | Rocket> = record
       .get('basedOn')
@@ -244,19 +238,31 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
 
     const labels: string[] = record.get('labels')
 
-    const rocket: Rocket = {
+    const rocket: Partial<Rocket> = {
       isModel: labels.includes('Model'),
       id: rocketNode.properties.id,
       name: rocketNode.properties.name,
       description: rocketNode.properties.description,
       image: rocketNode.properties.image,
-      definedBy,
       basedOn,
       inspired,
       labels
     }
 
-    return rocket
+    const definedBy: Design[] = record
+      .get('designs')
+      .filter(
+        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
+      )
+      .map((d: Neo4jNode<Design>) => {
+        const design = d.properties
+        design.defines = rocket as Rocket // Here we cast rocket as Rocket because it will be a full Rocket after all properties are set.
+        return design
+      })
+
+    rocket.definedBy = definedBy
+
+    return rocket as Rocket
   } catch (error) {
     console.error(error)
     return null
@@ -478,7 +484,7 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (d:Design {id: $id})
+        MATCH (d:Design {id: $designId})
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
         OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
         MATCH (r)-[:DEFINED_BY]->(d)
@@ -502,7 +508,7 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
     const rocketNode: any = record.get('rocket')
 
     const design: Design = {
-      ...designNode.properties,
+      ...designNode.PROPERTIES,
       supports: supportsNodes
         .filter((cfg) => cfg !== null)
         .map((cfg) => ({
