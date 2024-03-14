@@ -19,8 +19,8 @@ const MotorList: React.FC<MotorListProps> = ({ motors }) => {
               <span>
                 {motor.commonName} {motor.designation}
               </span>
-              <Link href={`/refdata/manufacturers/${motor.mfgID}`} className='hove hover:underline'>
-                {motor.mfgID}
+              <Link href={`/refdata/manufacturers/${motor.madeBy.id}`} className='hove hover:underline'>
+                {motor.madeBy.id}
               </Link>
             </div>
           </Link>

@@ -1,5 +1,5 @@
 import Profile from '@/app/ui/dashboard/profile'
-import DesignView from '@/app/ui/designs/design'
+import DesignView from '@/app/ui/rocket/design'
 import { fetchDesign } from '@/app/lib/neo4j'
 
 export default async function Page ({
@@ -17,6 +17,8 @@ export default async function Page ({
     <main>
       <Profile />
       <DesignView design={design}/>
+      {/* <div className='mt-6 flex items-center justify-end gap-x-6'>
+      </div> */}
     </main>
   )
 }

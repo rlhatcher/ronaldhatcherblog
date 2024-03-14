@@ -11,8 +11,8 @@ const KitList: React.FC<KitListProps> = ({ kits }) => {
       {kits.map((kit) => {
         return (
           <Link
-            href={`/refdata/kits/${kit.uniqueID}`}
-            key={kit.uniqueID}
+            href={`/refdata/kits/${kit.id}`}
+            key={kit.id}
             className='bg-slate-200 border-l-8 border-slate-400 shadow-sm font-mono rounded-md p-2'
           >
             {kit.name}

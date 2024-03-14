@@ -66,7 +66,20 @@ interface TagObject {
   count: number
 }
 
+interface FlightCard {
+  id: string
+  date?: string
+  location?: string
+  rocket?: string
+  motor?: string
+  altitude?: string
+  speed?: string
+  notes?: string
+}
+
 interface Kit {
+  id: string
+  madeBy: Manufacturer
   url: string
   imageSrc: string
   recommendedEngines: string
@@ -82,7 +95,6 @@ interface Kit {
   launchRodSize: string
   instructions: string
   ageRecommendation: string
-  mfgID: string
   name: string
   complexity: string
   height: string
@@ -101,35 +113,23 @@ interface Kit {
   links: string
   parachute: string
   finArray: string
-  uniqueID: string
   labels: string[]
 }
 
 interface Manufacturer {
   name: string
-  mfgID: string
+  id: string
   kits?: Kit[]
   motors?: Motor[]
 }
 
-interface FlightCard {
-  id: string
-  date?: string
-  location?: string
-  rocket?: string
-  motor?: string
-  altitude?: string
-  speed?: string
-  notes?: string
-}
-
 interface Motor {
+  madeBy: Manufacturer
   commonName: string
   delays: string
   diameter: number
   infoUrl: string
   totImpulseNs: number
-  manufacturer: string
   burnTimeS: number
   propInfo: string
   length: number
@@ -147,7 +147,6 @@ interface Motor {
   designation: string
   updatedOn: string
   type: string
-  mfgID: string
 }
 
 interface Person {
@@ -158,31 +157,61 @@ interface Person {
   picture: string
 }
 
-interface Design {
-  name: string
-  rocket: string
-  fileURL: string
-  filename: string
-  id: string
-  stages: string
-  massEmpty: number
-  stabilityCal: number
-  stabilityPct: number
-  cg: number
-  cp: number
-  length: number
-  maxDiameter: number
-}
-
 interface Rocket {
-  isModel: boolean
   id: string
   name: string
+  isModel: boolean
   description?: string
   image?: string
-  mfgID?: string
   basedOn?: Array<Kit | Rocket>
   definedBy?: Design[]
   inspired?: Rocket[]
   labels?: string[]
+}
+
+interface Design {
+  defines: Rocket
+  supports?: Configuration[]
+  reflectedIn?: string
+  id: string
+  name: string
+  stages?: string
+  massEmpty?: number
+  stabilityCal?: number
+  stabilityPct?: number
+  cg?: number
+  cp?: number
+  length?: number
+  maxDiameter?: number
+}
+
+interface Configuration {
+  validatedBy?: Simulation[]
+  usesMotor: Motor[]
+  appliesTo: Design
+  id: string
+  name: string
+  stageNumber?: number
+  stageActive?: boolean
+  delay?: string
+  ignitionEvent?: string
+  ignitionDelay?: string
+}
+
+interface Simulation {
+  validates: string
+  id: string
+  name: string
+  simulator?: string
+  calculator?: string
+  maxaltitude?: string
+  maxvelocity?: string
+  maxacceleration?: string
+  maxmach?: string
+  timetoapogee?: string
+  flighttime?: string
+  groundhitvelocity?: string
+  launchrodvelocity?: string
+  deploymentvelocity?: string
+  optimumdelay?: string
 }

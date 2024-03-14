@@ -2,8 +2,8 @@
 // import Search from '@/app/ui/dashboard/search'
 // import Table from '@/app/ui/table'
 import Profile from '@/app/ui/dashboard/profile'
-import { CreateRocket } from '@/app/ui/rockets/buttons'
-import MyRockets from '@/app/ui/rockets/my-rockets'
+import { CreateRocket } from '@/app/ui/rocket/buttons'
+import MyRockets from '@/app/ui/rocket/my-rockets'
 
 // import { InvoicesTableSkeleton } from '@/app/ui/skeletons'
 

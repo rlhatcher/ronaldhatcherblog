@@ -7,6 +7,7 @@ import {
   TableRow
 } from '@/app/ui/table'
 import { fetchMyRockets } from '@/app/lib/neo4j'
+import { Select } from '../select'
 
 export default async function MyRockets (): Promise<React.JSX.Element> {
   const rockets = await fetchMyRockets()
@@ -35,5 +36,22 @@ export default async function MyRockets (): Promise<React.JSX.Element> {
         ))}
       </TableBody>
     </Table>
+  )
+}
+
+export async function MyRocketsSelect (): Promise<React.JSX.Element> {
+  const rockets = await fetchMyRockets()
+
+  if (rockets === null) {
+    return <div>Failed to load rockets</div>
+  }
+  return (
+    <Select name='myrocket_id' className='w-full border-slate-400'>
+      {rockets.map((rocket) => (
+        <option key={rocket.id} value={rocket.id}>
+          {rocket.name}
+        </option>
+      ))}
+    </Select>
   )
 }

@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='utf-8'?>
+<openrocket version="1.9" creator="OpenRocket 23.09">
+  <rocket>
+    <name>simples</name>
+    <id>6d1e3001-ecd1-495b-ad07-a0461bd20783</id>
+    <axialoffset method="absolute">0.0</axialoffset>
+    <position type="absolute">0.0</position>
+    <designer>Sampo Niskanen</designer>
+    <motorconfiguration configid="da326836-0959-4c94-bcd5-49dee07235a4">
+      <stage number="0" active="true"/>
+    </motorconfiguration>
+    <motorconfiguration configid="05896b5a-71a7-48ac-b7ae-eadeb267975b">
+      <stage number="0" active="true"/>
+    </motorconfiguration>
+    <motorconfiguration configid="b13e8ca2-f54d-4ca8-9b23-06c6c9eb237a">
+      <stage number="0" active="true"/>
+    </motorconfiguration>
+    <motorconfiguration configid="e1dc7488-77c0-403a-b54f-c01db07aba2f" default="true">
+      <stage number="0" active="true"/>
+    </motorconfiguration>
+    <motorconfiguration configid="5d9a2765-395d-4d9c-9678-38eed0988c72">
+      <stage number="0" active="true"/>
+    </motorconfiguration>
+    <referencetype>maximum</referencetype>
+
+    <subcomponents>
+      <stage>
+        <name>Sustainer</name>
+        <id>a91d1121-5f7e-444b-bc5c-dc3102cd2b66</id>
+
+        <subcomponents>
+          <nosecone>
+            <name>Nose cone</name>
+            <id>73a9f1b4-129c-480b-ad6a-511d437ec513</id>
+            <appearance>
+              <paint red="51" green="51" blue="51" alpha="255"/>
+              <shine>0.5</shine>
+            </appearance>
+            <finish>normal</finish>
+            <material type="bulk" density="1050.0">Polystyrene</material>
+            <length>0.1</length>
+            <thickness>0.002</thickness>
+            <shape>ogive</shape>
+            <shapeparameter>1.0</shapeparameter>
+            <aftradius>0.0125</aftradius>
+            <aftshoulderradius>0.0115</aftshoulderradius>
+            <aftshoulderlength>0.02</aftshoulderlength>
+            <aftshoulderthickness>0.002</aftshoulderthickness>
+            <aftshouldercapped>true</aftshouldercapped>
+            <isflipped>false</isflipped>
+          </nosecone>
+
+          <bodytube>
+            <name>Body tube</name>
+            <id>4aa0cdb6-65ca-4575-8916-9e790e6d327f</id>
+            <appearance>
+              <paint red="212" green="185" blue="145" alpha="255"/>
+              <shine>0.5</shine>
+              <decal name="decals/BodyStripe.png" rotation="0.0" edgemode="CLAMP">
+                <center x="0.0" y="0.0"/>
+                <offset x="0.0" y="-0.2"/>
+                <scale x="1.0" y="10.0"/>
+              </decal>
+            </appearance>
+            <finish>normal</finish>
+            <material type="bulk" density="680.0">Cardboard</material>
+            <length>0.3</length>
+            <thickness>0.001</thickness>
+            <radius>auto 0.0125</radius>
+
+            <subcomponents>
+              <parachute>
+                <name>Parachute</name>
+                <id>a7057e59-c8fd-44cf-b2bf-14d022ef2b37</id>
+                <axialoffset method="top">0.032</axialoffset>
+                <position type="top">0.032</position>
+                <packedlength>0.042</packedlength>
+                <packedradius>0.009000000000000001</packedradius>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <cd>auto</cd>
+                <material type="surface" density="0.067">Ripstop nylon</material>
+                <deployevent>ejection</deployevent>
+                <deployaltitude>200.0</deployaltitude>
+                <deploydelay>0.0</deploydelay>
+                <diameter>0.3</diameter>
+                <linecount>6</linecount>
+                <linelength>0.3</linelength>
+                <linematerial type="line" density="0.0018">Elastic cord (round 2mm, 1/16 in)</linematerial>
+              </parachute>
+
+              <shockcord>
+                <name>Shock cord</name>
+                <id>7408a43e-b2bf-4efa-9865-a334b14698f5</id>
+                <axialoffset method="top">0.02</axialoffset>
+                <position type="top">0.02</position>
+                <comment>The shock cord does not need to be attached to anything in particular, as it functions only as a mass component.</comment>
+                <packedlength>0.052000000000000005</packedlength>
+                <packedradius>0.006</packedradius>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <cordlength>0.4</cordlength>
+                <material type="line" density="0.0018">Elastic cord (round 2mm, 1/16 in)</material>
+              </shockcord>
+
+              <masscomponent>
+                <name>Wadding</name>
+                <id>df286a87-f463-4a2d-b229-115d255496e8</id>
+                <axialoffset method="top">0.08</axialoffset>
+                <position type="top">0.08</position>
+                <packedlength>0.03</packedlength>
+                <packedradius>0.0115</packedradius>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <mass>0.002</mass>
+                <masscomponenttype>masscomponent</masscomponenttype>
+              </masscomponent>
+
+              <launchlug>
+                <name>Launch lug</name>
+                <id>e8022371-a4b5-4c5f-9b22-f514824c1154</id>
+                <instancecount>1</instancecount>
+                <instanceseparation>0.0</instanceseparation>
+                <angleoffset method="relative">19.0</angleoffset>
+                <radialdirection>19.0</radialdirection>
+                <axialoffset method="middle">0.0</axialoffset>
+                <position type="middle">0.0</position>
+                <finish>normal</finish>
+                <material type="bulk" density="680.0">Cardboard</material>
+                <radius>0.0035</radius>
+                <length>0.035</length>
+                <thickness>0.001</thickness>
+              </launchlug>
+
+              <trapezoidfinset>
+                <name>Trapezoidal fin set</name>
+                <id>ea3c231a-10f8-4e0b-979b-93c055b6c959</id>
+                <appearance>
+                  <paint red="255" green="254" blue="254" alpha="255"/>
+                  <shine>0.0</shine>
+                  <decal name="decals/TailStripe.png" rotation="0.0" edgemode="CLAMP">
+                    <center x="0.0" y="0.0"/>
+                    <offset x="0.0" y="-0.4"/>
+                    <scale x="1.0" y="2.499999999999999"/>
+                  </decal>
+                </appearance>
+                <instancecount>3</instancecount>
+                <fincount>3</fincount>
+                <radiusoffset method="surface">0.0</radiusoffset>
+                <angleoffset method="relative">0.0</angleoffset>
+                <rotation>0.0</rotation>
+                <axialoffset method="bottom">0.0</axialoffset>
+                <position type="bottom">0.0</position>
+                <finish>normal</finish>
+                <material type="bulk" density="680.0">Cardboard</material>
+                <thickness>0.002</thickness>
+                <crosssection>rounded</crosssection>
+                <cant>0.0</cant>
+                <filletradius>0.0</filletradius>
+                <filletmaterial type="bulk" density="680.0">Cardboard</filletmaterial>
+                <rootchord>0.0508</rootchord>
+                <tipchord>0.0508</tipchord>
+                <sweeplength>0.0254</sweeplength>
+                <height>0.03</height>
+              </trapezoidfinset>
+
+              <centeringring>
+                <name>Centering ring</name>
+                <id>7e5a0f12-8ce4-4740-bf03-2b6fdc0764f5</id>
+                <instancecount>1</instancecount>
+                <instanceseparation>0.0</instanceseparation>
+                <axialoffset method="bottom">-0.045</axialoffset>
+                <position type="bottom">-0.045</position>
+                <comment>The centering ring automatically takes the outer diameter of the body tube and the inner diameter of the inner tube.</comment>
+                <material type="bulk" density="680.0">Cardboard</material>
+                <length>0.002</length>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <outerradius>auto</outerradius>
+                <innerradius>auto</innerradius>
+              </centeringring>
+
+              <centeringring>
+                <name>Centering ring</name>
+                <id>0d6bb7ca-27ab-4e3a-8893-cd307fe7664f</id>
+                <appearance>
+                  <paint red="255" green="255" blue="255" alpha="255"/>
+                  <shine>0.0</shine>
+                </appearance>
+                <instancecount>1</instancecount>
+                <instanceseparation>0.0</instanceseparation>
+                <axialoffset method="bottom">0.0</axialoffset>
+                <position type="bottom">0.0</position>
+                <comment>The centering ring automatically takes the outer diameter of the body tube and the inner diameter of the inner tube.</comment>
+                <material type="bulk" density="680.0">Cardboard</material>
+                <length>0.002</length>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <outerradius>auto</outerradius>
+                <innerradius>auto</innerradius>
+              </centeringring>
+
+              <innertube>
+                <name>Inner Tube</name>
+                <id>5525c3d3-68a6-4cfa-be7f-a3eaa354b30d</id>
+                <appearance>
+                  <paint red="0" green="0" blue="0" alpha="255"/>
+                  <shine>0.0</shine>
+                </appearance>
+                <axialoffset method="bottom">0.005</axialoffset>
+                <position type="bottom">0.005</position>
+                <material type="bulk" density="680.0">Cardboard</material>
+                <length>0.075</length>
+                <radialposition>0.0</radialposition>
+                <radialdirection>0.0</radialdirection>
+                <outerradius>0.0095</outerradius>
+                <thickness>5.000000000000004E-4</thickness>
+                <clusterconfiguration>single</clusterconfiguration>
+                <clusterscale>1.0</clusterscale>
+                <clusterrotation>0.0</clusterrotation>
+                <motormount>
+                  <ignitionevent>automatic</ignitionevent>
+                  <ignitiondelay>0.0</ignitiondelay>
+                  <overhang>0.003</overhang>
+                  <motor configid="da326836-0959-4c94-bcd5-49dee07235a4">
+                    <type>single</type>
+                    <manufacturer>Estes</manufacturer>
+                    <digest>22aec01287ea1e3b8c6f66b26fe5fea6</digest>
+                    <designation>A8</designation>
+                    <diameter>0.018</diameter>
+                    <length>0.07</length>
+                    <delay>3.0</delay>
+                  </motor>
+                  <ignitionconfiguration configid="da326836-0959-4c94-bcd5-49dee07235a4">
+                    <ignitionevent>automatic</ignitionevent>
+                    <ignitiondelay>0.0</ignitiondelay>
+                  </ignitionconfiguration>
+                  <motor configid="05896b5a-71a7-48ac-b7ae-eadeb267975b">
+                    <type>single</type>
+                    <manufacturer>Estes</manufacturer>
+                    <digest>c15b9b96bf06e0ab896394787da3c47e</digest>
+                    <designation>B4</designation>
+                    <diameter>0.018</diameter>
+                    <length>0.07</length>
+                    <delay>4.0</delay>
+                  </motor>
+                  <ignitionconfiguration configid="05896b5a-71a7-48ac-b7ae-eadeb267975b">
+                    <ignitionevent>automatic</ignitionevent>
+                    <ignitiondelay>0.0</ignitiondelay>
+                  </ignitionconfiguration>
+                  <motor configid="b13e8ca2-f54d-4ca8-9b23-06c6c9eb237a">
+                    <type>single</type>
+                    <manufacturer>Estes</manufacturer>
+                    <digest>c8743ef3fa99e14a89885cbe0ead47b2</digest>
+                    <designation>C6</designation>
+                    <diameter>0.018</diameter>
+                    <length>0.07</length>
+                    <delay>3.0</delay>
+                  </motor>
+                  <ignitionconfiguration configid="b13e8ca2-f54d-4ca8-9b23-06c6c9eb237a">
+                    <ignitionevent>automatic</ignitionevent>
+                    <ignitiondelay>0.0</ignitiondelay>
+                  </ignitionconfiguration>
+                  <motor configid="e1dc7488-77c0-403a-b54f-c01db07aba2f">
+                    <type>single</type>
+                    <manufacturer>Estes</manufacturer>
+                    <digest>c8743ef3fa99e14a89885cbe0ead47b2</digest>
+                    <designation>C6</designation>
+                    <diameter>0.018</diameter>
+                    <length>0.07</length>
+                    <delay>5.0</delay>
+                  </motor>
+                  <ignitionconfiguration configid="e1dc7488-77c0-403a-b54f-c01db07aba2f">
+                    <ignitionevent>automatic</ignitionevent>
+                    <ignitiondelay>0.0</ignitiondelay>
+                  </ignitionconfiguration>
+                  <motor configid="5d9a2765-395d-4d9c-9678-38eed0988c72">
+                    <type>single</type>
+                    <manufacturer>Estes</manufacturer>
+                    <digest>c8743ef3fa99e14a89885cbe0ead47b2</digest>
+                    <designation>C6</designation>
+                    <diameter>0.018</diameter>
+                    <length>0.07</length>
+                    <delay>7.0</delay>
+                  </motor>
+                  <ignitionconfiguration configid="5d9a2765-395d-4d9c-9678-38eed0988c72">
+                    <ignitionevent>automatic</ignitionevent>
+                    <ignitiondelay>0.0</ignitiondelay>
+                  </ignitionconfiguration>
+                </motormount>
+
+                <subcomponents>
+                  <engineblock>
+                    <name>Engine block</name>
+                    <id>8fac5b8b-66c5-4180-b94e-35c284119bf0</id>
+                    <axialoffset method="top">0.002</axialoffset>
+                    <position type="top">0.002</position>
+                    <material type="bulk" density="680.0">Cardboard</material>
+                    <length>0.005</length>
+                    <radialposition>0.0</radialposition>
+                    <radialdirection>0.0</radialdirection>
+                    <outerradius>auto</outerradius>
+                    <thickness>0.003</thickness>
+                  </engineblock>
+                </subcomponents>
+              </innertube>
+            </subcomponents>
+          </bodytube>
+        </subcomponents>
+      </stage>
+    </subcomponents>
+  </rocket>
+
+  <simulations>
+    <simulation status="notsimulated">
+      <name>Simulation 1</name>
+      <simulator>RK4Simulator</simulator>
+      <calculator>BarrowmanCalculator</calculator>
+      <conditions>
+        <configid>da326836-0959-4c94-bcd5-49dee07235a4</configid>
+        <launchrodlength>1.0</launchrodlength>
+        <launchrodangle>0.0</launchrodangle>
+        <launchroddirection>90.0</launchroddirection>
+        <windaverage>2.0</windaverage>
+        <windturbulence>0.1</windturbulence>
+        <launchaltitude>0.0</launchaltitude>
+        <launchlatitude>45.0</launchlatitude>
+        <launchlongitude>0.0</launchlongitude>
+        <geodeticmethod>flat</geodeticmethod>
+        <atmosphere model="isa"/>
+        <timestep>0.05</timestep>
+      </conditions>
+      <flightdata maxaltitude="50.744" maxvelocity="29.264" maxacceleration="142.517" maxmach="0.087" timetoapogee="3.466" flighttime="15.952" groundhitvelocity="4.272" launchrodvelocity="15.616" deploymentvelocity="2.604" optimumdelay="2.786">
+      </flightdata>
+    </simulation>
+
+    <simulation status="notsimulated">
+      <name>Simulation 2</name>
+      <simulator>RK4Simulator</simulator>
+      <calculator>BarrowmanCalculator</calculator>
+      <conditions>
+        <configid>05896b5a-71a7-48ac-b7ae-eadeb267975b</configid>
+        <launchrodlength>1.0</launchrodlength>
+        <launchrodangle>0.0</launchrodangle>
+        <launchroddirection>90.0</launchroddirection>
+        <windaverage>2.0</windaverage>
+        <windturbulence>0.1</windturbulence>
+        <launchaltitude>0.0</launchaltitude>
+        <launchlatitude>45.0</launchlatitude>
+        <launchlongitude>0.0</launchlongitude>
+        <geodeticmethod>flat</geodeticmethod>
+        <atmosphere model="isa"/>
+        <timestep>0.05</timestep>
+      </conditions>
+      <flightdata maxaltitude="136.161" maxvelocity="53.302" maxacceleration="180.442" maxmach="0.157" timetoapogee="5.278" flighttime="38.252" groundhitvelocity="4.136" launchrodvelocity="18.22" deploymentvelocity="4.143" optimumdelay="4.373">
+      </flightdata>
+    </simulation>
+
+    <simulation status="notsimulated">
+      <name>Simulation 3 - too short delay</name>
+      <simulator>RK4Simulator</simulator>
+      <calculator>BarrowmanCalculator</calculator>
+      <conditions>
+        <configid>b13e8ca2-f54d-4ca8-9b23-06c6c9eb237a</configid>
+        <launchrodlength>1.0</launchrodlength>
+        <launchrodangle>0.0</launchrodangle>
+        <launchroddirection>90.0</launchroddirection>
+        <windaverage>2.0</windaverage>
+        <windturbulence>0.1</windturbulence>
+        <launchaltitude>0.0</launchaltitude>
+        <launchlatitude>45.0</launchlatitude>
+        <launchlongitude>0.0</launchlongitude>
+        <geodeticmethod>flat</geodeticmethod>
+        <atmosphere model="isa"/>
+        <timestep>0.05</timestep>
+      </conditions>
+      <flightdata maxaltitude="280.183" maxvelocity="95.607" maxacceleration="188.725" maxmach="0.282" timetoapogee="5.419" flighttime="73.039" groundhitvelocity="4.14" launchrodvelocity="17.47" deploymentvelocity="32.444" optimumdelay="6.029">
+        <warning>Recovery device deployment at high speed (106 ft/s)</warning>
+      </flightdata>
+    </simulation>
+
+    <simulation status="notsimulated">
+      <name>Simulation 4</name>
+      <simulator>RK4Simulator</simulator>
+      <calculator>BarrowmanCalculator</calculator>
+      <conditions>
+        <configid>e1dc7488-77c0-403a-b54f-c01db07aba2f</configid>
+        <launchrodlength>1.0</launchrodlength>
+        <launchrodangle>0.0</launchrodangle>
+        <launchroddirection>90.0</launchroddirection>
+        <windaverage>2.0</windaverage>
+        <windturbulence>0.1</windturbulence>
+        <launchaltitude>0.0</launchaltitude>
+        <launchlatitude>45.0</launchlatitude>
+        <launchlongitude>0.0</launchlongitude>
+        <geodeticmethod>flat</geodeticmethod>
+        <atmosphere model="isa"/>
+        <timestep>0.05</timestep>
+      </conditions>
+      <flightdata maxaltitude="319.474" maxvelocity="95.6" maxacceleration="188.749" maxmach="0.282" timetoapogee="7.326" flighttime="84.304" groundhitvelocity="4.187" launchrodvelocity="17.47" deploymentvelocity="10.333" optimumdelay="6.032">
+      </flightdata>
+    </simulation>
+
+    <simulation status="notsimulated">
+      <name>Simulation 5</name>
+      <simulator>RK4Simulator</simulator>
+      <calculator>BarrowmanCalculator</calculator>
+      <conditions>
+        <configid>5d9a2765-395d-4d9c-9678-38eed0988c72</configid>
+        <launchrodlength>1.0</launchrodlength>
+        <launchrodangle>0.0</launchrodangle>
+        <launchroddirection>90.0</launchroddirection>
+        <windaverage>2.0</windaverage>
+        <windturbulence>0.1</windturbulence>
+        <launchaltitude>0.0</launchaltitude>
+        <launchlatitude>45.0</launchlatitude>
+        <launchlongitude>0.0</launchlongitude>
+        <geodeticmethod>flat</geodeticmethod>
+        <atmosphere model="isa"/>
+        <timestep>0.05</timestep>
+      </conditions>
+      <flightdata maxaltitude="322.784" maxvelocity="95.614" maxacceleration="188.735" maxmach="0.282" timetoapogee="7.877" flighttime="85.204" groundhitvelocity="4.162" launchrodvelocity="17.47" deploymentvelocity="9.169" optimumdelay="6.017">
+      </flightdata>
+    </simulation>
+  </simulations>
+  <photostudio>
+  </photostudio>
+</openrocket>

@@ -1,13 +1,13 @@
 import Profile from '@/app/ui/dashboard/profile'
-import Form from '@/app/ui/rockets/edit-form'
+import Form from '@/app/ui/rocket/edit-form'
 import { fetchRocket } from '@/app/lib/neo4j'
 
 export default async function Page ({
   params
 }: {
-  params: { id: string }
+  params: { rocket_id: string }
 }): Promise<React.JSX.Element> {
-  const id = params.id
+  const id = params.rocket_id
   const rocket = await fetchRocket(id)
 
   if (rocket === null) {

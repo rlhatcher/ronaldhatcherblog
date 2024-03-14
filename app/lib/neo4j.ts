@@ -1,7 +1,6 @@
 import neo4j, { type Session, type Record, type Integer } from 'neo4j-driver'
 import { cache } from 'react'
 import { getUser } from '@/app/lib/kinde'
-// import { unstable_noStore as noStore } from 'next/cache'
 
 const uri = process.env.NEO4J_URI
 const username = process.env.NEO4J_USERNAME
@@ -136,6 +135,10 @@ export const mrgPerson = cache(
 function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
   if (labels.includes('Kit')) {
     return {
+      madeBy: {
+        id: node.id,
+        name: node.name
+      },
       url: node.url,
       imageSrc: node.imageSrc,
       recommendedEngines: node.recommendedEngines,
@@ -151,7 +154,6 @@ function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
       launchRodSize: node.launchRodSize,
       instructions: node.instructions,
       ageRecommendation: node.ageRecommendation,
-      mfgID: node.mfgID,
       name: node.name,
       complexity: node.complexity,
       height: node.height,
@@ -170,7 +172,7 @@ function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID,
+      id: node.id,
       labels
     } satisfies Kit
   }
@@ -216,12 +218,6 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
 
     const record: Record = res.records[0]
     const rocketNode: Neo4jNode<Rocket> = record.get('r')
-    const definedBy: Design[] = record
-      .get('designs')
-      .filter(
-        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
-      )
-      .map((d: Neo4jNode<Design>) => d.properties)
 
     const basedOn: Array<Kit | Rocket> = record
       .get('basedOn')
@@ -241,20 +237,31 @@ export async function fetchRocket (id: string): Promise<Rocket | null> {
 
     const labels: string[] = record.get('labels')
 
-    const rocket: Rocket = {
+    const rocket: Partial<Rocket> = {
       isModel: labels.includes('Model'),
       id: rocketNode.properties.id,
       name: rocketNode.properties.name,
       description: rocketNode.properties.description,
       image: rocketNode.properties.image,
-      mfgID: rocketNode.properties.mfgID,
-      definedBy,
       basedOn,
       inspired,
       labels
     }
 
-    return rocket
+    const definedBy: Design[] = record
+      .get('designs')
+      .filter(
+        (d: Neo4jNode<Design> | null): d is Neo4jNode<Design> => d !== null
+      )
+      .map((d: Neo4jNode<Design>) => {
+        const design = d.properties
+        design.defines = rocket as Rocket // Here we cast rocket as Rocket because it will be a full Rocket after all properties are set.
+        return design
+      })
+
+    rocket.definedBy = definedBy
+
+    return rocket as Rocket
   } catch (error) {
     console.error(error)
     return null
@@ -322,8 +329,8 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
       tx.run(
         `
         MERGE (r:Rocket:Model {id: $rocketId})
-        ON CREATE SET r.name = $name
-        ON MATCH SET r.name = $name 
+        ON CREATE SET r.name = $name, r.image = $image, r.description = $description
+        ON MATCH SET r.name = $name, r.image = $image, r.description = $description 
         WITH r
         MATCH (p:Person {id: $userId})
         MERGE (p)-[:OWNS]->(r)
@@ -332,7 +339,9 @@ export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
         {
           rocketId: rocket.id,
           name: rocket.name,
-          userId: user.id
+          userId: user.id,
+          description: rocket.description,
+          image: rocket.image
         }
       )
     )
@@ -468,16 +477,22 @@ export async function mrgDbPerson (person: Person): Promise<Person | null> {
  *                    |___/
  */
 
-export async function fetchDesign (id: string): Promise<Design | null> {
+// Adjusting fetchDesign function using the Neo4jNode<T> interface for type safety
+export async function fetchDesign (designId: string): Promise<Design | null> {
   const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (d:Design {id: $id})
-        RETURN d
+        MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
+        OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
+        OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
+        RETURN d AS design, 
+               r AS rocket,
+               COLLECT(DISTINCT c) AS supports,
+               COLLECT(DISTINCT s) AS validatedBy
         `,
-        { id }
+        { designId }
       )
     )
 
@@ -485,13 +500,115 @@ export async function fetchDesign (id: string): Promise<Design | null> {
       return null
     }
 
-    const record: Record = res.records[0]
-    const design: Design = record.get('d').properties
+    const record = res.records[0]
+    const designNodeProperties = record.get('design').properties
+    const rocketNodeProperties = record.get('rocket').properties
+
+    // Using the Neo4jNode<T> interface to improve type safety
+    const configurationsNodes: Array<Neo4jNode<Configuration>> = record.get('supports')
+      .filter((cfg: Neo4jNode<Configuration> | null): cfg is Neo4jNode<Configuration> => cfg !== null)
+    const simulationsNodes: Array<Neo4jNode<Simulation>> = record.get('validatedBy')
+      .filter((sim: Neo4jNode<Simulation> | null): sim is Neo4jNode<Simulation> => sim !== null)
+
+    const supports = configurationsNodes.map(cfgNode => {
+      const cfgProperties = cfgNode.properties // Direct access to properties thanks to typing
+      const cfgSimulations = simulationsNodes
+        .filter(simNode => simNode.properties.validates === cfgProperties.id)
+        .map(simNode => simNode.properties) // Direct access to properties thanks to typing
+
+      return {
+        ...cfgProperties,
+        validatedBy: cfgSimulations
+      }
+    })
+
+    const design: Design = {
+      ...designNodeProperties,
+      defines: {
+        ...rocketNodeProperties
+      },
+      supports
+    }
 
     return design
   } catch (error) {
-    console.error(error)
+    console.error('Failed to fetch design:', error)
     return null
+  } finally {
+    await session.close()
+  }
+}
+
+export async function mergeDesign (design: Design): Promise<void> {
+  const session = driver.session()
+
+  const params = {
+    designId: design.id,
+    name: design.name,
+    rocketId: design.defines.id ?? null,
+    filename: design.reflectedIn ?? null,
+    stages: design.stages ?? null,
+    massEmpty: design.massEmpty ?? null,
+    stabilityCal: design.stabilityCal ?? null,
+    stabilityPct: design.stabilityPct ?? null,
+    cg: design.cg ?? null,
+    cp: design.cp ?? null,
+    length: design.length ?? null,
+    maxDiameter: design.maxDiameter ?? null,
+    supports: design.supports
+  }
+
+  /**
+   * The query below merges a Design node and its related Configuration and Simulation nodes.
+   * Connect the design with the associated rocket/model
+   * Create the design
+   * Connect the design with the associated configurations
+   * Create the configurations
+   * Connect the configurations with the associated simulations
+   * Create the simulations
+   */
+  const query = `
+    MERGE (design:Design {id: $designId})
+    ON CREATE SET design += {
+      name: $name, reflectedIn: $filename, stages: $stages,
+      massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
+      cg: $cg, cp: $cp, length: $length, maxDiameter: $maxDiameter
+    }
+    WITH design
+    MATCH (rocket:Rocket:Model {id: $rocketId})
+    MERGE (rocket)-[:DEFINED_BY]->(design)
+    
+    WITH design
+    UNWIND $supports AS cfg
+    MERGE (configuration:Configuration {id: cfg.id})
+    ON CREATE SET configuration += {
+      name: cfg.name, stageNumber: cfg.stageNumber, stageActive: cfg.stageActive,
+      delay: cfg.delay, ignitionEvent: cfg.ignitionEvent, ignitionDelay: cfg.ignitionDelay
+    }
+    MERGE (design)-[:SUPPORTS]->(configuration)
+
+    WITH configuration, cfg.simulations AS sims
+    UNWIND sims AS sim
+    MERGE (simulation:Simulation {name: sim.name})
+    ON CREATE SET simulation += {
+      simulator: sim.simulator, calculator: sim.calculator,
+      maxaltitude: sim.maxaltitude, maxvelocity: sim.maxvelocity,
+      maxacceleration: sim.maxacceleration, maxmach: sim.maxmach,
+      timetoapogee: sim.timetoapogee, flighttime: sim.flighttime,
+      groundhitvelocity: sim.groundhitvelocity, launchrodvelocity: sim.launchrodvelocity,
+      deploymentvelocity: sim.deploymentvelocity, optimumdelay: sim.optimumdelay
+    }
+    MERGE (configuration)-[:VALIDATED_BY]->(simulation)
+  `
+
+  try {
+    await session.executeWrite(async (tx) => await tx.run(query, params))
+    console.log('Design, configurations, and simulations merged successfully')
+  } catch (error) {
+    console.error(
+      'Failed to merge design, configurations, and simulations:',
+      error
+    )
   } finally {
     await session.close()
   }
@@ -504,13 +621,7 @@ export async function fetchDesign (id: string): Promise<Design | null> {
  * | |  | | (_| | | | | |_| |  _| (_| | (__| |_| |_| | | |  __/ |  \__ \
  * |_|  |_|\__,_|_| |_|\__,_|_|  \__,_|\___|\__|\__,_|_|  \___|_|  |___/
  */
-export const getManufacturers = cache(async (): Promise<Manufacturer[]> => {
-  const mfgs = await getDbManufacturers()
-  return mfgs
-})
-
-export async function getDbManufacturers (): Promise<Manufacturer[]> {
-  // Open a new session
+export async function getManufacturers (): Promise<Manufacturer[]> {
   const session = driver.session()
 
   try {
@@ -518,13 +629,12 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
       tx.run(
         `
         MATCH (n:Manufacturer)
-        WHERE n.mfgID IS NOT NULL
+        WHERE n.id IS NOT NULL
         RETURN n;
-  `,
+        `,
         {}
       )
     )
-    // Check if the result contains records
     if (res.records.length === 0) {
       return []
     }
@@ -532,7 +642,7 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
       const node = record.get('n').properties
       return {
         name: node.name,
-        mfgID: node.mfgID
+        id: node.id
       }
     })
     return manufacturers
@@ -546,35 +656,28 @@ export async function getDbManufacturers (): Promise<Manufacturer[]> {
   }
 }
 
-export const getMfgMakes = cache(async (id: string): Promise<Manufacturer> => {
-  const mfgs = await getDbMfgMakes(id)
-  return mfgs
-})
-
-export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
-  // Open a new session
+export async function getManufacturer (id: string): Promise<Manufacturer> {
   const session = driver.session()
 
   try {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (m:Manufacturer {mfgID: $id})-[:MAKES]->(product)
-        WHERE m.mfgID IS NOT NULL
+        MATCH (m:Manufacturer {id: $id})-[:MAKES]->(product)
+        WHERE m.id IS NOT NULL
         RETURN m AS manufacturer, collect(product) AS products
         `,
         { id }
       )
     )
     if (res.records.length === 0) {
-      return { name: '', mfgID: '' }
+      return { name: '', id: '' }
     }
     const record = res.records[0]
     const manufacturerNode = record.get('manufacturer').properties
 
     const kits: Kit[] = []
     const motors: Motor[] = []
-    // Add more arrays for other types if needed
 
     const products = record.get('products')
 
@@ -588,6 +691,10 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
       switch (type) {
         case 'Kit':
           kits.push({
+            madeBy: {
+              id: manufacturerNode.id,
+              name: manufacturerNode.name
+            },
             url: product.url,
             imageSrc: product.image_src,
             recommendedEngines: product.recommendedEngines,
@@ -603,7 +710,6 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             launchRodSize: product.launchRodSize,
             instructions: product.instructions,
             ageRecommendation: product.ageRecommendation,
-            mfgID: product.mfgID,
             name: product.name,
             complexity: product.complexity,
             height: product.height,
@@ -622,7 +728,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
             links: product.links,
             parachute: product.parachute,
             finArray: product.finArray,
-            uniqueID: product.uniqueID,
+            id: product.id,
             labels: ['Kit']
           })
           break
@@ -635,7 +741,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
 
     return {
       name: manufacturerNode.name,
-      mfgID: manufacturerNode.mfgID,
+      id: manufacturerNode.id,
       kits,
       motors
       // Add more arrays for other types
@@ -643,7 +749,7 @@ export async function getDbMfgMakes (id: string): Promise<Manufacturer> {
   } catch (error) {
     // Handle any errors
     console.error(error)
-    return { name: '', mfgID: '' }
+    return { name: '', id: '' }
   } finally {
     // Close the session
     await session.close()
@@ -662,9 +768,9 @@ export async function getDbMotors (): Promise<Motor[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (n:Motor)
-        WHERE n.motorId IS NOT NULL
-        RETURN n
+        MATCH (mfg:Manufacturer)-[:MAKES]->(m:Motor)
+        WHERE m.motorId IS NOT NULL
+        RETURN m, mfg
       `,
         {}
       )
@@ -678,16 +784,20 @@ export async function getDbMotors (): Promise<Motor[]> {
     // Map the query results to the Motor array
     const motors = res.records.map((record) => {
       // Extract node properties
-      const node = record.get('n').properties
+      const node = record.get('m').properties
+      const mfgNode = record.get('mfg').properties
 
       // Convert node properties to Motor type
       return {
+        madeBy: {
+          id: mfgNode.id,
+          name: mfgNode.name
+        },
         commonName: node.commonName,
         delays: node.delays,
         diameter: node.diameter,
         infoUrl: node.infoUrl,
         totImpulseNs: node.totImpulseNs,
-        manufacturer: node.manufacturer,
         burnTimeS: node.burnTimeS,
         propInfo: node.propInfo,
         length: node.length,
@@ -704,8 +814,7 @@ export async function getDbMotors (): Promise<Motor[]> {
         totalWeightG: node.totalWeightG,
         designation: node.designation,
         updatedOn: node.updatedOn,
-        type: node.type,
-        mfgID: node.mfgID
+        type: node.type
       }
     })
 
@@ -733,9 +842,9 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-          MATCH (n:Motor {motorId: $id})
-          WHERE n.motorId IS NOT NULL
-          RETURN n
+          MATCH (mfg:Manufacturer)-[:MAKES]->(m:Motor {motorId: $id})
+          WHERE m.motorId IS NOT NULL
+          RETURN mfg, m
         `,
         { id }
       )
@@ -747,16 +856,20 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
 
     // Extract the single motor record
     const record = res.records[0]
-    const node = record.get('n').properties
+    const node = record.get('m').properties
+    const mfgNode = record.get('mfg').properties
 
     // Convert node properties to Motor type
     return {
+      madeBy: {
+        id: mfgNode.id,
+        name: mfgNode.name
+      },
       commonName: node.commonName,
       delays: node.delays,
       diameter: node.diameter,
       infoUrl: node.infoUrl,
       totImpulseNs: node.totImpulseNs,
-      manufacturer: node.manufacturer,
       burnTimeS: node.burnTimeS,
       propInfo: node.propInfo,
       length: node.length,
@@ -773,8 +886,7 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
       totalWeightG: node.totalWeightG,
       designation: node.designation,
       updatedOn: node.updatedOn,
-      type: node.type,
-      mfgID: node.mfgID
+      type: node.type
     }
   } catch (error) {
     // Handle any errors
@@ -799,9 +911,8 @@ async function getDbKits (): Promise<Kit[]> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit)
-        WHERE k.uniqueID IS NOT NULL
-        RETURN k
+        MATCH (m:Manufacturer)-[:MAKES]->(k:Kit)
+        RETURN m, k
       `,
         {}
       )
@@ -815,9 +926,14 @@ async function getDbKits (): Promise<Kit[]> {
     // Map the query results to the Kit array
     const kits = res.records.map((record) => {
       const node = record.get('k').properties
+      const mfgNode = record.get('m').properties
 
       // Convert node properties to Kit type
       return {
+        madeBy: {
+          id: mfgNode.id,
+          name: mfgNode.name
+        },
         url: node.url,
         imageSrc: node.image_src,
         recommendedEngines: node.recommendedEngines,
@@ -833,7 +949,6 @@ async function getDbKits (): Promise<Kit[]> {
         launchRodSize: node.launchRodSize,
         instructions: node.instructions,
         ageRecommendation: node.ageRecommendation,
-        mfgID: node.mfgID,
         name: node.name,
         complexity: node.complexity,
         height: node.height,
@@ -852,7 +967,7 @@ async function getDbKits (): Promise<Kit[]> {
         links: node.links,
         parachute: node.parachute,
         finArray: node.finArray,
-        uniqueID: node.uniqueID,
+        id: node.id,
         labels: ['Kit']
       }
     })
@@ -880,9 +995,8 @@ export async function getDbKit (id: string): Promise<Kit | null> {
     const res = await session.executeRead((tx) =>
       tx.run(
         `
-        MATCH (k:Kit {UniqueID: $id})
-        WHERE k.uniqueID IS NOT NULL
-        RETURN k
+        MATCH (k:Kit {id: $id}), (m:Manufacturer)-[:MAKES]->(k)
+        RETURN m, k
       `,
         { id }
       )
@@ -895,9 +1009,15 @@ export async function getDbKit (id: string): Promise<Kit | null> {
     // Extract the single kit record
     const record = res.records[0]
     const node = record.get('k').properties
+    const mfgNode = record.get('m').properties
 
     // Convert node properties to Kit type
     return {
+      madeBy: {
+        id: mfgNode.id,
+        name: mfgNode.name
+      },
+      id: node.id,
       url: node.url,
       imageSrc: node.image_src,
       recommendedEngines: node.recommendedEngines,
@@ -913,7 +1033,6 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       launchRodSize: node.launchRodSize,
       instructions: node.instructions,
       ageRecommendation: node.ageRecommendation,
-      mfgID: node.mfgID,
       name: node.name,
       complexity: node.complexity,
       height: node.height,
@@ -932,7 +1051,6 @@ export async function getDbKit (id: string): Promise<Kit | null> {
       links: node.links,
       parachute: node.parachute,
       finArray: node.finArray,
-      uniqueID: node.uniqueID,
       labels: ['Kit']
     }
   } catch (error) {
