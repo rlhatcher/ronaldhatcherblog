@@ -733,7 +733,13 @@ export async function getManufacturer (id: string): Promise<Manufacturer> {
           })
           break
         case 'Motor':
-          motors.push(product)
+          motors.push({
+            madeBy: {
+              id: manufacturerNode.id,
+              name: manufacturerNode.name
+            },
+            ...product
+          })
           break
         // Add more cases for other types
       }
