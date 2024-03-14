@@ -1,10 +1,12 @@
 import { CreateConfig, ConfigNav } from './buttons'
 export default function ConfigList ({
   listItems = [],
-  label
+  label,
+  path
 }: {
   listItems: Configuration[] | undefined
   label: string
+  path?: string
 }): React.JSX.Element {
   const content =
     listItems.length === 0
@@ -17,7 +19,7 @@ export default function ConfigList ({
         className='divide-y divide-gray-100 rounded-md border border-gray-200'
       >
         {listItems.map((config) => (
-          <ConfigNav key={config.id} config={config} />
+          <ConfigNav key={config.id} config={config} url={`${path}${config.id}`} />
         ))}
       </ul>
         )

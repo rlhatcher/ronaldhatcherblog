@@ -558,15 +558,6 @@ export async function mergeDesign (design: Design): Promise<void> {
     supports: design.supports
   }
 
-  /**
-   * The query below merges a Design node and its related Configuration and Simulation nodes.
-   * Connect the design with the associated rocket/model
-   * Create the design
-   * Connect the design with the associated configurations
-   * Create the configurations
-   * Connect the configurations with the associated simulations
-   * Create the simulations
-   */
   const query = `
     MERGE (design:Design {id: $designId})
     ON CREATE SET design += {
@@ -695,40 +686,7 @@ export async function getManufacturer (id: string): Promise<Manufacturer> {
               id: manufacturerNode.id,
               name: manufacturerNode.name
             },
-            url: product.url,
-            imageSrc: product.image_src,
-            recommendedEngines: product.recommendedEngines,
-            projectedMaxAltitude: product.projectedMaxAltitude,
-            recoverySystem: product.recoverySystem,
-            length: product.length,
-            diameter: product.diameter,
-            estimatedWeight: product.estimatedWeight,
-            estimatedAssemblyTime: product.estimatedAssemblyTime,
-            finMaterials: product.finMaterials,
-            decalType: product.decalType,
-            launchSystem: product.launchSystem,
-            launchRodSize: product.launchRodSize,
-            instructions: product.instructions,
-            ageRecommendation: product.ageRecommendation,
-            name: product.name,
-            complexity: product.complexity,
-            height: product.height,
-            weight: product.weight,
-            motorMount: product.motorMount,
-            parachuteSize: product.parachuteSize,
-            shockCordType: product.shockCordType,
-            shockCordMount: product.shockCordMount,
-            finThickness: product.finThickness,
-            ringThickness: product.ringThickness,
-            price: product.price,
-            currency: product.currency,
-            sku: product.sku,
-            stockStatus: product.stockStatus,
-            description: product.description,
-            links: product.links,
-            parachute: product.parachute,
-            finArray: product.finArray,
-            id: product.id,
+            ...product,
             labels: ['Kit']
           })
           break

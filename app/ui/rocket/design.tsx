@@ -1,8 +1,12 @@
+import ConfigList from './config-list'
+
 export default function DesignView ({
   design
 }: {
   design: Design
 }): React.JSX.Element {
+  const path = `/dashboard/rockets/${design.defines.id}/designs/${design.id}/configurations/`
+
   return (
     <div>
       <div className='flex justify-between items-start'>
@@ -45,6 +49,9 @@ export default function DesignView ({
             </dd>
           </div>
         </dl>
+      </div>
+      <div>
+      <ConfigList listItems={design.supports} label='Configurations' path={path} />
       </div>
     </div>
   )

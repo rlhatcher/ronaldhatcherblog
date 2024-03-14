@@ -107,9 +107,16 @@ export function DesignNav ({ design }: { design: Design }): JSX.Element {
   )
 }
 
-export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
+export function ConfigNav ({
+  config,
+  url
+}: {
+  config: Configuration
+  url?: string
+}): JSX.Element {
+  const navPath = (url ?? `/dashboard/configs/${config.id}`)
   return (
-    <Link href={`/dashboard/designs/${config.id}`}>
+    <Link href={navPath}>
       <li
         key={config.id}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'

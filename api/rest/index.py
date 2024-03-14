@@ -113,6 +113,7 @@ def ork():
 
                 config_data = {
                     'id': config_id,
+                    'name': designation,
                     'stageNumber': stageNumber,
                     'stageActive': stageActive,
                     'manufacturer': manufacturer,
