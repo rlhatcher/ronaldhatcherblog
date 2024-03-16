@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/rest/:path*',
-        destination:
-          process.env.NODE_ENV === 'development'
-            ? 'http://127.0.0.1:5254/apis/rest/:path*'
-            : '/api/rest/:path*'
-      }
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/rest/:path*',
+  //       destination:
+  //         process.env.NODE_ENV === 'development'
+  //           ? 'http://127.0.0.1:5254/apis/rest/:path*'
+  //           : '/api/rest/:path*'
+  //     }
+  //   ]
+  // },
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb'
