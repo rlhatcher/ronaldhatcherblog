@@ -34,8 +34,8 @@ export default function Form ({
             <Field className='sm:col-span-2 font-mono'>
               <Label>Select an ORK File</Label>
               <Input
-                id='ork'
-                name='ork'
+                id='file'
+                name='file'
                 type='file'
                 className='w-full border-slate-400'
               />
