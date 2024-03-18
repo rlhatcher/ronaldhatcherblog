@@ -73,7 +73,7 @@ export async function uploadDesign (
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  const url = 'http://localhost:3000/api/rest/ork'
+  const url = 'https://api.ronaldhatcher.com/ork'
   const rocketId = formData.get('rocketId') as string
   const rocketName = formData.get('rocketName') as string
 
