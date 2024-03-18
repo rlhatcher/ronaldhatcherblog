@@ -99,8 +99,8 @@ export async function uploadDesign (
     console.error('Error during fetch operation:', error)
     throw error
   }
-  revalidatePath(`/dashboard/rockets/${rocketId}/designs`)
-  redirect(`/dashboard/rockets/${rocketId}/designs`)
+  revalidatePath(`/dashboard/rockets/${rocketId}`)
+  redirect(`/dashboard/rockets/${rocketId}`)
 }
 
 export async function deleteRocket (
