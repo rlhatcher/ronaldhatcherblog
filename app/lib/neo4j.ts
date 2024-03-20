@@ -553,7 +553,7 @@ export async function mergeDesign (design: Design): Promise<void> {
     stabilityPct: design.stabilityPct ?? null,
     cg: design.cg ?? null,
     cp: design.cp ?? null,
-    length: design.length ?? null,
+    totalLength: design.totalLength ?? null,
     maxDiameter: design.maxDiameter ?? null,
     supports: design.supports
   }
@@ -572,7 +572,7 @@ export async function mergeDesign (design: Design): Promise<void> {
     ON CREATE SET design += {
       name: $name, reflectedIn: $filename, stages: $stages,
       massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
-      cg: $cg, cp: $cp, length: $length, maxDiameter: $maxDiameter
+      cg: $cg, cp: $cp, totalLength: $totalLength, maxDiameter: $maxDiameter
     }
     WITH design
     MATCH (rocket:Rocket:Model {id: $rocketId})

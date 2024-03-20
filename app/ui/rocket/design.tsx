@@ -30,7 +30,7 @@ export default function DesignView ({
             </dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
               weight {design.massEmpty} g
-              length {design.length} m
+              length {design.totalLength} m
               diameter {design.maxDiameter} m
             </dd>
           </div>

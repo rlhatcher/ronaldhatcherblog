@@ -181,7 +181,7 @@ interface Design {
   stabilityPct?: number
   cg?: number
   cp?: number
-  length?: number
+  totalLength?: number
   maxDiameter?: number
 }
 
