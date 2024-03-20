@@ -1,3 +1,5 @@
+import ConfigList from './config-list'
+
 export default function DesignView ({
   design
 }: {
@@ -46,6 +48,7 @@ export default function DesignView ({
           </div>
         </dl>
       </div>
+      <ConfigList listItems={design.supports} label='Configurations' />
     </div>
   )
 }
