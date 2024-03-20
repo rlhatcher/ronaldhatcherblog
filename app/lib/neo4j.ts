@@ -469,6 +469,53 @@ export async function mrgDbPerson(person: Person): Promise<Person | null> {
 }
 
 /**
+ *   ____             __ _
+ *  / ___|___  _ __  / _(_) __ _ ___
+ * | |   / _ \| '_ \| |_| |/ _` / __|
+ * | |__| (_) | | | |  _| | (_| \__ \
+ *  \____\___/|_| |_|_| |_|\__, |___/
+ *                         |___/
+ */
+export async function fetchConfigMotors(configId: string): Promise<Motor[] | null> {
+  const session: Session = driver.session()
+  try {
+    const res = await session.executeRead((tx) =>
+      tx.run(
+        `
+        MATCH (:Configuration {id: $configId})-[:USES_MOTOR]->(m:Motor)
+        WITH m
+        MATCH (m)<-[:MAKES]-(mf:Manufacturer)
+        return mf, m
+        ` ,
+        { configId }
+      )
+    )
+
+    if (res.records.length === 0) {
+      return null
+    }
+
+    const motors: Motor[] = res.records.map((record) => {
+      const motorNode = record.get('m').properties
+      const manufacturerNode = record.get('mf').properties
+
+      return {
+        ...motorNode,
+        madeBy: manufacturerNode
+      }
+    })
+    return motors
+
+  }
+  catch (error) {
+    console.error('Failed to fetch motors:', error)
+    return null
+  } finally {
+    await session.close()
+  }
+}
+
+/**
  *  ____            _
  * |  _ \  ___  ___(_) __ _ _ __  ___
  * | | | |/ _ \/ __| |/ _` | '_ \/ __|
@@ -595,6 +642,10 @@ export async function mergeDesign(design: Design): Promise<void> {
       delay: cfg.delay, ignitionEvent: cfg.ignitionEvent, ignitionDelay: cfg.ignitionDelay
     }
     MERGE (design)-[:SUPPORTS]->(configuration)
+
+    WITH configuration, cfg
+    MATCH (motor:Motor {designation: cfg.designation})
+    MERGE (configuration)-[:USES_MOTOR]->(motor)
 
     WITH configuration, cfg.simulations AS sims
     UNWIND sims AS sim
