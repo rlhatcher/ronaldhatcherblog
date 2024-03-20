@@ -518,7 +518,8 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
 
       return {
         ...cfgProperties,
-        validatedBy: cfgSimulations
+        validatedBy: cfgSimulations,
+        appliesTo: design
       }
     })
 
