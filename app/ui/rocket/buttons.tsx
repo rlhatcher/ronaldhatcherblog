@@ -115,13 +115,13 @@ export function DesignNav ({ design }: { design: Design }): JSX.Element {
 
 export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
   return (
-    <Link href={`/dashboard/designs/${config.id}`}>
+    <Link href={`/dashboard/rockets/${config.appliesTo.defines.id}/designs/${config.appliesTo.id}/configs/${config.id}`}>
       <li
         key={config.id}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
       >
         <div className='flex w-0 flex-1 items-center'>
-          {config.name}
+          {config.id}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{config.name}</span>
             <span className='flex-shrink-0 text-gray-400'>
