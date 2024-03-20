@@ -45,15 +45,21 @@ export function UpdateRocket ({ id }: { id: string }): JSX.Element {
   )
 }
 
-export function RocketNav ({ rocket }: { rocket: Rocket }): JSX.Element {
+export function RocketNav ({
+  rocket,
+  label
+}: {
+  rocket: Rocket
+  label?: string
+}): JSX.Element {
   return (
     <Link href={`/dashboard/rockets/${rocket.id}`}>
       <li
-        key={rocket.name}
+        key={rocket.id}
         className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
       >
         <div className='flex w-0 flex-1 items-center'>
-          {rocket.id}
+          {label}
           <div className='ml-4 flex min-w-0 flex-1 gap-2'>
             <span className='truncate font-medium'>{rocket.name}</span>
             {rocket.isModel

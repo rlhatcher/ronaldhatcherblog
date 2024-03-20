@@ -1,6 +1,7 @@
 import Profile from '@/app/ui/dashboard/profile'
 import DesignView from '@/app/ui/rocket/design'
 import { fetchDesign } from '@/app/lib/neo4j'
+import { RocketNav } from '@/app/ui/rocket/buttons'
 
 export default async function Page ({
   params
@@ -16,6 +17,7 @@ export default async function Page ({
   return (
     <main>
       <Profile />
+      <RocketNav label='back to' rocket={design.defines} />
       <DesignView design={design} />
       {/* <div className='mt-6 flex items-center justify-end gap-x-6'>
       </div> */}
