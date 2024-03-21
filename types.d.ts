@@ -199,7 +199,7 @@ interface Configuration {
 }
 
 interface Simulation {
-  validates: string
+  validates: Configuration
   id: string
   name: string
   simulator?: string

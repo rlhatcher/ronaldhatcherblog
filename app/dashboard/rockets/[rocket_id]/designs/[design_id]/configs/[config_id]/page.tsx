@@ -2,7 +2,7 @@ import Profile from '@/app/ui/dashboard/profile'
 import ConfigView from '@/app/ui/rocket/config'
 import { fetchConfigMotors, fetchDesign } from '@/app/lib/neo4j'
 
-export default async function Page({
+export default async function Page ({
   params
 }: {
   params: {
@@ -11,12 +11,12 @@ export default async function Page({
   }
 }): Promise<React.JSX.Element> {
   const id = params.design_id
-  const config_id = params.config_id
+  const configId = params.config_id
 
   const design: Design | null = await fetchDesign(id)
 
   const config = design?.supports?.find((c) => {
-    return c.id === config_id
+    return c.id === configId
   })
 
   if (design === null || config === undefined) {
@@ -28,7 +28,7 @@ export default async function Page({
   if (motors === null) {
     return <div>Failed to load motors</div>
   }
-  
+
   config.usesMotor = motors
 
   return (

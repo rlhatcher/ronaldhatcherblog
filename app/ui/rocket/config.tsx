@@ -1,7 +1,7 @@
 import MotorList from '../motors/MotorList'
 import SimList from './sim-list'
 
-export default function ConfigView({
+export default function ConfigView ({
   config
 }: {
   config: Configuration

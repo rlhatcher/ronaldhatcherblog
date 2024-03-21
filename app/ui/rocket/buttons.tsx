@@ -140,6 +140,34 @@ export function ConfigNav ({ config }: { config: Configuration }): JSX.Element {
   )
 }
 
+export function SimNav ({ sim }: { sim: Simulation }): JSX.Element {
+  //add last path
+  return (
+    <Link href={`/dashboard/rockets/${sim.validates.appliesTo.defines.id}/designs/${sim.validates.appliesTo.id}/configs/${sim.validates.id}`}>
+      <li
+        key={sim.id}
+        className='flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6 hover:bg-zinc-950/5 dark:hover:bg-white/5'
+      >
+        <div className='flex w-0 flex-1 items-center'>
+          {sim.id}
+          <div className='ml-4 flex min-w-0 flex-1 gap-2'>
+            <span className='truncate font-medium'>{sim.name}</span>
+            <span className='flex-shrink-0 text-gray-400'>
+              {sim.name}
+            </span>
+          </div>
+        </div>
+        <div className='ml-4 flex-shrink-0'>
+          <ChevronRightIcon
+            className='h-5 w-5 flex-shrink-0 text-gray-400'
+            aria-hidden='true'
+          />
+        </div>
+      </li>
+    </Link>
+  )
+}
+
 export function UploadDesign (): JSX.Element {
   return (
     <Button href='/dashboard/designs/upload'>
