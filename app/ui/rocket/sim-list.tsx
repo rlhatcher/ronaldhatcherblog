@@ -1,9 +1,15 @@
 import { CreateConfig, SimNav } from './buttons'
 export default function SimList ({
   listItems = [],
+  designId,
+  configId,
+  rocketId,
   label
 }: {
   listItems: Simulation[] | undefined
+  designId: string
+  configId: string
+  rocketId: string
   label: string
 }): React.JSX.Element {
   const content =
@@ -17,7 +23,13 @@ export default function SimList ({
         className='divide-y divide-gray-100 rounded-md border border-gray-200'
       >
         {listItems.map((sim) => (
-          <SimNav key={sim.id} sim={sim} />
+          <SimNav
+            key={sim.id}
+            sim={sim}
+            rocketId={rocketId}
+            designId={designId}
+            configId={configId}
+          />
         ))}
       </ul>
         )

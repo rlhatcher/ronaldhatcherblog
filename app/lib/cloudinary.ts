@@ -49,7 +49,7 @@ export async function getImagesByTag (tags: string[]): Promise<string[]> {
     .execute()
   const assets: string[] = []
   for (const result of res.resources) {
-    assets.push(result.public_id)
+    assets.push(result.public_id as string)
   }
   return assets
 }

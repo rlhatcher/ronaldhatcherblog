@@ -6,6 +6,7 @@ export default async function Page ({
   params
 }: {
   params: {
+    rocket_id: string
     design_id: string
     config_id: string
   }
@@ -34,7 +35,7 @@ export default async function Page ({
   return (
     <main>
       <Profile />
-      <ConfigView config={config} />
+      <ConfigView config={config} rocketId={params.rocket_id} designId={params.design_id} />
       {/* <div className='mt-6 flex items-center justify-end gap-x-6'>
       </div> */}
     </main>

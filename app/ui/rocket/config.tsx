@@ -2,9 +2,13 @@ import MotorList from '../motors/MotorList'
 import SimList from './sim-list'
 
 export default function ConfigView ({
-  config
+  config,
+  rocketId,
+  designId
 }: {
   config: Configuration
+  rocketId: string
+  designId: string
 }): React.JSX.Element {
   return (
     <div>
@@ -22,14 +26,22 @@ export default function ConfigView ({
       <div className='mt-6 border-t border-gray-100'>
         <dl className='divide-y divide-gray-100'>
           <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-            <dt className='text-sm font-medium leading-6 text-gray-900'>Motors</dt>
+            <dt className='text-sm font-medium leading-6 text-gray-900'>
+              Motors
+            </dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
               <MotorList motors={config.usesMotor} />
             </dd>
           </div>
         </dl>
       </div>
-      <SimList listItems={config.validatedBy} label='Simulations' />
+      <SimList
+        listItems={config.validatedBy}
+        label='Simulations'
+        rocketId={rocketId}
+        designId={designId}
+        configId={config.id}
+      />
     </div>
   )
 }

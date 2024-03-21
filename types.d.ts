@@ -1,3 +1,10 @@
+interface ParentReference {
+  id: string
+  name: string
+}
+
+type DesignPart = 'design' | 'configuration' | 'simulation'
+
 interface PublishedDoc {
   objectKey: string
   url: string
@@ -188,7 +195,7 @@ interface Design {
 interface Configuration {
   validatedBy?: Simulation[]
   usesMotor: Motor[]
-  appliesTo: Design
+  appliesTo: ParentReference
   id: string
   name: string
   stageNumber?: number
@@ -199,7 +206,7 @@ interface Configuration {
 }
 
 interface Simulation {
-  validates: Configuration
+  validates: ParentReference
   id: string
   name: string
   simulator?: string

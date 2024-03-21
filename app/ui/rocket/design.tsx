@@ -31,9 +31,8 @@ export default function DesignView ({
               Weights and Measures
             </dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-              weight {design.massEmpty} g
-              length {design.totalLength} m
-              diameter {design.maxDiameter} m
+              weight {design.massEmpty} g length {design.totalLength} m diameter{' '}
+              {design.maxDiameter} m
             </dd>
           </div>
           <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
@@ -48,7 +47,12 @@ export default function DesignView ({
           </div>
         </dl>
       </div>
-      <ConfigList listItems={design.supports} label='Configurations' />
+      <ConfigList
+        listItems={design.supports}
+        label='Configurations'
+        rocketId={design.defines.id}
+        designId={design.id}
+      />
     </div>
   )
 }

@@ -533,7 +533,7 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
         `
         MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
-        OPTIONAL MATCH (s:Simulation)-[:VALIDATED_BY]->(c)
+        OPTIONAL MATCH (s:Simulation)<-[:VALIDATED_BY]-(c)
         RETURN d AS design, 
                r AS rocket,
                c AS configuration,
