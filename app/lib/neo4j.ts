@@ -61,7 +61,7 @@ export const getFlightCards = cache(async (): Promise<FlightCard[]> => {
   return cards
 })
 
-export async function getDbFlightCards(): Promise<any[]> {
+export async function getDbFlightCards (): Promise<any[]> {
   // Open a new session
   const session = driver.session()
 
@@ -89,7 +89,7 @@ export async function getDbFlightCards(): Promise<any[]> {
       const card: FlightCard = { id }
 
       card.id = id
-      relatedInfo.forEach((Node: { labels: any[]; properties: any }) => {
+      relatedInfo.forEach((Node: { labels: any[], properties: any }) => {
         const type = Node.labels[0]
         switch (type) {
           case 'Configuration':
@@ -132,7 +132,7 @@ export const mrgPerson = cache(
  */
 
 // Helper function to map generic node properties to Kit or Rocket
-function mapNodeToType(node: any, labels: string[]): Kit | Rocket {
+function mapNodeToType (node: any, labels: string[]): Kit | Rocket {
   if (labels.includes('Kit')) {
     return {
       madeBy: {
@@ -191,7 +191,7 @@ function mapNodeToType(node: any, labels: string[]): Kit | Rocket {
  * @param id - The ID of the rocket to fetch.
  * @returns A Promise that resolves to the fetched rocket, or null if the rocket is not found.
  */
-export async function fetchRocket(id: string): Promise<Rocket | null> {
+export async function fetchRocket (id: string): Promise<Rocket | null> {
   const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
@@ -222,16 +222,16 @@ export async function fetchRocket(id: string): Promise<Rocket | null> {
     const basedOn: Array<Kit | Rocket> = record
       .get('basedOn')
       .filter(
-        (obj: any): obj is { node: any; labels: string[] } => obj.node !== null
+        (obj: any): obj is { node: any, labels: string[] } => obj.node !== null
       )
-      .map((obj: { node: any; labels: string[] }) => {
+      .map((obj: { node: any, labels: string[] }) => {
         return mapNodeToType(obj.node.properties, obj.labels)
       })
 
     const inspired: Rocket[] = record
       .get('inspired')
-      .filter((i: any): i is { node: any; labels: string[] } => i.node !== null)
-      .map((i: { node: any; labels: string[] }) => {
+      .filter((i: any): i is { node: any, labels: string[] } => i.node !== null)
+      .map((i: { node: any, labels: string[] }) => {
         return mapNodeToType(i.node.properties, i.labels)
       })
 
@@ -274,7 +274,7 @@ export async function fetchRocket(id: string): Promise<Rocket | null> {
  * Fetches the rockets associated with the current user.
  * @returns A promise that resolves to an array of Rocket objects, or null if no rockets are found.
  */
-export async function fetchMyRockets(): Promise<Rocket[] | null> {
+export async function fetchMyRockets (): Promise<Rocket[] | null> {
   const session = driver.session()
   const user = await getUser()
 
@@ -320,7 +320,7 @@ export async function fetchMyRockets(): Promise<Rocket[] | null> {
  * @param rocket - The Rocket object to be merged.
  * @returns A Promise that resolves to the merged Rocket object, or null if an error occurs.
  */
-export async function mergeRocket(rocket: Rocket): Promise<Rocket | null> {
+export async function mergeRocket (rocket: Rocket): Promise<Rocket | null> {
   const session = driver.session()
   const user = await getUser()
 
@@ -373,7 +373,7 @@ export async function mergeRocket(rocket: Rocket): Promise<Rocket | null> {
  * @param rocket - The rocket object to be removed.
  * @returns A promise that resolves to the number of rockets deleted, or null if no rockets were deleted.
  */
-export async function removeRocket(rocket: Rocket): Promise<Integer | null> {
+export async function removeRocket (rocket: Rocket): Promise<Integer | null> {
   const session = driver.session()
 
   try {
@@ -417,7 +417,7 @@ export async function removeRocket(rocket: Rocket): Promise<Integer | null> {
  * |_|   \___|_|  |___/\___/|_| |_|
  */
 
-export async function mrgDbPerson(person: Person): Promise<Person | null> {
+export async function mrgDbPerson (person: Person): Promise<Person | null> {
   // Open a new session
   const session = driver.session()
 
@@ -476,7 +476,9 @@ export async function mrgDbPerson(person: Person): Promise<Person | null> {
  *  \____\___/|_| |_|_| |_|\__, |___/
  *                         |___/
  */
-export async function fetchConfigMotors(configId: string): Promise<Motor[] | null> {
+export async function fetchConfigMotors (
+  configId: string
+): Promise<Motor[] | null> {
   const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
@@ -486,7 +488,7 @@ export async function fetchConfigMotors(configId: string): Promise<Motor[] | nul
         WITH m
         MATCH (m)<-[:MAKES]-(mf:Manufacturer)
         return mf, m
-        ` ,
+        `,
         { configId }
       )
     )
@@ -505,9 +507,7 @@ export async function fetchConfigMotors(configId: string): Promise<Motor[] | nul
       }
     })
     return motors
-
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Failed to fetch motors:', error)
     return null
   } finally {
@@ -525,7 +525,7 @@ export async function fetchConfigMotors(configId: string): Promise<Motor[] | nul
  */
 
 // Adjusting fetchDesign function using the Neo4jNode<T> interface for type safety
-export async function fetchDesign(designId: string): Promise<Design | null> {
+export async function fetchDesign (designId: string): Promise<Design | null> {
   const session: Session = driver.session()
   try {
     const res = await session.executeRead((tx) =>
@@ -533,11 +533,11 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
         `
         MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
-        OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
+        OPTIONAL MATCH (s:Simulation)<-[:VALIDATED_BY]-(c)
         RETURN d AS design, 
                r AS rocket,
-               COLLECT(DISTINCT c) AS supports,
-               COLLECT(DISTINCT s) AS validatedBy
+               c AS configuration,
+               COLLECT(s) AS simulationsForConfig
         `,
         { designId }
       )
@@ -548,43 +548,37 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
     }
 
     const record = res.records[0]
-    const designNodeProperties = record.get('design').properties
-    const rocketNodeProperties = record.get('rocket').properties
+    const designNode: Neo4jNode<Design> = record.get('design')
+    const rocketNode: Neo4jNode<Rocket> = record.get('rocket')
 
-    // First, create the design object with the rocket defined
-    let design: Design = {
-      ...designNodeProperties,
-      defines: { ...rocketNodeProperties },
-      supports: [] // Temporarily empty, will be populated below
+    const design: Design = {
+      ...designNode.properties,
+      defines: rocketNode.properties,
+      supports: []
     }
 
-    const configurationsNodes: Array<Neo4jNode<Configuration>> = record
-      .get('supports')
-      .filter(
-        (
-          cfg: Neo4jNode<Configuration> | null
-        ): cfg is Neo4jNode<Configuration> => cfg !== null
-      )
-    const simulationsNodes: Array<Neo4jNode<Simulation>> = record
-      .get('validatedBy')
-      .filter(
-        (sim: Neo4jNode<Simulation> | null): sim is Neo4jNode<Simulation> =>
-          sim !== null
-      )
+    const configurationsWithSimulations = res.records.flatMap((record) => {
+      const configNode = record.get('configuration')
+      if (configNode === null || configNode === undefined) return []
 
-    // Populate the supports array with configuration objects including a reference to the design
-    design.supports = configurationsNodes.map((cfgNode) => {
-      const cfgProperties = cfgNode.properties
-      const cfgSimulations = simulationsNodes
-        .filter((simNode) => simNode.properties.validates === cfgProperties.id)
-        .map((simNode) => simNode.properties)
+      const simulationsNodes: Array<Neo4jNode<Simulation>> = record.get(
+        'simulationsForConfig'
+      )
+      if (simulationsNodes === null || simulationsNodes === undefined) return []
 
-      return {
-        ...cfgProperties,
-        validatedBy: cfgSimulations,
-        appliesTo: design // Directly reference the design object
+      const configuration: Configuration = {
+        ...configNode.properties,
+        validatedBy: simulationsNodes.map((simNode) => ({
+          ...simNode.properties,
+          validates: configNode.properties
+        })),
+        appliesTo: design
       }
+
+      return [configuration]
     })
+
+    design.supports = configurationsWithSimulations
 
     return design
   } catch (error) {
@@ -595,7 +589,7 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
   }
 }
 
-export async function mergeDesign(design: Design): Promise<void> {
+export async function mergeDesign (design: Design): Promise<void> {
   const session = driver.session()
 
   const params = {
@@ -681,7 +675,7 @@ export async function mergeDesign(design: Design): Promise<void> {
  * | |  | | (_| | | | | |_| |  _| (_| | (__| |_| |_| | | |  __/ |  \__ \
  * |_|  |_|\__,_|_| |_|\__,_|_|  \__,_|\___|\__|\__,_|_|  \___|_|  |___/
  */
-export async function getManufacturers(): Promise<Manufacturer[]> {
+export async function getManufacturers (): Promise<Manufacturer[]> {
   const session = driver.session()
 
   try {
@@ -698,11 +692,10 @@ export async function getManufacturers(): Promise<Manufacturer[]> {
     if (res.records.length === 0) {
       return []
     }
-    const manufacturers = res.records.map((record) => {
+    const manufacturers: Manufacturer[] = res.records.map((record) => {
       const node = record.get('n').properties
       return {
-        name: node.name,
-        id: node.id
+        ...node
       }
     })
     return manufacturers
@@ -716,7 +709,7 @@ export async function getManufacturers(): Promise<Manufacturer[]> {
   }
 }
 
-export async function getManufacturer(id: string): Promise<Manufacturer> {
+export async function getManufacturer (id: string): Promise<Manufacturer> {
   const session = driver.session()
 
   try {
@@ -741,7 +734,7 @@ export async function getManufacturer(id: string): Promise<Manufacturer> {
 
     const products = record.get('products')
 
-    products.forEach((Node: { labels: any[]; properties: any }) => {
+    products.forEach((Node: { labels: any[], properties: any }) => {
       const type = Node.labels[0] // Assuming the first label is the type of the product
       const product = {
         type,
@@ -794,11 +787,11 @@ export async function getManufacturer(id: string): Promise<Manufacturer> {
           break
         case 'Motor':
           motors.push({
+            ...(product as Motor),
             madeBy: {
               id: manufacturerNode.id,
               name: manufacturerNode.name
-            },
-            ...product
+            } satisfies Manufacturer
           })
           break
         // Add more cases for other types
@@ -827,7 +820,7 @@ export const getMotors = cache(async (): Promise<Motor[]> => {
   return motors
 })
 
-export async function getDbMotors(): Promise<Motor[]> {
+export async function getDbMotors (): Promise<Motor[]> {
   const session = driver.session()
 
   try {
@@ -900,7 +893,7 @@ export const getMotor = cache(async (id: string): Promise<Motor | null> => {
   return motor
 })
 
-export async function getDbMotor(id: string): Promise<Motor | null> {
+export async function getDbMotor (id: string): Promise<Motor | null> {
   // Open a new session
   const session = driver.session()
 
@@ -969,7 +962,7 @@ export const getKits = cache(async (): Promise<Kit[]> => {
   return kits
 })
 
-async function getDbKits(): Promise<Kit[]> {
+async function getDbKits (): Promise<Kit[]> {
   // Open a new session
   const session = driver.session()
 
@@ -1053,7 +1046,7 @@ export const getKit = cache(async (id: string): Promise<Kit | null> => {
   return kit
 })
 
-export async function getDbKit(id: string): Promise<Kit | null> {
+export async function getDbKit (id: string): Promise<Kit | null> {
   // Open a new session
   const session = driver.session()
 

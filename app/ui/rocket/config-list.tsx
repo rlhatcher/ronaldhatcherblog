@@ -1,9 +1,14 @@
 import { CreateConfig, ConfigNav } from './buttons'
+
 export default function ConfigList ({
   listItems = [],
+  designId,
+  rocketId,
   label
 }: {
   listItems: Configuration[] | undefined
+  designId: string
+  rocketId: string
   label: string
 }): React.JSX.Element {
   const content =
@@ -17,7 +22,7 @@ export default function ConfigList ({
         className='divide-y divide-gray-100 rounded-md border border-gray-200'
       >
         {listItems.map((config) => (
-          <ConfigNav key={config.id} config={config} />
+          <ConfigNav key={config.id} config={config} rocketId={rocketId} designId={designId} />
         ))}
       </ul>
         )

@@ -10,7 +10,7 @@ import {
   type LabelProps as HeadlessLabelProps,
   type LegendProps as HeadlessLegendProps
 } from '@headlessui/react'
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 
 export function Fieldset ({
@@ -34,7 +34,7 @@ export function Legend ({ ...props }: HeadlessLegendProps): React.ReactElement {
       {...props}
       data-slot='legend'
       className={clsx(
-        props.className,
+        props.className as ClassValue,
         'text-base/6 font-semibold text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white'
       )}
     />

@@ -17,8 +17,9 @@ export async function getAllTags (): Promise<TagObject[]> {
 
   allMeta.forEach((meta) => {
     meta.tags.forEach((tag) => {
-      if (tagCounts.has(tag)) {
-        tagCounts.set(tag, (tagCounts.get(tag) as number) + 1)
+      const count = tagCounts.get(tag)
+      if (count !== undefined) {
+        tagCounts.set(tag, count + 1)
       } else {
         tagCounts.set(tag, 1)
       }
