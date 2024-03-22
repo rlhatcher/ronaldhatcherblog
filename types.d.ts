@@ -3,8 +3,6 @@ interface ParentReference {
   name: string
 }
 
-type DesignPart = 'design' | 'configuration' | 'simulation'
-
 interface PublishedDoc {
   objectKey: string
   url: string
@@ -130,6 +128,11 @@ interface Manufacturer {
   motors?: Motor[]
 }
 
+interface MotorSample {
+  time: number
+  thrust: number
+}
+
 interface Motor {
   madeBy: Manufacturer
   commonName: string
@@ -154,6 +157,7 @@ interface Motor {
   designation: string
   updatedOn: string
   type: string
+  thrustCurve?: MotorSample[]
 }
 
 interface Person {
