@@ -3,6 +3,7 @@ import TopNav from '@/app/ui/TopNav'
 
 import { getMotors, getMotor } from '@/app/lib/neo4j'
 import Link from 'next/link'
+import { SamplesChart } from '@/app/ui/samples-chart'
 
 export const revalidate = 10
 
@@ -81,6 +82,7 @@ export default async function MotorPage ({
           ))}
         </dl>
       </div>
+      <SamplesChart samples={motor.thrustCurve ?? []} />
     </div>
   )
 }

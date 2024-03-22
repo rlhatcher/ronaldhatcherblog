@@ -873,7 +873,8 @@ export async function getDbMotors (): Promise<Motor[]> {
         totalWeightG: node.totalWeightG,
         designation: node.designation,
         updatedOn: node.updatedOn,
-        type: node.type
+        type: node.type,
+        thrustCurve: node.samples
       }
     })
 
@@ -894,7 +895,6 @@ export const getMotor = cache(async (id: string): Promise<Motor | null> => {
 })
 
 export async function getDbMotor (id: string): Promise<Motor | null> {
-  // Open a new session
   const session = driver.session()
 
   try {
@@ -915,44 +915,32 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
 
     // Extract the single motor record
     const record = res.records[0]
-    const node = record.get('m').properties
-    const mfgNode = record.get('mfg').properties
+    const motorProps = record.get('m').properties
+    const mfgProps = record.get('mfg').properties
 
-    // Convert node properties to Motor type
+    // Function to safely parse JSON, returning a default value on failure
+    const safeParseJSON = (jsonString: string, defaultValue: any = []): any => {
+      try {
+        return JSON.parse(jsonString)
+      } catch (error) {
+        console.error('Failed to parse JSON:', error)
+        return defaultValue
+      }
+    }
+
+    // Assemble the return object
     return {
       madeBy: {
-        id: mfgNode.id,
-        name: mfgNode.name
+        id: mfgProps.id,
+        name: mfgProps.name
       },
-      commonName: node.commonName,
-      delays: node.delays,
-      diameter: node.diameter,
-      infoUrl: node.infoUrl,
-      totImpulseNs: node.totImpulseNs,
-      burnTimeS: node.burnTimeS,
-      propInfo: node.propInfo,
-      length: node.length,
-      avgThrustN: node.avgThrustN,
-      dataFiles: node.dataFiles,
-      impulseClass: node.impulseClass,
-      sparky: node.sparky,
-      caseInfo: node.caseInfo,
-      propWeightG: node.propWeightG,
-      certOrg: node.certOrg,
-      motorId: node.motorId,
-      availability: node.availability,
-      maxThrustN: node.maxThrustN,
-      totalWeightG: node.totalWeightG,
-      designation: node.designation,
-      updatedOn: node.updatedOn,
-      type: node.type
+      ...motorProps, // Spread motor properties directly
+      thrustCurve: safeParseJSON(motorProps.samples as string)
     }
   } catch (error) {
-    // Handle any errors
     console.error(error)
-    return null // Return null in case of an error
+    return null
   } finally {
-    // Close the session
     await session.close()
   }
 }
