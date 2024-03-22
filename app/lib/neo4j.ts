@@ -873,7 +873,8 @@ export async function getDbMotors (): Promise<Motor[]> {
         totalWeightG: node.totalWeightG,
         designation: node.designation,
         updatedOn: node.updatedOn,
-        type: node.type
+        type: node.type,
+        thrustCurve: node.samples
       }
     })
 
@@ -945,7 +946,8 @@ export async function getDbMotor (id: string): Promise<Motor | null> {
       totalWeightG: node.totalWeightG,
       designation: node.designation,
       updatedOn: node.updatedOn,
-      type: node.type
+      type: node.type,
+      thrustCurve: node.samples
     }
   } catch (error) {
     // Handle any errors
