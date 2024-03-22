@@ -128,7 +128,7 @@ interface Manufacturer {
   motors?: Motor[]
 }
 
-interface MotorSample {
+interface ThrustSample {
   time: number
   thrust: number
 }
@@ -157,7 +157,7 @@ interface Motor {
   designation: string
   updatedOn: string
   type: string
-  thrustCurve?: MotorSample[]
+  thrustCurve?: ThrustSample[]
 }
 
 interface Person {
