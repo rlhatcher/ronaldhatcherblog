@@ -68,7 +68,8 @@ export const SamplesChart = ({ samples }: { samples: ThrustSample[] }): JSX.Elem
         data: samples.map(sample => ({ x: sample.time, y: sample.thrust })),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        tension: 0.4,
+        pointRadius: 0,
+        tension: 0.5,
         fill: false
       },
       {
