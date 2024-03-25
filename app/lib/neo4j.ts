@@ -815,6 +815,13 @@ export async function getManufacturer (id: string): Promise<Manufacturer> {
   }
 }
 
+/**
+ *                    _
+ *    _ __ ___   ___ | |_ ___  _ __ ___
+ *   | '_ ` _ \ / _ \| __/ _ \| '__/ __|
+ *   | | | | | | (_) | || (_) | |  \__ \
+ *   |_| |_| |_|\___/ \__\___/|_|  |___/
+ */
 export const getMotors = cache(async (): Promise<Motor[]> => {
   const motors = await getDbMotors()
   return motors
