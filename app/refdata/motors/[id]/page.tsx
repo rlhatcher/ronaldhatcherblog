@@ -1,9 +1,7 @@
 import React from 'react'
 import TopNav from '@/app/ui/TopNav'
-
+import MotorDetails from '@/app/ui/motors/motor-details'
 import { getMotors, getMotor } from '@/app/lib/neo4j'
-import Link from 'next/link'
-import { SamplesChart } from '@/app/ui/samples-chart'
 
 export const revalidate = 10
 
@@ -57,32 +55,7 @@ export default async function MotorPage ({
         ]}
         page={{ title: motor.designation }}
       />
-      <Link
-        href={`/refdata/manufacturers/${motor.madeBy.id}`}
-        key={motor.madeBy.name}
-        className='bg-gray-300 shadow-sm font-mono rounded-md p-2'
-      >
-        {' '}
-        {motor.madeBy.name}{' '}
-      </Link>
-      <div className='border-t border-gray-100'>
-        <dl className='divide-y divide-gray-100 mx-auto'>
-          {Object.entries(motor).map(([key, value]) => (
-            <div
-              key={key}
-              className='px-4 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'
-            >
-              <dt className='text-sm font-medium text-gray-900'>
-                {key.replace(/([A-Z])/g, ' $1')}
-              </dt>
-              <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
-                {value == null ? 'undefined' : value.toString()}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-      <SamplesChart samples={motor.thrustCurve ?? []} />
+      <MotorDetails motor={motor} />
     </div>
   )
 }
