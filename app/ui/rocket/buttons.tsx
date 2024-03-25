@@ -150,18 +150,18 @@ export function ConfigNav ({
 
 export function SimNav ({
   sim,
-  rocketId,
+  // rocketId,
   designId,
   configId
 }: {
   sim: Simulation
-  rocketId: string
+  // rocketId: string
   designId: string
   configId: string
 }): JSX.Element {
   return (
     <Link
-      href={`/dashboard/rockets/${rocketId}/designs/${designId}/configs/${configId}`}
+      href={`/dashboard/rockets/${designId}/designs/${designId}/configs/${configId}`}
     >
       <li
         key={sim.id}

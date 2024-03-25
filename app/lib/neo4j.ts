@@ -534,10 +534,14 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
         MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
         OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
         OPTIONAL MATCH (s:Simulation)<-[:VALIDATED_BY]-(c)
+        OPTIONAL MATCH (c)-[:USES_MOTOR]->(m:Motor)
+        OPTIONAL MATCH (m)<-[:MAKES]-(mf:Manufacturer)
         RETURN d AS design, 
                r AS rocket,
                c AS configuration,
-               COLLECT(s) AS simulationsForConfig
+               COLLECT(s) AS simulationsForConfig,
+               COLLECT(m) AS motorsForConfig,
+               COLLECT(DISTINCT {motor: m, manufacturer: mf}) AS motorsWithManufacturers 
         `,
         { designId }
       )
@@ -565,12 +569,17 @@ export async function fetchDesign (designId: string): Promise<Design | null> {
         'simulationsForConfig'
       )
       if (simulationsNodes === null || simulationsNodes === undefined) return []
+      const motorsWithManufacturers: Array<{ motor: Neo4jNode<Motor>, manufacturer: Neo4jNode<Manufacturer> }> = record.get('motorsWithManufacturers')
 
       const configuration: Configuration = {
         ...configNode.properties,
         validatedBy: simulationsNodes.map((simNode) => ({
           ...simNode.properties,
           validates: configNode.properties
+        })),
+        usesMotor: motorsWithManufacturers.filter(mwm => mwm.motor !== null).map(({ motor, manufacturer }) => ({
+          ...motor.properties,
+          madeBy: (manufacturer != null) ? manufacturer.properties : null
         })),
         appliesTo: design
       }

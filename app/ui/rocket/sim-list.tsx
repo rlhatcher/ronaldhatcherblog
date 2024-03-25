@@ -3,13 +3,13 @@ export default function SimList ({
   listItems = [],
   designId,
   configId,
-  rocketId,
+  // rocketId,
   label
 }: {
   listItems: Simulation[] | undefined
   designId: string
   configId: string
-  rocketId: string
+  // rocketId: string
   label: string
 }): React.JSX.Element {
   const content =
@@ -26,7 +26,7 @@ export default function SimList ({
           <SimNav
             key={sim.id}
             sim={sim}
-            rocketId={rocketId}
+            // rocketId={rocketId}
             designId={designId}
             configId={configId}
           />

@@ -1,5 +1,5 @@
 import Profile from '@/app/ui/dashboard/profile'
-import ConfigView from '@/app/ui/rocket/config'
+// import ConfigView from '@/app/ui/rocket/config-details'
 import { fetchConfigMotors, fetchDesign } from '@/app/lib/neo4j'
 import Breadcrumbs from '@/app/ui/bread-crumbs'
 
@@ -57,11 +57,11 @@ export default async function Page ({
           </p>
         </div>
       </div>
-      <ConfigView
+      {/* <ConfigView
         config={config}
         rocketId={params.rocket_id}
         designId={params.design_id}
-      />
+      /> */}
     </main>
   )
 }
