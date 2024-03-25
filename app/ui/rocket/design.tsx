@@ -1,10 +1,24 @@
-import ConfigList from './config-list'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import ConfigSelector from './config-selector'
+import ConfigurationDetails from './config-details'
 
 export default function DesignView ({
   design
 }: {
   design: Design
 }): React.JSX.Element {
+  const [selectedConfigId, setSelectedConfigId] = useState<string | undefined>(
+    undefined
+  )
+  // Automatically select the first configuration as default when the component mounts or design changes
+  useEffect(() => {
+    if ((design.supports != null) && design.supports.length > 0 && (selectedConfigId == null)) {
+      setSelectedConfigId(design.supports[0].id)
+    }
+  }, [design, selectedConfigId])
+
   return (
     <div>
       <div className='mt-6 border-t border-gray-100'>
@@ -36,12 +50,20 @@ export default function DesignView ({
           </div>
         </dl>
       </div>
-      <ConfigList
-        listItems={design.supports}
-        label='Configurations'
-        rocketId={design.defines.id}
-        designId={design.id}
-      />
+      <div className='border-t border-gray-100'>
+        <ConfigSelector
+          configurations={design.supports}
+          onSelect={(id) => {
+            setSelectedConfigId(id)
+          }}
+        />
+        {(selectedConfigId != null) && (
+          <ConfigurationDetails
+            selectedConfigId={selectedConfigId}
+            configurations={design.supports ?? []}
+          />
+        )}
+      </div>
     </div>
   )
 }
