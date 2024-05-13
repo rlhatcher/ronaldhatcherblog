@@ -3,9 +3,10 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import Video from '@/app/ui/images/Video'
+
 import CloudImage from '@/app/ui/images/CloudImage'
 import Gallery from '@/app/ui/images/Gallery'
+import Video from '@/app/ui/images/Video'
 
 interface gitFile {
   name: string
@@ -14,7 +15,7 @@ interface gitFile {
 
 const type: string = 'steps'
 
-export async function getStepByName (
+export async function getStepByName(
   build: string,
   fileName: string
 ): Promise<Step | undefined> {
@@ -24,8 +25,8 @@ export async function getStepByName (
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     }
   )
   if (!res.ok) return undefined
@@ -46,7 +47,7 @@ export async function getStepByName (
     components: {
       Video,
       CloudImage,
-      Gallery
+      Gallery,
     },
     options: {
       parseFrontmatter: true,
@@ -58,12 +59,12 @@ export async function getStepByName (
           [
             rehypeAutolinkHeadings,
             {
-              behavior: 'prepend'
-            }
-          ]
-        ]
-      }
-    }
+              behavior: 'prepend',
+            },
+          ],
+        ],
+      },
+    },
   })
 
   const slug = fileName.replace(/\.mdx$/, '')
@@ -77,25 +78,23 @@ export async function getStepByName (
       tags: frontmatter.tags,
       description: frontmatter.description,
       weight: frontmatter.weight,
-      type
+      type,
     },
-    content
+    content,
   }
 
   return StepObj
 }
 
-export async function getStepsMeta (
-  build: string
-): Promise<Step[] | undefined> {
+export async function getStepsMeta(build: string): Promise<Step[] | undefined> {
   const res = await fetch(
     `https://api.github.com/repos/rlhatcher/blog_content/contents/builds/${build}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     }
   )
 
@@ -104,8 +103,8 @@ export async function getStepsMeta (
   const repoFiletree: gitFile[] = await res.json()
 
   const filesArray = repoFiletree
-    .map((obj) => obj.name)
-    .filter((name) => name.endsWith('.mdx'))
+    .map(obj => obj.name)
+    .filter(name => name.endsWith('.mdx'))
 
   const steps: Step[] = []
 

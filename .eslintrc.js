@@ -2,31 +2,70 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
-  extends: ['eslint-config-love', 'plugin:react/recommended', 'next/core-web-vitals', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'eslint-config-love',
+    'next/core-web-vitals',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:react/recommended',
+  ],
   overrides: [
     {
       env: {
-        node: true
+        node: true,
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: 'script'
-      }
-    }
+        sourceType: 'script',
+      },
+    },
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', 'import'],
   rules: {
-    "@typescript-eslint/no-explicit-any": "off"
+    'import/order': [
+      'error',
+      {
+        groups: ['external', 'builtin', ['sibling', 'parent'], 'index'],
+        pathGroups: [
+          {
+            pattern: 'components',
+            group: 'internal',
+          },
+          {
+            pattern: 'data',
+            group: 'internal',
+          },
+          {
+            pattern: 'app/ **',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: 'lib',
+            group: 'internal',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['internal'],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+        'newlines-between': 'always',
+      },
+    ],
+    'react/prop-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
+      version: 'detect',
+    },
+  },
 }

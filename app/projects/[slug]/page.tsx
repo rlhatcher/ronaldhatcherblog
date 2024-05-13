@@ -1,10 +1,10 @@
-import React from 'react'
 import { notFound } from 'next/navigation'
+import React from 'react'
 import 'highlight.js/styles/github-dark.css'
-import TopNav from '@/app/ui/TopNav'
 
-import { getProjectByName } from '@/app/lib/github/projects'
 import CloudImage from '@/app/ui/images/CloudImage'
+import TopNav from '@/app/ui/TopNav'
+import { getProjectByName } from '@/lib/github/projects'
 
 export const revalidate = 10
 
@@ -14,24 +14,24 @@ interface Props {
   }
 }
 
-export async function generateMetadata ({
-  params: { slug }
+export async function generateMetadata({
+  params: { slug },
 }: Props): Promise<{ title: string }> {
   const project = await getProjectByName(slug)
 
   if (project == null) {
     return {
-      title: 'Project Not Found'
+      title: 'Project Not Found',
     }
   }
 
   return {
-    title: project.meta.title
+    title: project.meta.title,
   }
 }
 
-export default async function ProjectPage ({
-  params: { slug }
+export default async function ProjectPage({
+  params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const project = await getProjectByName(slug)
 
@@ -40,25 +40,25 @@ export default async function ProjectPage ({
   const { meta, content } = project
 
   return (
-    <div className='container mx-auto sm:px-6 lg:px-8'>
+    <div className="container mx-auto sm:px-6 lg:px-8">
       <TopNav
         links={[{ href: '/projects', label: 'Projects' }]}
         page={{ title: meta.title }}
       />
-      <article className=' 100 relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
+      <article className=" 100 relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title={meta.title}
           image={meta.image}
-          crop='fill'
-          className='w-full'
+          crop="fill"
+          className="w-full"
         />
-        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
-          <h3 className='text-lg font-semibold leading-6 text-white p-2'>
+        <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
+          <h3 className="text-lg font-semibold leading-6 text-white p-2">
             {project.meta.description}
           </h3>
         </div>
       </article>
-      <div className='prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10'>
+      <div className="prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10">
         {content}
       </div>
     </div>

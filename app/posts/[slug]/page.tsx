@@ -1,10 +1,10 @@
-import React from 'react'
 import { notFound } from 'next/navigation'
+import React from 'react'
 import 'highlight.js/styles/github-dark.css'
-import TopNav from '@/app/ui/TopNav'
 
-import { getPostByName, getPostsMeta } from '@/app/lib/github/posts'
 import CloudImage from '@/app/ui/images/CloudImage'
+import TopNav from '@/app/ui/TopNav'
+import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
 
@@ -14,34 +14,34 @@ interface Props {
   }
 }
 
-export async function generateStaticParams (): Promise<Array<{ slug: string }>> {
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   const posts = await getPostsMeta()
 
   if (posts == null) return []
 
-  return posts.map((post) => ({
-    slug: post.meta.slug
+  return posts.map(post => ({
+    slug: post.meta.slug,
   }))
 }
 
-export async function generateMetadata ({
-  params: { slug }
+export async function generateMetadata({
+  params: { slug },
 }: Props): Promise<{ title: string }> {
   const post = await getPostByName(`${slug}.mdx`)
 
   if (post == null) {
     return {
-      title: 'Post Not Found'
+      title: 'Post Not Found',
     }
   }
 
   return {
-    title: post.meta.title
+    title: post.meta.title,
   }
 }
 
-export default async function PostPage ({
-  params: { slug }
+export default async function PostPage({
+  params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const post = await getPostByName(`${slug}.mdx`)
 
@@ -50,24 +50,24 @@ export default async function PostPage ({
   const { meta, content } = post
 
   return (
-    <div className='container mx-auto sm:px-8 lg:px-10'>
+    <div className="container mx-auto sm:px-8 lg:px-10">
       <TopNav
         links={[{ href: '/posts', label: 'Posts' }]}
         page={{ title: meta.title }}
       />
-      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
+      <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title={meta.title}
           image={meta.image}
-          className='mx-auto w-full'
+          className="mx-auto w-full"
         />
-        <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
-          <h3 className='font-semibold leading-6 text-white'>
+        <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
+          <h3 className="font-semibold leading-6 text-white">
             {post.meta.description}
           </h3>
         </div>
       </article>
-      <div className='prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10'>
+      <div className="prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10">
         {content}
       </div>
     </div>
