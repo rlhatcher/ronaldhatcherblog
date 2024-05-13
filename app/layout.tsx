@@ -3,6 +3,7 @@ import { type Metadata } from 'next'
 import React from 'react'
 
 import GoogleAnalytics from '@/app/ui/GoogleAnalytics'
+import { ThemeProvider } from '@/components/theme-provider'
 import { fontSans, fontMono } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 
@@ -28,7 +29,14 @@ export default function RootLayout({
       <body>
         <main>
           <GoogleAnalytics />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </main>
       </body>
     </html>
