@@ -1,9 +1,9 @@
 'use client'
-import React from 'react'
-import { CldImage } from 'next-cloudinary'
 import Link from 'next/link'
+import { CldImage } from 'next-cloudinary'
+import React from 'react'
 
-export default function CloudImage ({
+export default function CloudImage({
   title,
   image,
   slug,
@@ -12,7 +12,7 @@ export default function CloudImage ({
   zoom = true,
   height = 400,
   width = 600,
-  crop = 'thumb'
+  crop = 'thumb',
 }: {
   title?: string
   image: string
@@ -23,33 +23,33 @@ export default function CloudImage ({
   height?: number
   width?: number
   crop?:
-  | 'crop'
-  | 'fill'
-  | 'lfill'
-  | 'fill_pad'
-  | 'thumb'
-  | 'scale'
-  | 'fit'
-  | 'limit'
-  | 'mfit'
-  | 'pad'
-  | 'lpad'
-  | 'mpad'
-  | 'imagga_scale'
-  | 'imagga_crop'
+    | 'crop'
+    | 'fill'
+    | 'lfill'
+    | 'fill_pad'
+    | 'thumb'
+    | 'scale'
+    | 'fit'
+    | 'limit'
+    | 'mfit'
+    | 'pad'
+    | 'lpad'
+    | 'mpad'
+    | 'imagga_scale'
+    | 'imagga_crop'
 }): React.JSX.Element {
   const theImage = (
     <CldImage
       height={height}
       width={width}
       crop={crop}
-      gravity='faces:auto'
+      gravity="faces:auto"
       src={image}
-      sizes='(min-width: 480px ) 50vw,
+      sizes="(min-width: 480px ) 50vw,
       (min-width: 728px) 33vw,
       (min-width: 976px) 25vw,
-      100vw'
-      alt='Description of my image'
+      100vw"
+      alt="Description of my image"
       className={className}
     />
   )

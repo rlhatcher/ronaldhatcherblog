@@ -3,9 +3,10 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import Video from '@/app/ui/images/Video'
+
 import CloudImage from '@/app/ui/images/CloudImage'
 import Gallery from '@/app/ui/images/Gallery'
+import Video from '@/app/ui/images/Video'
 
 interface gitFile {
   name: string
@@ -14,7 +15,7 @@ interface gitFile {
 
 const type: string = 'posts'
 
-export async function getPostByName (
+export async function getPostByName(
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
@@ -23,9 +24,9 @@ export async function getPostByName (
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        'X-GitHub-Api-Version': '2022-11-28'
+        'X-GitHub-Api-Version': '2022-11-28',
       },
-      next: { revalidate: 600 }
+      next: { revalidate: 600 },
     }
   )
   if (!res.ok) return undefined
@@ -46,7 +47,7 @@ export async function getPostByName (
     components: {
       Video,
       CloudImage,
-      Gallery
+      Gallery,
     },
     options: {
       parseFrontmatter: true,
@@ -58,12 +59,12 @@ export async function getPostByName (
           [
             rehypeAutolinkHeadings,
             {
-              behavior: 'prepend'
-            }
-          ]
-        ]
-      }
-    }
+              behavior: 'prepend',
+            },
+          ],
+        ],
+      },
+    },
   })
 
   const slug = fileName.replace(/\.mdx$/, '')
@@ -77,24 +78,24 @@ export async function getPostByName (
       tags: frontmatter.tags,
       description: frontmatter.description,
       project: frontmatter.project,
-      type
+      type,
     },
-    content
+    content,
   }
 
   return BlogPostObj
 }
 
-export async function getPostsMeta (): Promise<BlogPost[]> {
+export async function getPostsMeta(): Promise<BlogPost[]> {
   const res = await fetch(
     'https://api.github.com/repos/rlhatcher/blog_content/contents/posts',
     {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        'X-GitHub-Api-Version': '2022-11-28'
+        'X-GitHub-Api-Version': '2022-11-28',
       },
-      next: { revalidate: 600 }
+      next: { revalidate: 600 },
     }
   )
 
@@ -103,8 +104,8 @@ export async function getPostsMeta (): Promise<BlogPost[]> {
   const repoFiletree: gitFile[] = await res.json()
 
   const filesArray = repoFiletree
-    .map((obj) => obj.name)
-    .filter((name) => name.endsWith('.mdx'))
+    .map(obj => obj.name)
+    .filter(name => name.endsWith('.mdx'))
 
   const posts: BlogPost[] = []
 

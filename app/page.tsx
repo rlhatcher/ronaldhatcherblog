@@ -1,7 +1,12 @@
 import React from 'react'
 
-import FeatureSection from './ui/blog/FeatureSection'
-import PostsSection from './ui/blog/posts-section'
+// import FeatureSection from '../components/feature-section'
+import PostsSection from '../components/posts-section'
+
+import BuildsSection from '@/components/builds-section'
+import Container from '@/components/container'
+import { getBuildsMeta } from '@/lib/github/builds'
+import { getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
 
@@ -19,11 +24,20 @@ function Intro(): JSX.Element {
 }
 
 export default async function Page(): Promise<JSX.Element> {
+  const posts = await getPostsMeta()
+  const builds = await getBuildsMeta()
+
   return (
-    <div className="container mx-auto sm:px-6 lg:px-8">
+    <Container>
       <Intro />
-      <FeatureSection />
-      <PostsSection limit={3} />
-    </div>
+      <div className="col-span-3 lg:col-span-4 lg:border-l">
+        <div className="h-full px-4 py-6 lg:px-8">
+          <div className="h-full space-y-6">
+            <PostsSection posts={posts} />
+            <BuildsSection builds={builds} />
+          </div>
+        </div>
+      </div>
+    </Container>
   )
 }

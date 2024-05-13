@@ -1,15 +1,22 @@
 import React from 'react'
-import BuildCards from '../ui/builds/BuildCards'
-import TopNav from '@/app/ui/TopNav'
 
-export default function BuildsPage (): React.JSX.Element {
+import TopNav from '@/app/ui/TopNav'
+import BuildsSection from '@/components/builds-section'
+import { getBuildsMeta } from '@/lib/github/builds'
+
+export default async function BuildsPage(): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = []
+  const builds = await getBuildsMeta()
+
   return (
-    <div className='container mx-auto sm:px-6 lg:px-8'>
-      <TopNav links={links} page={{ title: 'Builds' }} />
+    <div className="container mx-auto sm:px-6 lg:px-8">
+      <TopNav
+        links={links}
+        page={{ title: 'Builds' }}
+      />
       <div>
         <section>
-          <BuildCards />
+          <BuildsSection builds={builds} />
         </section>
       </div>
     </div>
