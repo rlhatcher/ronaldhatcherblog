@@ -4,12 +4,12 @@ cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true
+  secure: true,
 })
 
 export default cloudinary
 
-export async function getMetaByPublicId (publicId: string): Promise<ImageMeta> {
+export async function getMetaByPublicId(publicId: string): Promise<ImageMeta> {
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/ronaldhatcher/resources/image/upload/${publicId}`,
     {
@@ -21,8 +21,8 @@ export async function getMetaByPublicId (publicId: string): Promise<ImageMeta> {
             process.env.CLOUDINARY_API_KEY +
               ':' +
               process.env.CLOUDINARY_API_SECRET
-          ).toString('base64')
-      }
+          ).toString('base64'),
+      },
     }
   )
 
@@ -34,13 +34,13 @@ export async function getMetaByPublicId (publicId: string): Promise<ImageMeta> {
     bytes: data.bytes,
     width: data.width,
     height: data.height,
-    url: data.url
+    url: data.url,
   }
 
   return imageMeta
 }
 
-export async function getImagesByTag (tags: string[]): Promise<string[]> {
+export async function getImagesByTag(tags: string[]): Promise<string[]> {
   const res = await cloudinary.v2.search
     .expression(tags.join(' AND '))
     .with_field('tags')
@@ -54,7 +54,7 @@ export async function getImagesByTag (tags: string[]): Promise<string[]> {
   return assets
 }
 
-export async function uploadImage (
+export async function uploadImage(
   imageFile: File,
   options: cloudinary.UploadApiOptions | undefined
 ): Promise<any> {

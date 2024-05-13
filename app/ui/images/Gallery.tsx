@@ -1,13 +1,14 @@
-import { getImagesByTag, getMetaByPublicId } from '@/app/lib/cloudinary'
-
 import React from 'react'
+
 import GalleryItem from './GalleryItem'
+
+import { getImagesByTag, getMetaByPublicId } from '@/app/lib/cloudinary'
 interface GalleryProps {
   tags: string[]
 }
 
-export default async function Gallery ({
-  tags
+export default async function Gallery({
+  tags,
 }: GalleryProps): Promise<React.JSX.Element | never[]> {
   const assets: string[] = await getImagesByTag(tags)
   const metas: ImageMeta[] = []
@@ -18,10 +19,13 @@ export default async function Gallery ({
   }
 
   return (
-    <div className='mx-auto max-w-full px-2 md:px-4'>
-        {metas.map((meta) => (
-          <GalleryItem publicId={meta.publicId} key={meta.publicId} />
-        ))}
+    <div className="mx-auto max-w-full px-2 md:px-4">
+      {metas.map(meta => (
+        <GalleryItem
+          publicId={meta.publicId}
+          key={meta.publicId}
+        />
+      ))}
     </div>
   )
 }

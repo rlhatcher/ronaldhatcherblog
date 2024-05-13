@@ -1,5 +1,6 @@
 'use client'
 import { CldImage } from 'next-cloudinary'
+import React from 'react'
 
 interface ImageFullProps {
   alt: string
@@ -7,23 +8,23 @@ interface ImageFullProps {
   height?: number
   width?: number
   crop?:
-  | 'crop'
-  | 'fill'
-  | 'lfill'
-  | 'fill_pad'
-  | 'thumb'
-  | 'scale'
-  | 'fit'
-  | 'limit'
-  | 'mfit'
-  | 'pad'
-  | 'lpad'
-  | 'mpad'
-  | 'imagga_scale'
-  | 'imagga_crop'
+    | 'crop'
+    | 'fill'
+    | 'lfill'
+    | 'fill_pad'
+    | 'thumb'
+    | 'scale'
+    | 'fit'
+    | 'limit'
+    | 'mfit'
+    | 'pad'
+    | 'lpad'
+    | 'mpad'
+    | 'imagga_scale'
+    | 'imagga_crop'
 }
 
-export default function ImageFull ({
+export default function ImageFull({
   ...props
 }: ImageFullProps): React.JSX.Element {
   return (
@@ -34,20 +35,20 @@ export default function ImageFull ({
           position: {
             x: 10,
             y: 10,
-            gravity: 'south_east'
+            gravity: 'south_east',
           },
           effects: [
             {
               height: 75,
-              width: 75
-            }
+              width: 75,
+            },
           ],
           appliedEffects: [
             {
-              overlay: true
-            }
-          ]
-        }
+              overlay: true,
+            },
+          ],
+        },
       ]}
       {...props}
     />

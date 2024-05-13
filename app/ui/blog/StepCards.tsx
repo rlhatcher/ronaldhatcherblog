@@ -1,9 +1,11 @@
 import React from 'react'
-import { getStepsMeta } from '@/app/lib/github/steps'
+
 import StepList from './StepList'
 
-export default async function StepCards ({
-  build
+import { getStepsMeta } from '@/lib/github/steps'
+
+export default async function StepCards({
+  build,
 }: {
   build: string
 }): Promise<React.JSX.Element | never[]> {
@@ -11,6 +13,9 @@ export default async function StepCards ({
   if (steps == null) return []
 
   return (
-    <StepList steps={steps} build={build} />
+    <StepList
+      steps={steps}
+      build={build}
+    />
   )
 }

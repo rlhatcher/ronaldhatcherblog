@@ -3,7 +3,7 @@ import {
   IoHammerOutline,
   IoFlaskOutline,
   IoBookOutline,
-  IoAddCircleOutline
+  IoAddCircleOutline,
 } from 'react-icons/io5'
 import { PiFactory, PiRocketLaunch } from 'react-icons/pi'
 import { SiMediafire } from 'react-icons/si'
@@ -25,9 +25,9 @@ const TypeIcon: React.FC<IconProps> = ({ type }) => {
     case 'mfgs':
       return <PiFactory />
     case 'kits':
-      return <PiRocketLaunch/>
+      return <PiRocketLaunch />
     case 'motors':
-      return <SiMediafire/>
+      return <SiMediafire />
     default:
       return <IoAddCircleOutline />
   }

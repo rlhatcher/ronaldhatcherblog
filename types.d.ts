@@ -1,3 +1,10 @@
+interface FeatureItem {
+  title: string
+  description: string
+  href: string
+  icon: string
+}
+
 interface ParentReference {
   id: string
   name: string
