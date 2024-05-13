@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['eslint-config-love', 'plugin:react/recommended', 'next/core-web-vitals', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:storybook/recommended'],
+  extends: ['eslint-config-love', 'plugin:react/recommended', 'next/core-web-vitals', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   overrides: [
     {
       env: {
