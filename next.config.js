@@ -4,11 +4,6 @@ module.exports = {
     serverActions: {
       bodySizeLimit: '2mb'
     }
-  },
-  webpack: (config) => {
-    config.resolve.alias.canvas = false
-
-    return config
   }
 }
 

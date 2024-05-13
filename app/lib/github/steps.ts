@@ -53,7 +53,6 @@ export async function getStepByName (
       mdxOptions: {
         remarkPlugins: [[remarkGfm]],
         rehypePlugins: [
-          // @ts-expect-error not sure
           rehypeHighlight,
           rehypeSlug,
           [

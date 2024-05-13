@@ -63,7 +63,6 @@ export async function getBuildByName (
           ]
         ],
         rehypePlugins: [
-          // @ts-expect-error not sure
           rehypeHighlight,
           rehypeSlug,
           [

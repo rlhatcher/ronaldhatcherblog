@@ -65,12 +65,10 @@ export async function getProjectByName (
           ]
         ],
         rehypePlugins: [
-          // @ts-expect-error not sure
           rehypeHighlight,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behavior: 'prepend' }],
           [
-            // @ts-expect-error not sure
             rehypeCitation,
             {
               bibliography: [
