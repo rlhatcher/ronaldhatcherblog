@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import 'highlight.js/styles/github-dark.css'
 import TopNav from '@/app/ui/TopNav'
 
-import { getProjectByName, getProjectsMeta } from '@/app/lib/github/projects'
+import { getProjectByName } from '@/app/lib/github/projects'
 import CloudImage from '@/app/ui/images/CloudImage'
 
 export const revalidate = 10
@@ -12,16 +12,6 @@ interface Props {
   params: {
     slug: string
   }
-}
-
-export async function generateStaticParams (): Promise<Array<{ slug: string }>> {
-  const allProjects = await getProjectsMeta()
-
-  if (allProjects == null) return []
-
-  return allProjects.map((project) => ({
-    slug: project.meta.slug
-  }))
 }
 
 export async function generateMetadata ({
@@ -55,11 +45,12 @@ export default async function ProjectPage ({
         links={[{ href: '/projects', label: 'Projects' }]}
         page={{ title: meta.title }}
       />
-      <article className='relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
+      <article className=' 100 relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm'>
         <CloudImage
           title={meta.title}
           image={meta.image}
-          className='mx-auto w-full'
+          crop='fill'
+          className='w-full'
         />
         <div className='absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent'>
           <h3 className='text-lg font-semibold leading-6 text-white p-2'>

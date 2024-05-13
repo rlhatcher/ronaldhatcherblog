@@ -3,7 +3,6 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import rehypeCitation from 'rehype-citation'
 
 import Video from '@/app/ui/images/Video'
 import CloudImage from '@/app/ui/images/CloudImage'
@@ -67,18 +66,7 @@ export async function getProjectByName (
         rehypePlugins: [
           rehypeHighlight,
           rehypeSlug,
-          [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [
-            rehypeCitation,
-            {
-              bibliography: [
-                `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}.bib`
-              ],
-              inlineClass: [
-                'citation'
-              ]
-            }
-          ]
+          [rehypeAutolinkHeadings, { behavior: 'prepend' }]
         ]
       }
     }
