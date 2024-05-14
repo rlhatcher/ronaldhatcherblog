@@ -5,33 +5,33 @@ import { EntryArtwork } from '@/components/entry-artwork'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 
-export default function PostsSection({
-  posts,
+export default function ProjectsSection({
+  projects,
 }: {
-  posts: BlogPost[]
+  projects: Project[]
 }): JSX.Element {
   return (
     <>
       <div className="font-mono flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">
-            <Link href="/posts">Blog Posts</Link>
+            <Link href="/posts">Projects</Link>
           </h2>
-          <p className="text-sm text-muted-foreground">All the latest info</p>
+          <p className="text-sm text-muted-foreground">Ongoing projects</p>
         </div>
       </div>
       <Separator className="my-4" />
       <div className="relative">
         <ScrollArea>
           <div className="flex space-x-4 pb-4">
-            {posts.map(post => (
+            {projects.map(project => (
               <Link
-                href={`/posts/${post.meta.slug}`}
-                key={post.meta.slug}
+                href={`/projects/${project.meta.slug}`}
+                key={project.meta.slug}
               >
                 <EntryArtwork
-                  key={post.meta.slug}
-                  meta={post.meta}
+                  key={project.meta.slug}
+                  meta={project.meta}
                   className="w-[250px]"
                   aspectRatio="portrait"
                   width={500}
