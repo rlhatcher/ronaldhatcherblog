@@ -37,6 +37,8 @@ export async function getStepByName(
   const { frontmatter, content } = await compileMDX<{
     title: string
     date: string
+    imageWidth: number
+    imageHeight: number
     image: string
     tags: string[]
     description: string
@@ -72,6 +74,8 @@ export async function getStepByName(
       slug,
       title: frontmatter.title,
       date: frontmatter.date,
+      imageWidth: frontmatter.imageWidth,
+      imageHeight: frontmatter.imageHeight,
       image: frontmatter.image,
       tags: frontmatter.tags,
       description: frontmatter.description,
