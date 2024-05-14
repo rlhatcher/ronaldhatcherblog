@@ -2,7 +2,7 @@ import '@/app/ui/globals.css'
 import { type Metadata } from 'next'
 import React from 'react'
 
-import GoogleAnalytics from '@/app/ui/GoogleAnalytics'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProvider } from '@/components/theme-provider'
 import { fontSans, fontMono } from '@/lib/fonts'
 import { cn } from '@/lib/utils'

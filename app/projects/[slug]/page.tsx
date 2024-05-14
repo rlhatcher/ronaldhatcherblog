@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import CloudImage from '@/app/ui/images/CloudImage'
 import TopNav from '@/app/ui/TopNav'
+import { CloudImage } from '@/components/cloud-image'
 import { getProjectByName } from '@/lib/github/projects'
 
 export const revalidate = 10
@@ -45,12 +45,15 @@ export default async function ProjectPage({
         links={[{ href: '/projects', label: 'Projects' }]}
         page={{ title: meta.title }}
       />
-      <article className=" 100 relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
+      <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title={meta.title}
-          image={meta.image}
+          src={meta.image}
           crop="fill"
           className="w-full"
+          alt=""
+          height={meta.imageHeight}
+          width={meta.imageWidth}
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
           <h3 className="text-lg font-semibold leading-6 text-white p-2">

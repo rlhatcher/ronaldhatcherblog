@@ -5,9 +5,8 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
-import CloudImage from '@/app/ui/images/CloudImage'
-import Gallery from '@/app/ui/images/Gallery'
 import Video from '@/app/ui/images/Video'
+import { BlogImage } from '@/components/cloud-image'
 
 interface gitFile {
   name: string
@@ -40,6 +39,8 @@ export async function getBuildByName(
     slug: string
     description: string
     date: string
+    imageWidth: number
+    imageHeight: number
     image: string
     tags: string[]
     project: string
@@ -47,8 +48,7 @@ export async function getBuildByName(
     source: rawMDX,
     components: {
       Video,
-      CloudImage,
-      Gallery,
+      BlogImage,
     },
     options: {
       parseFrontmatter: true,
@@ -88,6 +88,8 @@ export async function getBuildByName(
       tags: frontmatter.tags,
       description: frontmatter.description,
       project: frontmatter.project,
+      imageWidth: frontmatter.imageWidth,
+      imageHeight: frontmatter.imageHeight,
       type,
     },
     content,

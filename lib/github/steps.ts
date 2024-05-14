@@ -4,9 +4,8 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import CloudImage from '@/app/ui/images/CloudImage'
-import Gallery from '@/app/ui/images/Gallery'
 import Video from '@/app/ui/images/Video'
+import { BlogImage } from '@/components/cloud-image'
 
 interface gitFile {
   name: string
@@ -46,8 +45,7 @@ export async function getStepByName(
     source: rawMDX,
     components: {
       Video,
-      CloudImage,
-      Gallery,
+      BlogImage,
     },
     options: {
       parseFrontmatter: true,

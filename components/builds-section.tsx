@@ -11,8 +11,8 @@ export default function BuildsSection({
   builds: Build[]
 }): JSX.Element {
   return (
-    <>
-      <div className="font-mono mt-6 space-y-1">
+    <div className="bg-accent mb-2 p-2 rounded-md">
+      <div className="font-mono space-y-1">
         <h2 className="text-2xl font-semibold tracking-tight">
           <Link href="/builds">Builds</Link>
         </h2>
@@ -43,6 +43,6 @@ export default function BuildsSection({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-    </>
+    </div>
   )
 }

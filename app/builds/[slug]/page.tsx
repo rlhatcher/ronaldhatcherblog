@@ -3,8 +3,8 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import StepCards from '@/app/ui/blog/StepCards'
-import CloudImage from '@/app/ui/images/CloudImage'
 import TopNav from '@/app/ui/TopNav'
+import { CloudImage } from '@/components/cloud-image'
 import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
 export const revalidate = 10
 
@@ -59,9 +59,12 @@ export default async function BuildPage({
       <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title={meta.title}
-          image={meta.image}
+          src={meta.image}
           className="mx-auto w-full"
           crop="scale"
+          alt=""
+          width={meta.imageWidth}
+          height={meta.imageHeight}
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
           <h3 className="text-lg font-semibold px-2 leading-6 text-white">

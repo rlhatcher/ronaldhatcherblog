@@ -31,16 +31,14 @@ export default async function Page(): Promise<JSX.Element> {
   return (
     <Container>
       <Intro />
-      <div className="col-span-3 lg:col-span-4 lg:border-l">
-        <div className="h-full px-4 py-6 lg:px-8">
-          <div className="h-full space-y-6">
-            <div className="border-none p-0 outline-none">
-              <PostsSection posts={posts} />
-              <BuildsSection builds={builds} />
-              <ProjectsSection projects={projects} />
-            </div>
-          </div>
-        </div>
+      <div className="col-span-3 lg:col-span-4">
+        {/* <div className="h-full px-4 py-6 lg:px-8"> */}
+        {/* <div className="border-2 bg-accent rounded-md"> */}
+        <PostsSection posts={posts} />
+        <BuildsSection builds={builds} />
+        <ProjectsSection projects={projects} />
+        {/* </div> */}
+        {/* </div> */}
       </div>
     </Container>
   )

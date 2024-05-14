@@ -30,6 +30,8 @@ interface Meta {
   image: string
   tags: string[]
   type: string
+  imageHeight: number
+  imageWidth: number
 }
 
 interface ImageMeta {

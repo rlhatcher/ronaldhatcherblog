@@ -3,7 +3,7 @@
 import Script from 'next/script'
 import React from 'react'
 
-import * as gtag from '@/app/lib/gtag.js'
+import * as gtag from '@/lib/gtag.js'
 
 const GoogleAnalytics = (): any => {
   return (

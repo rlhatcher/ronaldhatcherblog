@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import CloudImage from '@/app/ui/images/CloudImage'
 import TopNav from '@/app/ui/TopNav'
+import { CloudImage } from '@/components/cloud-image'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
@@ -58,7 +58,10 @@ export default async function PostPage({
       <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title={meta.title}
-          image={meta.image}
+          src={meta.image}
+          alt={meta.description}
+          width={meta.imageWidth}
+          height={meta.imageHeight}
           className="mx-auto w-full"
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">

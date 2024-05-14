@@ -11,7 +11,7 @@ export default function PostsSection({
   posts: BlogPost[]
 }): JSX.Element {
   return (
-    <>
+    <div className="bg-accent p-2 mb-1 rounded-md">
       <div className="font-mono flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">
@@ -43,6 +43,6 @@ export default function PostsSection({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-    </>
+    </div>
   )
 }

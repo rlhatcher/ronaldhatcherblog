@@ -1,6 +1,6 @@
 import React from 'react'
 
-import CloudImage from '@/components/cloud-image'
+import { CloudImage } from '@/components/cloud-image'
 import { cn } from '@/lib/utils'
 
 interface EntryArtworkProps extends React.HTMLAttributes<HTMLDivElement> {

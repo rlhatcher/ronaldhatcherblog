@@ -2,8 +2,18 @@
 import { CldImage as NextCldImage, type CldImageProps } from 'next-cloudinary'
 import React from 'react'
 
-const CloudImage = (props: CldImageProps): React.JSX.Element => {
+export const CloudImage = (props: CldImageProps): React.JSX.Element => {
   return <NextCldImage {...props} />
 }
 
-export default CloudImage
+export const BlogImage = (props: CldImageProps): React.JSX.Element => {
+  return (
+    <NextCldImage
+      sizes="(min-width: 480px ) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
+      height={400}
+      width={600}
+      crop="thumb"
+      {...props}
+    />
+  )
+}

@@ -4,9 +4,8 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import CloudImage from '@/app/ui/images/CloudImage'
-import Gallery from '@/app/ui/images/Gallery'
 import Video from '@/app/ui/images/Video'
+import { BlogImage } from '@/components/cloud-image'
 
 interface gitFile {
   name: string
@@ -39,6 +38,8 @@ export async function getPostByName(
     title: string
     date: string
     image: string
+    imageWidth: number
+    imageHeight: number
     tags: string[]
     description: string
     project: string
@@ -46,8 +47,7 @@ export async function getPostByName(
     source: rawMDX,
     components: {
       Video,
-      CloudImage,
-      Gallery,
+      BlogImage,
     },
     options: {
       parseFrontmatter: true,
@@ -75,6 +75,8 @@ export async function getPostByName(
       title: frontmatter.title,
       date: frontmatter.date,
       image: frontmatter.image,
+      imageWidth: frontmatter.imageWidth,
+      imageHeight: frontmatter.imageHeight,
       tags: frontmatter.tags,
       description: frontmatter.description,
       project: frontmatter.project,

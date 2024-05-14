@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
 
-import CloudImage from '@/app/ui/images/CloudImage'
 import TopNav from '@/app/ui/TopNav'
+import { CloudImage } from '@/components/cloud-image'
 import { getBuildsMeta } from '@/lib/github/builds'
 import { getStepsMeta, getStepByName } from '@/lib/github/steps'
 
@@ -58,9 +58,12 @@ export default async function StepPage({
       <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title="build"
-          image={meta.image}
+          src={meta.image}
           className="mx-auto w-full"
           crop="thumb"
+          alt=""
+          width={meta.imageWidth}
+          height={meta.imageHeight}
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
           <h3 className="text-lg font-semibold px-2 leading-6 text-white">

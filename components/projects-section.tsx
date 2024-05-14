@@ -11,7 +11,7 @@ export default function ProjectsSection({
   projects: Project[]
 }): JSX.Element {
   return (
-    <>
+    <div className="bg-accent mb-2 p-2 rounded-md">
       <div className="font-mono flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">
@@ -43,6 +43,6 @@ export default function ProjectsSection({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-    </>
+    </div>
   )
 }

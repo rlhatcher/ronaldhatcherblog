@@ -7,9 +7,8 @@ import remarkToc from 'remark-toc'
 
 import path from 'path'
 
-import CloudImage from '@/app/ui/images/CloudImage'
-import Gallery from '@/app/ui/images/Gallery'
 import Video from '@/app/ui/images/Video'
+import { BlogImage } from '@/components/cloud-image'
 
 interface gitFile {
   name: string
@@ -41,6 +40,8 @@ export async function getProjectByName(
   const { frontmatter, content } = await compileMDX<{
     title: string
     date: string
+    imageWidth: number
+    imageHeight: number
     image: string
     tags: string[]
     description: string
@@ -48,8 +49,7 @@ export async function getProjectByName(
     source: rawMDX,
     components: {
       Video,
-      CloudImage,
-      Gallery,
+      BlogImage,
     },
     options: {
       parseFrontmatter: true,
@@ -78,6 +78,8 @@ export async function getProjectByName(
       slug: fileName,
       title: frontmatter.title,
       date: frontmatter.date,
+      imageWidth: frontmatter.imageWidth,
+      imageHeight: frontmatter.imageHeight,
       image: frontmatter.image,
       tags: frontmatter.tags,
       description: frontmatter.description,

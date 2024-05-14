@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import CloudImage from '../images/CloudImage'
+import { CloudImage } from '@/components/cloud-image'
 
 export default function ProjectList({
   projects,
@@ -29,11 +29,10 @@ export default function ProjectList({
                 <div className="relative h-24 w-24 flex-none bg-gray-50">
                   <CloudImage
                     className="absolute top-0 left-0 h-full w-full object-cover rounded-md"
-                    image={project.meta.image}
+                    src={project.meta.image}
                     height={96}
                     width={96}
                     crop="thumb"
-                    zoom={false}
                     alt=""
                   />
                 </div>
