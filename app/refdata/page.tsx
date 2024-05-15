@@ -38,12 +38,12 @@ export default function DataPage(): React.JSX.Element {
         links={[]}
         page={{ title: 'Data' }}
       />
-      <div className="bg-gray-100 rounded-2xl p-4">
+      <div className="rounded-2xl p-4">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             A Growing Index of Rocketry and Robotics Resources
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
+          <p className="mt-6 text-lg leading-8">
             Various views into the data that I have collected over the years.
           </p>
         </div>
@@ -58,8 +58,8 @@ export default function DataPage(): React.JSX.Element {
                   key={feature.name}
                   className="relative pl-16"
                 >
-                  <dt className="text-base font-semibold leading-7 text-gray-900">
-                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-slate-300">
+                  <dt className="text-base font-semibold leading-7">
+                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg">
                       <TypeIcon
                         type={feature.icon}
                         aria-hidden="true"
@@ -67,7 +67,7 @@ export default function DataPage(): React.JSX.Element {
                     </div>
                     {feature.name}
                   </dt>
-                  <dd className="mt-2 text-base leading-7 text-gray-600">
+                  <dd className="mt-2 text-base leading-7">
                     {feature.description}
                   </dd>
                 </div>

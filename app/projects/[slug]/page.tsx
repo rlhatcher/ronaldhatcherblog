@@ -45,7 +45,7 @@ export default async function ProjectPage({
         links={[{ href: '/projects', label: 'Projects' }]}
         page={{ title: meta.title }}
       />
-      <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
+      <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
         <CloudImage
           title={meta.title}
           src={meta.image}
@@ -61,7 +61,7 @@ export default async function ProjectPage({
           </h3>
         </div>
       </article>
-      <div className="prose prose-slate mx-auto max-w-full bg-white relative top-0  p-5 m:p-10">
+      <div className="prose mx-auto max-w-full relative top-0  p-5 m:p-10">
         {content}
       </div>
     </div>
