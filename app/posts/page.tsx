@@ -1,7 +1,7 @@
 import React from 'react'
 
-import TopNav from '@/app/ui/TopNav'
 import PostsSection from '@/components/posts-section'
+import TopNav from '@/components/top-nav'
 import { getPostsMeta } from '@/lib/github/posts'
 
 export default async function PostsPage(): Promise<React.JSX.Element> {

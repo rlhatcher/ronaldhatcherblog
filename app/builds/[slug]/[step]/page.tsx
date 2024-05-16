@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
 
-import TopNav from '@/app/ui/TopNav'
 import { CloudImage } from '@/components/cloud-image'
+import TopNav from '@/components/top-nav'
 import { getBuildsMeta } from '@/lib/github/builds'
 import { getStepsMeta, getStepByName } from '@/lib/github/steps'
 

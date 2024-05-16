@@ -3,8 +3,8 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import StepCards from '@/app/ui/blog/StepCards'
-import TopNav from '@/app/ui/TopNav'
 import { CloudImage } from '@/components/cloud-image'
+import TopNav from '@/components/top-nav'
 import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
 export const revalidate = 10
 

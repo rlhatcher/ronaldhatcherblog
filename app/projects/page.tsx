@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ProjectCards from '@/app/ui/projects/ProjectCards'
-import TopNav from '@/app/ui/TopNav'
+import TopNav from '@/components/top-nav'
 import { getProjectsMeta } from '@/lib/github/projects'
 
 export default async function ProjectPage(): Promise<React.JSX.Element> {

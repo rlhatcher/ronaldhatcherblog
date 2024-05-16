@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import TopNav from '../ui/TopNav'
+import TopNav from '../../components/top-nav'
 import TypeIcon from '../ui/TypeIcon'
 
 const features = [

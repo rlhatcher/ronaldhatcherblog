@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import TopNav from '@/app/ui/TopNav'
 import { CloudImage } from '@/components/cloud-image'
+import TopNav from '@/components/top-nav'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10

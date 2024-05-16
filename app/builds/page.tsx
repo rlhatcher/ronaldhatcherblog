@@ -1,7 +1,7 @@
 import React from 'react'
 
-import TopNav from '@/app/ui/TopNav'
 import BuildsSection from '@/components/builds-section'
+import TopNav from '@/components/top-nav'
 import { getBuildsMeta } from '@/lib/github/builds'
 
 export default async function BuildsPage(): Promise<React.JSX.Element> {

@@ -17,7 +17,7 @@ export default function BuildsSection({
           <Link href="/builds">Builds</Link>
         </h2>
         <p className=" text-sm font-semibold text-muted-foreground">
-          Detailed walkthroughs of the fabrication process
+          Detailed walkthroughs of rocket fabrication processes
         </p>
       </div>
       <Separator className="my-4" />

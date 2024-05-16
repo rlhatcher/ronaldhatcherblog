@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import TopNav from '@/app/ui/TopNav'
 import { CloudImage } from '@/components/cloud-image'
-import { getProjectByName } from '@/lib/github/projects'
+import TopNav from '@/components/top-nav'
+import { getProjectByName, getProjectsMeta } from '@/lib/github/projects'
 
 export const revalidate = 10
 
@@ -12,6 +12,16 @@ interface Props {
   params: {
     slug: string
   }
+}
+
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  const projects = await getProjectsMeta()
+
+  if (projects == null) return []
+
+  return projects.map(project => ({
+    slug: project.meta.slug,
+  }))
 }
 
 export async function generateMetadata({
