@@ -15,9 +15,9 @@ export default function PostsSection({
       <div className="font-mono flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">
-            <Link href="/posts">Blog Posts</Link>
+            <Link href="/posts">Posts</Link>
           </h2>
-          <p className="text-sm text-muted-foreground">All the latest info</p>
+          <p className="text-sm text-muted-foreground">Articles and essays</p>
         </div>
       </div>
       <Separator className="my-4" />
@@ -32,10 +32,10 @@ export default function PostsSection({
                 <EntryArtwork
                   key={post.meta.slug}
                   meta={post.meta}
-                  className="w-[250px]"
-                  aspectRatio="portrait"
+                  className="w-[500]"
+                  aspectRatio="square"
                   width={500}
-                  height={660}
+                  height={500}
                 />
               </Link>
             ))}

@@ -17,7 +17,9 @@ export default function ProjectsSection({
           <h2 className="text-2xl font-semibold tracking-tight">
             <Link href="/posts">Projects</Link>
           </h2>
-          <p className="text-sm text-muted-foreground">Ongoing projects</p>
+          <p className="text-sm text-muted-foreground">
+            Collected history and data
+          </p>
         </div>
       </div>
       <Separator className="my-4" />

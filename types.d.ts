@@ -18,7 +18,7 @@ interface PublishedDoc {
 }
 
 interface BreadCrumb {
-  href: string
+  href?: string
   label: string
 }
 

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
 
-import TopNav from '@/app/ui/TopNav'
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { CloudImage } from '@/components/cloud-image'
 import { getBuildsMeta } from '@/lib/github/builds'
 import { getStepsMeta, getStepByName } from '@/lib/github/steps'
@@ -46,15 +46,16 @@ export default async function StepPage({
 
   const { meta, content } = theStep
 
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/builds', label: 'Builds' },
+    { href: `/builds/${slug}`, label: slug },
+    { label: meta.title },
+  ]
+
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
-      <TopNav
-        links={[
-          { href: '/builds', label: 'Builds' },
-          { href: `/builds/${slug}`, label: slug },
-        ]}
-        page={{ title: theStep.meta.title }}
-      />
+      <BreadcrumbResponsive items={links} />
       <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">
         <CloudImage
           title="build"
