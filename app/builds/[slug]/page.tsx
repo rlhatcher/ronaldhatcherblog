@@ -48,8 +48,12 @@ export default async function BuildPage({
   if (build == null) notFound()
 
   const { meta, content } = build
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/builds', label: 'Builds' },
+    { label: meta.title },
+  ]
 
-  const links = [{ href: '/builds', label: 'Builds' }]
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <TopNav

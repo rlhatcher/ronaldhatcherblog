@@ -46,13 +46,17 @@ export default async function StepPage({
 
   const { meta, content } = theStep
 
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/builds', label: 'Builds' },
+    { href: `/builds/${slug}`, label: slug },
+    { label: meta.title },
+  ]
+
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <TopNav
-        links={[
-          { href: '/builds', label: 'Builds' },
-          { href: `/builds/${slug}`, label: slug },
-        ]}
+        links={links}
         page={{ title: theStep.meta.title }}
       />
       <article className="relative isolate flex flex-col justify-end overflow-hidden bg-gray-900 border shadow-sm">

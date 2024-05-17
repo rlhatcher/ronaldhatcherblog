@@ -41,6 +41,8 @@ export function BreadcrumbResponsive({
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
+  if (items.length === 0) return <></>
+
   return (
     <Breadcrumb>
       <BreadcrumbList>

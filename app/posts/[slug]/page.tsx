@@ -44,15 +44,19 @@ export default async function PostPage({
   params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const post = await getPostByName(`${slug}.mdx`)
-
   if (post == null) notFound()
-
   const { meta, content } = post
+
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/posts', label: 'Posts' },
+    { label: post.meta.title },
+  ]
 
   return (
     <div className="container mx-auto sm:px-8 lg:px-10">
       <TopNav
-        links={[{ href: '/posts', label: 'Posts' }]}
+        links={links}
         page={{ title: meta.title }}
       />
       <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
@@ -66,7 +70,7 @@ export default async function PostPage({
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
           <h3 className="font-semibold leading-6 text-white">
-            {post.meta.description}
+            {meta.description}
           </h3>
         </div>
       </article>
