@@ -1,7 +1,7 @@
 import React from 'react'
 
+// import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import PostsSection from '@/components/posts-section'
-import TopNav from '@/components/top-nav'
 import { getPostsMeta } from '@/lib/github/posts'
 
 export default async function PostsPage(): Promise<React.JSX.Element> {
@@ -9,10 +9,7 @@ export default async function PostsPage(): Promise<React.JSX.Element> {
 
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
-      <TopNav
-        links={[]}
-        page={{ title: 'Posts' }}
-      />
+      {/* <BreadcrumbResponsive items={links} /> */}
       <PostsSection posts={posts} />
     </div>
   )

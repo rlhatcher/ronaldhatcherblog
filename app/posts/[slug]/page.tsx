@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { CloudImage } from '@/components/cloud-image'
-import TopNav from '@/components/top-nav'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
@@ -55,10 +55,7 @@ export default async function PostPage({
 
   return (
     <div className="container mx-auto sm:px-8 lg:px-10">
-      <TopNav
-        links={links}
-        page={{ title: meta.title }}
-      />
+      <BreadcrumbResponsive items={links} />
       <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
         <CloudImage
           title={meta.title}

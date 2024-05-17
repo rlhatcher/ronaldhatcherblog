@@ -3,8 +3,8 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import StepCards from '@/app/ui/blog/StepCards'
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { CloudImage } from '@/components/cloud-image'
-import TopNav from '@/components/top-nav'
 import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
 export const revalidate = 10
 
@@ -56,10 +56,7 @@ export default async function BuildPage({
 
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
-      <TopNav
-        links={links}
-        page={{ title: meta.title }}
-      />
+      <BreadcrumbResponsive items={links} />
       <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
         <CloudImage
           title={meta.title}

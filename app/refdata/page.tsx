@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 
-import TopNav from '../../components/top-nav'
 import TypeIcon from '../ui/TypeIcon'
 
 const features = [
@@ -34,10 +33,6 @@ const features = [
 export default function DataPage(): React.JSX.Element {
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
-      <TopNav
-        links={[]}
-        page={{ title: 'Data' }}
-      />
       <div className="rounded-2xl p-4">
         <div className="mx-auto max-w-2xl lg:text-center">
           <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
