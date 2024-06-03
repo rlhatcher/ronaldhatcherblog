@@ -71,7 +71,7 @@ export default async function PostPage({
           </h3>
         </div>
       </article>
-      <div className="prose mx-auto max-w-full relative top-0  p-5 m:p-10">
+      <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
         {content}
       </div>
     </div>

@@ -19,6 +19,14 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        '2fr-1fr': '2fr 1fr',
+        '1fr': '1fr',
+      },
+      gridTemplateRows: {
+        auto: 'auto',
+        'auto-1fr': 'auto 1fr',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -79,7 +87,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 } satisfies Config
 
 export default config

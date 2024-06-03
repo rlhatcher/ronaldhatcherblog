@@ -1,47 +1,32 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { EntryArtwork } from '@/components/entry-artwork'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-
 export default function PostsSection({
   posts,
 }: {
   posts: BlogPost[]
 }): JSX.Element {
   return (
-    <div className="bg-accent p-2 mb-1 rounded-md">
-      <div className="font-mono flex items-center justify-between">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            <Link href="/posts">Posts</Link>
-          </h2>
-          <p className="text-sm text-muted-foreground">Articles and essays</p>
-        </div>
-      </div>
-      <Separator className="my-4" />
-      <div className="relative">
-        <ScrollArea>
-          <div className="flex space-x-4 pb-4">
-            {posts.map(post => (
-              <Link
-                href={`/posts/${post.meta.slug}`}
-                key={post.meta.slug}
-              >
-                <EntryArtwork
-                  key={post.meta.slug}
-                  meta={post.meta}
-                  className="w-[500]"
-                  aspectRatio="square"
-                  width={500}
-                  height={500}
-                />
-              </Link>
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+    <div className="[grid-area:posts]">
+      <h2 className="mb-4 font-mono text-2xl font-semibold">
+        <Link href="/posts">Posts</Link>
+      </h2>
+      <div>
+        {posts.map(post => (
+          <article
+            key={post.meta.slug}
+            className="flex"
+          >
+            <Link
+              href={`/posts/${post.meta.slug}`}
+              key={post.meta.slug}
+            >
+              <h3 className="text-destructive">{post.meta.title}</h3>
+              <p className="mt-4">{post.meta.description}</p>
+              <div>Read more</div>
+            </Link>
+          </article>
+        ))}
       </div>
     </div>
   )

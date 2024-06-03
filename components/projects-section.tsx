@@ -2,8 +2,6 @@ import Link from 'next/link'
 import React from 'react'
 
 import { EntryArtwork } from '@/components/entry-artwork'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
 
 export default function ProjectsSection({
   projects,
@@ -11,39 +9,28 @@ export default function ProjectsSection({
   projects: Project[]
 }): JSX.Element {
   return (
-    <div className="bg-accent mb-2 p-2 rounded-md">
-      <div className="font-mono flex items-center justify-between">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            <Link href="/posts">Projects</Link>
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Collected history and data
-          </p>
-        </div>
-      </div>
-      <Separator className="my-4" />
-      <div className="relative">
-        <ScrollArea>
-          <div className="flex space-x-4 pb-4">
-            {projects.map(project => (
-              <Link
-                href={`/projects/${project.meta.slug}`}
+    <div className="[grid-area:projects]">
+      <h2 className="mb-4 font-mono text-2xl font-semibold">
+        <Link href="/projects">Projects</Link>
+      </h2>
+      <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
+        {projects.map(project => (
+          <article key={project.meta.slug}>
+            <Link
+              href={`/projects/${project.meta.slug}`}
+              key={project.meta.slug}
+            >
+              <EntryArtwork
                 key={project.meta.slug}
-              >
-                <EntryArtwork
-                  key={project.meta.slug}
-                  meta={project.meta}
-                  className="w-[250px]"
-                  aspectRatio="portrait"
-                  width={500}
-                  height={660}
-                />
-              </Link>
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+                meta={project.meta}
+                className="w-[250px]"
+                aspectRatio="square"
+                width={500}
+                height={500}
+              />
+            </Link>
+          </article>
+        ))}
       </div>
     </div>
   )

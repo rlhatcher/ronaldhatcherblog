@@ -27,7 +27,7 @@ export default function RootLayout({
       )}
     >
       <body>
-        <main>
+        <div>
           <GoogleAnalytics />
           <ThemeProvider
             attribute="class"
@@ -37,7 +37,7 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </main>
+        </div>
       </body>
     </html>
   )

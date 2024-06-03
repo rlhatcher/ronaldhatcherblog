@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { EntryArtwork } from '@/components/entry-artwork'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
+import { CloudImage } from './cloud-image'
 
 export default function BuildsSection({
   builds,
@@ -11,37 +9,33 @@ export default function BuildsSection({
   builds: Build[]
 }): JSX.Element {
   return (
-    <div className="bg-accent mb-2 p-2 rounded-md">
-      <div className="font-mono space-y-1">
-        <h2 className="text-2xl font-semibold tracking-tight">
-          <Link href="/builds">Builds</Link>
-        </h2>
-        <p className=" text-sm font-semibold text-muted-foreground">
-          Detailed walkthroughs of rocket fabrication processes
-        </p>
-      </div>
-      <Separator className="my-4" />
-      <div className="relative">
-        <ScrollArea>
-          <div className="flex space-x-4 pb-4">
-            {builds.map(build => (
+    <div className="[grid-area:builds]">
+      <Link href="/builds">
+        <h2 className="mb-4 font-mono text-2xl font-semibold">Builds</h2>
+      </Link>
+      <div>
+        {builds.map(build => (
+          <div key={build.meta.slug}>
+            <article>
               <Link
                 href={`/builds/${build.meta.slug}`}
                 key={build.meta.slug}
               >
-                <EntryArtwork
-                  key={build.meta.slug}
-                  meta={build.meta}
-                  className="w-[250px]"
-                  aspectRatio="square"
-                  width={500}
-                  height={500}
-                />
+                <p>{build.meta.title}</p>
+                <div className="overflow-hidden rounded-md">
+                  <CloudImage
+                    src={build.meta.image}
+                    alt={build.meta.title}
+                    crop="fill"
+                    width={640}
+                    height={400}
+                    className="h-auto w-auto object-cover transition-all hover:scale-105"
+                  />
+                </div>
               </Link>
-            ))}
+            </article>
           </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        ))}
       </div>
     </div>
   )
