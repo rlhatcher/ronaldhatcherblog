@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { EntryArtwork } from '@/components/entry-artwork'
-
 export default function BuildsSection({
   builds,
 }: {
@@ -10,26 +8,21 @@ export default function BuildsSection({
 }): JSX.Element {
   return (
     <div className="[grid-area:builds]">
-      <h2>
-        <Link href="/builds">Builds</Link>
-      </h2>
-      <div className="mt-12">
+      <Link href="/builds">
+        <h2>Builds</h2>
+      </Link>
+      <div>
         {builds.map(build => (
-          <article key={build.meta.slug}>
-            <Link
-              href={`/builds/${build.meta.slug}`}
-              key={build.meta.slug}
-            >
-              <EntryArtwork
+          <div key={build.meta.slug}>
+            <article>
+              <Link
+                href={`/builds/${build.meta.slug}`}
                 key={build.meta.slug}
-                meta={build.meta}
-                className="w-[250px]"
-                aspectRatio="square"
-                width={500}
-                height={500}
-              />
-            </Link>
-          </article>
+              >
+                <p>{build.meta.title}</p>
+              </Link>
+            </article>
+          </div>
         ))}
       </div>
     </div>

@@ -38,7 +38,7 @@ export default async function Page(): Promise<JSX.Element> {
         grid-rows-auto
         md:grid-rows-auto-1fr
         [grid-template-areas:'posts''projects''builds']
-        md:[grid-template-areas:'posts projects''posts builds']
+        md:[grid-template-areas:'posts_projects''posts_builds']
         grid-cols-1fr md:grid-cols-2fr-1fr"
       >
         <PostsSection posts={posts} />
