@@ -11,7 +11,7 @@ export default function BuildsSection({
   builds: Build[]
 }): JSX.Element {
   return (
-    <div className="bg-accent mb-2 p-2 rounded-md">
+    <div className="[grid-area:builds]">
       <div className="font-mono space-y-1">
         <h2 className="text-2xl font-semibold tracking-tight">
           <Link href="/builds">Builds</Link>

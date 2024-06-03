@@ -31,15 +31,27 @@ export default async function Page(): Promise<JSX.Element> {
   return (
     <Container>
       <Intro />
-      <div className="col-span-3 lg:col-span-4">
-        {/* <div className="h-full px-4 py-6 lg:px-8"> */}
-        {/* <div className="border-2 bg-accent rounded-md"> */}
+      <main
+        className="
+        grid
+        pt-16 gap-x-16 gap-y-16
+        grid-rows-auto
+        md:grid-rows-auto-1fr
+        [grid-template-areas:'posts''projects''builds']
+        md:[grid-template-areas:'posts projects''posts builds']
+        grid-cols-1fr md:grid-cols-2fr-1fr"
+      >
         <PostsSection posts={posts} />
         <BuildsSection builds={builds} />
         <ProjectsSection projects={projects} />
-        {/* </div> */}
-        {/* </div> */}
-      </div>
+      </main>
     </Container>
   )
 }
+
+/*
+.bHxaNU {
+  position: relative;
+  align-items: start;
+}
+*/
