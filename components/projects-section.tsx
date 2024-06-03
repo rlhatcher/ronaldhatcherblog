@@ -10,10 +10,10 @@ export default function ProjectsSection({
 }): JSX.Element {
   return (
     <div className="[grid-area:projects]">
-      <h2>
+      <h2 className="text-2xl font-semibold font-mono mb-4">
         <Link href="/projects">Projects</Link>
       </h2>
-      <div className="mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
         {projects.map(project => (
           <article key={project.meta.slug}>
             <Link
@@ -24,9 +24,9 @@ export default function ProjectsSection({
                 key={project.meta.slug}
                 meta={project.meta}
                 className="w-[250px]"
-                aspectRatio="portrait"
+                aspectRatio="square"
                 width={500}
-                height={660}
+                height={500}
               />
             </Link>
           </article>

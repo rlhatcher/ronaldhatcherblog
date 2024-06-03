@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 
+import { CloudImage } from './cloud-image'
+
 export default function BuildsSection({
   builds,
 }: {
@@ -9,7 +11,7 @@ export default function BuildsSection({
   return (
     <div className="[grid-area:builds]">
       <Link href="/builds">
-        <h2>Builds</h2>
+        <h2 className="text-2xl font-semibold font-mono mb-4">Builds</h2>
       </Link>
       <div>
         {builds.map(build => (
@@ -20,6 +22,16 @@ export default function BuildsSection({
                 key={build.meta.slug}
               >
                 <p>{build.meta.title}</p>
+                <div className="overflow-hidden rounded-md">
+                  <CloudImage
+                    src={build.meta.image}
+                    alt={build.meta.title}
+                    crop="fill"
+                    width={640}
+                    height={400}
+                    className="h-auto w-auto object-cover transition-all hover:scale-105"
+                  />
+                </div>
               </Link>
             </article>
           </div>

@@ -8,7 +8,7 @@ export default function PostsSection({
 }): JSX.Element {
   return (
     <div className="[grid-area:posts]">
-      <h2>
+      <h2 className="text-2xl font-semibold font-mono mb-4">
         <Link href="/posts">Posts</Link>
       </h2>
       <div>
@@ -24,14 +24,6 @@ export default function PostsSection({
               <h3 className="text-destructive">{post.meta.title}</h3>
               <p className="mt-4">{post.meta.description}</p>
               <div>Read more</div>
-              {/* <EntryArtwork
-                key={post.meta.slug}
-                meta={post.meta}
-                className="w-[500]"
-                aspectRatio="square"
-                width={500}
-                height={500}
-              /> */}
             </Link>
           </article>
         ))}
