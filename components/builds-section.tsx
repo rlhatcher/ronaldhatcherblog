@@ -11,7 +11,7 @@ export default function BuildsSection({
   return (
     <div className="[grid-area:builds]">
       <Link href="/builds">
-        <h2 className="text-2xl font-semibold font-mono mb-4">Builds</h2>
+        <h2 className="mb-4 font-mono text-2xl font-semibold">Builds</h2>
       </Link>
       <div>
         {builds.map(build => (

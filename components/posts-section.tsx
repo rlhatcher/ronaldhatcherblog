@@ -8,7 +8,7 @@ export default function PostsSection({
 }): JSX.Element {
   return (
     <div className="[grid-area:posts]">
-      <h2 className="text-2xl font-semibold font-mono mb-4">
+      <h2 className="mb-4 font-mono text-2xl font-semibold">
         <Link href="/posts">Posts</Link>
       </h2>
       <div>
