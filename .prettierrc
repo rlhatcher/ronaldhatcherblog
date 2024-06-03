@@ -1,4 +1,5 @@
 {
+  "plugins": ["prettier-plugin-tailwindcss"],
   "singleAttributePerLine": true,
   "trailingComma": "es5",
   "tabWidth": 2,

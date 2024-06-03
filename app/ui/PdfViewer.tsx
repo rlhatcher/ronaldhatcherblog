@@ -48,7 +48,7 @@ const PdfViewer: React.FC<Props> = ({ pdfData }) => {
 
   return (
     <div className="grid grid-cols-9">
-      <aside className="self-start sticky top-0 col-span-1">
+      <aside className="sticky top-0 col-span-1 self-start">
         <Nav
           pageNumber={pageNumber}
           numPages={numPages}
@@ -83,10 +83,10 @@ const PdfViewer: React.FC<Props> = ({ pdfData }) => {
           className="flex items-center"
         >
           <div
-            className={'flex items-center justify-between absolute z-10 px-2'}
+            className={'absolute z-10 flex items-center justify-between px-2'}
           ></div>
 
-          <div className="h-full flex justify-center mx-auto">
+          <div className="mx-auto flex h-full justify-center">
             <Document
               file={pdfData}
               onLoadSuccess={onDocumentLoadSuccess}
@@ -126,7 +126,7 @@ function Nav({
   return (
     <nav className="">
       <div className="px-2 sm:px-6 lg:px-8">
-        <div className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
+        <div className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
           <span>{pageNumber}</span>
           <span className="text-gray-400">/{numPages}</span>
         </div>

@@ -68,13 +68,13 @@ export default async function BuildPage({
           height={meta.imageHeight}
         />
         <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
-          <h3 className="text-lg font-semibold px-2 leading-6 text-white">
+          <h3 className="px-2 text-lg font-semibold leading-6 text-white">
             {meta.description}
           </h3>
         </div>
       </article>
       <StepCards build={slug} />
-      <div className="prose mx-auto max-w-full relative top-0  p-5 m:p-10">
+      <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
         {content}
       </div>
     </div>

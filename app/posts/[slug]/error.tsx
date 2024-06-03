@@ -16,10 +16,10 @@ export default function Error({
   }, [error])
 
   return (
-    <main className="mx-auto max-w-lg py-1 px-4 min-h-screen">
+    <main className="mx-auto min-h-screen max-w-lg px-4 py-1">
       <h2 className="my-4 text-2xl font-bold">Something went wrong!</h2>
       <button
-        className="mb-4 p-4 rounded-xl"
+        className="mb-4 rounded-xl p-4"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => {
