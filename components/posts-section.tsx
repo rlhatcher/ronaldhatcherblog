@@ -21,7 +21,9 @@ export default function PostsSection({
               href={`/posts/${post.meta.slug}`}
               key={post.meta.slug}
             >
-              <h3 className="text-destructive">{post.meta.title}</h3>
+              <h3 className="text-xl font-bold text-orange-500">
+                {post.meta.title}
+              </h3>
               <p className="mt-4">{post.meta.description}</p>
               <div>Read more</div>
             </Link>
