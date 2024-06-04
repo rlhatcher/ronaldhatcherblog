@@ -26,7 +26,7 @@ export default function ProjectsSection({
               <EntryArtwork
                 key={project.meta.slug}
                 meta={project.meta}
-                className="w-full h-full max-w-[500] max-h-[500]"
+                className="h-full max-h-[500] w-full max-w-[500]"
                 aspectRatio="square"
                 width={500}
                 height={500}
