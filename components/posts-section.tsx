@@ -11,7 +11,7 @@ export default function PostsSection({
       <h2 className="mb-4 font-mono text-2xl font-semibold">
         <Link href="/posts">Posts</Link>
       </h2>
-      <div>
+      <div className="mt-12">
         {posts.map(post => (
           <article
             key={post.meta.slug}

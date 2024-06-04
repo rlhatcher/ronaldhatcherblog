@@ -17,7 +17,7 @@ export default function ProjectsSection({
         {projects.map(project => (
           <article
             key={project.meta.slug}
-            className="flex justify-center"
+            className="flex justify-center p-4"
           >
             <Link
               href={`/projects/${project.meta.slug}`}
@@ -26,7 +26,7 @@ export default function ProjectsSection({
               <EntryArtwork
                 key={project.meta.slug}
                 meta={project.meta}
-                className="w-[250px]"
+                className="w-full h-full max-w-[500] max-h-[500]"
                 aspectRatio="square"
                 width={500}
                 height={500}
