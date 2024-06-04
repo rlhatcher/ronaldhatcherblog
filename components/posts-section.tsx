@@ -19,7 +19,7 @@ export default function PostsSection({
         {posts.map(post => (
           <article
             key={post.meta.slug}
-            className="flex flex-col items-start justify-between mb-4"
+            className="mb-4 flex flex-col items-start justify-between"
           >
             <div className="flex items-center gap-x-4 text-xs">
               <time
@@ -48,7 +48,7 @@ export default function PostsSection({
                   height={100}
                 />
                 <div className="leading-6">
-                  <p className="font-semibold text-md text-gray-900">
+                  <p className="text-md font-semibold text-gray-900">
                     {post.meta.title}
                   </p>
                   <p className="text-sm text-gray-600">
