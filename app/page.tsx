@@ -31,7 +31,7 @@ export default async function Page(): Promise<JSX.Element> {
   return (
     <Container>
       <Intro />
-      <main className="grid max-w-full grid-cols-1fr grid-rows-auto gap-x-16 gap-y-16 pt-16 [grid-template-areas:'projects''posts''builds'] md:grid-cols-2fr-1fr md:grid-rows-auto-1fr md:[grid-template-areas:'projects_posts''projects_builds']">
+      <main className="grid max-w-full grid-cols-1fr grid-rows-auto gap-x-16 gap-y-16 pt-16 [grid-template-areas:'posts''projects''builds'] md:grid-cols-2fr-1fr md:grid-rows-auto-1fr md:[grid-template-areas:'projects_posts''projects_builds']">
         <PostsSection posts={posts} />
         <BuildsSection builds={builds} />
         <ProjectsSection projects={projects} />
