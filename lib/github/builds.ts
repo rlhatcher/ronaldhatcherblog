@@ -19,7 +19,7 @@ export async function getBuildByName(
   fileName: string
 ): Promise<Build | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

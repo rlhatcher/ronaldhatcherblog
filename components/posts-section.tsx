@@ -28,12 +28,22 @@ export default function PostsSection({
               >
                 {post.meta.date}
               </time>
-              <Link
-                href={`/tags/${post.meta.tags[0]}`}
-                className={badgeVariants({ variant: 'outline' })}
-              >
-                {post.meta.tags[0]}
-              </Link>
+              {post.meta.project !== undefined && (
+                <Link
+                  href={`/projects/${post.meta.project}`}
+                  className={badgeVariants({ variant: 'outline' })}
+                >
+                  Project
+                </Link>
+              )}
+              {post.meta.build !== undefined && (
+                <Link
+                  href={`/builds/${post.meta.build}`}
+                  className={badgeVariants({ variant: 'outline' })}
+                >
+                  Build
+                </Link>
+              )}
             </div>
             <Link
               href={`/posts/${post.meta.slug}`}

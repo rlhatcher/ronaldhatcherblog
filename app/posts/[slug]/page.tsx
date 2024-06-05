@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { CloudImage } from '@/components/cloud-image'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
@@ -47,29 +45,13 @@ export default async function PostPage({
   if (post == null) notFound()
   const { meta, content } = post
 
-  const links: BreadCrumb[] = [
-    { href: '/', label: 'Home' },
-    { href: '/posts', label: 'Posts' },
-    { label: post.meta.title },
-  ]
-
   return (
     <div className="container mx-auto sm:px-8 lg:px-10">
-      <BreadcrumbResponsive items={links} />
-      <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
-        <CloudImage
-          title={meta.title}
-          src={meta.image}
-          alt={meta.description}
-          width={meta.imageWidth}
-          height={meta.imageHeight}
-          className="mx-auto w-full"
-        />
-        <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
-          <h3 className="font-semibold leading-6 text-white">
-            {meta.description}
-          </h3>
-        </div>
+      <article className="prose">
+        <h1>{meta.title}</h1>
+        <h3 className="font-semibold leading-6 text-white">
+          {meta.description}
+        </h3>
       </article>
       <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
         {content}

@@ -21,7 +21,7 @@ export async function getProjectByName(
   fileName: string
 ): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}.mdx`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

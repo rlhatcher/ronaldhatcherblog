@@ -19,7 +19,7 @@ export async function getStepByName(
   fileName: string
 ): Promise<Step | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/builds/${build}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/builds/${build}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

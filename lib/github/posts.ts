@@ -18,7 +18,7 @@ export async function getPostByName(
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/main/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -43,6 +43,7 @@ export async function getPostByName(
     tags: string[]
     description: string
     project: string
+    build: string
   }>({
     source: rawMDX,
     components: {
@@ -80,6 +81,7 @@ export async function getPostByName(
       tags: frontmatter.tags,
       description: frontmatter.description,
       project: frontmatter.project,
+      build: frontmatter.build,
       type,
     },
     content,

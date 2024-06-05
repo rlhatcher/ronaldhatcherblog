@@ -54,6 +54,7 @@ interface StepMeta extends Meta {
 
 interface BlogPostMeta extends Meta {
   project: string
+  build: string
 }
 
 interface BlogPost {
