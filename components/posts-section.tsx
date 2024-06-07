@@ -45,6 +45,9 @@ export default function PostsSection({
                 </Link>
               )}
             </div>
+            <p className="text-md font-semibold text-gray-900">
+              {post.meta.title}
+            </p>
             <Link
               href={`/posts/${post.meta.slug}`}
               key={post.meta.slug}
@@ -53,14 +56,11 @@ export default function PostsSection({
                 <CloudImage
                   src={post.meta.image}
                   alt={post.meta.title}
-                  className="h-10 w-10 rounded-full bg-gray-50"
+                  className="h-10 w-10 rounded-sm bg-gray-50"
                   width={100}
                   height={100}
                 />
                 <div className="leading-6">
-                  <p className="text-md font-semibold text-gray-900">
-                    {post.meta.title}
-                  </p>
                   <p className="text-sm text-gray-600">
                     {post.meta.description}
                   </p>

@@ -57,13 +57,15 @@ interface BlogPostMeta extends Meta {
   build: string
 }
 
+interface ProjectMeta extends Meta {}
+
 interface BlogPost {
   meta: BlogPostMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
 interface Project {
-  meta: Meta
+  meta: ProjectMeta
   content: ReactElement<any, string | JSXElementConstructor<any>>
 }
 

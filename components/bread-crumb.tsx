@@ -44,7 +44,7 @@ export function BreadcrumbResponsive({
   if (items.length === 0) return <></>
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className="flex flex-wrap items-center gap-1.5 break-words p-2 text-sm font-semibold text-muted-foreground sm:gap-2.5 md:text-lg lg:text-2xl">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href={items[0].href}>{items[0].label}</BreadcrumbLink>

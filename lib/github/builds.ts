@@ -13,13 +13,16 @@ interface gitFile {
   path: string
 }
 
+const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
+const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
+const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'builds'
 
 export async function getBuildByName(
   fileName: string
 ): Promise<Build | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -34,17 +37,7 @@ export async function getBuildByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<{
-    title: string
-    slug: string
-    description: string
-    date: string
-    imageWidth: number
-    imageHeight: number
-    image: string
-    tags: string[]
-    project: string
-  }>({
+  const { frontmatter, content } = await compileMDX<BuildMeta>({
     source: rawMDX,
     components: {
       Video,
@@ -81,15 +74,8 @@ export async function getBuildByName(
 
   const BuildObj: Build = {
     meta: {
+      ...frontmatter,
       slug,
-      title: frontmatter.title,
-      date: frontmatter.date,
-      image: frontmatter.image,
-      tags: frontmatter.tags,
-      description: frontmatter.description,
-      project: frontmatter.project,
-      imageWidth: frontmatter.imageWidth,
-      imageHeight: frontmatter.imageHeight,
       type,
     },
     content,
@@ -100,7 +86,7 @@ export async function getBuildByName(
 
 export async function getBuildsMeta(): Promise<Build[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/blog_content/contents/builds',
+    `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

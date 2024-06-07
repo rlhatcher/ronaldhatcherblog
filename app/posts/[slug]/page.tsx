@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
@@ -44,18 +45,21 @@ export default async function PostPage({
   const post = await getPostByName(`${slug}.mdx`)
   if (post == null) notFound()
   const { meta, content } = post
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/posts', label: 'Posts' },
+    { label: meta.title },
+  ]
 
   return (
     <div className="container mx-auto sm:px-8 lg:px-10">
+      <BreadcrumbResponsive items={links} />
       <article className="prose">
-        <h1>{meta.title}</h1>
-        <h3 className="font-semibold leading-6 text-white">
-          {meta.description}
-        </h3>
+        <h1 className="font-mono">{meta.title}</h1>
+        <div className="m:p-10 prose relative top-0 mx-auto max-w-prose p-5">
+          {content}
+        </div>
       </article>
-      <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
-        {content}
-      </div>
     </div>
   )
 }

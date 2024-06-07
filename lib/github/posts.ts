@@ -12,13 +12,16 @@ interface gitFile {
   path: string
 }
 
+const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
+const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
+const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'posts'
 
 export async function getPostByName(
   fileName: string
 ): Promise<BlogPost | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -34,17 +37,7 @@ export async function getPostByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<{
-    title: string
-    date: string
-    image: string
-    imageWidth: number
-    imageHeight: number
-    tags: string[]
-    description: string
-    project: string
-    build: string
-  }>({
+  const { frontmatter, content } = await compileMDX<BlogPostMeta>({
     source: rawMDX,
     components: {
       Video,
@@ -72,16 +65,8 @@ export async function getPostByName(
 
   const BlogPostObj: BlogPost = {
     meta: {
+      ...frontmatter,
       slug,
-      title: frontmatter.title,
-      date: frontmatter.date,
-      image: frontmatter.image,
-      imageWidth: frontmatter.imageWidth,
-      imageHeight: frontmatter.imageHeight,
-      tags: frontmatter.tags,
-      description: frontmatter.description,
-      project: frontmatter.project,
-      build: frontmatter.build,
       type,
     },
     content,
@@ -92,7 +77,7 @@ export async function getPostByName(
 
 export async function getPostsMeta(): Promise<BlogPost[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/blog_content/contents/posts',
+    `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

@@ -15,13 +15,16 @@ interface gitFile {
   path: string
 }
 
+const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
+const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
+const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'projects'
 
 export async function getProjectByName(
   fileName: string
 ): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/${type}/${fileName}.mdx`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -37,15 +40,7 @@ export async function getProjectByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<{
-    title: string
-    date: string
-    imageWidth: number
-    imageHeight: number
-    image: string
-    tags: string[]
-    description: string
-  }>({
+  const { frontmatter, content } = await compileMDX<ProjectMeta>({
     source: rawMDX,
     components: {
       Video,
@@ -75,14 +70,8 @@ export async function getProjectByName(
 
   const ProjectObj: Project = {
     meta: {
+      ...frontmatter,
       slug: fileName,
-      title: frontmatter.title,
-      date: frontmatter.date,
-      imageWidth: frontmatter.imageWidth,
-      imageHeight: frontmatter.imageHeight,
-      image: frontmatter.image,
-      tags: frontmatter.tags,
-      description: frontmatter.description,
       type,
     },
     content,
@@ -93,7 +82,7 @@ export async function getProjectByName(
 
 export async function getProjectsMeta(): Promise<Project[]> {
   const res = await fetch(
-    'https://api.github.com/repos/rlhatcher/blog_content/contents/projects',
+    `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',

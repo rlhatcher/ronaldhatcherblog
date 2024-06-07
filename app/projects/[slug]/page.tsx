@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
+// import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { CloudImage } from '@/components/cloud-image'
 import { getProjectByName, getProjectsMeta } from '@/lib/github/projects'
 
 export const revalidate = 10
@@ -56,25 +56,12 @@ export default async function ProjectPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
-        <CloudImage
-          title={meta.title}
-          src={meta.image}
-          crop="fill"
-          className="w-full"
-          alt=""
-          height={meta.imageHeight}
-          width={meta.imageWidth}
-        />
-        <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
-          <h3 className="p-2 text-lg font-semibold leading-6 text-white">
-            {meta.description}
-          </h3>
-        </div>
+      <article className="prose">
+        <h3 className="bg-secondary p-2 text-lg font-semibold leading-6">
+          {meta.description}
+        </h3>
+        <div className="m:p-10 prose relative top-0 mx-auto p-5">{content}</div>
       </article>
-      <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
-        {content}
-      </div>
     </div>
   )
 }
