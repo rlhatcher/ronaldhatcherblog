@@ -36,10 +36,6 @@ export function EntryArtwork({
           )}
         />
       </div>
-      <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{meta.title}</h3>
-        <p className="text-xs text-muted-foreground">{meta.description}</p>
-      </div>
     </div>
   )
 }

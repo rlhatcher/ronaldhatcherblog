@@ -1,10 +1,10 @@
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import Link from 'next/link'
 import React from 'react'
 
 import { CloudImage } from './cloud-image'
 
 import { badgeVariants } from '@/components/ui/badge'
-
 export default function PostsSection({
   posts,
 }: {
@@ -42,6 +42,15 @@ export default function PostsSection({
                   className={badgeVariants({ variant: 'outline' })}
                 >
                   Build
+                </Link>
+              )}
+              {post.meta.repo !== undefined && (
+                <Link
+                  href={post.meta.build}
+                  className={badgeVariants({ variant: 'outline' })}
+                >
+                  <SiGithub size={13} />
+                  <span className="ml-1">Files</span>
                 </Link>
               )}
             </div>

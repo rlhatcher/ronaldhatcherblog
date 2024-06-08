@@ -17,20 +17,29 @@ export default function ProjectsSection({
         {projects.map(project => (
           <article
             key={project.meta.slug}
-            className="flex justify-center p-4"
+            className="flex flex-col items-center p-4"
           >
             <Link
               href={`/projects/${project.meta.slug}`}
               key={project.meta.slug}
+              className="flex w-full max-w-[500px] flex-col items-center"
             >
               <EntryArtwork
                 key={project.meta.slug}
                 meta={project.meta}
-                className="h-full max-h-[500] w-full max-w-[500]"
+                className="h-full"
                 aspectRatio="square"
                 width={500}
                 height={500}
               />
+              <div className="w-full max-w-xs">
+                <h3 className="mt-3 text-center font-medium leading-none">
+                  {project.meta.title}
+                </h3>
+                <p className="mt-1 text-center text-xs text-muted-foreground">
+                  {project.meta.description}
+                </p>
+              </div>
             </Link>
           </article>
         ))}

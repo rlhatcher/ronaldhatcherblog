@@ -30,6 +30,7 @@ interface Meta {
   image: string
   tags: string[]
   type: string
+  repo?: string
   imageHeight: number
   imageWidth: number
 }
