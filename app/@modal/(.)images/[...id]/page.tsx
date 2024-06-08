@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { BlogImage } from '@/components/cloud-image'
-
-export const revalidate = 10
+import { Modal } from '@/components/modal'
 
 interface Props {
   params: {
@@ -16,13 +15,16 @@ export default async function Image({
   const publicId = id.join('/')
 
   return (
-    <div className="container mx-auto sm:px-8 lg:px-10">
-      <BlogImage
-        src={publicId}
-        width="800"
-        height="600"
-        alt="TBD"
-      />
+    <div className="w-full">
+      <Modal>
+        <BlogImage
+          src={publicId}
+          width="800"
+          height="600"
+          alt="TBD"
+          className="mx-auto w-full"
+        />
+      </Modal>
     </div>
   )
 }
