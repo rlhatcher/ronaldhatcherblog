@@ -31,8 +31,10 @@ function Intro(): JSX.Element {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode
+  modal: React.ReactNode
 }): JSX.Element {
   return (
     <html
@@ -55,6 +57,7 @@ export default function RootLayout({
             {' '}
             <Container>
               <Intro />
+              {modal}
               {children}
             </Container>
           </ThemeProvider>

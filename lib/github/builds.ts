@@ -5,8 +5,8 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
-import Video from '@/app/ui/images/Video'
 import { BlogImage } from '@/components/cloud-image'
+import Video from '@/components/Video'
 
 interface gitFile {
   name: string

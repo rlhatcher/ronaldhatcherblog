@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ProjectList from './ProjectList'
+import ProjectList from './project-list'
 
 export default async function ProjectCards({
   projects,
