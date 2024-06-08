@@ -1,6 +1,6 @@
 import React from 'react'
 
-import StepList from './StepList'
+import StepList from './step-list'
 
 import { getStepsMeta } from '@/lib/github/steps'
 

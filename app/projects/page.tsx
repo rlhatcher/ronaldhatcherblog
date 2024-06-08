@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ProjectCards from '@/app/ui/projects/ProjectCards'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
+import ProjectCards from '@/components/project-cards'
 import { getProjectsMeta } from '@/lib/github/projects'
 
 export default async function ProjectPage(): Promise<React.JSX.Element> {
