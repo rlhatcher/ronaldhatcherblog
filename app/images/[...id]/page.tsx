@@ -8,13 +8,15 @@ export const revalidate = 10
 
 interface Props {
   params: {
-    id: string
+    id: string[]
   }
 }
 
 export default async function Image({
   params: { id },
 }: Props): Promise<React.JSX.Element> {
+  const publicId = id.join('/')
+
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
     { href: '/posts', label: 'Posts' },
@@ -25,9 +27,9 @@ export default async function Image({
     <div className="container mx-auto sm:px-8 lg:px-10">
       <BreadcrumbResponsive items={links} />
       <BlogImage
-        src={id}
-        width="320"
-        height="240"
+        src={publicId}
+        width="800"
+        height="600"
         alt="TBD"
       />
     </div>
