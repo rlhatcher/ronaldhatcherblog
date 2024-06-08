@@ -46,7 +46,7 @@ export default function PostsSection({
               )}
               {post.meta.repo !== undefined && (
                 <Link
-                  href={post.meta.build}
+                  href={post.meta.repo}
                   className={badgeVariants({ variant: 'outline' })}
                 >
                   <SiGithub size={13} />
