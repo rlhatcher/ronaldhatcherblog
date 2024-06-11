@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 import { CloudImage } from './cloud-image'
@@ -12,8 +13,10 @@ import {
 } from '@/components/ui/carousel'
 
 export default async function StepCards({
+  build,
   steps,
 }: {
+  build: string
   steps: Step[]
 }): Promise<React.JSX.Element | never[]> {
   if (steps == null) return []
@@ -29,21 +32,24 @@ export default async function StepCards({
         {steps.map(step => (
           <CarouselItem
             key={step.meta.slug}
-            className="md:basis-1/2 lg:basis-1/3"
+            className="lg:1/6 sm:basis-1/2 md:basis-1/3"
           >
             <div className="p-1">
               <Card className="relative aspect-square">
-                <CloudImage
-                  src={step.meta.image}
-                  alt={step.meta.description}
-                  width={'128'}
-                  height={'128'}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-                <CardContent className="relative z-10 flex flex-col items-center justify-center bg-white bg-opacity-75 p-6">
-                  <span className="text-xl font-semibold">
-                    {step.meta.title}
-                  </span>
+                <CardContent className="relative z-10 flex flex-col items-center justify-center p-0">
+                  <Link href={`/builds/${build}/${step.meta.slug}`}>
+                    <CloudImage
+                      src={step.meta.image}
+                      alt={step.meta.description}
+                      width={'128'}
+                      height={'128'}
+                      crop={'fill'}
+                      className={'m-0'}
+                    />
+                    <span className="text-lg font-semibold">
+                      {step.meta.title}
+                    </span>
+                  </Link>
                 </CardContent>
               </Card>
             </div>

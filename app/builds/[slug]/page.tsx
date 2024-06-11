@@ -61,9 +61,12 @@ export default async function BuildPage({
       <BreadcrumbResponsive items={links} />
       <article className="prose">
         <h3 className="bg-secondary p-2 text-lg font-semibold leading-6">
-          {meta.description}
+          Build Steps
         </h3>
-        <StepCards steps={steps} />
+        <StepCards
+          build={slug}
+          steps={steps}
+        />
         <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
