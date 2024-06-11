@@ -4,7 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import { BlogImage } from '@/components/cloud-image'
+import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -48,6 +48,7 @@ export async function getStepByName(
     components: {
       Video,
       BlogImage,
+      BlogGallery,
     },
     options: {
       parseFrontmatter: true,

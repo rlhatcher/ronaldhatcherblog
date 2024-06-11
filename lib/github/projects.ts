@@ -7,7 +7,7 @@ import remarkToc from 'remark-toc'
 
 import path from 'path'
 
-import { BlogImage } from '@/components/cloud-image'
+import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -45,6 +45,7 @@ export async function getProjectByName(
     components: {
       Video,
       BlogImage,
+      BlogGallery,
     },
     options: {
       parseFrontmatter: true,
