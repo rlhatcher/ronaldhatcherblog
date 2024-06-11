@@ -4,7 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import { BlogImage } from '@/components/cloud-image'
+import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -48,6 +48,7 @@ export async function getStepByName(
     components: {
       Video,
       BlogImage,
+      BlogGallery,
     },
     options: {
       parseFrontmatter: true,
@@ -88,7 +89,7 @@ export async function getStepByName(
   return StepObj
 }
 
-export async function getStepsMeta(build: string): Promise<Step[] | undefined> {
+export async function getStepsMeta(build: string): Promise<Step[]> {
   const res = await fetch(
     `https://api.github.com/repos/rlhatcher/blog_content/contents/builds/${build}`,
     {
@@ -100,7 +101,7 @@ export async function getStepsMeta(build: string): Promise<Step[] | undefined> {
     }
   )
 
-  if (!res.ok) return undefined
+  if (!res.ok) return []
 
   const repoFiletree: gitFile[] = await res.json()
 

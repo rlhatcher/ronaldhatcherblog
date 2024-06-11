@@ -5,7 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
-import { BlogImage } from '@/components/cloud-image'
+import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -42,6 +42,7 @@ export async function getBuildByName(
     components: {
       Video,
       BlogImage,
+      BlogGallery,
     },
     options: {
       parseFrontmatter: true,
