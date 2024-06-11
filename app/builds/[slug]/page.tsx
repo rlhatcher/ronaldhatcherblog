@@ -3,9 +3,10 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { CloudImage } from '@/components/cloud-image'
 import StepCards from '@/components/step-cards'
 import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
+import { getStepsMeta } from '@/lib/github/steps'
+
 export const revalidate = 10
 
 interface Props {
@@ -44,6 +45,7 @@ export default async function BuildPage({
   params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const build = await getBuildByName(`${slug}.mdx`)
+  const steps: Step[] = await getStepsMeta(slug)
 
   if (build == null) notFound()
 
@@ -57,24 +59,11 @@ export default async function BuildPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <article className="relative isolate flex flex-col justify-end overflow-hidden border shadow-sm">
-        <CloudImage
-          title={meta.title}
-          src={meta.image}
-          className="mx-auto w-full"
-          crop="scale"
-          alt=""
-          width={meta.imageWidth}
-          height={meta.imageHeight}
-        />
-        <div className="absolute bottom-5 left-0 right-0 w-full bg-gradient-to-r from-gray-900 to-transparent">
-          <h3 className="px-2 text-lg font-semibold leading-6 text-white">
-            {meta.description}
-          </h3>
-        </div>
+      <article className="prose">
+        <h3 className="font-mono">{meta.description}</h3>
       </article>
-      <StepCards build={slug} />
-      <div className="m:p-10 prose relative top-0 mx-auto max-w-full p-5">
+      <StepCards steps={steps} />
+      <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
         {content}
       </div>
     </div>

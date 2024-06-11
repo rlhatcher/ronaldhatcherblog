@@ -89,7 +89,7 @@ export async function getStepByName(
   return StepObj
 }
 
-export async function getStepsMeta(build: string): Promise<Step[] | undefined> {
+export async function getStepsMeta(build: string): Promise<Step[]> {
   const res = await fetch(
     `https://api.github.com/repos/rlhatcher/blog_content/contents/builds/${build}`,
     {
@@ -101,7 +101,7 @@ export async function getStepsMeta(build: string): Promise<Step[] | undefined> {
     }
   )
 
-  if (!res.ok) return undefined
+  if (!res.ok) return []
 
   const repoFiletree: gitFile[] = await res.json()
 
