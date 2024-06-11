@@ -51,7 +51,6 @@ interface BuildMeta extends Meta {
 
 interface StepMeta extends Meta {
   weight: number
-  build: string
 }
 
 interface BlogPostMeta extends Meta {
