@@ -26,7 +26,7 @@ export default async function StepCards({
       opts={{
         align: 'start',
       }}
-      className="mx-auto w-full max-w-sm"
+      className="mx-auto w-full max-w-sm bg-accent"
     >
       <CarouselContent>
         {steps.map(step => (
@@ -36,17 +36,17 @@ export default async function StepCards({
           >
             <div className="p-1">
               <Card className="relative aspect-square">
-                <CardContent className="relative z-10 flex flex-col items-center justify-center p-0">
+                <CardContent className="relative z-10 flex flex-col items-center justify-center p-1">
                   <Link href={`/builds/${build}/${step.meta.slug}`}>
                     <CloudImage
                       src={step.meta.image}
                       alt={step.meta.description}
-                      width={'128'}
-                      height={'128'}
+                      width={'748'}
+                      height={'748'}
                       crop={'fill'}
                       className={'m-0'}
                     />
-                    <span className="text-lg font-semibold">
+                    <span className="text-md font-semibold">
                       {step.meta.title}
                     </span>
                   </Link>
