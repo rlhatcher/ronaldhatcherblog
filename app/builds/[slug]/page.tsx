@@ -60,12 +60,14 @@ export default async function BuildPage({
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
       <article className="prose">
-        <h3 className="font-mono">{meta.description}</h3>
+        <h3 className="bg-secondary p-2 text-lg font-semibold leading-6">
+          {meta.description}
+        </h3>
+        <StepCards steps={steps} />
+        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
+          {content}
+        </div>
       </article>
-      <StepCards steps={steps} />
-      <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
-        {content}
-      </div>
     </div>
   )
 }
