@@ -33,12 +33,14 @@ export const BlogGallery = ({
   images,
 }: BlogGalleryProps): React.JSX.Element => {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="flex flex-wrap justify-center gap-4">
       {images.map((imageProps, index) => (
-        <BlogImage
+        <div
           key={index}
-          {...imageProps}
-        />
+          className="flex-shrink-0 flex-grow basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+        >
+          <BlogImage {...imageProps} />
+        </div>
       ))}
     </div>
   )
