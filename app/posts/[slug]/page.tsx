@@ -56,7 +56,7 @@ export default async function PostPage({
       <BreadcrumbResponsive items={links} />
       <article className="prose">
         <h1 className="font-mono">{meta.title}</h1>
-        <div className="m:p-10 prose relative top-0 mx-auto max-w-prose p-5">
+        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
       </article>

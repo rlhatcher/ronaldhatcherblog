@@ -67,7 +67,7 @@ export default async function BuildPage({
             steps={steps}
           />
         </div>
-        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
+        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
       </article>

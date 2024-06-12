@@ -60,7 +60,7 @@ export default async function ProjectPage({
         <h3 className="bg-secondary p-2 text-lg font-semibold leading-6">
           {meta.description}
         </h3>
-        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-ul:m-0 prose-li:m-0">
+        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
       </article>
