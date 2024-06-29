@@ -4,7 +4,8 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import React from 'react'
 
-import { DataTableColumnHeader } from '@/components/column-header'
+import { DataTableColumnHeader } from './column-header'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
