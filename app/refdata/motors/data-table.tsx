@@ -21,7 +21,6 @@ import React from 'react'
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
-// import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -42,7 +41,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({ motorId: false })
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
