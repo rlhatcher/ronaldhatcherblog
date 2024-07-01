@@ -1,10 +1,14 @@
 'use client'
 
 import { type ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
+// import { Divide } from 'lucide-react'
 import React from 'react'
 
-import { Button } from '@/components/ui/button'
+import { DataTableColumnHeader } from './data-table-column-header'
+
+// import { Badge } from '@/components/ui/badge'
+// import { Button } from '@/components/ui/button'
+// import { Checkbox } from '@/components/ui/checkbox'
 
 function fixIt(x: number): string {
   return x.toFixed(2)
@@ -13,76 +17,101 @@ function fixIt(x: number): string {
 export const columns: Array<ColumnDef<Motor>> = [
   {
     accessorKey: 'motorId',
-    header: 'ID',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="ID"
+      />
+    ),
+    cell: ({ row }) => <div>{row.getValue('motorId')}</div>,
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     accessorKey: 'commonName',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            column.toggleSorting(column.getIsSorted() === 'asc')
-          }}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Name"
+      />
+    ),
+    enableSorting: true,
+    enableHiding: true,
   },
   {
-    header: 'Manufacturer',
-    accessorKey: 'madeBy.id',
+    accessorKey: 'madeBy.name',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Manufacturer"
+      />
+    ),
+    enableSorting: true,
+    enableHiding: true,
   },
   {
     accessorKey: 'totImpulseNs',
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => {
-          column.toggleSorting(column.getIsSorted() === 'asc')
-        }}
-      >
-        <div className="text-right">Impulse (N·s)</div>
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
+      <DataTableColumnHeader
+        column={column}
+        title="Impulse (N·s)"
+      />
     ),
     cell: row => {
       const impulse = row.getValue() as number
-      return <div className="text-right font-medium">{fixIt(impulse)}</div>
+      return <div>{fixIt(impulse)}</div>
     },
   },
   {
     accessorKey: 'avgThrustN',
-    header: () => <div className="text-right">Avg Thrust (N)</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Avg Thrust (N)"
+      />
+    ),
     cell: row => {
       const thrust = row.getValue() as number
-      return <div className="text-right font-medium">{fixIt(thrust)}</div>
+      return <div>{fixIt(thrust)}</div>
     },
   },
   {
     accessorKey: 'burnTimeS',
-    header: () => <div className="text-right">Burn Time (s)</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Burn Time (s)"
+      />
+    ),
     cell: row => {
       const burn = row.getValue() as number
-      return <div className="text-right font-medium">{fixIt(burn)}</div>
+      return <div>{fixIt(burn)}</div>
     },
   },
   {
     accessorKey: 'diameter',
-    header: () => <div className="text-right">Dia (mm)</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Diameter"
+      />
+    ),
     cell: row => {
       const dia = row.getValue() as number
-      return <div className="text-right font-medium">{fixIt(dia)}</div>
+      return <div>{fixIt(dia)}</div>
     },
   },
   {
     accessorKey: 'length',
-    header: () => <div className="text-right">Len (mm)</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Length (mm)"
+      />
+    ),
     cell: row => {
       const len = row.getValue() as number
-      return <div className="text-right font-medium">{fixIt(len)}</div>
+      return <div>{fixIt(len)}</div>
     },
   },
 ]

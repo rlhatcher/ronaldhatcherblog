@@ -2,21 +2,26 @@
 
 import {
   type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getPaginationRowModel,
-  useReactTable,
-  type SortingState,
   getSortedRowModel,
-  type ColumnFiltersState,
+  useReactTable,
   type Row,
 } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-import { DataTablePagination } from './table-pagination'
+import { DataTablePagination } from './data-table-pagination'
+import { DataTableToolbar } from './data-table-toolbar'
 
-import { Input } from '@/components/ui/input'
+// import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -35,20 +40,34 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>): JSX.Element {
+  const [rowSelection, setRowSelection] = React.useState({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters] = React.useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
+      columnVisibility,
+      rowSelection,
       columnFilters,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
   const router = useRouter()
@@ -58,19 +77,8 @@ export function DataTable<TData, TValue>({
     router.push(`/refdata/motors/${motorId}`)
   }
   return (
-    <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter names..."
-          value={
-            (table.getColumn('commonName')?.getFilterValue() as string) ?? ''
-          }
-          onChange={event =>
-            table.getColumn('commonName')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
+    <div className="space-y-4">
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
