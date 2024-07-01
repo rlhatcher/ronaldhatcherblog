@@ -1,20 +1,10 @@
 'use client'
 
 import { type ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown } from 'lucide-react'
 import React from 'react'
 
-import { DataTableColumnHeader } from './column-header'
-
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 
 function fixIt(x: number): string {
   return x.toFixed(2)
@@ -22,13 +12,24 @@ function fixIt(x: number): string {
 
 export const columns: Array<ColumnDef<Motor>> = [
   {
+    accessorKey: 'motorId',
+    header: 'ID',
+  },
+  {
     accessorKey: 'commonName',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Name"
-      />
-    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     header: 'Manufacturer',
@@ -37,10 +38,15 @@ export const columns: Array<ColumnDef<Motor>> = [
   {
     accessorKey: 'totImpulseNs',
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Impulse (N·s)"
-      />
+      <Button
+        variant="ghost"
+        onClick={() => {
+          column.toggleSorting(column.getIsSorted() === 'asc')
+        }}
+      >
+        <div className="text-right">Impulse (N·s)</div>
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
     ),
     cell: row => {
       const impulse = row.getValue() as number
@@ -77,39 +83,6 @@ export const columns: Array<ColumnDef<Motor>> = [
     cell: row => {
       const len = row.getValue() as number
       return <div className="text-right font-medium">{fixIt(len)}</div>
-    },
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      const motor = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                void navigator.clipboard.writeText(motor.motorId)
-              }}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
     },
   },
 ]

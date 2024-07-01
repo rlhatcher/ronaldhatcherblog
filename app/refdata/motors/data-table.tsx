@@ -6,11 +6,17 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
+  type SortingState,
+  getSortedRowModel,
+  type ColumnFiltersState,
+  type Row,
 } from '@tanstack/react-table'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 import { DataTablePagination } from './table-pagination'
 
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -29,15 +35,42 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>): JSX.Element {
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters] = React.useState<ColumnFiltersState>([])
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
   })
 
+  const router = useRouter()
+
+  const handleRowClick = (row: Row<TData>): void => {
+    const motorId: string = row.getValue('motorId')
+    router.push(`/refdata/motors/${motorId}`)
+  }
   return (
     <div>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter names..."
+          value={
+            (table.getColumn('commonName')?.getFilterValue() as string) ?? ''
+          }
+          onChange={event =>
+            table.getColumn('commonName')?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -64,6 +97,10 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => {
+                    handleRowClick(row)
+                  }}
+                  style={{ cursor: 'pointer' }}
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

@@ -24,7 +24,7 @@ function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
         Detailed view of the selected motor.
       </p>
 
-      <div className="mt-6 flex flex-col lg:flex-row">
+      <div>
         <div>
           <MotorTable
             motor={motor}
