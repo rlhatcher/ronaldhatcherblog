@@ -3,14 +3,11 @@ import Link from 'next/link'
 import React from 'react'
 
 import { CloudImage } from './cloud-image'
+import { EntryArtwork } from './entry-artwork'
 
 import { badgeVariants } from '@/components/ui/badge'
 
-export default function PostsSection({
-  posts,
-}: {
-  posts: BlogPost[]
-}): JSX.Element {
+export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
   return (
     <div className="[grid-area:posts]">
       <h2 className="mb-4 font-mono text-2xl font-semibold">
@@ -20,7 +17,7 @@ export default function PostsSection({
         {posts.map(post => (
           <article
             key={post.meta.slug}
-            className="mb-4 flex flex-col items-start justify-between"
+            className="mb-2 flex flex-col items-start justify-between border-b pb-2"
           >
             <div className="mb-1 flex items-center gap-x-4 text-xs">
               <time dateTime={post.meta.date}>{post.meta.date}</time>
@@ -72,5 +69,41 @@ export default function PostsSection({
         ))}
       </div>
     </div>
+  )
+}
+
+export function PostsSection({ posts }: { posts: BlogPost[] }): JSX.Element {
+  return (
+    <>
+      {posts.map(post => (
+        <article
+          key={post.meta.slug}
+          className="flex flex-col items-center p-4"
+        >
+          <Link
+            href={`/posts/${post.meta.slug}`}
+            key={post.meta.slug}
+            className="flex w-full max-w-[500px] flex-col items-center"
+          >
+            <EntryArtwork
+              key={post.meta.slug}
+              meta={post.meta}
+              className="h-full"
+              aspectRatio="square"
+              width={500}
+              height={500}
+            />
+            <div className="w-full max-w-xs">
+              <h3 className="mt-3 text-center font-medium leading-none">
+                {post.meta.title}
+              </h3>
+              <p className="mt-1 text-center text-xs text-muted-foreground">
+                {post.meta.description}
+              </p>
+            </div>
+          </Link>
+        </article>
+      ))}
+    </>
   )
 }
