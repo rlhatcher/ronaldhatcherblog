@@ -26,13 +26,13 @@ export default async function StepCards({
       opts={{
         align: 'start',
       }}
-      className="mx-auto w-full max-w-sm bg-accent"
+      className="mx-auto w-full max-w-xl bg-accent"
     >
       <CarouselContent>
         {steps.map(step => (
           <CarouselItem
             key={step.meta.slug}
-            className="lg:1/6 sm:basis-1/2 md:basis-1/3"
+            className="lg:1/13 md:basis-1/7 sm:basis-1/5"
           >
             <div className="p-1">
               <Card className="relative aspect-square">
