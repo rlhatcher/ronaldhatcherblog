@@ -5,6 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import Container from '@/components/container'
+import { DataMenu } from '@/components/data-menu'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ModeToggle } from '@/components/mode-toggle'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -27,6 +28,7 @@ function Intro(): JSX.Element {
 
       <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
         <nav className="flex items-center">
+          <DataMenu />
           <Link
             href="https://github.com/rlhatcher"
             target="_blank"
