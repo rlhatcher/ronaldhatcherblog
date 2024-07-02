@@ -5,6 +5,7 @@ import React from 'react'
 
 import Container from '@/components/container'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import { ModeToggle } from '@/components/mode-toggle'
 import { ThemeProvider } from '@/components/theme-provider'
 import { fontSans, fontMono } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
@@ -16,15 +17,14 @@ export const metadata: Metadata = {
 
 function Intro(): JSX.Element {
   return (
-    <section className="mb-4 mt-2 flex flex-col items-center bg-secondary font-mono md:mb-4 md:flex-row md:justify-between">
+    <section className="mb-4 mt-2 flex flex-col items-center border-b-2 font-mono md:mb-4 md:flex-row md:justify-between">
       <Link href="/">
         <h1 className="flex-grow text-3xl font-light leading-tight tracking-tighter md:pr-8 md:text-3xl">
           Ronald Hatcher.
         </h1>
       </Link>
-      <h2 className="mt-2 text-center text-xl md:pl-8 md:text-left">
-        Personal notes and projects.
-      </h2>
+
+      <ModeToggle />
     </section>
   )
 }

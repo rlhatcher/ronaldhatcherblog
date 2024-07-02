@@ -56,7 +56,7 @@ export default async function StepPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <article className="relative isolate flex flex-col justify-end overflow-hidden border bg-gray-900 shadow-sm">
+      <article className="prose relative isolate flex flex-col justify-end overflow-hidden border dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
         <CloudImage
           title="build"
           src={meta.image}

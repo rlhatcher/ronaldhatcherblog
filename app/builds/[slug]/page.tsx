@@ -59,7 +59,7 @@ export default async function BuildPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <article className="prose">
+      <article className="prose dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
         <div className="bg-secondary">
           <h3 className="p-1 text-lg font-semibold leading-6">Build Steps</h3>
           <StepCards
@@ -67,9 +67,7 @@ export default async function BuildPage({
             steps={steps}
           />
         </div>
-        <div className="m:p-10 prose relative top-0 mx-auto p-5 prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
-          {content}
-        </div>
+        <div className="m:p-10 relative top-0 mx-auto p-5">{content}</div>
       </article>
     </div>
   )

@@ -50,6 +50,27 @@ export const columns: Array<ColumnDef<Motor>> = [
     enableHiding: true,
   },
   {
+    accessorKey: 'impulseClass',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Class"
+      />
+    ),
+    cell: ({ row }) => {
+      const impulseClass = row.getValue<string>('impulseClass')
+      if (['H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'].includes(impulseClass)) {
+        return 'HPR'
+      } else if (['E', 'F', 'G'].includes(impulseClass)) {
+        return 'MPR'
+      } else if (['A', 'B', 'C', 'D'].includes(impulseClass)) {
+        return 'LPR'
+      } else {
+        return impulseClass // Default case, if any
+      }
+    },
+  },
+  {
     accessorKey: 'totImpulseNs',
     header: ({ column }) => (
       <DataTableColumnHeader

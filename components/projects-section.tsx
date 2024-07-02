@@ -13,7 +13,7 @@ export default function ProjectsSection({
       <h2 className="mb-4 font-mono text-2xl font-semibold">
         <Link href="/projects">Projects</Link>
       </h2>
-      <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map(project => (
           <article
             key={project.meta.slug}

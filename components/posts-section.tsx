@@ -15,7 +15,7 @@ export default function PostsSection({
       <h2 className="mb-4 font-mono text-2xl font-semibold">
         <Link href="/posts">Posts</Link>
       </h2>
-      <div className="mt-12">
+      <div>
         {posts.map(post => (
           <article
             key={post.meta.slug}
@@ -70,7 +70,7 @@ export default function PostsSection({
                   height={100}
                 />
                 <div className="leading-6">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs text-gray-600">
                     {post.meta.description}
                   </p>
                 </div>
