@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons'
 import { type Metadata } from 'next'
 import Link from 'next/link'
 import React from 'react'
@@ -7,9 +8,9 @@ import Container from '@/components/container'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ModeToggle } from '@/components/mode-toggle'
 import { ThemeProvider } from '@/components/theme-provider'
+import { buttonVariants } from '@/components/ui/button'
 import { fontSans, fontMono } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
-
 export const metadata: Metadata = {
   title: 'Ronald Hatcher',
   description: 'This is a blog.',
@@ -24,7 +25,45 @@ function Intro(): JSX.Element {
         </h1>
       </Link>
 
-      <ModeToggle />
+      <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+        <nav className="flex items-center">
+          <Link
+            href="https://github.com/rlhatcher"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div
+              className={cn(
+                buttonVariants({
+                  variant: 'ghost',
+                }),
+                'w-9 px-0'
+              )}
+            >
+              <GitHubLogoIcon className="h-4 w-4" />
+              <span className="sr-only">GitHub</span>
+            </div>
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/ronaldhatcher/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div
+              className={cn(
+                buttonVariants({
+                  variant: 'ghost',
+                }),
+                'w-9 px-0'
+              )}
+            >
+              <LinkedInLogoIcon className="h-4 w-4 fill-current" />
+              <span className="sr-only">LinkedIn</span>
+            </div>
+          </Link>
+          <ModeToggle />
+        </nav>
+      </div>
     </section>
   )
 }

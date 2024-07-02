@@ -3,7 +3,7 @@ import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
 // import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { BreadcrumbResponsive } from '@/components/bread-crumb'
+import MdxPage from '@/components/mdx-page'
 import { getProjectByName, getProjectsMeta } from '@/lib/github/projects'
 
 export const revalidate = 10
@@ -54,16 +54,10 @@ export default async function ProjectPage({
     { label: meta.title },
   ]
   return (
-    <div className="container mx-auto sm:px-6 lg:px-8">
-      <BreadcrumbResponsive items={links} />
-      <article className="prose">
-        <h3 className="bg-secondary p-2 font-mono text-lg font-light leading-6 shadow-lg">
-          {meta.description}
-        </h3>
-        <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
-          {content}
-        </div>
-      </article>
-    </div>
+    <MdxPage
+      meta={meta}
+      content={content}
+      links={links}
+    />
   )
 }
