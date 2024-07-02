@@ -5,6 +5,7 @@ import React from 'react'
 import { CloudImage } from './cloud-image'
 
 import { badgeVariants } from '@/components/ui/badge'
+
 export default function PostsSection({
   posts,
 }: {
@@ -15,23 +16,18 @@ export default function PostsSection({
       <h2 className="mb-4 font-mono text-2xl font-semibold">
         <Link href="/posts">Posts</Link>
       </h2>
-      <div className="mt-12">
+      <div>
         {posts.map(post => (
           <article
             key={post.meta.slug}
             className="mb-4 flex flex-col items-start justify-between"
           >
-            <div className="flex items-center gap-x-4 text-xs">
-              <time
-                dateTime={post.meta.date}
-                className="text-gray-500"
-              >
-                {post.meta.date}
-              </time>
+            <div className="mb-1 flex items-center gap-x-4 text-xs">
+              <time dateTime={post.meta.date}>{post.meta.date}</time>
               {post.meta.project !== undefined && (
                 <Link
                   href={`/projects/${post.meta.project}`}
-                  className={badgeVariants({ variant: 'outline' })}
+                  className={badgeVariants({ variant: 'secondary' })}
                 >
                   Project
                 </Link>
@@ -39,7 +35,7 @@ export default function PostsSection({
               {post.meta.build !== undefined && (
                 <Link
                   href={`/builds/${post.meta.build}`}
-                  className={badgeVariants({ variant: 'outline' })}
+                  className={badgeVariants({ variant: 'secondary' })}
                 >
                   Build
                 </Link>
@@ -47,16 +43,14 @@ export default function PostsSection({
               {post.meta.repo !== undefined && (
                 <Link
                   href={post.meta.repo}
-                  className={badgeVariants({ variant: 'outline' })}
+                  className={badgeVariants({ variant: 'secondary' })}
                 >
                   <SiGithub size={13} />
                   <span className="ml-1">Files</span>
                 </Link>
               )}
             </div>
-            <p className="text-md font-semibold text-gray-900">
-              {post.meta.title}
-            </p>
+            <p className="text-md font-semibold">{post.meta.title}</p>
             <Link
               href={`/posts/${post.meta.slug}`}
               key={post.meta.slug}
@@ -65,14 +59,12 @@ export default function PostsSection({
                 <CloudImage
                   src={post.meta.image}
                   alt={post.meta.title}
-                  className="h-10 w-10 rounded-sm bg-gray-50"
+                  className="h-10 w-10 rounded-sm"
                   width={100}
                   height={100}
                 />
                 <div className="leading-6">
-                  <p className="text-sm text-gray-600">
-                    {post.meta.description}
-                  </p>
+                  <p className="text-xs">{post.meta.description}</p>
                 </div>
               </div>
             </Link>
