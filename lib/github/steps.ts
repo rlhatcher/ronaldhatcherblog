@@ -5,6 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
+import RocketStl from '@/components/model-viewers'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -49,6 +50,7 @@ export async function getStepByName(
       Video,
       BlogImage,
       BlogGallery,
+      RocketStl,
     },
     options: {
       parseFrontmatter: true,
@@ -73,15 +75,8 @@ export async function getStepByName(
   const StepObj: Step = {
     meta: {
       slug,
-      title: frontmatter.title,
-      date: frontmatter.date,
-      imageWidth: frontmatter.imageWidth,
-      imageHeight: frontmatter.imageHeight,
-      image: frontmatter.image,
-      tags: frontmatter.tags,
-      description: frontmatter.description,
-      weight: frontmatter.weight,
       type,
+      ...frontmatter,
     },
     content,
   }
