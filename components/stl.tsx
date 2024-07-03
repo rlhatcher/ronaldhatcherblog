@@ -21,12 +21,14 @@ export async function ModelViewer({
   const objectUrl = URL.createObjectURL(blob)
 
   return (
-    <RocketStl
-      style={style}
-      orbitControls
-      shadows
-      fileUrl={objectUrl}
-    />
+    <>
+      <RocketStl
+        style={style}
+        orbitControls
+        shadows
+        fileUrl={objectUrl}
+      />
+    </>
   )
 }
 

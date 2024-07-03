@@ -1,5 +1,5 @@
 const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
-const repo: string = process.env.GITHUB_REPO ?? 'rocketry-files'
+const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 
 export async function getFileByPath(filePath: string): Promise<Blob> {
