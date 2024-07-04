@@ -5,7 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
-import RocketStl from '@/components/model-viewers'
+import { RocketStl } from '@/components/model-viewers'
 import Video from '@/components/Video'
 
 interface gitFile {

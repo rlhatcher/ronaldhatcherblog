@@ -1,6 +1,6 @@
 import React from 'react'
 
-import RocketStl from './model-viewers'
+import { RocketStl } from './model-viewers'
 
 import { getFileByPath } from '@/lib/github/rocket-files'
 
@@ -25,8 +25,8 @@ export async function ModelViewer({
       <RocketStl
         style={style}
         orbitControls
-        shadows
-        fileUrl={objectUrl}
+        rotation
+        modelId={objectUrl}
       />
     </>
   )
