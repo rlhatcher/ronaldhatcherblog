@@ -5,7 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
-import { RocketStl } from '@/components/model-viewers'
+import { Rocket3DViewer } from '@/components/model-viewers'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -50,7 +50,7 @@ export async function getStepByName(
       Video,
       BlogImage,
       BlogGallery,
-      RocketStl,
+      Rocket3DViewer,
     },
     options: {
       parseFrontmatter: true,

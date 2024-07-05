@@ -1,21 +1,29 @@
 'use client'
 
+import { useTheme } from 'next-themes'
 import React, { useEffect, useState } from 'react'
 
-interface RocketStlProps {
+import { BlogImage } from './cloud-image'
+import { Label } from './ui/label'
+import { Switch } from './ui/switch'
+
+interface Rocket3DViewerProps {
   style: React.CSSProperties
   modelId: string
+  modelImage: string
   orbitControls: boolean
   rotation: boolean
 }
 
-export const RocketStl = ({
+export const Rocket3DViewer = ({
   style,
+  modelId,
+  modelImage,
   orbitControls,
   rotation,
-  modelId,
-}: RocketStlProps): JSX.Element => {
+}: Rocket3DViewerProps): JSX.Element => {
   const [viewerLoaded, setViewerLoaded] = useState(false)
+  const { theme } = useTheme()
 
   useEffect(() => {
     if (!viewerLoaded) return
@@ -23,7 +31,7 @@ export const RocketStl = ({
     const initD8sApi = (): void => {
       initDimensions({
         account: 'unknownpro',
-        viewers: ['3D'],
+        viewers: ['IMAGE', '3D'],
         threeDViewer: {
           viewer: {
             autoShow: true,
@@ -47,7 +55,7 @@ export const RocketStl = ({
             },
 
             styles: {
-              theme: 'light',
+              theme: theme ?? 'light',
             },
           },
         },
@@ -68,18 +76,21 @@ export const RocketStl = ({
     return () => {
       document.body.removeChild(script1)
     }
-  }, [orbitControls, rotation, viewerLoaded])
+  }, [orbitControls, rotation, theme, viewerLoaded])
 
   return (
     <div>
-      <button
-        onClick={() => {
-          setViewerLoaded(true)
-        }}
-      >
-        View 3D
-      </button>
-      {viewerLoaded && (
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="3d-viewer-switch"
+          checked={viewerLoaded}
+          onCheckedChange={(checked: boolean) => {
+            setViewerLoaded(checked)
+          }}
+        />
+        <Label htmlFor="3d-viewer-switch">3D Viewer</Label>
+      </div>
+      {viewerLoaded ? (
         <div
           id="three-d-viewer"
           className="d8s-container"
@@ -87,6 +98,12 @@ export const RocketStl = ({
           data-d8s-id={modelId}
           style={style}
         ></div>
+      ) : (
+        <BlogImage
+          src={modelImage}
+          alt="3D Model"
+          crop="fit"
+        />
       )}
     </div>
   )

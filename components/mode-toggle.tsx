@@ -2,7 +2,7 @@
 
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { useTheme } from 'next-themes'
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -13,8 +13,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function ModeToggle(): JSX.Element {
+  const [mounted, setMounted] = useState(false)
   const { setTheme } = useTheme()
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <></>
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

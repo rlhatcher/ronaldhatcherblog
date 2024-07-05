@@ -24,7 +24,7 @@ declare function initDimensions(config: {
       }
 
       styles: {
-        theme: 'light' | 'dark'
+        theme: string
       }
     }
   }
