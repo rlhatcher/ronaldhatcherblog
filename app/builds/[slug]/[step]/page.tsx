@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
 
-import MdxPage from '@/components/mdx-page'
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { getBuildsMeta } from '@/lib/github/builds'
 import { getStepsMeta, getStepByName } from '@/lib/github/steps'
 
@@ -53,10 +53,16 @@ export default async function StepPage({
   ]
 
   return (
-    <MdxPage
-      meta={meta}
-      content={content}
-      links={links}
-    />
+    <div className="container mx-auto sm:px-6 lg:px-8">
+      <BreadcrumbResponsive items={links} />
+      <article>
+        <div className="bg-muted">
+          <h3 className="p-1 text-lg font-semibold leading-6">Build Steps</h3>
+        </div>
+        <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
+          {content}
+        </div>
+      </article>
+    </div>
   )
 }

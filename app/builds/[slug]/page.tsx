@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
@@ -55,7 +55,13 @@ export default async function BuildPage({
     { href: '/builds', label: 'Builds' },
     { label: meta.title },
   ]
+  const [selectedStep, setSelectedStep] = useState<number | null>(0)
+  const [count, setCount] = useState<number>(0)
 
+  useEffect(() => {
+    console.log('Current step:', selectedStep)
+    console.log('Total steps:', count)
+  }, [selectedStep, count])
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
@@ -65,6 +71,9 @@ export default async function BuildPage({
           <StepCards
             build={slug}
             steps={steps}
+            selectedStep={selectedStep}
+            onStepSelect={setSelectedStep}
+            onCountChange={setCount}
           />
         </div>
         <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
