@@ -1,7 +1,7 @@
 'use client'
-
 import { useMediaQuery } from '@react-hook/media-query'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import * as React from 'react'
 
 import {
@@ -39,7 +39,16 @@ export function BreadcrumbResponsive({
   items: BreadCrumb[]
 }): JSX.Element {
   const [open, setOpen] = React.useState(false)
+  const [mounted, setMounted] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <></>
+  }
 
   if (items.length === 0) return <></>
 

@@ -25,6 +25,7 @@ export default async function Image({
           width="800"
           height="600"
           alt="TBD"
+          crop="fit"
         />
       </div>
       <div>{meta.assetId}</div>
