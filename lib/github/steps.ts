@@ -113,5 +113,5 @@ export async function getStepsMeta(build: string): Promise<Step[]> {
     }
   }
 
-  return steps.sort((a, b) => (a.meta.weight < b.meta.weight ? 1 : -1))
+  return steps.sort((a, b) => (a.meta.weight < b.meta.weight ? -1 : 1))
 }
