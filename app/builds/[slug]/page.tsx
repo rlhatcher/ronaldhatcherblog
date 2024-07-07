@@ -3,8 +3,8 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import StepCards from '@/components/step-cards'
-import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
+import BuildViewer from '@/components/build-viewer'
+import { getBuildByName } from '@/lib/github/builds'
 import { getStepsMeta } from '@/lib/github/steps'
 
 export const revalidate = 10
@@ -15,15 +15,15 @@ interface Props {
   }
 }
 
-export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
-  const allBuilds = await getBuildsMeta()
+// export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+//   const allBuilds = await getBuildsMeta()
 
-  if (allBuilds == null) return []
+//   if (allBuilds == null) return []
 
-  return allBuilds.map(build => ({
-    slug: build.meta.slug,
-  }))
-}
+//   return allBuilds.map(build => ({
+//     slug: build.meta.slug,
+//   }))
+// }
 
 export async function generateMetadata({
   params: { slug },
@@ -49,7 +49,7 @@ export default async function BuildPage({
 
   if (build == null) notFound()
 
-  const { meta, content } = build
+  const { meta } = build
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
     { href: '/builds', label: 'Builds' },
@@ -59,18 +59,10 @@ export default async function BuildPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <article>
-        <div className="bg-muted">
-          <h3 className="p-1 text-lg font-semibold leading-6">Build Steps</h3>
-          <StepCards
-            build={slug}
-            steps={steps}
-          />
-        </div>
-        <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
-          {content}
-        </div>
-      </article>
+      <BuildViewer
+        build={build}
+        steps={steps}
+      />
     </div>
   )
 }
