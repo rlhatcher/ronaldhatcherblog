@@ -66,6 +66,7 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "depcheck": "^1.4.7",
+    "embla-carousel": "^8.1.6",
     "eslint": "^8.57.0",
     "eslint-config-love": "^43.1.0",
     "eslint-config-next": "^14.2.4",

@@ -4,7 +4,7 @@ import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import BuildViewer from '@/components/build-viewer'
-import { getBuildByName, getBuildsMeta } from '@/lib/github/builds'
+import { getBuildByName } from '@/lib/github/builds'
 import { getStepsMeta } from '@/lib/github/steps'
 
 export const revalidate = 10
@@ -15,15 +15,15 @@ interface Props {
   }
 }
 
-export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
-  const allBuilds = await getBuildsMeta()
+// export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+//   const allBuilds = await getBuildsMeta()
 
-  if (allBuilds == null) return []
+//   if (allBuilds == null) return []
 
-  return allBuilds.map(build => ({
-    slug: build.meta.slug,
-  }))
-}
+//   return allBuilds.map(build => ({
+//     slug: build.meta.slug,
+//   }))
+// }
 
 export async function generateMetadata({
   params: { slug },
