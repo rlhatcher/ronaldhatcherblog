@@ -13,6 +13,8 @@ import {
   CarouselPrevious,
 } from './ui/carousel'
 
+import { cn } from '@/lib/utils'
+
 interface BuildViewerProps {
   build: Build
   steps: Step[]
@@ -40,7 +42,7 @@ const BuildViewer = ({ build, steps }: BuildViewerProps): React.JSX.Element => {
 
   return (
     <article>
-      <div className="bg-muted">
+      <div className="rounded-xl bg-muted">
         <BuildBanner
           title={steps[current].meta.title}
           description={steps[current].meta.description}
@@ -65,6 +67,7 @@ const BuildViewer = ({ build, steps }: BuildViewerProps): React.JSX.Element => {
                   <BuildThumbCard
                     src={step.meta.image}
                     alt={step.meta.title}
+                    isCurrent={index === current}
                   />
                 </div>
               </CarouselItem>
@@ -89,9 +92,11 @@ const BuildBanner = ({
   description: string
 }): React.JSX.Element => {
   return (
-    <div className="duration-5000 opacity-100 transition-opacity ease-in-out">
-      <h2 className="m-0 p-2 text-center text-3xl font-semibold">{title}</h2>
-      <p className="m-0 p-2 text-center">{description}</p>
+    <div className="flex h-36 flex-col items-center justify-center overflow-hidden">
+      <h2 className="m-0 p-1 text-center text-3xl font-semibold">{title}</h2>
+      <p className="m-0 overflow-hidden overflow-ellipsis p-2 text-center">
+        {description}
+      </p>
     </div>
   )
 }
@@ -99,12 +104,18 @@ const BuildBanner = ({
 const BuildThumbCard = ({
   src,
   alt,
+  isCurrent,
 }: {
   src: string
   alt: string
+  isCurrent: boolean
 }): React.JSX.Element => {
   return (
-    <Card className="relative aspect-square bg-card opacity-100 transition-opacity duration-500 ease-in-out">
+    <Card
+      className={cn('relative aspect-square bg-card hover:scale-105', {
+        'border-4 border-primary': isCurrent,
+      })}
+    >
       <CardContent className="relative z-10 flex aspect-square flex-col items-center justify-center p-0">
         <CloudImage
           src={src}
