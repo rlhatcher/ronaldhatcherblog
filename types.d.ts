@@ -46,6 +46,7 @@ interface ImageMeta {
 }
 
 interface BuildMeta extends Meta {
+  designId?: string
   project: string
 }
 
