@@ -1,7 +1,73 @@
 import Link from 'next/link'
 import React from 'react'
 
+import { CloudImage } from './cloud-image'
+
 import { EntryArtwork } from '@/components/entry-artwork'
+
+export function ProjectList({
+  projects,
+}: {
+  projects: Project[]
+}): JSX.Element {
+  return (
+    <div>
+      {projects.map(project => (
+        <article
+          key={project.meta.slug}
+          className="mb-2 flex flex-col items-start justify-between border-b pb-2"
+        >
+          {/* <div className="mb-1 flex items-center gap-x-4 text-xs">
+              <time dateTime={project.meta.date}>{project.meta.date}</time>
+              {project.meta.project !== undefined && (
+                <Link
+                  href={`/projects/${post.meta.project}`}
+                  className={badgeVariants({ variant: 'secondary' })}
+                >
+                  Project
+                </Link>
+              )}
+              {post.meta.build !== undefined && (
+                <Link
+                  href={`/builds/${post.meta.build}`}
+                  className={badgeVariants({ variant: 'secondary' })}
+                >
+                  Build
+                </Link>
+              )}
+              {post.meta.repo !== undefined && (
+                <Link
+                  href={post.meta.repo}
+                  className={badgeVariants({ variant: 'secondary' })}
+                >
+                  <SiGithub size={13} />
+                  <span className="ml-1">Files</span>
+                </Link>
+              )}
+            </div> */}
+          <p className="text-md font-semibold">{project.meta.title}</p>
+          <Link
+            href={`/projects/${project.meta.slug}`}
+            key={project.meta.slug}
+          >
+            <div className="relative mt-2 flex items-center gap-x-4">
+              <CloudImage
+                src={project.meta.image}
+                alt={project.meta.title}
+                className="h-10 w-10 rounded-sm"
+                width={100}
+                height={100}
+              />
+              <div className="leading-6">
+                <p className="text-xs">{project.meta.description}</p>
+              </div>
+            </div>
+          </Link>
+        </article>
+      ))}
+    </div>
+  )
+}
 
 export default function ProjectsSection({
   projects,

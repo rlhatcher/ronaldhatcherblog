@@ -41,14 +41,10 @@ const BuildViewer = ({ build, steps }: BuildViewerProps): React.JSX.Element => {
   return (
     <article>
       <div className="bg-muted">
-        <div>
-          <h2 className="m-0 p-2 text-center text-3xl font-semibold">
-            {steps[current].meta.title}
-          </h2>
-          <p className="m-0 p-2 text-center">
-            {steps[current].meta.description}
-          </p>
-        </div>
+        <BuildBanner
+          title={steps[current].meta.title}
+          description={steps[current].meta.description}
+        />
         <Carousel
           setApi={setApi}
           opts={{
@@ -85,6 +81,21 @@ const BuildViewer = ({ build, steps }: BuildViewerProps): React.JSX.Element => {
   )
 }
 
+const BuildBanner = ({
+  title,
+  description,
+}: {
+  title: string
+  description: string
+}): React.JSX.Element => {
+  return (
+    <div className="duration-5000 opacity-100 transition-opacity ease-in-out">
+      <h2 className="m-0 p-2 text-center text-3xl font-semibold">{title}</h2>
+      <p className="m-0 p-2 text-center">{description}</p>
+    </div>
+  )
+}
+
 const BuildThumbCard = ({
   src,
   alt,
@@ -93,7 +104,7 @@ const BuildThumbCard = ({
   alt: string
 }): React.JSX.Element => {
   return (
-    <Card className="relative aspect-square">
+    <Card className="relative aspect-square bg-card opacity-100 transition-opacity duration-500 ease-in-out">
       <CardContent className="relative z-10 flex aspect-square flex-col items-center justify-center p-0">
         <CloudImage
           src={src}
@@ -101,7 +112,7 @@ const BuildThumbCard = ({
           width={'748'}
           height={'748'}
           crop={'fill'}
-          className={'m-0'}
+          className={'m-0 bg-popover'}
         />
         <span className="text-md font-semibold">{alt}</span>
       </CardContent>
