@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
+import SimTabs from '@/components/blog/simulations'
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import { Rocket3DViewer } from '@/components/model-viewers'
 import Video from '@/components/Video'
@@ -51,6 +52,7 @@ export async function getStepByName(
       BlogImage,
       BlogGallery,
       Rocket3DViewer,
+      SimTabs,
     },
     options: {
       parseFrontmatter: true,

@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
+import SimTabs from '@/components/blog/simulations'
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
@@ -43,6 +44,7 @@ export async function getPostByName(
       Video,
       BlogImage,
       BlogGallery,
+      SimTabs,
     },
     options: {
       parseFrontmatter: true,

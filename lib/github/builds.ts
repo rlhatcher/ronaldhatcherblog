@@ -5,6 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
+import SimTabs from '@/components/blog/simulations'
 import { BlogGallery, BlogImage } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
@@ -43,6 +44,7 @@ export async function getBuildByName(
       Video,
       BlogImage,
       BlogGallery,
+      SimTabs,
     },
     options: {
       parseFrontmatter: true,
