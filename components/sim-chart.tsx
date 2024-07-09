@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { ChartLegend, ChartLegendContent } from '@/components/ui/chart'
 import {
   type ChartConfig,
   ChartContainer,
@@ -20,15 +21,15 @@ import {
 const chartConfig = {
   verticalVelocity: {
     label: 'Velocity',
-    color: '#2563eb',
+    color: 'hsl(var(--chart-1))',
   },
   altitude: {
     label: 'Altitude',
-    color: '#60a5fa',
+    color: 'hsl(var(--chart-2))',
   },
   verticalAcceleration: {
     label: 'Acceleration',
-    color: '#93c5fd',
+    color: 'hsl(var(--chart-3))',
   },
 } satisfies ChartConfig
 
@@ -60,7 +61,8 @@ export const VmotionVsTime = ({
       <CardHeader>
         <CardTitle>{rocketConfig.name}</CardTitle>
         <CardDescription>
-          {simulation.maxaltitude} m - {simulation.maxvelocity} m/s
+          Max Altitude {simulation.maxaltitude} m - Max Velocity
+          {simulation.maxvelocity} m/s
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -73,32 +75,63 @@ export const VmotionVsTime = ({
               right: 12,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={true} />
             <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={value => value.slice(0, 3)}
+              dataKey="time"
+              tickLine={true}
+              axisLine={true}
+              tickMargin={5}
+              label={{
+                value: 'Duration (s)',
+                angle: 0,
+                position: 'bottom',
+              }}
+            />
+            <YAxis
+              yAxisId="left"
+              label={{
+                value: 'Velocity (m/s)',
+                angle: 90,
+                position: 'left',
+              }}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              label={{
+                value: 'Altitude (m)',
+                angle: 90,
+                position: 'right',
+              }}
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent />}
+              content={<ChartTooltipContent nameKey="time" />}
             />
+            <ChartLegend content={<ChartLegendContent />} />
             <Line
               dataKey="altitude"
               type="monotone"
-              // stroke="var(--color-desktop)"
+              stroke="var(--color-altitude)"
               strokeWidth={2}
               dot={false}
+              yAxisId="right"
             />
             <Line
               dataKey="verticalVelocity"
               type="monotone"
-              // stroke="var(--color-mobile)"
+              stroke="var(--color-verticalVelocity)"
               strokeWidth={2}
               dot={false}
+              yAxisId="left"
             />
+            {/* <Line
+              dataKey="verticalAcceleration"
+              type="monotone"
+              stroke="var(--color-verticalAcceleration)"
+              strokeWidth={2}
+              dot={false}
+            /> */}
           </LineChart>
         </ChartContainer>
       </CardContent>
