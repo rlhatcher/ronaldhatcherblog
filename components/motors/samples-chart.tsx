@@ -1,65 +1,20 @@
 'use client'
-
-import {
-  Chart as ChartJS,
-  type ChartOptions,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js'
 import React from 'react'
-import { Line } from 'react-chartjs-2'
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-)
-
-const options: ChartOptions<'line'> = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-      labels: {
-        boxHeight: 1,
-      },
-    },
-    title: {
-      display: true,
-      color: 'white',
-      text: 'Motor Thrust over Time',
-    },
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart'
+const chartConfig = {
+  desktop: {
+    label: 'thrust',
+    color: 'hsl(var(--chart-1))',
   },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        color: 'white',
-        text: 'Time (seconds)',
-      },
-      type: 'linear',
-      position: 'bottom',
-    },
-    y: {
-      title: {
-        display: true,
-        color: 'white',
-        text: 'Thrust (Newtons)',
-      },
-    },
-  },
-}
+} satisfies ChartConfig
 
 export const SamplesChart = ({
   samples,
@@ -69,32 +24,45 @@ export const SamplesChart = ({
   const avgThrust =
     samples.reduce((acc, sample) => acc + sample.thrust, 0) / samples.length
 
-  const data = {
-    datasets: [
-      {
-        label: 'Thrust',
-        data: samples.map(sample => ({ x: sample.time, y: sample.thrust })),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        pointRadius: 0,
-        tension: 0.5,
-        fill: false,
-      },
-      {
-        label: 'Average Thrust',
-        data: samples.map(sample => ({ x: sample.time, y: avgThrust })),
-        borderColor: 'rgb(54, 162, 235)',
-        borderDash: [5, 10],
-        pointRadius: 0,
-        fill: false,
-      },
-    ],
-  }
+  const chartData = samples.map(sample => ({
+    time: sample.time,
+    thrust: sample.thrust,
+    avgThrust,
+  }))
 
   return (
-    <Line
-      options={options}
-      data={data}
-    />
+    <Card>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="time"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Line
+              dataKey="thrust"
+              type="natural"
+              stroke="var(--color-desktop)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   )
 }
