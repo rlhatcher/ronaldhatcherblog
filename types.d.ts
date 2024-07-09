@@ -46,6 +46,7 @@ interface ImageMeta {
 }
 
 interface BuildMeta extends Meta {
+  designId?: string
   project: string
 }
 
@@ -238,4 +239,167 @@ interface Simulation {
   launchrodvelocity?: string
   deploymentvelocity?: string
   optimumdelay?: string
+  simulationData?: SimulationData
+}
+
+interface SimulationData {
+  Time: number[]
+  Altitude: number[]
+  VerticalVelocity: number[]
+  VerticalAcceleration: number[]
+  TotalVelocity: number[]
+  TotalAcceleration: number[]
+  PositionEastOfLaunch: number[]
+  PositionNorthOfLaunch: number[]
+  LateralDistance: number[]
+  LateralDirection: number[]
+  LateralVelocity: number[]
+  LateralAcceleration: number[]
+  Latitude: number[]
+  Longitude: number[]
+  GravitationalAcceleration: number[]
+  AngleOfAttack: number[]
+  RollRate: number[]
+  PitchRate: number[]
+  YawRate: number[]
+  Mass: number[]
+  MotorMass: number[]
+  LongitudinalMomentOfInertia: number[]
+  RotationalMomentOfInertia: number[]
+  CpLocation: number[]
+  CgLocation: number[]
+  StabilityMarginCalibers: number[]
+  MachNumber: number[]
+  ReynoldsNumber: number[]
+  Thrust: number[]
+  DragForce: number[]
+  DragCoefficient: number[]
+  AxialDragCoefficient: number[]
+  FrictionDragCoefficient: number[]
+  PressureDragCoefficient: number[]
+  BaseDragCoefficient: number[]
+  NormalForceCoefficient: number[]
+  PitchMomentCoefficient: number[]
+  YawMomentCoefficient: number[]
+  SideForceCoefficient: number[]
+  RollMomentCoefficient: number[]
+  RollForcingCoefficient: number[]
+  RollDampingCoefficient: number[]
+  PitchDampingCoefficient: number[]
+  CoriolisAcceleration: number[]
+  ReferenceLength: number[]
+  ReferenceArea: number[]
+  VerticalOrientationZenith: number[]
+  LateralOrientationAzimuth: number[]
+  WindVelocity: number[]
+  AirTemperature: number[]
+  AirPressure: number[]
+  SpeedOfSound: number[]
+  SimulationTimeStep: number[]
+  ComputationTime: number[]
+}
+
+interface Club {
+  id: string
+  name: string
+  location: string
+  website: string
+  image: string
+  description: string
+  members?: Person[]
+  manages?: LaunchSite[]
+  events?: LaunchEvent[]
+  sanctionedBy?: GoverningBody
+}
+
+interface GoverningBody {
+  id: string
+  name: string
+  location: string
+  website: string
+  image: string
+  description: string
+}
+
+interface LaunchEvent {
+  id: string
+  name: string
+  frequency: string
+  launchedAt?: Flight[]
+  organisedBy?: Club
+  location?: LaunchSite
+}
+
+interface Flight {
+  id: string
+  name?: string
+  launched?: string
+  produces?: FlightData[]
+  launchedWith?: Configuration
+  launchedFrom?: LaunchSite
+  launchedAt?: LaunchEvent
+  lauchedBy?: Person
+  date?: string
+}
+
+interface LaunchSite {
+  id: string
+  name: string
+  longitude: string
+  latitude: string
+  altitude: string
+  longitude: string
+  latitude: string
+  altitude: string
+  description: string
+  events?: LaunchEvent[]
+  flights?: Flight[]
+  managedBy?: Club
+  weather?: WeatherModelRun
+}
+
+interface FlightData {
+  id: string
+  producedBy: Flight
+}
+
+interface WeatherModelRun {
+  initialTime: string
+  model: string
+  modelRun: string
+  location: string
+  latitude: number
+  longitude: number
+  timezone: string
+  predicts: WeatherForecast[]
+}
+
+interface WeatherForecast {
+  temperature: number
+  dewpoint: number
+  rain: number
+  freezinglevel: number
+  uvIndex: number
+  totalcloud: number
+  lowcloud: number
+  medcloud: number
+  highcloud: number
+  humidity: number
+  windspeed: number
+  meansealevelpressure: number
+  windgustspeed: number
+  winddirection: number
+  windletter: string
+  icon: string
+  iconName: string
+  chanceofrain: number
+  chanceofsnow: number
+  dayOfWeek: number
+  weekday: string
+  sunrise: string
+  sunset: string
+  cumulusBaseHeight: number
+  stratusBaseHeight: number
+  dayOrNight: string
+  utcTime: string
 }

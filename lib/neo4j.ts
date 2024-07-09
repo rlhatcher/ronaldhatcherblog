@@ -74,3 +74,4 @@ export async function executeRead(
 }
 
 export * from './neo4j/motors'
+export * from './neo4j/designs'
