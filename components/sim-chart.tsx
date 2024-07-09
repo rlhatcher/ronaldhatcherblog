@@ -61,8 +61,8 @@ export const VmotionVsTime = ({
       <CardHeader>
         <CardTitle>{rocketConfig.name}</CardTitle>
         <CardDescription>
-          Max Altitude {simulation.maxaltitude} m - Max Velocity
-          {simulation.maxvelocity} m/s
+          {rocketConfig.usesMotor?.[0]?.madeBy?.name} -{' '}
+          {rocketConfig.usesMotor?.[0]?.diameter}mm
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -138,12 +138,25 @@ export const VmotionVsTime = ({
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Optimum Delay {simulation.optimumdelay}
+            <div className="flex flex-wrap items-center gap-2 font-medium leading-none">
+              <div className="flex gap-1">
+                <span>Max Altitude</span>
+                <span>{simulation.maxaltitude}m</span>
+              </div>
+              <div className="flex gap-1">
+                <span>Max Velocity</span>
+                <span>{simulation.maxvelocity}m/s</span>
+              </div>
+              <div className="flex gap-1">
+                <span>Rod Velocity</span>
+                <span>{simulation.launchrodvelocity}m/s</span>
+              </div>
+              <div className="flex gap-1">
+                <span>Optimum Delay</span>
+                <span>{simulation.optimumdelay}s</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
-            </div>
+            <div className="flex items-center gap-2 leading-none text-muted-foreground"></div>
           </div>
         </div>
       </CardFooter>
