@@ -81,11 +81,16 @@ export const VmotionVsTime = ({
               tickLine={true}
               axisLine={true}
               tickMargin={5}
+              scale="time"
+              type="number"
+              interval="preserveStartEnd"
+              domain={[0, 'dataMax']}
               label={{
                 value: 'Duration (s)',
                 angle: 0,
                 position: 'bottom',
               }}
+              tickFormatter={value => value.toFixed(2)}
             />
             <YAxis
               yAxisId="left"
