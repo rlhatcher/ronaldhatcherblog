@@ -2,7 +2,7 @@ import React from 'react'
 
 import MotorTable from './motor-table'
 
-import { SamplesChart } from '@/components/motors/samples-chart'
+import { MotorChart } from '@/components/motors/motor-chart'
 
 function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
   if (motor == null) {
@@ -33,7 +33,7 @@ function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
         </div>
         <div>
           {motor.thrustCurve != null && (
-            <SamplesChart samples={motor.thrustCurve} />
+            <MotorChart samples={motor.thrustCurve} />
           )}
         </div>
       </div>

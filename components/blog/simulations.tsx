@@ -15,9 +15,5 @@ export default async function SimTabs({
 }: Props): Promise<JSX.Element> {
   const design = await fetchDesign(designId)
 
-  return (
-    <div className="container mx-auto sm:px-2 lg:px-4">
-      {design != null && <DesignView design={design} />}
-    </div>
-  )
+  return <div>{design != null && <DesignView design={design} />}</div>
 }

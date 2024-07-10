@@ -16,7 +16,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export const SamplesChart = ({
+export const MotorChart = ({
   samples,
 }: {
   samples: ThrustSample[]

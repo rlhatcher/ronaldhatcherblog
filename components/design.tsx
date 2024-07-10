@@ -16,7 +16,7 @@ export default function DesignView({
   return (
     <Tabs
       defaultValue={configurations[0]?.name ?? ''}
-      className="flex h-full flex-col"
+      className="mx-auto flex h-full flex-col"
     >
       <h3 className="text-2xl font-semibold">Configurations</h3>
       <TabsList className="flex h-auto w-full flex-wrap">

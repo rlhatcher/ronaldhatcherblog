@@ -1,4 +1,5 @@
 'use client'
+import { useMediaQuery } from '@react-hook/media-query'
 import React from 'react'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
@@ -33,13 +34,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+interface VmotionVsTimeProps {
+  rocketConfig: Configuration
+}
+
 export const VmotionVsTime = ({
   rocketConfig,
-}: {
-  rocketConfig: Configuration
-}): JSX.Element => {
+}: VmotionVsTimeProps): JSX.Element => {
   const simulation = rocketConfig.validatedBy?.[0]
   const simulationData = simulation?.simulationData
+  const isSmallScreen = useMediaQuery('(max-width: 640px)')
+
   if (simulation == null) {
     return <p>No simulation data available for this configuration.</p>
   }
@@ -92,23 +97,28 @@ export const VmotionVsTime = ({
               }}
               tickFormatter={value => value.toFixed(2)}
             />
-            <YAxis
-              yAxisId="left"
-              label={{
-                value: 'Velocity (m/s)',
-                angle: 90,
-                position: 'left',
-              }}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              label={{
-                value: 'Altitude (m)',
-                angle: 90,
-                position: 'right',
-              }}
-            />
+            {!isSmallScreen && (
+              <>
+                <YAxis
+                  yAxisId="left"
+                  orientation="left"
+                  label={{
+                    value: 'Velocity (m/s)',
+                    angle: 90,
+                    position: 'left',
+                  }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  label={{
+                    value: 'Altitude (m)',
+                    angle: 90,
+                    position: 'right',
+                  }}
+                />
+              </>
+            )}{' '}
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent nameKey="time" />}
