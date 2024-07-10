@@ -18,8 +18,8 @@ export default function DesignView({
       defaultValue={configurations[0]?.name ?? ''}
       className="mx-auto flex h-full flex-col"
     >
-      <h3 className="text-2xl font-semibold">Configurations</h3>
-      <TabsList className="flex h-auto w-full flex-wrap">
+      <h3 className="text-2xl font-semibold">Simulatuions</h3>
+      <TabsList className="flex h-auto w-full flex-wrap justify-start">
         {configurations?.map(config => (
           <TabsTrigger
             key={config.name}
