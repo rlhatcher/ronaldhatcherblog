@@ -1,3 +1,4 @@
+import { LoginLink } from '@kinde-oss/kinde-auth-nextjs'
 import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
@@ -12,6 +13,7 @@ export default function Home(): JSX.Element {
   return (
     <div>
       <BreadcrumbResponsive items={links} />
+      <LoginLink>Sign in</LoginLink>
       <DesignUpload />
     </div>
   )
