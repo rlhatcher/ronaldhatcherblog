@@ -18,13 +18,12 @@ import {
 export async function fetchDesign(designId: string): Promise<Design | null> {
   const res = await executeRead(
     `
-    MATCH (d:Design {id: $designId})<-[:DEFINED_BY]-(r:Rocket)
+    MATCH (d:Design {id: $designId})
     OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
     OPTIONAL MATCH (s:Simulation)<-[:VALIDATED_BY]-(c)
     OPTIONAL MATCH (c)-[:USES_MOTOR]->(m:Motor)
     OPTIONAL MATCH (m)<-[:MAKES]-(mf:Manufacturer)
     RETURN d AS design, 
-           r AS rocket,
            c AS configuration,
            COLLECT(s) AS simulationsForConfig,
            COLLECT(m) AS motorsForConfig,
@@ -39,11 +38,9 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
 
   const record = res.records[0]
   const designNode: Neo4jNode<Design> = record.get('design')
-  const rocketNode: Neo4jNode<Rocket> = record.get('rocket')
 
   const design: Design = {
     ...designNode.properties,
-    defines: rocketNode.properties,
     supports: [],
   }
 
