@@ -102,7 +102,6 @@ export async function mergeDesign(design: Design): Promise<void> {
   const params = {
     designId: design.id,
     name: design.name,
-    rocketId: design.defines.id ?? null,
     filename: design.reflectedIn ?? null,
     stages: design.stages ?? null,
     massEmpty: design.massEmpty ?? null,
@@ -122,9 +121,6 @@ export async function mergeDesign(design: Design): Promise<void> {
       massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
       cg: $cg, cp: $cp, totalLength: $totalLength, maxDiameter: $maxDiameter
     }
-    WITH design
-    MATCH (rocket:Rocket:Model {id: $rocketId})
-    MERGE (rocket)-[:DEFINED_BY]->(design)
     
     WITH design
     UNWIND $supports AS cfg
