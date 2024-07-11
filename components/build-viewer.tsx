@@ -42,41 +42,39 @@ const BuildViewer = ({ build, steps }: BuildViewerProps): React.JSX.Element => {
 
   return (
     <article>
-      <div className="rounded-xl bg-muted">
-        <BuildBanner
-          title={steps[current].meta.title}
-          description={steps[current].meta.description}
-        />
-        <Carousel
-          setApi={setApi}
-          opts={{
-            align: 'start',
-          }}
-          className="mx-auto w-full max-w-xl bg-accent"
-        >
-          <CarouselContent className="-ml-2">
-            {steps.map((step, index) => (
-              <CarouselItem
-                key={step.meta.slug}
-                className="lg:1/13 md:basis-1/7 cursor-pointer pl-1 sm:basis-1/5"
-                onClick={() => {
-                  handleCardClick(index)
-                }}
-              >
-                <div className="p-1">
-                  <BuildThumbCard
-                    src={step.meta.image}
-                    alt={step.meta.title}
-                    isCurrent={index === current}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div>
+      <BuildBanner
+        title={steps[current].meta.title}
+        description={steps[current].meta.description}
+      />
+      <Carousel
+        setApi={setApi}
+        opts={{
+          align: 'start',
+        }}
+        className="mx-auto w-full max-w-xl bg-accent"
+      >
+        <CarouselContent className="-ml-2">
+          {steps.map((step, index) => (
+            <CarouselItem
+              key={step.meta.slug}
+              className="lg:1/13 md:basis-1/7 cursor-pointer pl-1 sm:basis-1/5"
+              onClick={() => {
+                handleCardClick(index)
+              }}
+            >
+              <div className="p-1">
+                <BuildThumbCard
+                  src={step.meta.image}
+                  alt={step.meta.title}
+                  isCurrent={index === current}
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
       <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
         {steps[current].content}
       </div>
