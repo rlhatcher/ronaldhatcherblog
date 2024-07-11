@@ -1,7 +1,7 @@
 import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
-import DesignView from '@/components/design'
+import { DesignView } from '@/components/design'
 import { fetchDesign } from '@/lib/neo4j'
 
 export const revalidate = 10
