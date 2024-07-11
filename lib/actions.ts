@@ -1,10 +1,18 @@
+'use server'
+import { mergeDesign } from '@/lib/neo4j'
+
 export async function orkUpload(fileUrl: string): Promise<Design> {
   const url = 'https://api.rocketclub.online/openrocket/orktojson'
 
   try {
-    // Create a FormData object and append the file URL as a string
+    const fileResponse = await fetch(fileUrl)
+    if (!fileResponse.ok) {
+      throw new Error('Failed to fetch the file from the provided URL')
+    }
+    const fileBlob = await fileResponse.blob()
+
     const formData = new FormData()
-    formData.append('file', fileUrl)
+    formData.append('file', fileBlob, 'uploaded.ork')
 
     const response = await fetch(url, {
       method: 'POST',
@@ -13,6 +21,7 @@ export async function orkUpload(fileUrl: string): Promise<Design> {
 
     if (response.ok) {
       const data: Design = await response.json()
+      await mergeDesign(data)
       return data
     } else {
       console.error('Failed to upload design:', response.statusText)

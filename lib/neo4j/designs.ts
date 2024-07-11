@@ -1,3 +1,5 @@
+'use server'
+
 import {
   type Neo4jNode,
   executeRead,
@@ -100,7 +102,7 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
  */
 export async function mergeDesign(design: Design): Promise<void> {
   const params = {
-    designId: design.id,
+    designId: design.name,
     name: design.name,
     filename: design.reflectedIn ?? null,
     stages: design.stages ?? null,
