@@ -8,7 +8,7 @@ import remarkToc from 'remark-toc'
 import path from 'path'
 
 import SimTabs from '@/components/blog/simulations'
-import { BlogGallery, BlogImage } from '@/components/cloud-image'
+import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
 import Video from '@/components/Video'
 
 interface gitFile {
@@ -48,6 +48,7 @@ export async function getProjectByName(
       BlogImage,
       BlogGallery,
       SimTabs,
+      VideoPlayer,
     },
     options: {
       parseFrontmatter: true,

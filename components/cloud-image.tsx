@@ -1,8 +1,9 @@
 'use client'
 import Link from 'next/link'
 import { CldImage as NextCldImage, type CldImageProps } from 'next-cloudinary'
+import { CldVideoPlayer } from 'next-cloudinary'
 import React from 'react'
-
+import 'next-cloudinary/dist/cld-video-player.css'
 export const CloudImage = (props: CldImageProps): React.JSX.Element => {
   return <NextCldImage {...props} />
 }
@@ -43,5 +44,21 @@ export const BlogGallery = ({
         </div>
       ))}
     </div>
+  )
+}
+
+interface VideoPlayerProps {
+  src: string
+}
+
+export const VideoPlayer = ({
+  ...props
+}: VideoPlayerProps): React.JSX.Element => {
+  return (
+    <CldVideoPlayer
+      width="1920"
+      height="1080"
+      {...props}
+    />
   )
 }
