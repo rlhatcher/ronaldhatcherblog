@@ -4,7 +4,7 @@ import React from 'react'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import StepCarousel from '@/components/step-carousel'
 import { getBuildsMeta } from '@/lib/github/builds'
-import { getStepsMeta, getStepByName } from '@/lib/github/steps'
+import { getStepsMeta } from '@/lib/github/steps'
 
 interface Props {
   params: {
@@ -40,8 +40,9 @@ export async function generateStaticParams(): Promise<
 export default async function StepPage({
   params: { slug, step },
 }: Props): Promise<React.JSX.Element> {
-  const theStep = await getStepByName(slug, `${step}.mdx`)
   const steps = await getStepsMeta(slug)
+  const theStep = steps.find(s => s.meta.slug === step)
+  const theIndex = steps.findIndex(s => s.meta.slug === step)
 
   if (theStep == null) notFound()
 
@@ -67,7 +68,7 @@ export default async function StepPage({
       </div>
       <StepCarousel
         build={slug}
-        selected="build"
+        selected={theIndex}
         steps={steps}
       />
       <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">

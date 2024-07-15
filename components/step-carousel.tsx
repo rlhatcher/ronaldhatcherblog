@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils'
 
 interface StepCarouselProps {
   build: string
-  selected: string
+  selected: number
   steps: Step[]
 }
 
@@ -28,7 +28,7 @@ const StepCarousel = ({
   steps,
 }: StepCarouselProps): React.JSX.Element => {
   const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(0)
+  const [current, setCurrent] = React.useState(selected)
 
   const router = useRouter()
 
@@ -36,11 +36,12 @@ const StepCarousel = ({
     if (api == null) {
       return
     }
-
+    api.scrollTo(selected)
     api.on('select', () => {
+      api.selectedScrollSnap()
       setCurrent(api.selectedScrollSnap())
     })
-  }, [api])
+  }, [api, selected])
 
   const handleCardClick = (index: number): void => {
     if (api != null) {
