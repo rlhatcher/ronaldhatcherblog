@@ -36,7 +36,7 @@ const StepCarousel = ({
     if (api == null) {
       return
     }
-    api.scrollTo(selected)
+    api.scrollTo(selected, true)
     api.on('select', () => {
       api.selectedScrollSnap()
       setCurrent(api.selectedScrollSnap())
@@ -62,7 +62,7 @@ const StepCarousel = ({
         {steps.map((step, index) => (
           <CarouselItem
             key={step.meta.slug}
-            className="lg:1/13 md:basis-1/7 cursor-pointer pl-1 sm:basis-1/5"
+            className="lg:basis-1/13 md:basis-1/7 basis-1/3 cursor-pointer pl-1 sm:basis-1/5"
             onClick={() => {
               handleCardClick(index)
             }}
