@@ -3,7 +3,7 @@ import React from 'react'
 
 import 'highlight.js/styles/github-dark.css'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import BuildViewer from '@/components/build-viewer'
+import StepCarousel from '@/components/step-carousel'
 import { getBuildByName } from '@/lib/github/builds'
 import { getStepsMeta } from '@/lib/github/steps'
 
@@ -59,8 +59,9 @@ export default async function BuildPage({
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
-      <BuildViewer
-        build={build}
+      <StepCarousel
+        build={build.meta.slug}
+        selected="build"
         steps={steps}
       />
     </div>
