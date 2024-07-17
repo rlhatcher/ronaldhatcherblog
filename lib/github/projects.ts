@@ -1,5 +1,6 @@
 import { compileMDX } from 'next-mdx-remote/rsc'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeCitation from 'rehype-citation'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
@@ -37,6 +38,18 @@ export async function getProjectByName(
   )
   if (!res.ok) return undefined
 
+  const bibFile = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}.bib`
+  const bibRes = await fetch(bibFile, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    next: { revalidate: 600 },
+  })
+
+  const bib = bibRes.ok ? [bibFile] : []
+
   const rawMDX = await res.text()
 
   if (rawMDX === '404: Not Found') return undefined
@@ -67,6 +80,7 @@ export async function getProjectByName(
           rehypeHighlight,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behavior: 'prepend' }],
+          [rehypeCitation, { bibliography: bib, linkCitations: true }],
         ],
       },
     },
