@@ -36,7 +36,7 @@ const StepCarousel = ({
     if (api == null) {
       return
     }
-    api.scrollTo(selected, true)
+    api.scrollTo(selected, false)
     api.on('select', () => {
       api.selectedScrollSnap()
       setCurrent(api.selectedScrollSnap())
@@ -54,7 +54,7 @@ const StepCarousel = ({
     <Carousel
       setApi={setApi}
       opts={{
-        align: 'start',
+        align: 'center',
       }}
       className="mx-auto w-full max-w-xl bg-accent"
     >
