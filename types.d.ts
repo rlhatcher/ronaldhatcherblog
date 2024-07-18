@@ -23,16 +23,16 @@ interface BreadCrumb {
 }
 
 interface Meta {
-  title: string
+  title?: string
   slug: string
-  description: string
-  date: string
-  image: string
-  tags: string[]
-  type: string
+  description?: string
+  date?: string
+  image?: string
+  tags?: string[]
+  type?: string
   repo?: string
-  imageHeight: number
-  imageWidth: number
+  imageHeight?: number
+  imageWidth?: number
 }
 
 interface ImageMeta {

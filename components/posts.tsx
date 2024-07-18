@@ -54,8 +54,8 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
             >
               <div className="relative mt-2 flex items-center gap-x-4">
                 <CloudImage
-                  src={post.meta.image}
-                  alt={post.meta.title}
+                  src={post.meta.image ?? 'logo'}
+                  alt={post.meta.title ?? 'Post'}
                   className="h-10 w-10 rounded-sm"
                   width={100}
                   height={100}

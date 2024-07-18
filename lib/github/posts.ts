@@ -20,7 +20,7 @@ const type: string = 'posts'
 
 export async function getPostByName(
   fileName: string
-): Promise<BlogPost | undefined> {
+): Promise<BlogPost | null> {
   const res = await fetch(
     `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}`,
     {
@@ -32,11 +32,11 @@ export async function getPostByName(
       next: { revalidate: 600 },
     }
   )
-  if (!res.ok) return undefined
+  if (!res.ok) return null
 
   const rawMDX = await res.text()
 
-  if (rawMDX === '404: Not Found') return undefined
+  if (rawMDX === '404: Not Found') return null
 
   const { frontmatter, content } = await compileMDX<BlogPostMeta>({
     source: rawMDX,
@@ -107,6 +107,9 @@ export async function getPostsMeta(): Promise<BlogPost[]> {
       posts.push(post)
     }
   }
-
-  return posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1))
+  return posts.sort((a, b) => {
+    const dateA = a.meta.date ?? new Date(0)
+    const dateB = b.meta.date ?? new Date(0)
+    return dateA < dateB ? 1 : -1
+  })
 }

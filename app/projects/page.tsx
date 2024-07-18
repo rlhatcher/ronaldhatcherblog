@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import ProjectsSection from '@/components/projects'
-import { getProjectsMeta } from '@/lib/github/projects'
+import { getProjects } from '@/lib/github/projects'
 
 export default async function ProjectPage(): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = [
@@ -10,7 +10,7 @@ export default async function ProjectPage(): Promise<React.JSX.Element> {
     { label: 'Projects' },
     { label: '🚀' },
   ]
-  const projects = await getProjectsMeta()
+  const projects = await getProjects()
   return (
     <div>
       <BreadcrumbResponsive items={links} />

@@ -52,7 +52,7 @@ export default async function StepPage({
     { href: '/', label: 'Home' },
     { href: '/builds', label: 'Builds' },
     { href: `/builds/${slug}`, label: slug },
-    { label: meta.title },
+    { label: meta.title ?? 'Step' },
   ]
 
   return (

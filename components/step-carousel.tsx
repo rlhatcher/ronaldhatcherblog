@@ -69,8 +69,8 @@ const StepCarousel = ({
           >
             <div className="p-1">
               <BuildThumbCard
-                src={step.meta.image}
-                alt={step.meta.title}
+                src={step.meta.image ?? 'logo'}
+                alt={step.meta.title ?? 'Step'}
                 isCurrent={index === current}
               />
             </div>

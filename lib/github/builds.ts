@@ -116,5 +116,9 @@ export async function getBuildsMeta(): Promise<Build[]> {
     }
   }
 
-  return builds.sort((a, b) => (a.meta.date > b.meta.date ? 1 : -1))
+  return builds.sort((a, b) => {
+    const dateA = a.meta.date ?? new Date(0)
+    const dateB = b.meta.date ?? new Date(0)
+    return dateA < dateB ? 1 : -1
+  })
 }

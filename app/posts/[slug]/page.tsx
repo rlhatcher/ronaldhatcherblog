@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 
-import MdxPage from '@/components/mdx-page'
 import { getPostByName, getPostsMeta } from '@/lib/github/posts'
 
 export const revalidate = 10
@@ -35,7 +34,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: post.meta.title,
+    title: post.meta.title ?? 'Post Not Found',
   }
 }
 
@@ -45,17 +44,21 @@ export default async function PostPage({
   const post = await getPostByName(`${slug}.mdx`)
   if (post == null) notFound()
   const { meta, content } = post
-  const links: BreadCrumb[] = [
-    { href: '/', label: 'Home' },
-    { href: '/posts', label: 'Posts' },
-    { label: meta.title },
-  ]
+  // const links: BreadCrumb[] = [
+  //   { href: '/', label: 'Home' },
+  //   { href: '/posts', label: 'Posts' },
+  //   { label: meta.title ?? 'Post' },
+  // ]
 
   return (
-    <MdxPage
-      meta={meta}
-      content={content}
-      links={links}
-    />
+    <>
+      <div>{content}</div>
+      <div>{meta.title}</div>
+    </>
+    // <MdxPage
+    //   meta={meta}
+    //   content={content}
+    //   links={links}
+    // />
   )
 }
