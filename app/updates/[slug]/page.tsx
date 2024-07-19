@@ -13,7 +13,7 @@ import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
 import Video from '@/components/Video'
-import { getPost, getPosts } from '@/lib/github/posts'
+import { getUpdate, getUpdates } from '@/lib/github/updates'
 
 export const revalidate = 10
 
@@ -24,39 +24,39 @@ interface Props {
 }
 
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
-  const posts = await getPosts()
+  const updates = await getUpdates()
 
-  if (posts == null) return []
+  if (updates == null) return []
 
-  return posts.map(post => ({
-    slug: post.meta.slug,
+  return updates.map(update => ({
+    slug: update.meta.slug,
   }))
 }
 
 export async function generateMetadata({
   params: { slug },
 }: Props): Promise<{ title: string }> {
-  const post = await getPost(slug)
+  const update = await getUpdate(slug)
 
-  if (post == null) {
+  if (update == null) {
     return {
-      title: 'Post Not Found',
+      title: 'Update Not Found',
     }
   }
 
   return {
-    title: post.meta.title ?? 'Post Not Found',
+    title: update.meta.title ?? 'Update Not Found',
   }
 }
 
-export default async function PostPage({
+export default async function UpdatePage({
   params: { slug },
 }: Props): Promise<React.JSX.Element> {
-  const post = await getPost(slug)
-  if (post == null) notFound()
+  const update = await getUpdate(slug)
+  if (update == null) notFound()
 
   const { content } = await compileMDX<ProjectMeta>({
-    source: post.content,
+    source: update.content,
     components: {
       VideoPlayer,
       BlogImage,
@@ -89,8 +89,8 @@ export default async function PostPage({
 
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
-    { href: '/posts', label: 'Updates' },
-    { label: post.meta.title ?? 'Update' },
+    { href: '/updates', label: 'Updates' },
+    { label: update.meta.title ?? 'Update' },
   ]
 
   return (
@@ -98,7 +98,7 @@ export default async function PostPage({
       <BreadcrumbResponsive items={links} />
       <article>
         <h3 className="bg-muted p-2 font-mono text-lg font-light leading-6 shadow-lg">
-          {post.meta.description}
+          {update.meta.description}
         </h3>
         <div className="m:p-10 prose relative top-0 mx-auto p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}

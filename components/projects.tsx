@@ -21,23 +21,23 @@ export function ProjectList({
               <time dateTime={project.meta.date}>{project.meta.date}</time>
               {project.meta.project !== undefined && (
                 <Link
-                  href={`/projects/${post.meta.project}`}
+                  href={`/projects/${update.meta.project}`}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   Project
                 </Link>
               )}
-              {post.meta.build !== undefined && (
+              {update.meta.build !== undefined && (
                 <Link
-                  href={`/builds/${post.meta.build}`}
+                  href={`/builds/${update.meta.build}`}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   Build
                 </Link>
               )}
-              {post.meta.repo !== undefined && (
+              {update.meta.repo !== undefined && (
                 <Link
-                  href={post.meta.repo}
+                  href={update.meta.repo}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   <SiGithub size={13} />

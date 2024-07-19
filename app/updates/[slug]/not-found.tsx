@@ -4,7 +4,7 @@ import React from 'react'
 export default function NotFound(): React.JSX.Element {
   return (
     <div className="text-center">
-      <p className="mt-10">Sorry, the requested post does not exist.</p>
+      <p className="mt-10">Sorry, the requested update does not exist.</p>
       <Link href="/">Back to Home</Link>
     </div>
   )
