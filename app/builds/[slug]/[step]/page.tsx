@@ -55,6 +55,7 @@ export default async function StepPage({
   const theIndex = steps.findIndex(s => s.meta.slug === step)
 
   if (theStep == null) notFound()
+
   const { content } = await compileMDX<ProjectMeta>({
     source: theStep.content,
     components: {

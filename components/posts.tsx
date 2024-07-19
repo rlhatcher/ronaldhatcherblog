@@ -20,8 +20,8 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
             className="mb-2 flex flex-col items-start justify-between border-b pb-2"
           >
             <div className="mb-1 flex items-center gap-x-4 text-xs">
-              <time dateTime={post.meta.date?.toString()}>
-                {post.meta.date?.toString()}
+              <time dateTime={post.meta.date?.toLocaleString()}>
+                {post.meta.date?.toLocaleString()}
               </time>
               {post.meta.project !== undefined && (
                 <Link

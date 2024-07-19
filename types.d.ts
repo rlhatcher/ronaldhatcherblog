@@ -26,7 +26,7 @@ interface Meta {
   title?: string
   slug: string
   description?: string
-  date?: string
+  date?: Date
   image?: string
   tags?: string[]
   type?: string
