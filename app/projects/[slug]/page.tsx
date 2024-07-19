@@ -12,9 +12,10 @@ import remarkToc from 'remark-toc'
 import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
+import Video from '@/components/Video'
 import {
   getProject,
-  getProjectRefs,
+  // getProjectRefs,
   getProjectSlugs,
 } from '@/lib/github/projects'
 
@@ -26,13 +27,11 @@ interface Props {
   }
 }
 
-export async function generateStaticParams(): Promise<Props[]> {
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   const slugs = await getProjectSlugs()
 
   return slugs.map(slug => ({
-    params: {
-      slug,
-    },
+    slug,
   }))
 }
 
@@ -56,7 +55,7 @@ export default async function ProjectPage({
   params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const project = await getProject(slug)
-  const bib = await getProjectRefs(slug)
+  // const bib = await getProjectRefs(slug)
 
   if (project == null) notFound()
 
@@ -67,6 +66,7 @@ export default async function ProjectPage({
       BlogImage,
       BlogGallery,
       SimTabs,
+      Video,
     },
     options: {
       parseFrontmatter: false,
@@ -85,7 +85,7 @@ export default async function ProjectPage({
           rehypeHighlight,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [rehypeCitation, { bibliography: bib, linkCitations: true }],
+          [rehypeCitation, { bibliography: [], linkCitations: true }],
         ],
       },
     },
