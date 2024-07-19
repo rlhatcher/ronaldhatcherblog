@@ -88,5 +88,10 @@ export async function getUpdates(): Promise<Update[]> {
       updates.push(update)
     }
   }
-  return updates
+  return updates.sort((a, b) => {
+    if (a.meta.date != null && b.meta.date != null) {
+      return b.meta.date.getTime() - a.meta.date.getTime()
+    }
+    return 0
+  })
 }

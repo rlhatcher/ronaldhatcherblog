@@ -10,7 +10,7 @@ import { EntryArtwork } from './entry-artwork'
 
 export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
   return (
-    <div className="[grid-area:updates]">
+    <div className="flow-root">
       <ul
         role="list"
         className="-mb-8"
@@ -25,91 +25,48 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                 />
               ) : null}
               <div className="relative flex items-start space-x-3">
-                {/* {update.meta.type === 'retrospective' ? ( */}
-                  <>
-                    <div className="relative">
-                      <CloudImage
-                        src={update.meta.image ?? 'logo'}
-                        alt={update.meta.title ?? 'Update'}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
-                        width={100}
-                        height={100}
-                      />
-                      <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
+                <>
+                  <div className="relative">
+                    <CloudImage
+                      src={update.meta.image ?? 'logo'}
+                      alt={update.meta.title ?? 'Update'}
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
+                      width={100}
+                      height={100}
+                    />
+                    <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
+                      {update.meta.type === 'notification' ? (
+                        <BellIcon
+                          aria-hidden="true"
+                          className="h-5 w-5 text-gray-400"
+                        />
+                      ) : (
                         <AvatarIcon
                           aria-hidden="true"
                           className="h-5 w-5 text-gray-400"
                         />
-                      </span>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div>
-                        <div className="text-sm">
-                          <a
-                            href={update.meta.slug}
-                            className="font-medium text-gray-900"
-                          >
-                            {update.meta.title}
-                          </a>
-                        </div>
-                        <p className="mt-0.5 text-sm text-gray-500">
-                          Commented {update.meta.date?.toLocaleString()}
-                        </p>
-                      </div>
-                      <div className="mt-2 text-sm text-gray-700">
-                        <p>{update.meta.description}</p>
-                      </div>
-                    </div>
-                  </>
-                ) : update.meta.type === 'notification' ? (
-                  <>
+                      )}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
                     <div>
-                      <div className="relative px-1">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 ring-8 ring-white">
-                          <BellIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 text-gray-500"
-                          />
-                        </div>
+                      <div className="text-sm">
+                        <a
+                          href={update.meta.slug}
+                          className="font-medium"
+                        >
+                          {update.meta.title}
+                        </a>
                       </div>
+                      <p className="mt-0.5 text-sm">
+                        {update.meta.date?.toLocaleString()}
+                      </p>
                     </div>
-                    <div className="min-w-0 flex-1 py-0">
-                      <div className="text-sm leading-8 text-gray-500">
-                        <span className="mr-0.5">
-                          <a
-                            href={update.meta.project}
-                            className="font-medium text-gray-900"
-                          >
-                            {update.meta.project}
-                          </a>{' '}
-                          added tags
-                        </span>{' '}
-                        <span className="mr-0.5">
-                          {/* {activityItem.tags.map((tag) => (
-                            <Fragment key={tag.name}>
-                              <a
-                                href={tag.href}
-                                className="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
-                              >
-                                <svg
-                                  viewBox="0 0 6 6"
-                                  aria-hidden="true"
-                                  className={classNames(tag.color, 'h-1.5 w-1.5')}
-                                >
-                                  <circle r={3} cx={3} cy={3} />
-                                </svg>
-                                {tag.name}
-                              </a>{' '}
-                            </Fragment>
-                          ))} */}
-                        </span>
-                        <span className="whitespace-nowrap">
-                          {update.meta.date?.toLocaleString()}
-                        </span>
-                      </div>
+                    <div className="mt-2 text-sm">
+                      <p>{update.meta.description}</p>
                     </div>
-                  </>
-                ) : null}
+                  </div>
+                </>
               </div>
             </div>
           </li>
