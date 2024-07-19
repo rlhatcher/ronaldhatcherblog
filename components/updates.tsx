@@ -24,8 +24,8 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                   className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200"
                 />
               ) : null}
-              <div className="relative flex items-start space-x-3">
-                <>
+              <Link href={`/updates/${update.meta.slug}`}>
+                <div className="relative flex items-start space-x-3">
                   <div className="relative">
                     <CloudImage
                       src={update.meta.image ?? 'logo'}
@@ -53,21 +53,20 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                       ) : null}
                     </span>
                   </div>
-                  <Link href={`/updates/${update.meta.slug}`}>
-                    <div className="min-w-0 flex-1">
-                      <div>
-                        <div className="text-sm">{update.meta.title}</div>
-                        <p className="mt-0.5 text-sm">
-                          {update.meta.date?.toLocaleString()}
-                        </p>
-                      </div>
-                      <div className="mt-2 text-sm">
-                        <p>{update.meta.description}</p>
-                      </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div>
+                      <div className="text-sm">{update.meta.title}</div>
+                      <p className="mt-0.5 text-sm">
+                        {update.meta.date?.toLocaleString()}
+                      </p>
                     </div>
-                  </Link>
-                </>
-              </div>
+                    <div className="mt-2 text-sm">
+                      <p>{update.meta.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </li>
         ))}
