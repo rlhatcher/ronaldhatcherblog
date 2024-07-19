@@ -40,6 +40,7 @@ export async function getUpdate(slug: string): Promise<Update | undefined> {
       ...data,
       slug,
       type,
+      feedType: data.feedType ?? 'notification',
     },
     content,
   }

@@ -1,7 +1,14 @@
 'use client'
-import { useMediaQuery } from '@react-hook/media-query'
+// import { useMediaQuery } from '@react-hook/media-query'
 import React from 'react'
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -30,7 +37,7 @@ export const MotorChart = ({
     thrust: sample.thrust,
     avgThrust,
   }))
-  const isSmallScreen = useMediaQuery('(max-width: 640px)')
+  // const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
   return (
     <Card>
@@ -57,27 +64,29 @@ export const MotorChart = ({
               }}
               tickFormatter={value => value.toFixed(2)}
             />
-            {!isSmallScreen && (
-              <>
-                <YAxis
-                  yAxisId="left"
-                  orientation="left"
-                  label={{
-                    value: 'Thrust (N)',
-                    angle: 90,
-                    position: 'left',
-                  }}
-                />
-              </>
-            )}{' '}
+            <YAxis
+              yAxisId="left"
+              orientation="left"
+              label={{
+                value: 'Thrust (N)',
+                angle: 90,
+                position: 'left',
+              }}
+            />
+
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
+            <ReferenceLine
+              y={avgThrust}
+              yAxisId={'left'}
+              stroke="hsl(var(--chart-3))"
+            />
             <Line
               dataKey="thrust"
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke="hsl(var(--chart-1))"
               strokeWidth={2}
               dot={false}
               yAxisId="left"
