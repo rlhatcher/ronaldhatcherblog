@@ -57,6 +57,7 @@ interface StepMeta extends Meta {
 interface UpdateMeta extends Meta {
   project?: string
   build?: string
+  type: string
 }
 
 interface ProjectMeta extends Meta {}
