@@ -4,15 +4,15 @@ import React from 'react'
 import { BuildTiles } from '@/components/builds'
 import { PostsList } from '@/components/posts'
 import { ProjectList } from '@/components/projects'
-import { getBuildsMeta } from '@/lib/github/builds'
-import { getPostsMeta } from '@/lib/github/posts'
+import { getBuilds } from '@/lib/github/builds'
+import { getPosts } from '@/lib/github/posts'
 import { getProjects } from '@/lib/github/projects'
 
 export const revalidate = 10
 
 export default async function Page(): Promise<JSX.Element> {
-  const posts = await getPostsMeta()
-  const builds = await getBuildsMeta()
+  const posts = await getPosts()
+  const builds = await getBuilds()
   const projects = await getProjects()
 
   return (

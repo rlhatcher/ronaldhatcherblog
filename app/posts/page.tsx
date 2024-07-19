@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { PostsSection } from '@/components/posts'
-import { getPostsMeta } from '@/lib/github/posts'
+import { getPosts } from '@/lib/github/posts'
 
 export default async function PostsPage(): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = [
@@ -10,7 +10,7 @@ export default async function PostsPage(): Promise<React.JSX.Element> {
     { label: 'Posts' },
     { label: '🚀' },
   ]
-  const posts = await getPostsMeta()
+  const posts = await getPosts()
 
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">

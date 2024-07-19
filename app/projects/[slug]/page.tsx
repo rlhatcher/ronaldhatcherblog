@@ -12,7 +12,11 @@ import remarkToc from 'remark-toc'
 import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
-import { getProject } from '@/lib/github/projects'
+import {
+  getProject,
+  getProjectRefs,
+  getProjectSlugs,
+} from '@/lib/github/projects'
 
 export const revalidate = 10
 
@@ -22,10 +26,37 @@ interface Props {
   }
 }
 
+export async function generateStaticParams(): Promise<Props[]> {
+  const slugs = await getProjectSlugs()
+
+  return slugs.map(slug => ({
+    params: {
+      slug,
+    },
+  }))
+}
+
+export async function generateMetadata({
+  params: { slug },
+}: Props): Promise<{ title: string }> {
+  const project = await getProject(slug)
+
+  if (project == null) {
+    return {
+      title: 'Project Not Found',
+    }
+  }
+
+  return {
+    title: project.meta.title ?? 'Project Not Found',
+  }
+}
+
 export default async function ProjectPage({
   params: { slug },
 }: Props): Promise<React.JSX.Element> {
   const project = await getProject(slug)
+  const bib = await getProjectRefs(slug)
 
   if (project == null) notFound()
 
@@ -54,7 +85,7 @@ export default async function ProjectPage({
           rehypeHighlight,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [rehypeCitation, { bibliography: [], linkCitations: true }],
+          [rehypeCitation, { bibliography: bib, linkCitations: true }],
         ],
       },
     },

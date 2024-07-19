@@ -10,6 +10,20 @@ const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'projects'
 
+export async function getProjectRefs(slug: string): Promise<string[]> {
+  const repoPath = `https:/raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.bib`
+  const res = await fetch(repoPath, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    next: { revalidate: 600 },
+  })
+
+  return res.ok ? [repoPath] : []
+}
+
 export async function getProject(slug: string): Promise<Project | undefined> {
   const res = await fetch(
     `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.mdx`,
@@ -57,12 +71,12 @@ export async function getProjectSlugs(): Promise<string[]> {
 
   const repoFiletree: gitFile[] = await res.json()
 
-  const filesArray = repoFiletree
+  const slugs = repoFiletree
     .map(obj => obj.name)
     .filter(name => name.endsWith('.mdx'))
     .map(name => name.replace(/\.mdx$/, ''))
 
-  return filesArray
+  return slugs
 }
 
 export async function getProjects(): Promise<Project[]> {

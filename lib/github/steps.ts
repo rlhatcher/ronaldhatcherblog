@@ -1,33 +1,28 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
-import remarkGfm from 'remark-gfm'
-
-import SimTabs from '@/components/blog/simulations'
-import { BlogGallery, BlogImage } from '@/components/cloud-image'
-import { Rocket3DViewer } from '@/components/model-viewers'
-import Video from '@/components/Video'
+import matter from 'gray-matter'
 
 interface gitFile {
   name: string
   path: string
 }
 
+const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
+const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
+const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'steps'
 
-export async function getStepByName(
+export async function getStep(
   build: string,
-  fileName: string
+  slug: string
 ): Promise<Step | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/rlhatcher/blog_content/${process.env.GITHUB_BRANCH}/builds/${build}/${fileName}`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/builds/${build}/${slug}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28',
       },
+      next: { revalidate: 600 },
     }
   )
   if (!res.ok) return undefined
@@ -36,65 +31,29 @@ export async function getStepByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<{
-    title: string
-    date: string
-    imageWidth: number
-    imageHeight: number
-    image: string
-    tags: string[]
-    description: string
-    weight: number
-  }>({
-    source: rawMDX,
-    components: {
-      Video,
-      BlogImage,
-      BlogGallery,
-      Rocket3DViewer,
-      SimTabs,
-    },
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [[remarkGfm]],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: 'prepend',
-            },
-          ],
-        ],
-      },
-    },
-  })
+  const { data, content } = matter(rawMDX)
 
-  const slug = fileName.replace(/\.mdx$/, '')
-
-  const StepObj: Step = {
+  return {
     meta: {
+      ...data,
+      weight: data.weight ?? 0,
       slug,
       type,
-      ...frontmatter,
     },
     content,
   }
-
-  return StepObj
 }
 
-export async function getStepsMeta(build: string): Promise<Step[]> {
+export async function getStepSlugs(build: string): Promise<string[]> {
   const res = await fetch(
-    `https://api.github.com/repos/rlhatcher/blog_content/contents/builds/${build}`,
+    `https://api.github.com/repos/${owner}/${repo}/contents/builds/${build}?ref=${branch}`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28',
       },
+      next: { revalidate: 600 },
     }
   )
 
@@ -105,11 +64,17 @@ export async function getStepsMeta(build: string): Promise<Step[]> {
   const filesArray = repoFiletree
     .map(obj => obj.name)
     .filter(name => name.endsWith('.mdx'))
+    .map(name => name.replace(/\.mdx$/, ''))
 
+  return filesArray
+}
+
+export async function getSteps(build: string): Promise<Step[]> {
+  const slugs = await getStepSlugs(build)
   const steps: Step[] = []
 
-  for (const file of filesArray) {
-    const step = await getStepByName(build, file)
+  for (const slug of slugs) {
+    const step = await getStep(build, slug)
     if (step != null) {
       steps.push(step)
     }

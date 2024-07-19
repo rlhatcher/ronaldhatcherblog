@@ -1,12 +1,4 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
-import remarkGfm from 'remark-gfm'
-
-import SimTabs from '@/components/blog/simulations'
-import { BlogGallery, BlogImage } from '@/components/cloud-image'
-import Video from '@/components/Video'
+import matter from 'gray-matter'
 
 interface gitFile {
   name: string
@@ -18,11 +10,9 @@ const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'posts'
 
-export async function getPostByName(
-  fileName: string
-): Promise<BlogPost | null> {
+export async function getPost(slug: string): Promise<BlogPost | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -32,53 +22,24 @@ export async function getPostByName(
       next: { revalidate: 600 },
     }
   )
-  if (!res.ok) return null
+  if (!res.ok) return undefined
 
   const rawMDX = await res.text()
 
-  if (rawMDX === '404: Not Found') return null
+  if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<BlogPostMeta>({
-    source: rawMDX,
-    components: {
-      Video,
-      BlogImage,
-      BlogGallery,
-      SimTabs,
-    },
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [[remarkGfm]],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: 'prepend',
-            },
-          ],
-        ],
-      },
-    },
-  })
+  const { data, content } = matter(rawMDX)
 
-  const slug = fileName.replace(/\.mdx$/, '')
-
-  const BlogPostObj: BlogPost = {
+  return {
     meta: {
-      ...frontmatter,
+      ...data,
       slug,
       type,
     },
     content,
   }
-
-  return BlogPostObj
 }
-
-export async function getPostsMeta(): Promise<BlogPost[]> {
+export async function getPostSlugs(): Promise<string[]> {
   const res = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
@@ -98,18 +59,20 @@ export async function getPostsMeta(): Promise<BlogPost[]> {
   const filesArray = repoFiletree
     .map(obj => obj.name)
     .filter(name => name.endsWith('.mdx'))
+    .map(name => name.replace(/\.mdx$/, ''))
 
+  return filesArray
+}
+
+export async function getPosts(): Promise<BlogPost[]> {
+  const slugs = await getPostSlugs()
   const posts: BlogPost[] = []
 
-  for (const file of filesArray) {
-    const post = await getPostByName(file)
+  for (const slug of slugs) {
+    const post = await getPost(slug)
     if (post != null) {
       posts.push(post)
     }
   }
-  return posts.sort((a, b) => {
-    const dateA = a.meta.date ?? new Date(0)
-    const dateB = b.meta.date ?? new Date(0)
-    return dateA < dateB ? 1 : -1
-  })
+  return posts
 }
