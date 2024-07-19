@@ -3,6 +3,7 @@ import React from 'react'
 
 import { BuildTiles } from '@/components/builds'
 import { ProjectList } from '@/components/projects'
+import SimBrowser from '@/components/sim-browser'
 import { UpdatesFeed } from '@/components/updates'
 import { getBuilds } from '@/lib/github/builds'
 import { getProjects } from '@/lib/github/projects'
@@ -17,6 +18,7 @@ export default async function Page(): Promise<JSX.Element> {
 
   return (
     <main className="grid max-w-full grid-cols-1fr grid-rows-auto gap-x-16 gap-y-16 pt-6 [grid-template-areas:'updates''builds''projects'] md:grid-cols-2fr-1fr md:grid-rows-auto-1fr md:[grid-template-areas:'builds_updates''builds_projects']">
+      <SimBrowser />
       <div className="[grid-area:updates]">
         <h2 className="mb-4 font-mono text-2xl font-semibold">
           <Link href="/updates">Updates</Link>

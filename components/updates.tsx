@@ -1,5 +1,5 @@
 // import { SiGithub } from '@icons-pack/react-simple-icons'
-import { AvatarIcon, BellIcon } from '@radix-ui/react-icons'
+import { AvatarIcon, BellIcon, RocketIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
@@ -35,37 +35,37 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                       height={100}
                     />
                     <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
-                      {update.meta.type === 'notification' ? (
+                      {update.meta.feedType === 'notification' ? (
                         <BellIcon
                           aria-hidden="true"
                           className="h-5 w-5 text-gray-400"
                         />
-                      ) : (
+                      ) : update.meta.feedType === 'retro' ? (
                         <AvatarIcon
                           aria-hidden="true"
                           className="h-5 w-5 text-gray-400"
                         />
-                      )}
+                      ) : update.meta.feedType === 'launch' ? (
+                        <RocketIcon
+                          aria-hidden="true"
+                          className="h-5 w-5 text-gray-400"
+                        />
+                      ) : null}
                     </span>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div>
-                      <div className="text-sm">
-                        <a
-                          href={update.meta.slug}
-                          className="font-medium"
-                        >
-                          {update.meta.title}
-                        </a>
+                  <Link href={`/updates/${update.meta.slug}`}>
+                    <div className="min-w-0 flex-1">
+                      <div>
+                        <div className="text-sm">{update.meta.title}</div>
+                        <p className="mt-0.5 text-sm">
+                          {update.meta.date?.toLocaleString()}
+                        </p>
                       </div>
-                      <p className="mt-0.5 text-sm">
-                        {update.meta.date?.toLocaleString()}
-                      </p>
+                      <div className="mt-2 text-sm">
+                        <p>{update.meta.description}</p>
+                      </div>
                     </div>
-                    <div className="mt-2 text-sm">
-                      <p>{update.meta.description}</p>
-                    </div>
-                  </div>
+                  </Link>
                 </>
               </div>
             </div>
