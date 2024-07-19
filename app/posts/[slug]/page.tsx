@@ -89,8 +89,8 @@ export default async function PostPage({
 
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
-    { href: '/posts', label: 'Posts' },
-    { label: post.meta.title ?? 'Post' },
+    { href: '/posts', label: 'Updates' },
+    { label: post.meta.title ?? 'Update' },
   ]
 
   return (

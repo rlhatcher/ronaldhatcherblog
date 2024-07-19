@@ -7,7 +7,7 @@ import { getPosts } from '@/lib/github/posts'
 export default async function PostsPage(): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
-    { label: 'Posts' },
+    { label: 'Updates' },
     { label: '🚀' },
   ]
   const posts = await getPosts()

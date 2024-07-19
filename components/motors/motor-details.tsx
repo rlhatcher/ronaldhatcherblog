@@ -1,6 +1,7 @@
 import React from 'react'
 
 import MotorTable from './motor-table'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 import { MotorChart } from '@/components/motors/motor-chart'
 
@@ -15,29 +16,33 @@ function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
     'manufacturer',
     'updatedOn',
     'dataFiles',
+    'infoUrl',
+    'certOrg',
   ]
 
   return (
-    <div className="px-4 py-5 sm:px-0">
-      <h3 className="text-lg font-semibold leading-7">Motor Information</h3>
-      <p className="mt-1 max-w-2xl text-sm leading-6">
-        Detailed view of the selected motor.
-      </p>
-
-      <div>
-        <div>
-          <MotorTable
-            motor={motor}
-            excludedKeys={excludedKeys}
-          />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {motor.madeBy.name} {motor.designation}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="px-4 py-5 sm:px-0">
+          <div>
+            <div>
+              <MotorTable
+                motor={motor}
+                excludedKeys={excludedKeys}
+              />
+            </div>
+            {motor.thrustCurve != null && (
+              <MotorChart samples={motor.thrustCurve} />
+            )}
+          </div>
         </div>
-        <div>
-          {motor.thrustCurve != null && (
-            <MotorChart samples={motor.thrustCurve} />
-          )}
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 

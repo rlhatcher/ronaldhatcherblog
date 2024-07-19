@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import MotorDetails from '@/components/motors/motor-details'
 import { getMotors, getMotor } from '@/lib/neo4j'
 
@@ -28,7 +29,7 @@ export async function generateMetadata({
 
   if (motor == null) {
     return {
-      title: 'Post Not Found',
+      title: 'Motor Not Found',
     }
   }
 
@@ -46,8 +47,16 @@ export default async function MotorPage({
     return <div></div>
   }
 
+  const links: BreadCrumb[] = [
+    { href: '/', label: 'Home' },
+    { href: '/refdata', label: 'Reference' },
+    { href: '/refdata/motors', label: 'Motors' },
+    { label: motor.commonName ?? 'Motor' },
+  ]
+
   return (
     <div className="container mx-auto sm:px-8 lg:px-10">
+      <BreadcrumbResponsive items={links} />
       <MotorDetails motor={motor} />
     </div>
   )

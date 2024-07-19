@@ -11,7 +11,7 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
   return (
     <div className="[grid-area:posts]">
       <h2 className="mb-4 font-mono text-2xl font-semibold">
-        <Link href="/posts">Posts</Link>
+        <Link href="/posts">Updates</Link>
       </h2>
       <div>
         {posts.map(post => (
@@ -20,7 +20,7 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
             className="mb-2 flex flex-col items-start justify-between border-b pb-2"
           >
             <div className="mb-1 flex items-center gap-x-4 text-xs">
-              <time dateTime={post.meta.date?.toLocaleString()}>
+              <time dateTime={post.meta.date?.toDateString()}>
                 {post.meta.date?.toLocaleString()}
               </time>
               {post.meta.project !== undefined && (

@@ -1,6 +1,7 @@
 'use client'
+import { useMediaQuery } from '@react-hook/media-query'
 import React from 'react'
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -29,6 +30,7 @@ export const MotorChart = ({
     thrust: sample.thrust,
     avgThrust,
   }))
+  const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
   return (
     <Card>
@@ -42,13 +44,32 @@ export const MotorChart = ({
               right: 12,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={true} />
             <XAxis
               dataKey="time"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
+              tickLine={true}
+              axisLine={true}
+              tickMargin={5}
+              label={{
+                value: 'Duration (s)',
+                angle: 0,
+                position: 'bottom',
+              }}
+              tickFormatter={value => value.toFixed(2)}
             />
+            {!isSmallScreen && (
+              <>
+                <YAxis
+                  yAxisId="left"
+                  orientation="left"
+                  label={{
+                    value: 'Thrust (N)',
+                    angle: 90,
+                    position: 'left',
+                  }}
+                />
+              </>
+            )}{' '}
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
@@ -59,6 +80,7 @@ export const MotorChart = ({
               stroke="var(--color-desktop)"
               strokeWidth={2}
               dot={false}
+              yAxisId="left"
             />
           </LineChart>
         </ChartContainer>

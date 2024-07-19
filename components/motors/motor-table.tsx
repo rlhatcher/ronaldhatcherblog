@@ -8,7 +8,7 @@ interface MotorTableProps {
 
 const MotorTable: React.FC<MotorTableProps> = ({ motor, excludedKeys }) => {
   return (
-    <dl className="divide-y lg:mr-8">
+    <dl className="grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-3 md:grid-cols-4 lg:mr-8">
       {Object.entries(motor)
         .filter(([key]) => !excludedKeys.includes(key))
         .map(([key, value]) => {
@@ -24,7 +24,7 @@ const MotorTable: React.FC<MotorTableProps> = ({ motor, excludedKeys }) => {
             >
               <div className="flex items-center justify-between">
                 <dt className="text-sm font-semibold">{formattedKey}</dt>
-                <dd className="mt-1 text-sm leading-6">
+                <dd className="ml-4 mt-1 max-w-[50%] flex-1 text-right text-sm leading-6 sm:text-left">
                   {key === 'madeBy' && typeof value === 'object' ? (
                     <Link href={`/dashboard/manufacturers/${value.id}`}>
                       {value.name}
