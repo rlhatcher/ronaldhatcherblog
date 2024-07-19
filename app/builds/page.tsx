@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BuildsSection } from '@/components/builds'
-import { getBuildsMeta } from '@/lib/github/builds'
+import { getBuilds } from '@/lib/github/builds'
 
 export default async function BuildsPage(): Promise<React.JSX.Element> {
   const links: BreadCrumb[] = [
@@ -10,7 +10,7 @@ export default async function BuildsPage(): Promise<React.JSX.Element> {
     { label: 'builds' },
     { label: '🚀' },
   ]
-  const builds = await getBuildsMeta()
+  const builds = await getBuilds()
 
   return (
     <div className="container mx-auto sm:px-6 lg:px-8">

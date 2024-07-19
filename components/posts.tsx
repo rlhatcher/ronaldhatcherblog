@@ -20,7 +20,9 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
             className="mb-2 flex flex-col items-start justify-between border-b pb-2"
           >
             <div className="mb-1 flex items-center gap-x-4 text-xs">
-              <time dateTime={post.meta.date}>{post.meta.date}</time>
+              <time dateTime={post.meta.date?.toString()}>
+                {post.meta.date?.toString()}
+              </time>
               {post.meta.project !== undefined && (
                 <Link
                   href={`/projects/${post.meta.project}`}
@@ -54,8 +56,8 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
             >
               <div className="relative mt-2 flex items-center gap-x-4">
                 <CloudImage
-                  src={post.meta.image}
-                  alt={post.meta.title}
+                  src={post.meta.image ?? 'logo'}
+                  alt={post.meta.title ?? 'Post'}
                   className="h-10 w-10 rounded-sm"
                   width={100}
                   height={100}

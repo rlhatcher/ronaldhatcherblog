@@ -52,8 +52,8 @@ export function ProjectList({
           >
             <div className="relative mt-2 flex items-center gap-x-4">
               <CloudImage
-                src={project.meta.image}
-                alt={project.meta.title}
+                src={project.meta.image ?? 'logo'}
+                alt={project.meta.title ?? 'logo'}
                 className="h-10 w-10 rounded-sm"
                 width={100}
                 height={100}

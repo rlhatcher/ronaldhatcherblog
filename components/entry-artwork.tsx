@@ -25,8 +25,8 @@ export function EntryArtwork({
     >
       <div className="overflow-hidden rounded-md">
         <CloudImage
-          src={meta.image}
-          alt={meta.title}
+          src={meta.image ?? 'logo'}
+          alt={meta.title ?? 'Entry'}
           crop="fill"
           width={width}
           height={height}

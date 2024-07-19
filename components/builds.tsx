@@ -19,8 +19,8 @@ export function BuildsSection({ builds }: { builds: Build[] }): JSX.Element {
               </h2>
               <div className="overflow-hidden rounded-md">
                 <CloudImage
-                  src={build.meta.image}
-                  alt={build.meta.title}
+                  src={build.meta.image ?? 'logo'}
+                  alt={build.meta.title ?? 'Build'}
                   crop="fill"
                   width={640}
                   height={400}

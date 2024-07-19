@@ -1,13 +1,4 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
-import remarkGfm from 'remark-gfm'
-import remarkToc from 'remark-toc'
-
-import SimTabs from '@/components/blog/simulations'
-import { BlogGallery, BlogImage } from '@/components/cloud-image'
-import Video from '@/components/Video'
+import matter from 'gray-matter'
 
 interface gitFile {
   name: string
@@ -19,17 +10,16 @@ const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'builds'
 
-export async function getBuildByName(
-  fileName: string
-): Promise<Build | undefined> {
+export async function getBuild(slug: string): Promise<Build | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-GitHub-Api-Version': '2022-11-28',
       },
+      next: { revalidate: 600 },
     }
   )
   if (!res.ok) return undefined
@@ -38,56 +28,20 @@ export async function getBuildByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<BuildMeta>({
-    source: rawMDX,
-    components: {
-      Video,
-      BlogImage,
-      BlogGallery,
-      SimTabs,
-    },
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [
-          remarkGfm,
-          [
-            remarkToc,
-            {
-              tight: true,
-              heading: 'Contents',
-            },
-          ],
-        ],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: 'prepend',
-            },
-          ],
-        ],
-      },
-    },
-  })
+  const { data, content } = matter(rawMDX)
 
-  const slug = fileName.replace(/\.mdx$/, '')
-
-  const BuildObj: Build = {
+  return {
     meta: {
-      ...frontmatter,
+      ...data,
       slug,
       type,
+      project: data.project ?? '',
     },
     content,
   }
-
-  return BuildObj
 }
 
-export async function getBuildsMeta(): Promise<Build[]> {
+export async function getBuildSlugs(): Promise<string[]> {
   const res = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
@@ -103,18 +57,23 @@ export async function getBuildsMeta(): Promise<Build[]> {
 
   const repoFiletree: gitFile[] = await res.json()
 
-  const filesArray = repoFiletree
+  const slugs: string[] = repoFiletree
     .map(obj => obj.name)
     .filter(name => name.endsWith('.mdx'))
+    .map(name => name.replace(/\.mdx$/, ''))
+  return slugs
+}
 
+export async function getBuilds(): Promise<Build[]> {
+  const slugs = await getBuildSlugs()
   const builds: Build[] = []
 
-  for (const file of filesArray) {
-    const build = await getBuildByName(file)
+  for (const slug of slugs) {
+    const build = await getBuild(slug)
     if (build != null) {
       builds.push(build)
     }
   }
 
-  return builds.sort((a, b) => (a.meta.date > b.meta.date ? 1 : -1))
+  return builds
 }

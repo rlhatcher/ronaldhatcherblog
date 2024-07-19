@@ -1,15 +1,4 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
-import remarkGfm from 'remark-gfm'
-import remarkToc from 'remark-toc'
-
-import path from 'path'
-
-import SimTabs from '@/components/blog/simulations'
-import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
-import Video from '@/components/Video'
+import matter from 'gray-matter'
 
 interface gitFile {
   name: string
@@ -21,11 +10,23 @@ const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
 const type: string = 'projects'
 
-export async function getProjectByName(
-  fileName: string
-): Promise<Project | undefined> {
+export async function getProjectRefs(slug: string): Promise<string[]> {
+  const repoPath = `https:/raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.bib`
+  const res = await fetch(repoPath, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    next: { revalidate: 600 },
+  })
+
+  return res.ok ? [repoPath] : []
+}
+
+export async function getProject(slug: string): Promise<Project | undefined> {
   const res = await fetch(
-    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${fileName}.mdx`,
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.mdx`,
     {
       headers: {
         Accept: 'application/vnd.github+json',
@@ -41,50 +42,19 @@ export async function getProjectByName(
 
   if (rawMDX === '404: Not Found') return undefined
 
-  const { frontmatter, content } = await compileMDX<ProjectMeta>({
-    source: rawMDX,
-    components: {
-      Video,
-      BlogImage,
-      BlogGallery,
-      SimTabs,
-      VideoPlayer,
-    },
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [
-          remarkGfm,
-          [
-            remarkToc,
-            {
-              tight: true,
-              heading: 'Contents',
-            },
-          ],
-        ],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-        ],
-      },
-    },
-  })
+  const { data, content } = matter(rawMDX)
 
-  const ProjectObj: Project = {
+  return {
     meta: {
-      ...frontmatter,
-      slug: fileName,
+      ...data,
+      slug,
       type,
     },
     content,
   }
-
-  return ProjectObj
 }
 
-export async function getProjectsMeta(): Promise<Project[]> {
+export async function getProjectSlugs(): Promise<string[]> {
   const res = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
@@ -101,18 +71,24 @@ export async function getProjectsMeta(): Promise<Project[]> {
 
   const repoFiletree: gitFile[] = await res.json()
 
-  const filesArray = repoFiletree
+  const slugs = repoFiletree
     .map(obj => obj.name)
     .filter(name => name.endsWith('.mdx'))
+    .map(name => name.replace(/\.mdx$/, ''))
 
+  return slugs
+}
+
+export async function getProjects(): Promise<Project[]> {
+  const slugs = await getProjectSlugs()
   const projects: Project[] = []
 
-  for (const file of filesArray) {
-    const project = await getProjectByName(path.parse(file).name)
+  for (const slug of slugs) {
+    const project = await getProject(slug)
     if (project != null) {
       projects.push(project)
     }
   }
 
-  return projects.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1))
+  return projects
 }
