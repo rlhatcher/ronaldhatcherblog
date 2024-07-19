@@ -8,9 +8,14 @@ interface gitFile {
 const owner: string = process.env.GITHUB_OWNER ?? 'rlhatcher'
 const repo: string = process.env.GITHUB_REPO ?? 'blog_content'
 const branch: string = process.env.GITHUB_BRANCH ?? 'main'
-const type: string = 'posts'
+const type: string = 'updates'
 
-export async function getPost(slug: string): Promise<BlogPost | undefined> {
+/**
+ * Retrieves an Update based on the provided slug.
+ * @param slug - The slug of the update.
+ * @returns A Promise that resolves to the retrieved Update, or undefined if not found.
+ */
+export async function getUpdate(slug: string): Promise<Update | undefined> {
   const res = await fetch(
     `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${type}/${slug}.mdx`,
     {
@@ -39,7 +44,12 @@ export async function getPost(slug: string): Promise<BlogPost | undefined> {
     content,
   }
 }
-export async function getPostSlugs(): Promise<string[]> {
+
+/**
+ * Retrieves the slugs of all update files from the GitHub repository.
+ * @returns A promise that resolves to an array of slug strings
+ */
+export async function getUpdateSlugs(): Promise<string[]> {
   const res = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/contents/${type}?ref=${branch}`,
     {
@@ -64,15 +74,19 @@ export async function getPostSlugs(): Promise<string[]> {
   return filesArray
 }
 
-export async function getPosts(): Promise<BlogPost[]> {
-  const slugs = await getPostSlugs()
-  const posts: BlogPost[] = []
+/**
+ * Retrieves a list of all updates.
+ * @returns A promise that resolves to an array of Updates.
+ */
+export async function getUpdates(): Promise<Update[]> {
+  const slugs = await getUpdateSlugs()
+  const updates: Update[] = []
 
   for (const slug of slugs) {
-    const post = await getPost(slug)
-    if (post != null) {
-      posts.push(post)
+    const update = await getUpdate(slug)
+    if (update != null) {
+      updates.push(update)
     }
   }
-  return posts
+  return updates
 }

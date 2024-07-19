@@ -2,22 +2,22 @@ import Link from 'next/link'
 import React from 'react'
 
 import { BuildTiles } from '@/components/builds'
-import { PostsList } from '@/components/posts'
 import { ProjectList } from '@/components/projects'
+import { UpdatesList } from '@/components/updates'
 import { getBuilds } from '@/lib/github/builds'
-import { getPosts } from '@/lib/github/posts'
 import { getProjects } from '@/lib/github/projects'
+import { getUpdates } from '@/lib/github/updates'
 
 export const revalidate = 10
 
 export default async function Page(): Promise<JSX.Element> {
-  const posts = await getPosts()
+  const updates = await getUpdates()
   const builds = await getBuilds()
   const projects = await getProjects()
 
   return (
-    <main className="grid max-w-full grid-cols-1fr grid-rows-auto gap-x-16 gap-y-16 pt-6 [grid-template-areas:'posts''builds''projects'] md:grid-cols-2fr-1fr md:grid-rows-auto-1fr md:[grid-template-areas:'builds_posts''builds_projects']">
-      <PostsList posts={posts} />
+    <main className="grid max-w-full grid-cols-1fr grid-rows-auto gap-x-16 gap-y-16 pt-6 [grid-template-areas:'updates''builds''projects'] md:grid-cols-2fr-1fr md:grid-rows-auto-1fr md:[grid-template-areas:'builds_updates''builds_projects']">
+      <UpdatesList updates={updates} />
       <div className="[grid-area:projects]">
         <h2 className="mb-4 font-mono text-2xl font-semibold">
           <Link href="/projects">Projects</Link>

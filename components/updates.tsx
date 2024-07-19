@@ -7,41 +7,41 @@ import { EntryArtwork } from './entry-artwork'
 
 import { badgeVariants } from '@/components/ui/badge'
 
-export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
+export function UpdatesList({ updates }: { updates: Update[] }): JSX.Element {
   return (
-    <div className="[grid-area:posts]">
+    <div className="[grid-area:updates]">
       <h2 className="mb-4 font-mono text-2xl font-semibold">
-        <Link href="/posts">Updates</Link>
+        <Link href="/updates">Updates</Link>
       </h2>
       <div>
-        {posts.map(post => (
+        {updates.map(update => (
           <article
-            key={post.meta.slug}
+            key={update.meta.slug}
             className="mb-2 flex flex-col items-start justify-between border-b pb-2"
           >
             <div className="mb-1 flex items-center gap-x-4 text-xs">
-              <time dateTime={post.meta.date?.toDateString()}>
-                {post.meta.date?.toLocaleString()}
+              <time dateTime={update.meta.date?.toDateString()}>
+                {update.meta.date?.toLocaleString()}
               </time>
-              {post.meta.project !== undefined && (
+              {update.meta.project !== undefined && (
                 <Link
-                  href={`/projects/${post.meta.project}`}
+                  href={`/projects/${update.meta.project}`}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   Project
                 </Link>
               )}
-              {post.meta.build !== undefined && (
+              {update.meta.build !== undefined && (
                 <Link
-                  href={`/builds/${post.meta.build}`}
+                  href={`/builds/${update.meta.build}`}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   Build
                 </Link>
               )}
-              {post.meta.repo !== undefined && (
+              {update.meta.repo !== undefined && (
                 <Link
-                  href={post.meta.repo}
+                  href={update.meta.repo}
                   className={badgeVariants({ variant: 'secondary' })}
                 >
                   <SiGithub size={13} />
@@ -49,21 +49,21 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
                 </Link>
               )}
             </div>
-            <p className="text-md font-semibold">{post.meta.title}</p>
+            <p className="text-md font-semibold">{update.meta.title}</p>
             <Link
-              href={`/posts/${post.meta.slug}`}
-              key={post.meta.slug}
+              href={`/updates/${update.meta.slug}`}
+              key={update.meta.slug}
             >
               <div className="relative mt-2 flex items-center gap-x-4">
                 <CloudImage
-                  src={post.meta.image ?? 'logo'}
-                  alt={post.meta.title ?? 'Post'}
+                  src={update.meta.image ?? 'logo'}
+                  alt={update.meta.title ?? 'Update'}
                   className="h-10 w-10 rounded-sm"
                   width={100}
                   height={100}
                 />
                 <div className="leading-6">
-                  <p className="text-xs">{post.meta.description}</p>
+                  <p className="text-xs">{update.meta.description}</p>
                 </div>
               </div>
             </Link>
@@ -74,22 +74,26 @@ export function PostsList({ posts }: { posts: BlogPost[] }): JSX.Element {
   )
 }
 
-export function PostsSection({ posts }: { posts: BlogPost[] }): JSX.Element {
+export function UpdatesSection({
+  updates,
+}: {
+  updates: Update[]
+}): JSX.Element {
   return (
     <>
-      {posts.map(post => (
+      {updates.map(update => (
         <article
-          key={post.meta.slug}
+          key={update.meta.slug}
           className="flex flex-col items-center p-4"
         >
           <Link
-            href={`/posts/${post.meta.slug}`}
-            key={post.meta.slug}
+            href={`/updates/${update.meta.slug}`}
+            key={update.meta.slug}
             className="flex w-full max-w-[500px] flex-col items-center"
           >
             <EntryArtwork
-              key={post.meta.slug}
-              meta={post.meta}
+              key={update.meta.slug}
+              meta={update.meta}
               className="h-full"
               aspectRatio="square"
               width={500}
@@ -97,10 +101,10 @@ export function PostsSection({ posts }: { posts: BlogPost[] }): JSX.Element {
             />
             <div className="w-full max-w-xs">
               <h3 className="mt-3 text-center font-medium leading-none">
-                {post.meta.title}
+                {update.meta.title}
               </h3>
               <p className="mt-1 text-center text-xs text-muted-foreground">
-                {post.meta.description}
+                {update.meta.description}
               </p>
             </div>
           </Link>
