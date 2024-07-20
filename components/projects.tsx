@@ -2,8 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { CloudImage } from './cloud-image'
-
-import { EntryArtwork } from '@/components/entry-artwork'
+import { EntryArtwork } from './entry-artwork'
 
 export function ProjectList({
   projects,
@@ -77,6 +76,41 @@ export default function ProjectsSection({
   return (
     <>
       {projects.map(project => (
+        <div key={project.meta.slug}>
+          <article className="mb-2 border-b pb-2">
+            <Link
+              href={`/projects/${project.meta.slug}`}
+              key={project.meta.slug}
+            >
+              <h2 className="min-h-16 text-lg font-semibold">
+                {project.meta.title}
+              </h2>
+              <div className="overflow-hidden rounded-md">
+                <CloudImage
+                  src={project.meta.image ?? 'logo'}
+                  alt={project.meta.title ?? 'Build'}
+                  crop="fill"
+                  width={640}
+                  height={400}
+                  className="h-auto w-auto object-cover transition-all hover:scale-105"
+                />
+              </div>
+            </Link>
+          </article>
+        </div>
+      ))}
+    </>
+  )
+}
+
+export function ProjectTiles({
+  projects,
+}: {
+  projects: Project[]
+}): JSX.Element {
+  return (
+    <>
+      {projects.map(project => (
         <article
           key={project.meta.slug}
           className="flex flex-col items-center p-4"
@@ -89,7 +123,7 @@ export default function ProjectsSection({
             <EntryArtwork
               key={project.meta.slug}
               meta={project.meta}
-              className="h-full"
+              className="h-full hover:scale-105"
               aspectRatio="square"
               width={500}
               height={500}

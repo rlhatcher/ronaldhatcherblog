@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { BuildTiles } from '@/components/builds'
-import ProjectsSection from '@/components/projects'
+import { ProjectTiles } from '@/components/projects'
 import { UpdatesFeed } from '@/components/updates'
 import { getBuilds } from '@/lib/github/builds'
 import { getProjects } from '@/lib/github/projects'
@@ -24,10 +24,12 @@ export default async function Page(): Promise<JSX.Element> {
         <UpdatesFeed updates={updates} />
       </div>
       <div className="[grid-area:projects]">
-        <h2 className="mb-4 font-mono text-2xl font-semibold">
-          <Link href="/projects">Projects</Link>
-        </h2>
-        <ProjectsSection projects={projects} />
+        <Link href="/projects">
+          <h2 className="mb-4 font-mono text-2xl font-semibold">Projects</h2>
+        </Link>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <ProjectTiles projects={projects} />
+        </div>
       </div>
       <div className="[grid-area:builds]">
         <Link href="/builds">

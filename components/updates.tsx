@@ -1,5 +1,5 @@
 // import { SiGithub } from '@icons-pack/react-simple-icons'
-import { AvatarIcon, BellIcon, RocketIcon } from '@radix-ui/react-icons'
+import { BellIcon, RocketIcon, ChatBubbleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
@@ -44,7 +44,7 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                           className="h-4 w-4 text-secondary-foreground"
                         />
                       ) : update.meta.feedType === 'retro' ? (
-                        <AvatarIcon
+                        <ChatBubbleIcon
                           aria-hidden="true"
                           className="h-4 w-4 text-secondary-foreground"
                         />
