@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChartIcon } from '@radix-ui/react-icons'
+import { ArchiveIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
@@ -22,7 +22,7 @@ export function DataMenu(): JSX.Element {
           variant="ghost"
           size="icon"
         >
-          <BarChartIcon className="h-4 w-4" />
+          <ArchiveIcon className="h-4 w-4" />
           <span className="sr-only">Data menu</span>
         </Button>
       </DropdownMenuTrigger>

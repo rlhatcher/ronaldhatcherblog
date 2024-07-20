@@ -1,5 +1,5 @@
 // import { SiGithub } from '@icons-pack/react-simple-icons'
-import { AvatarIcon, BellIcon, RocketIcon } from '@radix-ui/react-icons'
+import { BellIcon, RocketIcon, ChatBubbleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
@@ -21,34 +21,37 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
               {index !== updates.length - 1 ? (
                 <span
                   aria-hidden="true"
-                  className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200"
+                  className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-border"
                 />
               ) : null}
-              <Link href={`/updates/${update.meta.slug}`}>
+              <Link
+                className=""
+                href={`/updates/${update.meta.slug}`}
+              >
                 <div className="relative flex items-start space-x-3">
                   <div className="relative">
                     <CloudImage
                       src={update.meta.image ?? 'logo'}
                       alt={update.meta.title ?? 'Update'}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-border ring-4 ring-ring"
                       width={100}
                       height={100}
                     />
-                    <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
+                    <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-secondary px-0.5 py-px">
                       {update.meta.feedType === 'notification' ? (
                         <BellIcon
                           aria-hidden="true"
-                          className="h-5 w-5 text-gray-400"
+                          className="h-4 w-4 text-secondary-foreground"
                         />
                       ) : update.meta.feedType === 'retro' ? (
-                        <AvatarIcon
+                        <ChatBubbleIcon
                           aria-hidden="true"
-                          className="h-5 w-5 text-gray-400"
+                          className="h-4 w-4 text-secondary-foreground"
                         />
                       ) : update.meta.feedType === 'launch' ? (
                         <RocketIcon
                           aria-hidden="true"
-                          className="h-5 w-5 text-gray-400"
+                          className="h-4 w-4 text-secondary-foreground"
                         />
                       ) : null}
                     </span>
