@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { UpdatesFeed } from '@/components/updates'
+import { UpdatesSection } from '@/components/updates'
 import { getUpdates } from '@/lib/github/updates'
 
 export default async function UpdatesPage(): Promise<React.JSX.Element> {
@@ -16,7 +16,7 @@ export default async function UpdatesPage(): Promise<React.JSX.Element> {
     <div className="container mx-auto sm:px-6 lg:px-8">
       <BreadcrumbResponsive items={links} />
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
-        <UpdatesFeed updates={updates} />
+        <UpdatesSection updates={updates} />
       </div>
     </div>
   )
