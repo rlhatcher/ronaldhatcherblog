@@ -3,6 +3,13 @@ import React from 'react'
 
 import { CloudImage } from './cloud-image'
 import { EntryArtwork } from './entry-artwork'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card'
 
 export function ProjectList({
   projects,
@@ -111,33 +118,32 @@ export function ProjectTiles({
   return (
     <>
       {projects.map(project => (
-        <article
-          key={project.meta.slug}
-          className="flex flex-col items-center p-4"
-        >
-          <Link
-            href={`/projects/${project.meta.slug}`}
-            key={project.meta.slug}
-            className="flex w-full max-w-[500px] flex-col items-center"
-          >
-            <EntryArtwork
+        <Card key={project.meta.slug}>
+          <CardHeader>
+            <CardTitle className="max-h-12 overflow-hidden font-mono">
+              {project.meta.title}
+            </CardTitle>
+            <CardDescription className="max-h-16 min-h-16 overflow-hidden">
+              {project.meta.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center p-4">
+            <Link
+              href={`/projects/${project.meta.slug}`}
               key={project.meta.slug}
-              meta={project.meta}
-              className="h-full hover:scale-105"
-              aspectRatio="square"
-              width={500}
-              height={500}
-            />
-            <div className="w-full max-w-xs">
-              <h3 className="mt-3 text-center font-medium leading-none">
-                {project.meta.title}
-              </h3>
-              <p className="mt-1 text-center text-xs text-muted-foreground">
-                {project.meta.description}
-              </p>
-            </div>
-          </Link>
-        </article>
+              className="flex w-full max-w-[500px] flex-col items-center"
+            >
+              <EntryArtwork
+                key={project.meta.slug}
+                meta={project.meta}
+                className="h-full hover:scale-105"
+                aspectRatio="square"
+                width={500}
+                height={500}
+              />
+            </Link>
+          </CardContent>
+        </Card>
       ))}
     </>
   )
