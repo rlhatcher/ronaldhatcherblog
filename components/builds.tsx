@@ -3,6 +3,13 @@ import React from 'react'
 
 import { CloudImage } from './cloud-image'
 import { EntryArtwork } from './entry-artwork'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card'
 
 export function BuildsSection({ builds }: { builds: Build[] }): JSX.Element {
   return (
@@ -39,33 +46,32 @@ export function BuildTiles({ builds }: { builds: Build[] }): JSX.Element {
   return (
     <>
       {builds.map(build => (
-        <article
-          key={build.meta.slug}
-          className="flex flex-col items-center p-4"
-        >
-          <Link
-            href={`/builds/${build.meta.slug}`}
-            key={build.meta.slug}
-            className="flex w-full max-w-[500px] flex-col items-center"
-          >
-            <EntryArtwork
+        <Card key={build.meta.slug}>
+          <CardHeader>
+            <CardTitle className="max-h-12 overflow-hidden font-mono">
+              {build.meta.title}
+            </CardTitle>
+            <CardDescription className="max-h-16 min-h-16 overflow-hidden">
+              {build.meta.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link
+              href={`/builds/${build.meta.slug}`}
               key={build.meta.slug}
-              meta={build.meta}
-              className="h-full"
-              aspectRatio="square"
-              width={500}
-              height={500}
-            />
-            <div className="w-full max-w-xs">
-              <h3 className="mt-3 text-center font-medium leading-none">
-                {build.meta.title}
-              </h3>
-              <p className="mt-1 text-center text-xs text-muted-foreground">
-                {build.meta.description}
-              </p>
-            </div>
-          </Link>
-        </article>
+              className="flex w-full max-w-[500px] flex-col items-center"
+            >
+              <EntryArtwork
+                key={build.meta.slug}
+                meta={build.meta}
+                className="h-full"
+                aspectRatio="square"
+                width={500}
+                height={500}
+              />
+            </Link>
+          </CardContent>
+        </Card>
       ))}
     </>
   )

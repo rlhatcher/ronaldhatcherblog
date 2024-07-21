@@ -35,7 +35,7 @@ export default async function Page(): Promise<JSX.Element> {
         <Link href="/builds">
           <h2 className="mb-4 font-mono text-2xl font-semibold">Builds</h2>
         </Link>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
           <BuildTiles builds={builds} />
         </div>
       </div>
