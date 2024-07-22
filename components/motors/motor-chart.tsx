@@ -10,7 +10,6 @@ import {
   YAxis,
 } from 'recharts'
 
-import { Card, CardContent } from '@/components/ui/card'
 import {
   type ChartConfig,
   ChartContainer,
@@ -40,60 +39,58 @@ export const MotorChart = ({
   // const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
   return (
-    <Card>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
+    <div>
+      <ChartContainer config={chartConfig}>
+        <LineChart
+          accessibilityLayer
+          data={chartData}
+          margin={{
+            left: 12,
+            right: 12,
+          }}
+        >
+          <CartesianGrid vertical={true} />
+          <XAxis
+            dataKey="time"
+            tickLine={true}
+            axisLine={true}
+            tickMargin={5}
+            label={{
+              value: 'Duration (s)',
+              angle: 0,
+              position: 'bottom',
             }}
-          >
-            <CartesianGrid vertical={true} />
-            <XAxis
-              dataKey="time"
-              tickLine={true}
-              axisLine={true}
-              tickMargin={5}
-              label={{
-                value: 'Duration (s)',
-                angle: 0,
-                position: 'bottom',
-              }}
-              tickFormatter={value => value.toFixed(2)}
-            />
-            <YAxis
-              yAxisId="left"
-              orientation="left"
-              label={{
-                value: 'Thrust (N)',
-                angle: 90,
-                position: 'left',
-              }}
-            />
+            tickFormatter={value => value.toFixed(2)}
+          />
+          <YAxis
+            yAxisId="left"
+            orientation="left"
+            label={{
+              value: 'Thrust (N)',
+              angle: 90,
+              position: 'left',
+            }}
+          />
 
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <ReferenceLine
-              y={avgThrust}
-              yAxisId={'left'}
-              stroke="hsl(var(--chart-3))"
-            />
-            <Line
-              dataKey="thrust"
-              type="natural"
-              stroke="hsl(var(--chart-1))"
-              strokeWidth={2}
-              dot={false}
-              yAxisId="left"
-            />
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <ReferenceLine
+            y={avgThrust}
+            yAxisId={'left'}
+            stroke="hsl(var(--chart-3))"
+          />
+          <Line
+            dataKey="thrust"
+            type="natural"
+            stroke="hsl(var(--chart-1))"
+            strokeWidth={2}
+            dot={false}
+            yAxisId="left"
+          />
+        </LineChart>
+      </ChartContainer>
+    </div>
   )
 }

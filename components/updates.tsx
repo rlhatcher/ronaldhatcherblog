@@ -59,7 +59,9 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
 
                   <div className="min-w-0 flex-1">
                     <div>
-                      <div className="text-sm">{update.meta.title}</div>
+                      <div className="font-mono font-semibold">
+                        {update.meta.title}
+                      </div>
                       <p className="mt-0.5 text-sm">
                         {update.meta.date?.toLocaleString()}
                       </p>
