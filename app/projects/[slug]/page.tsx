@@ -102,7 +102,7 @@ export default async function ProjectPage({
         <h3 className="bg-muted p-2 font-mono text-lg font-light leading-6 shadow-lg">
           {project.meta.description}
         </h3>
-        <div className="prose relative top-0 mx-auto max-w-none dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
+        <div className="prose relative top-0 mx-auto max-w-none p-2 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
       </article>

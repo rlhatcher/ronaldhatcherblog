@@ -1,4 +1,3 @@
-// import { SiGithub } from '@icons-pack/react-simple-icons'
 import { BellIcon, RocketIcon, ChatBubbleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
@@ -63,7 +62,7 @@ export function UpdatesFeed({ updates }: { updates: Update[] }): JSX.Element {
                         {update.meta.title}
                       </div>
                       <p className="mt-0.5 text-sm">
-                        {update.meta.date?.toLocaleString()}
+                        {update.meta.date?.toLocaleDateString()}
                       </p>
                     </div>
                     <div className="mt-2 text-sm">
