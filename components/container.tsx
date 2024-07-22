@@ -6,7 +6,7 @@ interface Props {
 
 const Container = ({ children }: Props): JSX.Element => {
   return (
-    <div className="container mx-auto px-5 sm:px-6 lg:px-8">{children}</div>
+    <div className="container mx-auto px-4 md:px-6 lg:px-8">{children}</div>
   )
 }
 

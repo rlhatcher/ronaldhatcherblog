@@ -96,13 +96,13 @@ export default async function ProjectPage({
     { label: project.meta.title ?? 'Project' },
   ]
   return (
-    <div className="container mx-auto sm:px-6 lg:px-8">
+    <div className="container mx-auto px-1 sm:px-2 lg:px-4">
       <BreadcrumbResponsive items={links} />
       <article>
         <h3 className="bg-muted p-2 font-mono text-lg font-light leading-6 shadow-lg">
           {project.meta.description}
         </h3>
-        <div className="m:p-10 prose relative top-0 mx-auto max-w-none p-5 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
+        <div className="prose relative top-0 mx-auto max-w-none p-2 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
           {content}
         </div>
       </article>

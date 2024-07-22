@@ -28,7 +28,7 @@ function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="px-4 py-5 sm:px-0">
+        <div className="px-0 py-5">
           <div>
             <div>
               <MotorTable

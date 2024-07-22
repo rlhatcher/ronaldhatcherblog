@@ -119,20 +119,20 @@ export function ProjectTiles({
     <>
       {projects.map(project => (
         <Card key={project.meta.slug}>
-          <CardHeader>
-            <CardTitle className="max-h-12 overflow-hidden font-mono">
-              {project.meta.title}
-            </CardTitle>
-            <CardDescription className="max-h-16 min-h-16 overflow-hidden">
-              {project.meta.description}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center p-4">
-            <Link
-              href={`/projects/${project.meta.slug}`}
-              key={project.meta.slug}
-              className="flex w-full max-w-[500px] flex-col items-center"
-            >
+          <Link
+            href={`/projects/${project.meta.slug}`}
+            key={project.meta.slug}
+            className="flex w-full max-w-[500px] flex-col items-center"
+          >
+            <CardHeader>
+              <CardTitle className="max-h-12 overflow-hidden font-mono">
+                {project.meta.title}
+              </CardTitle>
+              <CardDescription className="max-h-16 min-h-16 overflow-hidden">
+                {project.meta.description}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center p-4">
               <EntryArtwork
                 key={project.meta.slug}
                 meta={project.meta}
@@ -141,8 +141,8 @@ export function ProjectTiles({
                 width={500}
                 height={500}
               />
-            </Link>
-          </CardContent>
+            </CardContent>
+          </Link>
         </Card>
       ))}
     </>

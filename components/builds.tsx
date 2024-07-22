@@ -47,20 +47,20 @@ export function BuildTiles({ builds }: { builds: Build[] }): JSX.Element {
     <>
       {builds.map(build => (
         <Card key={build.meta.slug}>
-          <CardHeader>
-            <CardTitle className="max-h-12 overflow-hidden font-mono">
-              {build.meta.title}
-            </CardTitle>
-            <CardDescription className="max-h-16 min-h-16 overflow-hidden">
-              {build.meta.description}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link
-              href={`/builds/${build.meta.slug}`}
-              key={build.meta.slug}
-              className="flex w-full max-w-[500px] flex-col items-center"
-            >
+          <Link
+            href={`/builds/${build.meta.slug}`}
+            key={build.meta.slug}
+            className="flex w-full max-w-[500px] flex-col items-center"
+          >
+            <CardHeader>
+              <CardTitle className="max-h-12 overflow-hidden font-mono">
+                {build.meta.title}
+              </CardTitle>
+              <CardDescription className="max-h-16 min-h-16 overflow-hidden">
+                {build.meta.description}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <EntryArtwork
                 key={build.meta.slug}
                 meta={build.meta}
@@ -69,8 +69,8 @@ export function BuildTiles({ builds }: { builds: Build[] }): JSX.Element {
                 width={500}
                 height={500}
               />
-            </Link>
-          </CardContent>
+            </CardContent>
+          </Link>
         </Card>
       ))}
     </>

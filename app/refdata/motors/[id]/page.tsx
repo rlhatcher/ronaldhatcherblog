@@ -55,7 +55,7 @@ export default async function MotorPage({
   ]
 
   return (
-    <div className="container mx-auto sm:px-8 lg:px-10">
+    <div className="container mx-auto px-1 sm:px-2 lg:px-4">
       <BreadcrumbResponsive items={links} />
       <MotorDetails motor={motor} />
     </div>
