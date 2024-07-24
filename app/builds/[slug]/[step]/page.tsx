@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { compileMDX } from 'next-mdx-remote/rsc'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import React from 'react'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeCitation from 'rehype-citation'
@@ -8,14 +8,11 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
-import SimTabs from '@/components/blog/simulations'
+import MdxComponents from '@/components/blog/mdx-components'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
-import { Rocket3DViewer } from '@/components/model-viewers'
 import StepCarousel from '@/components/step-carousel'
 import { getBuilds } from '@/lib/github/builds'
 import { getSteps } from '@/lib/github/steps'
-
 interface Props {
   params: {
     slug: string
@@ -56,37 +53,27 @@ export default async function StepPage({
 
   if (theStep == null) notFound()
 
-  const { content } = await compileMDX<ProjectMeta>({
-    source: theStep.content,
-    components: {
-      VideoPlayer,
-      BlogImage,
-      BlogGallery,
-      SimTabs,
-      Rocket3DViewer,
-    },
-    options: {
-      parseFrontmatter: false,
-      mdxOptions: {
-        remarkPlugins: [
-          remarkGfm,
-          [
-            remarkToc,
-            {
-              tight: true,
-              heading: 'Contents',
-            },
-          ],
+  const options: any = {
+    parseFrontmatter: false,
+    mdxOptions: {
+      remarkPlugins: [
+        remarkGfm,
+        [
+          remarkToc,
+          {
+            tight: true,
+            heading: 'Contents',
+          },
         ],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [rehypeCitation, { bibliography: [], linkCitations: true }],
-        ],
-      },
+      ],
+      rehypePlugins: [
+        rehypeHighlight,
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'prepend' }],
+        [rehypeCitation, { bibliography: [], linkCitations: true }],
+      ],
     },
-  })
+  }
 
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
@@ -112,7 +99,11 @@ export default async function StepPage({
         steps={steps}
       />
       <div className="prose relative top-0 mx-auto max-w-none p-2 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
-        {content}
+        <MDXRemote
+          source={theStep.content}
+          components={MdxComponents}
+          options={options}
+        />
       </div>
     </div>
   )

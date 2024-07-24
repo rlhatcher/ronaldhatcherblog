@@ -1,18 +1,16 @@
 import { notFound } from 'next/navigation'
-import { compileMDX } from 'next-mdx-remote/rsc'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import React from 'react'
 import 'highlight.js/styles/github-dark.css'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeCitation from 'rehype-citation'
+// import rehypeCitation from 'rehype-citation'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 
-import SimTabs from '@/components/blog/simulations'
+import MdxComponents from '@/components/blog/mdx-components'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
-import Video from '@/components/Video'
 import {
   getProject,
   // getProjectRefs,
@@ -59,37 +57,28 @@ export default async function ProjectPage({
 
   if (project == null) notFound()
 
-  const { content } = await compileMDX<ProjectMeta>({
-    source: project.content,
-    components: {
-      VideoPlayer,
-      BlogImage,
-      BlogGallery,
-      SimTabs,
-      Video,
-    },
-    options: {
-      parseFrontmatter: false,
-      mdxOptions: {
-        remarkPlugins: [
-          remarkGfm,
-          [
-            remarkToc,
-            {
-              tight: true,
-              heading: 'Contents',
-            },
-          ],
+  const options: any = {
+    parseFrontmatter: false,
+    mdxOptions: {
+      remarkPlugins: [
+        remarkGfm,
+        [
+          remarkToc,
+          {
+            tight: true,
+            heading: 'Contents',
+          },
         ],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          [rehypeAutolinkHeadings, { behavior: 'prepend' }],
-          [rehypeCitation, { bibliography: [], linkCitations: true }],
-        ],
-      },
+      ],
+      rehypePlugins: [
+        rehypeHighlight,
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'prepend' }],
+        // [rehypeCitation, { bibliography: bib, linkCitations: true }],
+      ],
     },
-  })
+  }
+
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
     { href: '/projects', label: 'Projects' },
@@ -103,7 +92,11 @@ export default async function ProjectPage({
           {project.meta.description}
         </h3>
         <div className="prose relative top-0 mx-auto max-w-none p-2 dark:prose-invert prose-h1:mb-0 prose-h1:font-mono prose-ul:m-0 prose-li:m-0">
-          {content}
+          <MDXRemote
+            source={project.content}
+            components={MdxComponents}
+            options={options}
+          />
         </div>
       </article>
     </div>
