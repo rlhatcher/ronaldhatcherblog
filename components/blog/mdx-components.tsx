@@ -2,14 +2,14 @@ import { Rocket3DViewer } from '../model-viewers'
 
 import SimTabs from '@/components/blog/simulations'
 import { VideoPlayer, BlogImage, BlogGallery } from '@/components/cloud-image'
-import Video from '@/components/video'
+import YouTube from '@/components/you-tube'
 
 const MdxComponents = {
   VideoPlayer,
   BlogImage,
   BlogGallery,
   SimTabs,
-  Video,
+  Video: YouTube,
   Rocket3DViewer,
 }
 

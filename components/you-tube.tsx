@@ -3,7 +3,7 @@ interface Props {
   id: string
 }
 
-export default function Video({ id }: Props): React.JSX.Element {
+export default function YouTube({ id }: Props): React.JSX.Element {
   return (
     <div className="aspect-w-16 aspect-h-9">
       <iframe
