@@ -26,6 +26,24 @@ export const BlogImage = ({
   )
 }
 
+export const TileImage = ({
+  src,
+  ...restProps
+}: CldImageProps): React.JSX.Element => {
+  return (
+    <Link href={`/images/${src}`}>
+      <NextCldImage
+        sizes="(min-width: 480px ) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
+        height={400}
+        width={400}
+        crop="fit"
+        src={src}
+        {...restProps}
+      />
+    </Link>
+  )
+}
+
 interface BlogGalleryProps {
   images: CldImageProps[]
 }

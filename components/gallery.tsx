@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BlogImage } from './cloud-image'
+import { TileImage } from './cloud-image'
 
 import { getImagesByTag } from '@/lib/cloudinary'
 
@@ -20,7 +20,7 @@ export async function TagGallery({
           key={index}
           className="flex-shrink-0 flex-grow basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
         >
-          <BlogImage
+          <TileImage
             src={image}
             alt="gallery"
           />
