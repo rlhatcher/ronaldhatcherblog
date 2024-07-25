@@ -8,9 +8,9 @@ interface TagGalleryProps {
   tags: string[]
 }
 
-export const TagGallery = async ({
+export async function TagGallery({
   tags,
-}: TagGalleryProps): Promise<JSX.Element> => {
+}: TagGalleryProps): Promise<JSX.Element> {
   const images = await getImagesByTag(tags)
 
   return (
