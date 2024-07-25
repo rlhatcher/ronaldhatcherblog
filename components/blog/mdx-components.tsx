@@ -1,3 +1,4 @@
+import { TagGallery } from '../gallery'
 import { Rocket3DViewer } from '../model-viewers'
 
 import SimTabs from '@/components/blog/simulations'
@@ -8,6 +9,7 @@ const MdxComponents = {
   VideoPlayer,
   BlogImage,
   BlogGallery,
+  TagGallery,
   SimTabs,
   Video: YouTube,
   Rocket3DViewer,
