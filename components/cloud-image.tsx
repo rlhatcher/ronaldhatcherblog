@@ -34,8 +34,8 @@ export const TileImage = ({
     <Link href={`/images/${src}`}>
       <NextCldImage
         sizes="(min-width: 480px ) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
-        height={100}
-        width={100}
+        height={240}
+        width={240}
         crop="fit"
         src={src}
         {...restProps}
