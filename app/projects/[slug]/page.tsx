@@ -12,6 +12,7 @@ import remarkToc from 'remark-toc'
 import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
+import { TagGallery } from '@/components/gallery'
 import Video from '@/components/Video'
 import {
   getProject,
@@ -65,6 +66,7 @@ export default async function ProjectPage({
       VideoPlayer,
       BlogImage,
       BlogGallery,
+      TagGallery,
       SimTabs,
       Video,
     },

@@ -11,6 +11,7 @@ import remarkToc from 'remark-toc'
 import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
+import { TagGallery } from '@/components/gallery'
 import { Rocket3DViewer } from '@/components/model-viewers'
 import StepCarousel from '@/components/step-carousel'
 import { getBuilds } from '@/lib/github/builds'
@@ -62,6 +63,7 @@ export default async function StepPage({
       VideoPlayer,
       BlogImage,
       BlogGallery,
+      TagGallery,
       SimTabs,
       Rocket3DViewer,
     },

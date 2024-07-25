@@ -12,6 +12,7 @@ import remarkToc from 'remark-toc'
 import SimTabs from '@/components/blog/simulations'
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { BlogGallery, BlogImage, VideoPlayer } from '@/components/cloud-image'
+import { TagGallery } from '@/components/gallery'
 import Video from '@/components/Video'
 import { getUpdate, getUpdates } from '@/lib/github/updates'
 
@@ -61,6 +62,7 @@ export default async function UpdatePage({
       VideoPlayer,
       BlogImage,
       BlogGallery,
+      TagGallery,
       SimTabs,
       Video,
     },
