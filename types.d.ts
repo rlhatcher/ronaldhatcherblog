@@ -198,6 +198,7 @@ interface Rocket {
 interface Design {
   defines: Rocket
   supports?: Configuration[]
+  consistsOf?: RocketPart[]
   reflectedIn?: string
   id: string
   name: string
@@ -222,6 +223,16 @@ interface Configuration {
   delay?: string
   ignitionEvent?: string
   ignitionDelay?: string
+}
+
+interface RocketPart {
+  id: string
+  name: string
+  mass?: number
+  length?: number
+  diameter?: number
+  material?: string
+  composedOf?: RocketPart[]
 }
 
 interface Simulation {

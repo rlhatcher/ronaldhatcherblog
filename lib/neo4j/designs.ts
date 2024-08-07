@@ -85,6 +85,50 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
 }
 
 /**
+ * We need to flatten the RocketPart objects into a single array of nodes and relationships
+ * to avoid recursion when merging the Design object.
+ */
+interface Relationship {
+  from: string
+  to: string
+  type: string
+}
+
+function preprocessRocketParts(parts: RocketPart[]): {
+  nodes: RocketPart[]
+  relationships: Relationship[]
+  topLevelPartIds: string[]
+} {
+  const nodes: RocketPart[] = []
+  const relationships: Relationship[] = []
+  const topLevelPartIds: string[] = []
+
+  function processPart(part: RocketPart, parentId?: string): void {
+    // Only process parts with an id
+    if (part.id.length === 0) return
+
+    nodes.push(part)
+
+    if (parentId != null) {
+      relationships.push({ from: parentId, to: part.id, type: 'COMPOSED_OF' })
+    } else {
+      topLevelPartIds.push(part.id)
+    }
+
+    if (part.composedOf != null) {
+      part.composedOf.forEach(subpart => {
+        processPart(subpart, part.id)
+      })
+    }
+  }
+
+  parts.forEach(part => {
+    processPart(part)
+  })
+  return { nodes, relationships, topLevelPartIds }
+}
+
+/**
  * Merges a Design node and its related Configuration and Simulation nodes.
  *
  * The Design object is merged with the associated Rocket object, Configuration objects, and Simulation objects.
@@ -98,56 +142,58 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
  * @returns A Promise that resolves to void when the merge operation is complete.
  */
 export async function mergeDesign(design: Design): Promise<void> {
+  const { nodes, relationships, topLevelPartIds } = preprocessRocketParts(
+    design.consistsOf ?? []
+  )
+
   const params = {
     designId: design.name,
     name: design.name,
-    filename: design.reflectedIn ?? null,
-    stages: design.stages ?? null,
-    massEmpty: design.massEmpty ?? null,
-    stabilityCal: design.stabilityCal ?? null,
-    stabilityPct: design.stabilityPct ?? null,
-    cg: design.cg ?? null,
-    cp: design.cp ?? null,
     totalLength: design.totalLength ?? null,
     maxDiameter: design.maxDiameter ?? null,
-    supports: design.supports,
+    supports: design.supports ?? [],
+    nodes,
+    relationships,
+    topLevelPartIds,
   }
 
   const query = `
+    // Merge the Design node
     MERGE (design:Design {id: $designId})
-    ON CREATE SET design += {
-      name: $name, reflectedIn: $filename, stages: $stages,
-      massEmpty: $massEmpty, stabilityCal: $stabilityCal, stabilityPct: $stabilityPct,
-      cg: $cg, cp: $cp, totalLength: $totalLength, maxDiameter: $maxDiameter
-    }
-    
+    ON CREATE SET design.name = $name, design.totalLength = $totalLength, design.maxDiameter = $maxDiameter
+
+    // Handle Configuration nodes
     WITH design
     UNWIND $supports AS cfg
     MERGE (configuration:Configuration {id: cfg.id})
-    ON CREATE SET configuration += {
-      name: cfg.name, stageNumber: cfg.stageNumber, stageActive: cfg.stageActive,
-      delay: cfg.delay, ignitionEvent: cfg.ignitionEvent, ignitionDelay: cfg.ignitionDelay
-    }
+    ON CREATE SET configuration.name = cfg.name, configuration.stageNumber = cfg.stageNumber,
+                  configuration.stageActive = cfg.stageActive, configuration.delay = cfg.delay,
+                  configuration.ignitionEvent = cfg.ignitionEvent, configuration.ignitionDelay = cfg.ignitionDelay
     MERGE (design)-[:SUPPORTS]->(configuration)
 
-    WITH configuration, cfg
-    MATCH (motor:Motor {designation: cfg.designation})
-    MERGE (configuration)-[:USES_MOTOR]->(motor)
+    // Merge all RocketPart nodes
+    WITH design
+    UNWIND $nodes AS part
+    MERGE (rocketPart:RocketPart {id: part.id})
+    ON CREATE SET rocketPart.name = part.name, rocketPart.mass = part.mass, rocketPart.length = part.length,
+                  rocketPart.diameter = part.diameter, rocketPart.material = part.material
 
-    WITH configuration, cfg.simulations AS sims
-    UNWIND sims AS sim
-    MERGE (simulation:Simulation {name: sim.name})
-    ON CREATE SET simulation += {
-      simulator: sim.simulator, calculator: sim.calculator,
-      maxaltitude: sim.maxaltitude, maxvelocity: sim.maxvelocity,
-      maxacceleration: sim.maxacceleration, maxmach: sim.maxmach,
-      timetoapogee: sim.timetoapogee, flighttime: sim.flighttime,
-      groundhitvelocity: sim.groundhitvelocity, launchrodvelocity: sim.launchrodvelocity,
-      deploymentvelocity: sim.deploymentvelocity, optimumdelay: sim.optimumdelay, simulationData: sim.simulationData
-    }
-    MERGE (configuration)-[:VALIDATED_BY]->(simulation)
+    // Create CONSISTS_OF relationships from Design to top-level RocketParts
+    WITH design
+    UNWIND $topLevelPartIds AS partId
+    MATCH (rocketPart:RocketPart {id: partId})
+    MERGE (design)-[:CONSISTS_OF]->(rocketPart)
+
+    // Create COMPOSED_OF relationships for nested RocketParts
+    WITH design
+    UNWIND $relationships AS rel
+    MATCH (parent:RocketPart {id: rel.from})
+    MATCH (child:RocketPart {id: rel.to})
+    MERGE (parent)-[:COMPOSED_OF]->(child)
+    
+    RETURN design
   `
 
   await executeWrite(query, params)
-  console.log('Design, configurations, and simulations merged successfully')
+  console.log('Design, configurations, and rocket parts merged successfully')
 }
