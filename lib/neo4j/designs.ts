@@ -105,7 +105,7 @@ function preprocessRocketParts(parts: RocketPart[]): {
 
   function processPart(part: RocketPart, parentId?: string): void {
     // Only process parts with an id
-    if (part.id.length === 0) return
+    if (part.id == null) return
 
     nodes.push(part)
 
@@ -128,6 +128,36 @@ function preprocessRocketParts(parts: RocketPart[]): {
   return { nodes, relationships, topLevelPartIds }
 }
 
+function preprocessConfigurations(supports: Configuration[]): {
+  simulations: Simulation[]
+  simRelationships: Relationship[]
+  motors: Motor[]
+  motorRelationships: Relationship[]
+} {
+  const simulations: Simulation[] = []
+  const simRelationships: Relationship[] = []
+  const motors: Motor[] = []
+  const motorRelationships: Relationship[] = []
+
+  supports.forEach(cfg => {
+    cfg.validatedBy?.forEach(sim => {
+      simulations.push(sim)
+      simRelationships.push({ from: cfg.id, to: sim.id, type: 'VALIDATED_BY' })
+    })
+
+    cfg.usesMotor?.forEach(motor => {
+      motors.push(motor)
+      motorRelationships.push({
+        from: cfg.id,
+        to: motor.motorId,
+        type: 'USES_MOTOR',
+      })
+    })
+  })
+
+  return { simulations, simRelationships, motors, motorRelationships }
+}
+
 /**
  * Merges a Design node and its related Configuration and Simulation nodes.
  *
@@ -142,9 +172,12 @@ function preprocessRocketParts(parts: RocketPart[]): {
  * @returns A Promise that resolves to void when the merge operation is complete.
  */
 export async function mergeDesign(design: Design): Promise<void> {
+  // Flatten parts and configurations
   const { nodes, relationships, topLevelPartIds } = preprocessRocketParts(
     design.consistsOf ?? []
   )
+  const { simulations, simRelationships, motors, motorRelationships } =
+    preprocessConfigurations(design.supports ?? [])
 
   const params = {
     designId: design.name,
@@ -155,6 +188,10 @@ export async function mergeDesign(design: Design): Promise<void> {
     nodes,
     relationships,
     topLevelPartIds,
+    simulations,
+    simRelationships,
+    motors,
+    motorRelationships,
   }
 
   const query = `
@@ -191,6 +228,38 @@ export async function mergeDesign(design: Design): Promise<void> {
     MATCH (child:RocketPart {id: rel.to})
     MERGE (parent)-[:COMPOSED_OF]->(child)
     
+    // Merge all Simulation nodes
+    WITH design
+    UNWIND $simulations AS sim
+    MERGE (simulation:Simulation {id: sim.id})
+    ON CREATE SET simulation.name = sim.name, simulation.simulator = sim.simulator, simulation.calculator = sim.calculator,
+                  simulation.maxaltitude = sim.maxaltitude, simulation.maxvelocity = sim.maxvelocity,
+                  simulation.maxacceleration = sim.maxacceleration, simulation.maxmach = sim.maxmach,
+                  simulation.timetoapogee = sim.timetoapogee, simulation.flighttime = sim.flighttime,
+                  simulation.groundhitvelocity = sim.groundhitvelocity, simulation.launchrodvelocity = sim.launchrodvelocity,
+                  simulation.deploymentvelocity = sim.deploymentvelocity, simulation.optimumdelay = sim.optimumdelay
+
+    // Create VALIDATED_BY relationships for Simulations
+    WITH design
+    UNWIND $simRelationships AS simRel
+    MATCH (cfg:Configuration {id: simRel.from})
+    MATCH (sim:Simulation {id: simRel.to})
+    MERGE (cfg)-[:VALIDATED_BY]->(sim)
+
+    // Merge all Motor nodes
+    WITH design
+    UNWIND $motors AS motor
+    MERGE (motorNode:Motor {id: motor.id})
+    ON CREATE SET motorNode.name = motor.name, motorNode.designation = motor.designation
+    // Add other motor properties as needed
+
+    // Create USES_MOTOR relationships for Motors
+    WITH design
+    UNWIND $motorRelationships AS motorRel
+    MATCH (cfg:Configuration {id: motorRel.from})
+    MATCH (motor:Motor {id: motorRel.to})
+    MERGE (cfg)-[:USES_MOTOR]->(motor)
+
     RETURN design
   `
 
