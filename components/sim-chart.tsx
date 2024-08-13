@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import { type Configuration } from '@/schemas/Design'
 
 const chartConfig = {
   verticalVelocity: {

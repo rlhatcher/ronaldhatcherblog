@@ -16,6 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import { type ThrustSample } from '@/schemas/Motor'
 const chartConfig = {
   desktop: {
     label: 'thrust',

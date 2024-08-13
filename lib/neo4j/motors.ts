@@ -1,5 +1,7 @@
 import { executeRead, safeParseJSON } from '../neo4j'
 
+import { type Motor } from '@/schemas/Motor'
+
 /**
  * Fetches the motors from the graph without any relationships.
  * @returns A promise that resolves to an array of Motor objects.

@@ -7,6 +7,15 @@ import {
   safeParseJSON,
 } from '../neo4j'
 
+import { type Manufacturer } from '@/schemas/core'
+import {
+  type RocketPart,
+  type Configuration,
+  type Design,
+} from '@/schemas/Design'
+import { type Motor } from '@/schemas/Motor'
+import { type Simulation } from '@/schemas/Simulation'
+
 /**
  * Fetches a design from the database based on the provided design ID.
  *
@@ -141,7 +150,23 @@ function preprocessConfigurations(supports: Configuration[]): {
 
   supports.forEach(cfg => {
     cfg.validatedBy?.forEach(sim => {
-      simulations.push(sim)
+      const completeSim: Simulation = {
+        ...sim,
+        simulator: sim.simulator ?? undefined,
+        calculator: sim.calculator ?? undefined,
+        maxaltitude: sim.maxaltitude ?? undefined,
+        maxvelocity: sim.maxvelocity ?? undefined,
+        maxacceleration: sim.maxacceleration ?? undefined,
+        maxmach: sim.maxmach ?? undefined,
+        timetoapogee: sim.timetoapogee ?? undefined,
+        flighttime: sim.flighttime ?? undefined,
+        groundhitvelocity: sim.groundhitvelocity ?? undefined,
+        launchrodvelocity: sim.launchrodvelocity ?? undefined,
+        deploymentvelocity: sim.deploymentvelocity ?? undefined,
+        optimumdelay: sim.optimumdelay ?? undefined,
+        simulationData: sim.simulationData ?? undefined,
+      }
+      simulations.push(completeSim)
       simRelationships.push({ from: cfg.id, to: sim.id, type: 'VALIDATED_BY' })
     })
 
