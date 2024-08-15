@@ -1,0 +1,150 @@
+@startuml schemas
+class baseRocketPart << schema >> {
+  id: string
+  name: string
+  -- optional --
+  mass: number
+  length: number
+  diameter: number
+  material: string
+}
+class rocketPart << schema >> {
+  composedOf: z.lazy(() =>\nrocketPartSchema.array())
+}
+class configuration << schema >> {
+  id: string
+  name: string
+  -- optional --
+  stageNumber: number
+  stageActive: boolean
+  delay: string
+  ignitionEvent: string
+  ignitionDelay: string
+}
+class design << schema >> {
+  id: string
+  name: string
+  -- optional --
+  stages: string
+  massEmpty: number
+  stabilityCal: number
+  stabilityPct: number
+  cg: number
+  cp: number
+  totalLength: number
+  maxDiameter: number
+}
+class simulation << schema >> {
+  id: string
+  name: string
+  -- optional --
+}
+
+class orkFile << schema >> {
+  id: string
+  name: string
+  -- optional --
+}
+
+stereotype RocketPart << type >> {
+  composedOf: RocketPart[]
+}
+stereotype Configuration << type >> {
+}
+stereotype Design << type >> {
+}
+stereotype Simulation << type >> {
+}
+
+class parentReference << schema >> {
+  id: string
+  name: string
+  -- optional --
+}
+class manufacturer << schema >> {
+  id: string
+  name: string
+  -- optional --
+}
+class person << schema >> {
+  id: string
+  email: string
+  given_name: string
+  family_name: string
+  picture: string
+  -- optional --
+}
+
+class thrustSample << schema >> {
+  time: number
+  thrust: number
+  -- optional --
+}
+class motor <<schema >> {
+  commonName: string
+  delays: string
+  diameter: number
+  infoUrl: string
+  totImpulseNs: number
+  burnTimeS: number
+  propInfo: string
+  length: number
+  avgThrustN: number
+  dataFiles: string
+  impulseClass: string
+  sparky: string
+  caseInfo: string
+  propWeightG: number
+  certOrg: string
+  motorId: string
+  availability: string
+  maxThrustN: number
+  totalWeightG: number
+  designation: string
+  updatedOn: string
+  type: string
+  -- optional --
+}
+stereotype Motor << type >> {
+}
+stereotype ThrustSample << type >> {
+}
+
+class baseRocket << schema >> {
+  id: string
+  name: string
+  description: string
+  image: file
+  -- optional --
+}
+class rocket << schema >> {
+  basedOn: z.lazy(() =>\nrocketSchema.array())
+  -- optional --
+}
+stereotype Rocket << type >> {
+  basedOn: Rocket[]
+}
+
+
+design --> rocket: defines
+design --o configuration : supports
+design --o rocketPart : consistsOf
+design --> orkFile: reflectedIn
+rocket --|> baseRocket
+rocket --o rocket: basedOn
+rocketPart --|> baseRocketPart
+rocketPart --o rocketPart: composedOf
+configuration --o design: appliesTo
+configuration --o motor: usesMotor
+configuration --o simulation: validatedBy
+motor --> manufacturer: madeBy
+motor --o thrustSample: thrustCurve
+rocketPart ..> RocketPart: infer
+configuration ..> Configuration: infer
+design ..> Design: infer
+motor ..> Motor: infer
+thrustSample ..> ThrustSample: infer
+manufacturer --o motor: motors
+rocket ..> Rocket: infer
+simulation ..> Simulation: infer
+@enduml

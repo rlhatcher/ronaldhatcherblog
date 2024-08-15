@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
 // Lazy imports to handle potential circular dependencies
-import { mfgKitSchema } from '@/schemas/Kit' // Assuming you have a Kit schema in Kit.ts
-import { mfgMotorSchema } from '@/schemas/Motor' // Import the Motor schema from Motor.ts
+import { motorSchema } from '@/schemas/Motor' // Import the Motor schema from Motor.ts
 
 // Create a zod schema that matches the ParentReference interface
 export const parentReferenceSchema = z.object({
@@ -15,8 +14,7 @@ export const parentReferenceSchema = z.object({
 export const manufacturerSchema = z.object({
   name: z.string(),
   id: z.string(),
-  kits: z.array(mfgKitSchema).optional(), // Reference to Kit schema, optional array
-  motors: z.array(mfgMotorSchema).optional(), // Reference to Motor schema, optional array
+  motors: z.array(motorSchema).optional(), // Reference to Motor schema, optional array
 })
 
 // Person Schema
