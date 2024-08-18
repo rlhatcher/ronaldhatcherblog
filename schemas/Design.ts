@@ -4,23 +4,6 @@ import { parentReferenceSchema } from '@/schemas/core'
 import { motorSchema } from '@/schemas/Motor'
 import { simulationSchema } from '@/schemas/Simulation'
 
-const baseRocketPartSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  mass: z.number().optional(),
-  length: z.number().optional(),
-  diameter: z.number().optional(),
-  material: z.string().optional(),
-})
-
-export type RocketPart = z.infer<typeof baseRocketPartSchema> & {
-  composedOf: RocketPart[]
-}
-
-const rocketPartSchema: z.ZodType<RocketPart> = baseRocketPartSchema.extend({
-  composedOf: z.lazy(() => rocketPartSchema.array()),
-})
-
 export const configurationSchema = z.object({
   validatedBy: z.array(simulationSchema).optional(),
   usesMotor: z.array(motorSchema),
@@ -33,12 +16,28 @@ export const configurationSchema = z.object({
   ignitionEvent: z.string().optional(),
   ignitionDelay: z.string().optional(),
 })
+const baseRocketPartSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  mass: z.number().optional(),
+  length: z.number().optional(),
+  diameter: z.number().optional(),
+  material: z.string().optional(),
+})
+const rocketPartSchema: z.ZodType<RocketPart> = baseRocketPartSchema.extend({
+  composedOf: z.lazy(() => rocketPartSchema.array()),
+})
+
+const orkFileSchema = z.object({
+  name: z.string(),
+  url: z.string().url(),
+})
 
 export const designSchema = z.object({
   defines: parentReferenceSchema,
   supports: z.array(configurationSchema).optional(),
   consistsOf: z.array(rocketPartSchema).optional(),
-  reflectedIn: z.string().optional(),
+  reflectedIn: orkFileSchema,
   id: z.string(),
   name: z.string(),
   stages: z.string().optional(),
@@ -51,5 +50,10 @@ export const designSchema = z.object({
   maxDiameter: z.number().optional(),
 })
 
+export type RocketPart = z.infer<typeof baseRocketPartSchema> & {
+  composedOf: RocketPart[]
+}
+
 export type Configuration = z.infer<typeof configurationSchema>
 export type Design = z.infer<typeof designSchema>
+export type OrkFile = z.infer<typeof orkFileSchema>

@@ -59,8 +59,6 @@ export const simulationDataSchema = z.object({
   ComputationTime: z.array(z.number()),
 })
 
-export type SimulationData = z.infer<typeof simulationDataSchema>
-
 export const simulationSchema = z.object({
   validates: parentReferenceSchema,
   id: z.string(),
@@ -80,4 +78,5 @@ export const simulationSchema = z.object({
   simulationData: simulationDataSchema.optional(),
 })
 
+export type SimulationData = z.infer<typeof simulationDataSchema>
 export type Simulation = z.infer<typeof simulationSchema>

@@ -1,16 +1,14 @@
 import { z } from 'zod'
 
-import { parentReferenceSchema } from '@/schemas/core' // Assuming Manufacturer schema is defined in Manufacturer.ts
+import { parentReferenceSchema } from '@/schemas/core'
 
-// ThrustSample Schema
 export const thrustSampleSchema = z.object({
   time: z.number(),
   thrust: z.number(),
 })
 
-// Motor Schema
 export const motorSchema = z.object({
-  madeBy: parentReferenceSchema, // Reference to the Manufacturer schema
+  madeBy: parentReferenceSchema,
   commonName: z.string(),
   delays: z.string(),
   diameter: z.number(),
@@ -33,9 +31,8 @@ export const motorSchema = z.object({
   designation: z.string(),
   updatedOn: z.string(),
   type: z.string(),
-  thrustCurve: z.array(thrustSampleSchema).optional(), // Optional array of ThrustSample
+  thrustCurve: z.array(thrustSampleSchema).optional(),
 })
 
-// Types inferred from schemas
 export type ThrustSample = z.infer<typeof thrustSampleSchema>
 export type Motor = z.infer<typeof motorSchema>

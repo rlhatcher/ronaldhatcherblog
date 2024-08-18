@@ -9,10 +9,10 @@ const baseRocketSchema = z.object({
   image: z.instanceof(File).optional(),
 })
 
-export type Rocket = z.infer<typeof baseRocketSchema> & {
-  basedOn: Rocket[]
-}
-
 export const rocketSchema: z.ZodType<Rocket> = baseRocketSchema.extend({
   basedOn: z.lazy(() => rocketSchema.array()),
 })
+
+export type Rocket = z.infer<typeof baseRocketSchema> & {
+  basedOn: Rocket[]
+}
