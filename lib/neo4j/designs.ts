@@ -12,9 +12,9 @@ import {
   type RocketPart,
   type Configuration,
   type Design,
+  type Simulation,
 } from '@/schemas/Design'
-import { type Motor } from '@/schemas/Motor'
-import { type Simulation } from '@/schemas/Simulation'
+import { type Motor } from '@/schemas/Motors'
 
 /**
  * Fetches a design from the database based on the provided design ID.
@@ -63,9 +63,7 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
     const simulations = simulationsNodes.map((simNode: any) => ({
       ...simNode.properties,
       validates: configNode.properties,
-      simulationData: safeParseJSON(
-        simNode.properties.simulationData as string
-      ),
+      produces: safeParseJSON(simNode.properties.produces as string),
     }))
 
     const motorsWithManufacturers: Array<{
@@ -164,7 +162,7 @@ function preprocessConfigurations(supports: Configuration[]): {
         launchrodvelocity: sim.launchrodvelocity ?? undefined,
         deploymentvelocity: sim.deploymentvelocity ?? undefined,
         optimumdelay: sim.optimumdelay ?? undefined,
-        simulationData: sim.simulationData ?? undefined,
+        produces: sim.produces ?? undefined,
       }
       simulations.push(completeSim)
       simRelationships.push({ from: cfg.id, to: sim.id, type: 'VALIDATED_BY' })

@@ -2,18 +2,13 @@
 
 package rockets {
   stereotype Rocket << type >> {
-    basedOn: Rocket[]
   }
 
-  class baseRocket << schema >> {
+  class rocket << schema >> {
     id: string
     name: string
     description: string
     image: file
-    -- optional --
-  }
-  class rocket << schema >> {
-    basedOn: z.lazy(() =>\nrocketSchema.array())
     -- optional --
   }
 }
@@ -22,6 +17,7 @@ package designs {
   stereotype Configuration << type >> {
   }
   stereotype Design << type >> {
+    basedOn: Design[]
   }
 
   stereotype OrkFile << type >> {
@@ -37,6 +33,9 @@ package designs {
     ignitionDelay: string
   }
   class design << schema >> {
+    basedOn: z.lazy(() =>\ndesignSchema.array())
+    }
+  class baseDesign << schema >> {
     id: string
     name: string
     -- optional --
@@ -70,9 +69,7 @@ package designs {
   class rocketPart << schema >> {
     composedOf: z.lazy(() =>\nrocketPartSchema.array())
   }
-}
 
-package simulations {
   stereotype Simulation << type >> {
   }
   stereotype SimulationData << type >> {
@@ -177,32 +174,30 @@ package simulations {
     }
   }
 
-  design "1..*" --> "0..*" rocket: basedOn >
+  configuration --o motor: usesMotor
+  configuration --o simulation: validatedBy
+  configuration ..> Configuration: infer
+  design --|> baseDesign
+  design --o design : basedOn
   design --o configuration : supports
   design --o rocketPart : consistsOf
   design --> orkFile: reflectedIn
-  rocket --|> baseRocket
-  rocket --o rocket: basedOn
-  rocketPart --|> baseRocketPart
-  rocketPart --o rocketPart: composedOf
-  configuration --o design: appliesTo
-  configuration --o motor: usesMotor
-  configuration --o simulation: validatedBy
+  design ..> Design: infer
+  manufacturer --o motor: motors
+  manufacturer ..> Manufacturer: infer
   motor --> manufacturer: madeBy
   motor --o thrustSample: thrustCurve
-
-  rocketPart ..> RocketPart: infer
-  configuration ..> Configuration: infer
-  design ..> Design: infer
   motor ..> Motor: infer
-  thrustSample ..> ThrustSample: infer
-  manufacturer --o motor: motors
-  rocket ..> Rocket: infer
-  simulation ..> Simulation: infer
   orkFile ..> OrkFile: infer
-  manufacturer ..> Manufacturer: infer
-  person ..> Person: infer
   parentReference ..> ParentReference: infer
+  person ..> Person: infer
+  rocket ..> Rocket: infer
+  rocket --> design: builtTo
+  rocketPart --|> baseRocketPart
+  rocketPart --o rocketPart: composedOf
+  rocketPart ..> RocketPart: infer
+  simulation ..> Simulation: infer
+  simulation --o simulationData: produces
   simulationData ..> SimulationData: infer
-  simulation --o simulationData: hasData
+  thrustSample ..> ThrustSample: infer
   @enduml

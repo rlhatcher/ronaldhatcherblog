@@ -1,6 +1,6 @@
 import { executeRead, safeParseJSON } from '../neo4j'
 
-import { type Motor } from '@/schemas/Motor'
+import { type Motor } from '@/schemas/Motors'
 
 /**
  * Retrieves all motors

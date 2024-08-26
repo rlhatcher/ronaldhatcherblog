@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { motorSchema } from '@/schemas/Motor' // Import the Motor schema from Motor.ts
+import { motorSchema } from '@/schemas/Motors' // Import the Motor schema from Motor.ts
 
 export const parentReferenceSchema = z.object({
   id: z.string(),

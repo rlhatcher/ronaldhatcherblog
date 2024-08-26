@@ -4,7 +4,7 @@ import MotorTable from './motor-table'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 import { MotorChart } from '@/components/motors/motor-chart'
-import { type Motor } from '@/schemas/Motor'
+import { type Motor } from '@/schemas/Motors'
 
 function MotorDetails({ motor }: { motor: Motor }): React.JSX.Element {
   if (motor == null) {

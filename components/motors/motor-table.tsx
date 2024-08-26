@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { type Motor } from '@/schemas/Motor'
+import { type Motor } from '@/schemas/Motors'
 
 interface MotorTableProps {
   motor: Motor

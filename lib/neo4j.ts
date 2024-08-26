@@ -8,6 +8,13 @@ export interface Neo4jNode<T> {
   properties: T
 }
 
+export interface Neo4jRecord {
+  keys: string[] // The keys representing field names in the record
+  values: any[] // The values of each field, could be a node, relationship, or primitive
+
+  get: <T>(key: string) => T // Method to get a specific value by key
+}
+
 /**
  * Safely parses a JSON string and returns the parsed value.
  * If parsing fails, it returns a default value.
