@@ -1,4 +1,4 @@
-import UserForm from './UserForm'
+import UserForm from './DesignForm'
 
 import { getUser } from '@/lib/getUser'
 
