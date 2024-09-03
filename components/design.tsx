@@ -1,6 +1,5 @@
 'use client'
-
-import React from 'react'
+import React, { useState } from 'react'
 import { type ClientUploadedFileData } from 'uploadthing/types'
 
 import { VmotionVsTime } from './sim-chart'
@@ -14,6 +13,7 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { orkUpload } from '@/lib/actions'
+import { mergeDesign } from '@/lib/neo4j'
 import { UploadDropzone } from '@/lib/uploadthing'
 import { type Configuration, type Design } from '@/schemas/Design'
 
@@ -53,6 +53,8 @@ export const DesignView = ({
 }
 
 export const DesignUpload = (): JSX.Element => {
+  const [statusMessage, setStatusMessage] = useState<string>('')
+
   const handleUploadComplete = async (
     res: Array<
       ClientUploadedFileData<{
@@ -63,13 +65,26 @@ export const DesignUpload = (): JSX.Element => {
     console.log('Files: ', res)
     if (res != null && res.length > 0) {
       try {
-        const uploadedFileUrl: string = res[0].url
-        await orkUpload(uploadedFileUrl)
+        const fileUrl: string = res[0].url
+        const fileName: string = res[0].name
+
+        setStatusMessage(`Scanning ${fileName} file`)
+        const design = await orkUpload(fileUrl)
+
+        setStatusMessage(`Storing ${design.name} design`)
+        await mergeDesign(design)
+
+        setStatusMessage('Upload and processing complete.')
       } catch (error) {
         console.error('Error during processing:', error)
       }
     }
   }
+
+  const handleUploadProgress = (progress: number): void => {
+    setStatusMessage(`Uploading... ${progress}%`)
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -80,11 +95,13 @@ export const DesignUpload = (): JSX.Element => {
         <UploadDropzone
           endpoint="orkUploader"
           onClientUploadComplete={handleUploadComplete}
+          onUploadProgress={handleUploadProgress}
           onUploadError={(error: Error) => {
-            // Do something with the error.
             alert(`ERROR! ${error.message}`)
+            setStatusMessage('Error during upload')
           }}
         />
+        {statusMessage !== '' && <p>{statusMessage}</p>}
       </CardContent>
     </Card>
   )
