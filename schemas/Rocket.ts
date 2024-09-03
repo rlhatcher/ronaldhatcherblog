@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { designSchema } from '@/schemas/Design'
 
-const rocketSchema = z.object({
+export const rocketSchema = z.object({
   id: z.string(),
   name: z.string().min(2, { message: 'Must be 2 or more characters long' }),
   description: z
