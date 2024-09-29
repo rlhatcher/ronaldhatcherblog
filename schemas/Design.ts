@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { parentReferenceSchema } from '@/schemas/core'
 import { motorSchema } from '@/schemas/Motors'
+import { parentReferenceSchema } from '@/schemas/references'
 
 // Rocket Part
 const baseRocketPartSchema = z.object({

@@ -9,10 +9,10 @@ export interface Neo4jNode<T> {
 }
 
 export interface Neo4jRecord {
-  keys: string[] // The keys representing field names in the record
-  values: any[] // The values of each field, could be a node, relationship, or primitive
+  keys: string[]
+  values: any[]
 
-  get: <T>(key: string) => T // Method to get a specific value by key
+  get: <T>(key: string) => T
 }
 
 /**
@@ -82,3 +82,4 @@ export async function executeRead(
 
 export * from './neo4j/motors'
 export * from './neo4j/designs'
+export * from './neo4j/rockets'

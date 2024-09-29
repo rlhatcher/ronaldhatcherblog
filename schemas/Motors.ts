@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { parentReferenceSchema } from '@/schemas/core'
+import { parentReferenceSchema } from '@/schemas/references'
 
 export const thrustSampleSchema = z.object({
   time: z.number(),
