@@ -31,9 +31,11 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
     OPTIONAL MATCH (d)-[:SUPPORTS]->(c:Configuration)
     OPTIONAL MATCH (s:Simulation)<-[:VALIDATED_BY]-(c)
     OPTIONAL MATCH (c)-[:USES_MOTOR]->(m:Motor)
-    OPTIONAL MATCH (m)<-[:MAKES]-(mf:Manufacturer)
+    OPTIONAL MATCH (m)<-[:MADE_BY]-(mf:Manufacturer)
+    OPTIONAL MATCH (d)-[:CONSISTS_OF]->(p:RocketPart)
     RETURN d AS design, 
            c AS configuration,
+           p AS rocketParts,
            COLLECT(s) AS simulationsForConfig,
            COLLECT(m) AS motorsForConfig,
            COLLECT(DISTINCT {motor: m, manufacturer: mf}) AS motorsWithManufacturers 
@@ -71,6 +73,8 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
       manufacturer: Neo4jNode<Manufacturer>
     }> = record.get('motorsWithManufacturers')
 
+    const rocketParts: RocketPart[] = record.get('rocketParts')
+
     const configuration: Configuration = {
       ...configNode.properties,
       validatedBy: simulations,
@@ -81,6 +85,7 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
           madeBy: manufacturer != null ? manufacturer.properties : null,
         })),
       appliesTo: design,
+      consistsOf: rocketParts,
     }
 
     return [configuration]
@@ -92,8 +97,8 @@ export async function fetchDesign(designId: string): Promise<Design | null> {
 }
 
 /**
- * We need to flatten the RocketPart objects into a single array of nodes and relationships
- * to avoid recursion when merging the Design object.
+ * We need to flatten the RocketPart objects into a single array of nodes and
+ *  relationships to avoid recursion when merging the Design object.
  */
 interface Relationship {
   from: string
