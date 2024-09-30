@@ -20,7 +20,7 @@ export async function getMotors(): Promise<Motor[]> {
     return []
   }
 
-  const motors = res.records.map(record => {
+  const motors: Motor[] = res.records.map(record => {
     const node = record.get('m').properties
     const mfgNode = record.get('mfg').properties
 

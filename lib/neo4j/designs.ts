@@ -1,3 +1,5 @@
+import { type Node, type Record } from 'neo4j-driver'
+
 import { executeRead, executeWrite } from '../neo4j'
 
 import {
@@ -7,295 +9,259 @@ import {
   type Simulation,
 } from '@/schemas/Design'
 import { type Motor } from '@/schemas/Motors'
+import { type ParentReference } from '@/schemas/references'
 
 /**
  * Fetch a design by ID.
  * @param designId - The ID of the design to fetch.
- * @returns A promise that resolves to a Design object or null if not found.
+ * @returns A Design object or null if not found.
  */
 export async function fetchDesign(designId: string): Promise<Design | null> {
   const design = await fetchDesignNode(designId)
   if (design == null) return null
 
-  const rocketParts = await fetchRocketParts(designId)
-  const configurations = await fetchConfigurations(designId)
-  const simulations = await fetchSimulations(designId)
-  const motors = await fetchMotors(designId)
-  const basedOnDesigns = await fetchBasedOnDesigns(designId)
+  const parentReference: ParentReference = { id: design.id, name: design.name }
+
+  const consistsOf = await fetchRocketParts(parentReference)
+  const supports =
+    await fetchConfigurationsWithSimulationsAndMotors(parentReference)
+  const basedOnDesigns = await fetchBasedOnDesigns(parentReference)
 
   return {
     ...design,
-    rocketParts,
-    configurations,
-    simulations,
-    motors,
-    basedOn: basedOnDesigns,
+    consistsOf: consistsOf ?? [],
+    supports: supports ?? [],
+    basedOn: basedOnDesigns ?? [],
   }
 }
 
 /**
- * Merge the design into the database.
- * @param design - The design object to merge.
- */
-export async function mergeDesign(design: Design): Promise<void> {
-  // Run the merge queries in smaller functions
-  await mergeDesignNode(design)
-  await mergeOrkFile(design.orkFile, design.id) // Pass only the orkFile and designId
-  await mergeRocketParts(design.rocketParts) // Pass only the rocket parts
-  await mergeConfigurations(design.configurations, design.id) // Pass configurations and designId
-  await mergeSimulations(design.simulations, design.id) // Pass simulations and designId
-  await mergeMotors(design.motors, design.id) // Pass motors and designId
-  await mergeBasedOnDesigns(design.basedOn, design.id) // Pass basedOn and designId
-}
-
-/**
- * Fetch the core Design node by ID.
+ * Fetch the core Design node by designId.
  */
 async function fetchDesignNode(designId: string): Promise<Design | null> {
   const query = `
     MATCH (d:Design {id: $designId})
-    RETURN d AS design
+    RETURN d
   `
+  const res = await executeRead(query, { designId })
 
-  const result = await executeRead(query, { designId })
-  if (result === null || result.records.length === 0) return null
+  if (res === null || res.records.length === 0) return null
 
-  const designNode = result.records[0].get('design')
-  return designNode?.properties || null
+  const node = res.records[0].get('d').properties
+
+  // Aligning with the Design schema
+  return {
+    id: node.id,
+    name: node.name,
+    totalLength: node.totalLength,
+    maxDiameter: node.maxDiameter,
+    stages: node.stages,
+    massEmpty: node.massEmpty,
+    stabilityCal: node.stabilityCal,
+    stabilityPct: node.stabilityPct,
+    cg: node.cg,
+    cp: node.cp,
+    reflectedIn: {
+      name: node.reflectedIn.name,
+      url: node.reflectedIn.url,
+    },
+    supports: [], // To be filled later
+    consistsOf: [], // To be filled later
+    basedOn: [], // To be filled later
+  }
 }
 
 /**
  * Fetch all RocketParts related to a design.
  */
-async function fetchRocketParts(designId: string): Promise<RocketPart[]> {
+async function fetchRocketParts(
+  parentReference: ParentReference
+): Promise<RocketPart[]> {
   const query = `
-    MATCH (d:Design {id: $designId})-[:CONSISTS_OF]->(p:RocketPart)
+    MATCH (d:Design {id: $id})-[:CONSISTS_OF]->(p:RocketPart)
     OPTIONAL MATCH (p)-[:COMPOSED_OF*]->(subPart:RocketPart)
     RETURN p, COLLECT(subPart) AS composedParts
   `
+  const res = await executeRead(query, { id: parentReference.id })
+  if (res === null || res.records.length === 0) return []
 
-  const result = await executeRead(query, { designId })
-  return (
-    result?.records.map(record => {
-      const rocketPart = record.get('p').properties
-      const composedParts = record
-        .get('composedParts')
-        .map((sub: any) => sub.properties)
-      return {
-        ...rocketPart,
-        composedOf: composedParts,
-      }
-    }) || []
-  )
+  return res.records.map((record: Record) => {
+    const node = record.get('p').properties
+    const composedParts = record
+      .get('composedParts')
+      .map((subPart: Node) => subPart.properties)
+
+    return {
+      id: node.id,
+      name: node.name,
+      mass: node.mass,
+      length: node.length,
+      diameter: node.diameter,
+      material: node.material,
+      composedOf: composedParts,
+    }
+  })
 }
 
 /**
- * Fetch all Configurations related to a design.
+ * Fetch all Configurations related to a design, including their simulations and motors.
  */
-async function fetchConfigurations(designId: string): Promise<Configuration[]> {
+export async function fetchConfigurationsWithSimulationsAndMotors(
+  parentReference: ParentReference
+): Promise<Configuration[]> {
   const query = `
-    MATCH (d:Design {id: $designId})-[:SUPPORTS]->(c:Configuration)
-    RETURN c
+    MATCH (d:Design {id: $id})-[:SUPPORTS]->(c:Configuration)
+    OPTIONAL MATCH (c)-[:VALIDATED_BY]->(s:Simulation)
+    OPTIONAL MATCH (c)-[:USES_MOTOR]->(m:Motor)
+    OPTIONAL MATCH (m)-[:MADE_BY]->(mfg:Manufacturer)
+    RETURN c, COLLECT(s) AS simulations, COLLECT(m { .*, madeBy: { id: mfg.id, name: mfg.name } }) AS motors
   `
 
-  const result = await executeRead(query, { designId })
-  return result?.records.map(record => record.get('c').properties) || []
-}
+  const res = await executeRead(query, { id: parentReference.id })
+  if (res === null || res.records.length === 0) return []
 
-/**
- * Fetch all Simulations related to a design's configurations.
- */
-async function fetchSimulations(designId: string): Promise<Simulation[]> {
-  const query = `
-    MATCH (d:Design {id: $designId})-[:SUPPORTS]->(c:Configuration)-[:VALIDATED_BY]->(s:Simulation)
-    OPTIONAL MATCH (s)-[:PRODUCES]->(sd:SimulationData)
-    RETURN s, COLLECT(sd) AS simulationData
-  `
+  return res.records.map((record: Record) => {
+    const node = record.get('c').properties
 
-  const result = await executeRead(query, { designId })
-  return (
-    result?.records.map(record => {
-      const simulation = record.get('s').properties
-      const simulationData = record
-        .get('simulationData')
-        .map((sd: any) => sd.properties)
-      return {
-        ...simulation,
-        produces: simulationData,
-      }
-    }) || []
-  )
-}
+    const simulations: Simulation[] = record
+      .get('simulations')
+      .map((simNode: Node) => simNode.properties)
+    const motors: Motor[] = record
+      .get('motors')
+      .map((motorNode: Node) => motorNode.properties)
 
-/**
- * Fetch all Motors related to a design's configurations.
- */
-async function fetchMotors(designId: string): Promise<Motor[]> {
-  const query = `
-    MATCH (d:Design {id: $designId})-[:SUPPORTS]->(c:Configuration)-[:USES_MOTOR]->(m:Motor)
-    RETURN m
-  `
-
-  const result = await executeRead(query, { designId })
-  return result?.records.map(record => record.get('m').properties) || []
+    return {
+      id: node.id,
+      name: node.name,
+      appliesTo: parentReference, // Using parentReference to populate appliesTo
+      stageNumber: node.stageNumber,
+      delay: node.delay,
+      ignitionEvent: node.ignitionEvent,
+      validatedBy: simulations,
+      usesMotor: motors,
+    }
+  })
 }
 
 /**
  * Fetch all recursive BASED_ON relationships for the design.
  */
-async function fetchBasedOnDesigns(designId: string): Promise<Design[]> {
+export async function fetchBasedOnDesigns(
+  parentReference: ParentReference
+): Promise<Design[]> {
   const query = `
-    MATCH (d:Design {id: $designId})-[:BASED_ON*]->(base:Design)
+    MATCH (d:Design {id: $id})-[:BASED_ON*]->(base:Design)
     RETURN base
   `
 
-  const result = await executeRead(query, { designId })
-  return result?.records.map(record => record.get('base').properties) || []
+  const res = await executeRead(query, { id: parentReference.id })
+  if (res === null || res.records.length === 0) return []
+
+  return res.records.map((record: Record) => {
+    const node = record.get('base').properties
+
+    return {
+      id: node.id,
+      name: node.name,
+      totalLength: node.totalLength,
+      maxDiameter: node.maxDiameter,
+      stages: node.stages,
+      massEmpty: node.massEmpty,
+      stabilityCal: node.stabilityCal,
+      stabilityPct: node.stabilityPct,
+      cg: node.cg,
+      cp: node.cp,
+      reflectedIn: {
+        name: node.reflectedIn?.name ?? '', // Ensuring reflectedIn is aligned with the schema
+        url: node.reflectedIn?.url ?? '',
+      },
+      supports: [], // To be populated later
+      consistsOf: [], // To be populated later
+      basedOn: [], // Avoid recursion
+      appliesTo: parentReference, // Ensure we populate appliesTo with parentReference
+    }
+  })
 }
 
 /**
- * Merge the core Design node into the database.
+ * Merge the Design node and its components into the database.
+ * @param design - The design object to merge.
+ */
+export async function mergeDesign(design: Design): Promise<void> {
+  const parentReference: ParentReference = { id: design.id, name: design.name }
+
+  await mergeDesignNode(design)
+  await mergeRocketParts(design.consistsOf ?? [])
+  await mergeConfigurationsWithMotorsAndSimulations(
+    design.supports ?? [],
+    parentReference
+  )
+  await mergeBasedOnDesigns(design.basedOn)
+}
+
+/**
+ * Merge the core Design node.
  */
 async function mergeDesignNode(design: Design): Promise<void> {
   const query = `
-    MERGE (d:Design {id: $design.id})
-    ON CREATE SET d.name = $design.name,
-                  d.totalLength = $design.totalLength,
-                  d.maxDiameter = $design.maxDiameter
+    MERGE (d:Design {id: $id})
+    ON CREATE SET d.name = $name, d.totalLength = $totalLength, d.maxDiameter = $maxDiameter
+    ON MATCH SET d.stages = $stages
   `
-
-  await executeWrite(query, { design })
+  await executeWrite(query, {
+    id: design.id,
+    name: design.name,
+    totalLength: design.totalLength,
+    maxDiameter: design.maxDiameter,
+    stages: design.stages,
+  })
 }
 
 /**
- * Merge the Ork File and BASED_ON relationships.
- * @param orkFile - The Ork File to merge.
- * @param designId - The ID of the design.
- */
-async function mergeOrkFile(
-  orkFile: OrkFile | undefined,
-  designId: string
-): Promise<void> {
-  if (!orkFile) return // Skip if orkFile is undefined
-
-  const query = `
-    MERGE (ork:.OrkFile {url: $orkFile.url})
-    MERGE (d:Design {id: $designId})-[:BASED_ON]->(ork)
-  `
-
-  await executeWrite(query, { orkFile, designId })
-}
-
-/**
- * Merge RocketParts and their recursive COMPOSED_OF relationships.
- * @param rocketParts - The list of rocket parts to merge.
+ * Merge RocketParts related to the design.
  */
 async function mergeRocketParts(rocketParts: RocketPart[]): Promise<void> {
   const query = `
     UNWIND $rocketParts AS part
     MERGE (p:RocketPart {id: part.id})
-    ON CREATE SET p.name = part.name,
-                  p.mass = part.mass,
-                  p.length = part.length,
-                  p.diameter = part.diameter,
-                  p.material = part.material
-    FOREACH (composedPart IN CASE WHEN part.composedOf IS NOT NULL THEN part.composedOf ELSE [] END |
-      MERGE (subPart:RocketPart {id: composedPart.id})
-      ON CREATE SET subPart.name = composedPart.name,
-                    subPart.mass = composedPart.mass,
-                    subPart.length = composedPart.length,
-                    subPart.diameter = composedPart.diameter,
-                    subPart.material = composedPart.material
-      MERGE (p)-[:COMPOSED_OF]->(subPart)
-    )
+    ON CREATE SET p.name = part.name, p.mass = part.mass, p.length = part.length, p.diameter = part.diameter
   `
-
   await executeWrite(query, { rocketParts })
 }
 
 /**
- * Merge Configurations for the Design.
- * @param configurations - The list of configurations to merge.
- * @param designId - The ID of the design.
+ * Merge Configurations, along with related Motors and Simulations.
  */
-async function mergeConfigurations(
+async function mergeConfigurationsWithMotorsAndSimulations(
   configurations: Configuration[],
-  designId: string
+  parentReference: ParentReference // Include parentReference
 ): Promise<void> {
   const query = `
     UNWIND $configurations AS cfg
     MERGE (c:Configuration {id: cfg.id})
-    ON CREATE SET c.name = cfg.name,
-                  c.stageNumber = cfg.stageNumber,
-                  c.stageActive = cfg.stageActive
-    MERGE (d:Design {id: $designId})-[:SUPPORTS]->(c)
-  `
-
-  await executeWrite(query, { configurations, designId })
-}
-
-/**
- * Merge Simulations and their corresponding SimulationData.
- * @param simulations - The list of simulations to merge.
- * @param designId - The ID of the design.
- */
-async function mergeSimulations(
-  simulations: Simulation[],
-  designId: string
-): Promise<void> {
-  const query = `
-    UNWIND $simulations AS sim
-    MERGE (s:Simulation {id: sim.id})
-    ON CREATE SET s.name = sim.name,
-                  s.simulator = sim.simulator,
-                  s.calculator = sim.calculator
-    FOREACH (simData IN CASE WHEN sim.produces IS NOT NULL THEN sim.produces ELSE [] END |
-      MERGE (sd:SimulationData {id: simData.id})
-      ON CREATE SET sd.Time = simData.Time,
-                    sd.Altitude = simData.Altitude
-      MERGE (s)-[:PRODUCES]->(sd)
-    )
-    MERGE (d:Design {id: $designId})-[:VALIDATED_BY]->(s)
-  `
-
-  await executeWrite(query, { simulations, designId })
-}
-
-/**
- * Merge Motors related to the Design's configurations.
- * @param motors - The list of motors to merge.
- * @param designId - The ID of the design.
- */
-async function mergeMotors(motors: Motor[], designId: string): Promise<void> {
-  const query = `
-    UNWIND $motors AS motor
+    ON CREATE SET c.name = cfg.name, c.stageNumber = cfg.stageNumber, c.delay = cfg.delay
+    WITH c, cfg
+    UNWIND cfg.usesMotor AS motor
     MERGE (m:Motor {id: motor.id})
-    ON CREATE SET m.name = motor.commonName,
-                  m.designation = motor.designation
-    MERGE (d:Design {id: $designId})-[:USES_MOTOR]->(m)
+    MERGE (c)-[:USES_MOTOR]->(m)
+    WITH c, cfg
+    UNWIND cfg.validatedBy AS sim
+    MERGE (s:Simulation {id: sim.id})
+    MERGE (c)-[:VALIDATED_BY]->(s)
+    SET c.appliesTo = $parentReference  // Set appliesTo using parentReference
   `
-
-  await executeWrite(query, { motors, designId })
+  await executeWrite(query, { configurations, parentReference })
 }
 
 /**
- * Merge recursive BASED_ON relationships for Designs.
- * @param basedOnDesigns - The list of designs the current design is based on.
- * @param designId - The ID of the design.
+ * Merge the `basedOn` relationships for the design.
  */
-async function mergeBasedOnDesigns(
-  basedOnDesigns: Design[],
-  designId: string
-): Promise<void> {
+async function mergeBasedOnDesigns(basedOn: Design[]): Promise<void> {
   const query = `
-    FOREACH (baseDesign IN CASE WHEN $basedOnDesigns IS NOT NULL THEN $basedOnDesigns ELSE [] END |
-      MERGE (parentDesign:Design {id: baseDesign.id})
-      ON CREATE SET parentDesign.name = baseDesign.name,
-                    parentDesign.totalLength = baseDesign.totalLength,
-                    parentDesign.maxDiameter = baseDesign.maxDiameter
-      MERGE (d:Design {id: $designId})-[:BASED_ON]->(parentDesign)
-    )
+    UNWIND $basedOn AS base
+    MERGE (d:Design {id: base.id})
+    MERGE (b:Design {id: base.id})
+    MERGE (d)-[:BASED_ON]->(b)
   `
-
-  await executeWrite(query, { basedOnDesigns, designId })
+  await executeWrite(query, { basedOn })
 }
