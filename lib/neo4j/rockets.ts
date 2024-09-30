@@ -11,8 +11,8 @@ export async function getRockets(): Promise<Rocket[]> {
     `
     MATCH (r:Rocket)
     WHERE r.rocketId IS NOT NULL
-    OPTIONAL MATCH (r)-[:BASED_ON]->(relatedRocket:Rocket)
-    RETURN r, collect(relatedRocket) AS basedOnRockets
+    OPTIONAL MATCH (r)-[:BUILT_TO]->(relatedDesign:Design)
+    RETURN r, collect(relatedDesign) AS builtToDesigns
     `,
     {}
   )
@@ -23,13 +23,13 @@ export async function getRockets(): Promise<Rocket[]> {
 
   const rockets = res.records.map(record => {
     const node = record.get('r').properties
-    const basedOnNodes = record.get('basedOnRockets')
+    const builtToNodes = record.get('builtToDesigns')
 
     return {
       ...node,
-      basedOn: basedOnNodes.map((relatedRocketNode: any) => ({
-        ...relatedRocketNode.properties,
-        basedOn: [],
+      basedOn: builtToNodes.map((relatedDesignNode: any) => ({
+        ...relatedDesignNode.properties,
+        builtTo: [],
       })),
     }
   })
