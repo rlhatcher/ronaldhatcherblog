@@ -1,5 +1,6 @@
 'use server'
 import { mergeDesign } from '@/lib/neo4j'
+import { type Design } from '@/schemas/Design'
 
 export async function orkUpload(fileUrl: string): Promise<Design> {
   const url = 'https://api.rocketclub.online/openrocket/orktojson'

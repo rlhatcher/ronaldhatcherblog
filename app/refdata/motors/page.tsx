@@ -5,6 +5,7 @@ import { DataTable } from './data-table'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import { getMotors } from '@/lib/neo4j'
+import { type Motor } from '@/schemas/Motors'
 
 export default async function MotorsPage(): Promise<React.JSX.Element> {
   const motors: Motor[] = await getMotors()

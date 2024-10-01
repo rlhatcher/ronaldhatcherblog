@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { orkUpload } from '@/lib/actions'
 import { UploadDropzone } from '@/lib/uploadthing'
+import { type Configuration, type Design } from '@/schemas/Design'
 
 export const DesignView = ({
   design,

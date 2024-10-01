@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import { type Configuration } from '@/schemas/Design'
 
 const chartConfig = {
   verticalVelocity: {
@@ -42,7 +43,7 @@ export const VmotionVsTime = ({
   rocketConfig,
 }: VmotionVsTimeProps): JSX.Element => {
   const simulation = rocketConfig.validatedBy?.[0]
-  const simulationData = simulation?.simulationData
+  const simulationData = simulation?.produces
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
   if (simulation == null) {

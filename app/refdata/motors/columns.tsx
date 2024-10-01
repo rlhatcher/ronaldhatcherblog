@@ -6,6 +6,8 @@ import React from 'react'
 
 import { DataTableColumnHeader } from './data-table-column-header'
 
+import { type Motor } from '@/schemas/Motors'
+
 // import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 // import { Checkbox } from '@/components/ui/checkbox'
