@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
 import MotorDetails from '@/components/motors/motor-details'
-import { getMotors, getMotor } from '@/lib/neo4j'
+import { readMotor, fetchMotor } from '@/lib/neo4j'
 
 export const revalidate = 10
 
@@ -13,7 +13,7 @@ interface MotorProps {
 }
 
 export async function generateStaticParams(): Promise<Array<{ id: string }>> {
-  const motors = await getMotors()
+  const motors = await readMotor()
 
   if (motors == null) return []
 
@@ -25,7 +25,7 @@ export async function generateStaticParams(): Promise<Array<{ id: string }>> {
 export async function generateMetadata({
   params: { id },
 }: MotorProps): Promise<{ title: string }> {
-  const motor = await getMotor(id)
+  const motor = await fetchMotor(id)
 
   if (motor == null) {
     return {
@@ -41,7 +41,7 @@ export async function generateMetadata({
 export default async function MotorPage({
   params: { id },
 }: MotorProps): Promise<React.JSX.Element> {
-  const motor = await getMotor(id)
+  const motor = await fetchMotor(id)
 
   if (motor == null) {
     return <div></div>

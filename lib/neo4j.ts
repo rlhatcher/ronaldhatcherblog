@@ -9,6 +9,18 @@ export interface Neo4jNode<T> {
 }
 
 /**
+ * Data functions are collected in child packages and
+ * named with the following convention:
+ *
+ * - `get` functions return a single node with no relationships
+ * - `fetch` functions return a node populated with child relationships
+ * - `list` functions return a list of nodes with no relationships
+ * - `read` functions return a list of nodes with relationships
+ * - `merge` functions create or update a node
+ *
+ */
+
+/**
  * Safely parses a JSON string and returns the parsed value.
  * If parsing fails, it returns a default value.
  *

@@ -4,10 +4,10 @@ import { columns } from './columns'
 import { DataTable } from './data-table'
 
 import { BreadcrumbResponsive } from '@/components/bread-crumb'
-import { getMotors } from '@/lib/neo4j'
+import { readMotor } from '@/lib/neo4j'
 
 export default async function MotorsPage(): Promise<React.JSX.Element> {
-  const motors: Motor[] = await getMotors()
+  const motors: Motor[] = await readMotor()
   const links: BreadCrumb[] = [
     { href: '/', label: 'Home' },
     { href: '/refdata', label: 'Reference' },
