@@ -1,0 +1,203 @@
+@startuml schemas
+
+package rockets {
+  stereotype Rocket << type >> {
+  }
+
+  class rocket << schema >> {
+    id: string
+    name: string
+    description: string
+    image: file
+    -- optional --
+  }
+}
+
+package designs {
+  stereotype Configuration << type >> {
+  }
+  stereotype Design << type >> {
+    basedOn: Design[]
+  }
+
+  stereotype OrkFile << type >> {
+  }
+  class configuration << schema >> {
+    id: string
+    name: string
+    -- optional --
+    stageNumber: number
+    stageActive: boolean
+    delay: string
+    ignitionEvent: string
+    ignitionDelay: string
+  }
+  class design << schema >> {
+    basedOn: z.lazy(() =>\ndesignSchema.array())
+    }
+  class baseDesign << schema >> {
+    id: string
+    name: string
+    -- optional --
+    stages: string
+    massEmpty: number
+    stabilityCal: number
+    stabilityPct: number
+    cg: number
+    cp: number
+    totalLength: number
+    maxDiameter: number
+  }
+
+  class orkFile << schema >> {
+    name: string
+    url: string
+    -- optional --
+  }
+  stereotype RocketPart << type >> {
+    composedOf: RocketPart[]
+  }
+  class baseRocketPart << schema >> {
+    id: string
+    name: string
+    -- optional --
+    mass: number
+    length: number
+    diameter: number
+    material: string
+  }
+  class rocketPart << schema >> {
+    composedOf: z.lazy(() =>\nrocketPartSchema.array())
+  }
+
+  stereotype Simulation << type >> {
+  }
+  stereotype SimulationData << type >> {
+  }
+  class simulation << schema >> {
+    id: string
+    name: string
+    simulator: string
+    calculator: string
+    maxaltitude: string
+    maxvelocity: string
+    maxacceleration: string
+    -- optional --
+    maxmach: string
+    timetoapogee: string
+    flighttime: string
+    groundhitvelocity: string
+    launchrodvelocity: string
+    deploymentvelocity: string
+    optimumdelay: string
+    simulationData: simulationDataSchema
+  }
+  class simulationData << schema >> {
+    Time: z.array(z.number()),
+    Altitude: z.array(z.number()),
+      VerticalVelocity: z.array(z.number()),
+      VerticalAcceleration: z.array(z.number()),
+      TotalVelocity: z.array(z.number()),
+      TotalAcceleration: z.array(z.number()),
+      PositionEastOfLaunch: z.array(z.number()),
+      PositionNorthOfLaunch: z.array(z.number()),
+      LateralDistance: z.array(z.number()),
+      LateralDirection: z.array(z.number()),
+      LateralVelocity: z.array(z.number()),
+      LateralAcceleration: z.array(z.number()),
+      Latitude: z.array(z.number()),
+      Longitude: z.array(z.number()) ...
+    }
+  }
+
+  package core {
+    stereotype Manufacturer << type >> {
+    }
+    stereotype Person << type >> {
+    }
+    stereotype ParentReference << type >> {
+    }
+    class parentReference << schema >> {
+      id: string
+      name: string
+      -- optional --
+    }
+    class manufacturer << schema >> {
+      id: string
+      name: string
+      -- optional --
+    }
+    class person << schema >> {
+      id: string
+      email: string
+      given_name: string
+      family_name: string
+      picture: string
+      -- optional --
+    }
+  }
+
+  package motors {
+    stereotype Motor << type >> {
+    }
+    stereotype ThrustSample << type >> {
+    }
+    class thrustSample << schema >> {
+      time: number
+      thrust: number
+      -- optional --
+    }
+    class motor <<schema >> {
+      commonName: string
+      delays: string
+      diameter: number
+      infoUrl: string
+      totImpulseNs: number
+      burnTimeS: number
+      propInfo: string
+      length: number
+      avgThrustN: number
+      dataFiles: string
+      impulseClass: string
+      sparky: string
+      caseInfo: string
+      propWeightG: number
+      certOrg: string
+      motorId: string
+      availability: string
+      maxThrustN: number
+      totalWeightG: number
+      designation: string
+      updatedOn: string
+      type: string
+      -- optional --
+    }
+  }
+
+  configuration --o motor: usesMotor
+  configuration --o simulation: validatedBy
+  configuration ..> Configuration: infer
+  design --|> baseDesign
+  design --o design : basedOn
+  design --o configuration : supports
+  design --o rocketPart : consistsOf
+  design --> orkFile: reflectedIn
+  design ..> Design: infer
+  manufacturer --o motor: motors
+  manufacturer ..> Manufacturer: infer
+  motor --> manufacturer: madeBy
+  motor --o thrustSample: thrustCurve
+  motor ..> Motor: infer
+  orkFile ..> OrkFile: infer
+  parentReference ..> ParentReference: infer
+  person ..> Person: infer
+  rocket ..> Rocket: infer
+  rocket --> design: builtTo
+  rocketPart --|> baseRocketPart
+  rocketPart --o rocketPart: composedOf
+  rocketPart ..> RocketPart: infer
+  simulation ..> Simulation: infer
+  simulation --o simulationData: produces
+  simulationData ..> SimulationData: infer
+  thrustSample ..> ThrustSample: infer
+  @enduml
