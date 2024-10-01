@@ -1,8 +1,3 @@
-interface ParentReference {
-  id: string
-  name: string
-}
-
 interface BreadCrumb {
   href?: string
   label: string
