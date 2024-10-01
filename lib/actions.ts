@@ -1,4 +1,5 @@
 'use server'
+import { mergeDesign } from '@/lib/neo4j'
 import { type Design } from '@/schemas/Design'
 
 export async function orkUpload(fileUrl: string): Promise<Design> {
@@ -21,6 +22,7 @@ export async function orkUpload(fileUrl: string): Promise<Design> {
 
     if (response.ok) {
       const data: Design = await response.json()
+      await mergeDesign(data)
       return data
     } else {
       console.error('Failed to upload design:', response.statusText)
