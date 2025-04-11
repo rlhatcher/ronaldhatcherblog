@@ -15,11 +15,11 @@ export const BlogImage = ({
   return (
     <Link href={`/images/${src}`}>
       <NextCldImage
-        sizes="(min-width: 480px ) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
-        height={400}
-        width={600}
+        sizes="(min-width: 480px) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
         crop="thumb"
         src={src}
+        // width="auto"
+        // height="auto"
         {...restProps}
       />
     </Link>
