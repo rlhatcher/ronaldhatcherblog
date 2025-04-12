@@ -13,16 +13,16 @@ export const BlogImage = ({
   ...restProps
 }: CldImageProps): React.JSX.Element => {
   return (
-    <Link href={`/images/${src}`}>
-      <NextCldImage
-        sizes="(min-width: 480px) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw"
-        crop="thumb"
-        src={src}
-        // width="auto"
-        // height="auto"
-        {...restProps}
-      />
-    </Link>
+    <div className="mb-4 md:float-right md:mb-4 md:ml-4 md:max-h-[70vh] md:max-w-[40vw]">
+      <Link href={`/images/${src}`}>
+        <NextCldImage
+          src={src}
+          crop="thumb"
+          className="rounded-md object-contain"
+          {...restProps}
+        />
+      </Link>
+    </div>
   )
 }
 
